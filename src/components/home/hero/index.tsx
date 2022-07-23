@@ -2,6 +2,18 @@ import { Button } from "components";
 import * as React from "react";
 import styles from "./styles.module.css";
 
+export const GetStartedBtn = ({ className }: { className?: string }) => {
+  return (
+    <Button
+      className={`${styles.btn} ${className}`}
+      type="primary"
+      onClick={() => {}}
+    >
+      Get Started
+    </Button>
+  );
+};
+
 const HeroSection = () => {
   return (
     <>
@@ -15,9 +27,7 @@ const HeroSection = () => {
             Roofbucks, gives you access to shares of homes across Africa. Best
             way to own a second home.
           </p>
-          <Button className={styles.btn} type="primary" onClick={() => {}}>
-            Get Started
-          </Button>
+          <GetStartedBtn />
         </div>
       </section>
     </>

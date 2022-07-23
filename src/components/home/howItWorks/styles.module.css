@@ -1,0 +1,41 @@
+.howBg {
+  background: #f4f4f4;
+  padding-top: 3.3rem;
+  padding-bottom: 3.3rem;
+  margin: 11rem 0 9rem
+}
+.how {
+  text-align: center;
+}
+.ttl {
+  font-size: var(--h3);
+  font-weight: 600;
+  max-width: 400px;
+  margin: auto;
+  margin-bottom: 2.5rem;
+}
+.cardWrap {
+  display: flex;
+  justify-content: space-between;
+}
+.card {
+  background: var(--white);
+  width: 23%;
+  border-radius: 12px;
+  padding: 1rem 1rem 1.5rem;
+}
+.icon {
+  width: 56px;
+  margin-bottom: 2rem;
+}
+.cardTtl {
+  font-size: var(--h5);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.cardTxt {
+  color: var(--neutral);
+  margin: auto;
+  line-height: 1.8;
+  letter-spacing: 0.2px;
+}

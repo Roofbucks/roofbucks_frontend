@@ -1,6 +1,8 @@
-import { Button } from "components";
 import * as React from "react";
+import { Dashboard } from "./dashboard";
 import { HeroSection } from "./hero";
+import { HowItWorks } from "./howItWorks";
+import { Property } from "./property";
 import { SellAndOwn } from "./sellAndOwn";
 import { Services } from "./services";
 import styles from "./styles.module.css";
@@ -11,6 +13,9 @@ const HomeUI = () => {
       <HeroSection />
       <Services />
       <SellAndOwn />
+      <Property />
+      <Dashboard />
+      <HowItWorks />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { becomeAnAgent, listing, marketPlace } from "assets";
 import { Button } from "components";
 import * as React from "react";
+import { GetStartedBtn } from "../hero";
 import styles from "./styles.module.css";
 
 interface ServiceProps {
@@ -19,9 +20,7 @@ const Service: React.FC<ServiceProps> = ({ text, title, action, image }) => {
       <div className={styles.txtSec}>
         <h1 className={styles.serviceTtl}>{title}</h1>
         <p className={styles.serviceTxt}>{text}</p>
-        <Button className={styles.btn} type="primary" onClick={action}>
-          Get Started
-        </Button>
+        <GetStartedBtn className={styles.btn} />
       </div>
     </div>
   );

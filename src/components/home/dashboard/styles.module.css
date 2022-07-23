@@ -1,0 +1,29 @@
+.dashboardBg {
+  background: var(--black);
+  color: var(--white);
+  padding: 4.5rem 0;
+  outline: 1px solid red;
+}
+.dashboard {
+  display: flex;
+  align-items: center;
+}
+.txtSec {
+  width: 50%;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.txt {
+  margin-bottom: 2rem;
+  opacity: 0.7;
+  line-height: 1.8;
+  max-width: 420px;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+.img {
+  width: 50%;
+}

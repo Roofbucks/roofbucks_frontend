@@ -1,0 +1,113 @@
+.propertyBg {
+  padding: 10rem 0 17rem;
+}
+.property {
+  display: flex;
+}
+.txtSec {
+  width: 50%;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.txt {
+  color: #404040;
+  opacity: 0.7;
+  line-height: 1.8;
+  max-width: 420px;
+  margin-bottom: 1.6rem;
+}
+.stat {
+  display: flex;
+  justify-content: space-between;
+  max-width: 420px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.statNo {
+  color: var(--green);
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-right: 1rem;
+}
+.statTxt {
+}
+button.btn {
+  margin-top: 1.5rem;
+}
+.imgSec {
+  width: 50%;
+  position: relative;
+}
+.property1 {
+  width: 80%;
+  margin-left: auto;
+  display: block;
+}
+.property2 {
+  position: absolute;
+  bottom: -18%;
+  width: 45%;
+  left: 0;
+}
+.watchTour {
+  position: absolute;
+  background: var(--white);
+  display: flex;
+  left: 0;
+  top: 16%;
+  padding: 8px 14px;
+  border-radius: 16px;
+  align-items: center;
+}
+.watchTxtSec {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.watchTxt1 {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.watchTxt2 {
+  font-size: var(--misc);
+  color: var(--green);
+}
+.watchTxt2 svg {
+  margin-left: 4px;
+}
+.watchIcon {
+  margin-left: 14px;
+  width: 60px;
+  cursor: pointer;
+}
+.view {
+  position: absolute;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 10px 16px 6px;
+  left: calc(45% - 50px);
+  bottom: -42px;
+}
+.viewTxt1 {
+  font-size: var(--base);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.viewTxt2 {
+  font-size: var(--caption);
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.viewTxt2 svg {
+  margin-right: 8px;
+}
+.viewTxt3 {
+  font-size: var(--misc);
+  color: var(--green);
+}
+.viewTxt3 svg {
+  margin-left: 4px;
+}
