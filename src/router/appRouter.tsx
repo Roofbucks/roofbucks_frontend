@@ -25,7 +25,7 @@ const MainRouter: React.FC = () => {
             const { Element, path, caseSensitive, Layout, props } = item;
             // Checks if a layout exists or not
             const PageComponent =
-              Layout && props ? (
+              Layout ? (
                 <ErrorBoundary>
                   <Layout {...props}>
                     <Element />

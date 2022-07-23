@@ -1,3 +1,4 @@
+import { UnAuthLayout } from "components";
 import { Home } from "pages";
 import { RouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -26,6 +27,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.home,
     Element: Home,
+    Layout: UnAuthLayout,
     caseSensitive: true,
   }
 ];

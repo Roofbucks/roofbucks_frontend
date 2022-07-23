@@ -1,0 +1,45 @@
+.navBg {
+  position: fixed;
+  width: 100%;
+  padding: 1rem;
+  box-shadow: 289px 720px 310px rgb(39 181 67 / 1%),
+    163px 405px 262px rgb(39 181 67 / 3%), 72px 180px 194px rgb(39 181 67 / 4%),
+    18px 45px 107px rgb(39 181 67 / 5%), 0px 0px 0px rgb(39 181 67 / 5%);
+  font-family: "DM Sans";
+  background: var(--white);
+  z-index: var(--nav-index);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  padding-left: 3.3rem;
+  padding-right: 3.3rem;
+}
+.logo {
+}
+.navItems {
+  color: var(--black);
+  font-size: 12.5px;
+  letter-spacing: 0.1px;
+  border-left: 1px solid #bfbfbf;
+  margin-left: 2.5rem;
+  padding-left: 2.5rem;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+.navItems a {
+  color: inherit;
+  text-decoration: none;
+  margin-right: 1.8rem;
+}
+.navItems a:hover {
+  color: var(--green);
+  text-decoration: none;
+}
+.btnWrap {
+  margin-left: auto;
+}
+.loginBtn {
+  margin-right: 8px;
+}

@@ -1,13 +1,75 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  transition: 0.3s;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --black: #1f1d1e;
+  --white: #fafafa;
+  --green: #0fc94b;
+  --green-disabled: #76f59f;
+  --green-bg: #bbfacf;
+  --neutral: #808080;
+  --red: #ef4747;
+
+  --nav-index: 2
+}
+
+@font-face {
+  font-family: "Cronos";
+  font-display: swap;
+  src: url("./assets/fonts/CronosPro-Bold.ttf") format("truetype");
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--white);
+  color: var(--black);
+  font-size: 14px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+svg,
+img {
+  width: initial;
+  height: auto;
+}
+
+.appContainer {
+  max-width: 1200px;
+  margin: auto;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .appContainer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .appContainer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+input, textarea {
+  outline: none;
+  font-family: inherit;
 }
