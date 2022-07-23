@@ -11,7 +11,7 @@ const UnAuthLayout: React.FC<UnAuthLayoutProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className={`appContainer ${styles.mainContent}`}>{children}</main>
+      <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />
     </>
   );

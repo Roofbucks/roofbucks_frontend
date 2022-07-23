@@ -23,6 +23,7 @@
 }
 .primary:focus {
   background: #086526;
+  border-color: #086526;
 }
 .secondary {
   background: transparent;
@@ -37,4 +38,5 @@
 .tertiary {
   background: transparent;
   border-color: transparent;
+  font-weight: 600;
 }

@@ -11,7 +11,7 @@
   font-size: 12px;
 }
 .sec1 {
-  width: 50%;
+  width: 48%;
 }
 .logoSec {
   border-bottom: 1px solid var(--white);
@@ -35,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  line-height: 2;
+  line-height: 1.9;
   font-weight: 500;
 }
 .listSec ul {
@@ -48,7 +48,7 @@
   text-decoration: none;
 }
 .sec2 {
-  width: 35%;
+  width: 32%;
 }
 .backToTop {
   margin-left: auto;
@@ -80,7 +80,7 @@
   font-size: 12px;
   justify-content: space-between;
   font-weight: 500;
-  margin-bottom: 4rem;
+  margin-bottom: 3.2rem;
 }
 .socials li {
 }
@@ -88,7 +88,7 @@
 }
 .newsTtl {
   color: var(--green);
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 .newsTxt {
   opacity: 0.5;
@@ -137,7 +137,7 @@
 .txt {
 }
 .dvdr {
-  margin: 16px 0 10px;
+  margin: 14px 0 8px;
   height: 1px;
   background: var(--white);
   border: none;
