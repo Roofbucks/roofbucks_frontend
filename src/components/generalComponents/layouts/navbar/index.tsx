@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { Routes } from "router";
 import styles from "./styles.module.css";
 
-const Navbar = () => {
+export interface NavbarProps {
+  active?: "listing" | "marketplace" | "agents" | "about" | "contact";
+}
+
+const Navbar: React.FC<NavbarProps> = ({ active }) => {
   return (
     <nav className={styles.navBg}>
       <div className={`appContainer ${styles.nav}`}>
@@ -12,11 +16,36 @@ const Navbar = () => {
           <LogoWithText type="dark" />
         </Link>
         <div className={styles.navItems}>
-          <Link to={Routes.listing}>Listing</Link>
-          <Link to={Routes.marketplace}>Market Place</Link>
-          <Link to={Routes.agents}>Agent List</Link>
-          <Link to={Routes.about}>About </Link>
-          <Link to={Routes.contact}>Contact </Link>
+          <Link
+            className={active === "listing" ? styles.activeItem : ""}
+            to={Routes.listing}
+          >
+            Listing
+          </Link>
+          <Link
+            className={active === "marketplace" ? styles.activeItem : ""}
+            to={Routes.marketplace}
+          >
+            Market Place
+          </Link>
+          <Link
+            className={active === "agents" ? styles.activeItem : ""}
+            to={Routes.agents}
+          >
+            Agent List
+          </Link>
+          <Link
+            className={active === "about" ? styles.activeItem : ""}
+            to={Routes.about}
+          >
+            About{" "}
+          </Link>
+          <Link
+            className={active === "contact" ? styles.activeItem : ""}
+            to={Routes.contact}
+          >
+            Contact{" "}
+          </Link>
         </div>
         <div className={styles.btnWrap}>
           <Button

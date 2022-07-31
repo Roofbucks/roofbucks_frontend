@@ -120,3 +120,7 @@ textarea {
   outline: none;
   font-family: inherit;
 }
+
+[role="button"] {
+  cursor: pointer;
+}

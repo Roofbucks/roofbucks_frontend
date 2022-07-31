@@ -34,9 +34,10 @@
   text-decoration: none;
   margin-right: 1.8rem;
 }
-.navItems a:hover {
+.navItems a:hover, .navItems a.activeItem {
   color: var(--green);
   text-decoration: none;
+  font-weight: 500;
 }
 .btnWrap {
   margin-left: auto;

@@ -1,0 +1,196 @@
+.welcome {
+  padding-top: 5rem;
+  padding-bottom: 3rem;
+}
+.ttl {
+  color: var(--green);
+  font-size: var(--h4);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+.txt {
+  max-width: 820px;
+  line-height: 1.7;
+}
+.listings {
+  display: grid;
+  grid-template-areas: "a a" "b c";
+  grid-template-columns: 250px auto;
+  gap: 2rem;
+  padding-bottom: 3.5rem;
+}
+.searchWrap {
+  grid-area: a;
+  display: flex;
+  align-items: center;
+}
+.searchWrap > svg {
+  margin-right: 1.5rem;
+}
+.searchWrap > div {
+  position: relative;
+  width: 100%;
+}
+.searchWrap div svg {
+  position: absolute;
+  width: 20px;
+  left: 16px;
+  top: 15px;
+}
+.searchWrap input {
+  height: 50px;
+  background: transparent;
+  border: 1px solid #808080;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  padding-left: 3rem;
+  font-size: 15px;
+}
+
+.filterWrap {
+  grid-area: b;
+}
+.filterItem {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 2rem;
+}
+.filterHd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.filterHd svg {
+  width: 12px;
+  transform: rotate(-90deg);
+}
+.filterHd svg path {
+  fill: var(--green);
+}
+.filterCheck {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.filterCheck::before {
+  content: "";
+  display: block;
+  border-left: 2px solid #bfbfbf;
+  border-bottom: 2px solid #bfbfbf;
+  border-bottom-left-radius: 8px;
+  width: 12px;
+  height: 4rem;
+  position: absolute;
+  margin-left: -1.5rem;
+  bottom: 7px;
+}
+.filterCheck:nth-of-type(2)::before {
+  height: 1.7rem;
+}
+.filterCheck input {
+  display: none;
+}
+.mark {
+  height: 16px;
+  width: 16px;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+  border: 2px solid var(--green);
+  display: block;
+}
+.filterCheck input:checked ~ .mark {
+  background-color: var(--green);
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+.filterCheck .mark::after {
+  position: absolute;
+  content: "";
+  border-radius: 5px;
+}
+.filterCheck input:checked ~ .mark::after {
+  transform: rotate(45deg) scale(1);
+  left: 3.5px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  border-radius: 0;
+  transition: 0s;
+}
+.currencySelect [class*="formSelect__control"],
+.countrySelect [class*="formSelect__control"] {
+  background: transparent;
+  border: none;
+  margin: 0;
+}
+.stateSelect [class*="formSelect__control"] {
+  background: transparent;
+  border-color: #bfbfbf;
+  border-radius: 8px;
+  border-width: 1px;
+  margin: 0;
+}
+.currencySelect [class*="formSelect__value-container"],
+.countrySelect [class*="formSelect__value-container"] {
+  padding-left: 0;
+}
+.currencySelect [class*="formSelect__dropdown-indicator"],
+.countrySelect [class*="formSelect__dropdown-indicator"] {
+  padding: 0;
+}
+.currencySelectWrap {
+  width: 60px;
+  margin: 0;
+}
+.countrySelectWrap {
+  width: 80px;
+  margin: 0;
+}
+.stateSelectWrap {
+  width: calc(100% - 95px);
+}
+.locationWrap, .priceWrap {
+  display: flex;
+  justify-content: space-between;
+}
+.minMax {
+  width: calc(100% - 75px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.minMax input {
+  border-color: #bfbfbf;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  height: 36px;
+  text-align: center;
+  width: 70px;
+  background: transparent;
+  font-size: 15px;
+}
+.btnSec button {
+  width: 50%;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+.propertyList {
+  grid-area: c;
+}
+.propertyList [class*="imgSec"] {
+  max-height: 360px;
+}
+.propertyList > div {
+  margin-bottom: 3rem;
+}

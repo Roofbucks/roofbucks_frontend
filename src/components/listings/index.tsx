@@ -107,7 +107,14 @@ const ListingsUI = () => {
   const listings: PropertyCardProps[] = new Array(12).fill(list);
   return (
     <>
-      <HeroSection />
+      <HeroSection
+        text={` Lörem ipsum kunade hypokrott och sos underturism för lyngar anter i
+          jasminmöte. Depode varen till ydist: i desa transponder var sedan
+          ultravis. Klämspärr plast spesavis filvärd, gps-väst liksom dumurat,
+          hobbyepidemiolog. Plamissa elektrometer deläskap oded, aren
+          robotjournalistik danseoke.`}
+        title="Property Listing"
+      />
       <section>
         <div className={`appContainer ${styles.topDeals}`}>
           <h2 className={styles.ttl}>Top Deals</h2>

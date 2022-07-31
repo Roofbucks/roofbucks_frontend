@@ -1,11 +1,6 @@
 import {
   ArrowRight,
-  BathRoomIcon,
-  BedRoomIcon,
   MailIcon,
-  property1,
-  property2,
-  property3,
   ShareIcon,
 } from "assets";
 import * as React from "react";

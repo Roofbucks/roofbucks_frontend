@@ -15,6 +15,8 @@ import { ReactComponent as MailIcon } from "./mailIconOutline.svg";
 import { ReactComponent as BedRoomIcon } from "./bedRoomIcon.svg";
 import { ReactComponent as BathRoomIcon } from "./bathRoomIcon.svg";
 import { ReactComponent as SearchIcon } from "./searchIcon.svg";
+import { ReactComponent as FilterIcon } from "./filterIcon.svg";
+import { ReactComponent as WarningIcon } from "./warningIcon.svg";
 
 export {
   LogoSymbol,
@@ -34,4 +36,6 @@ export {
   BathRoomIcon,
   BedRoomIcon,
   SearchIcon,
+  FilterIcon,
+  WarningIcon,
 };

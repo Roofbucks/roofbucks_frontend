@@ -45,6 +45,9 @@
   padding-left: 2rem;
   padding-right: 1rem;
 }
+.row.normal .info {
+  padding-left: 1.5rem;
+}
 .sec1 {
   margin-bottom: 12px;
   display: flex;
@@ -81,12 +84,18 @@
 .normal .name {
   font-size: var(--h5);
 }
+.row.normal .name {
+  margin-bottom: 12px;
+}
 .address {
   color: #808080;
   margin-bottom: 16px;
 }
 .normal .address {
   font-size: var(--caption);
+}
+.row.normal .address {
+  margin-bottom: 10px;
 }
 .amenityWrap {
   display: flex;
@@ -120,6 +129,10 @@
   margin-right: 8px;
   margin-bottom: 6px;
 }
+.normal .icon {
+  width: 28px;
+  margin-bottom: 2px;
+}
 .icon svg {
   width: 100%;
 }
@@ -149,6 +162,9 @@
 .imgList {
   margin-bottom: 1.5rem;
 }
+.row.normal .imgList {
+  margin-bottom: 0.8rem;
+}
 .imgList p {
   color: #808080;
   margin-bottom: 12px;
@@ -165,10 +181,21 @@
   border-radius: 4px;
   margin-right: 1rem;
 }
+.normal .imgList img {
+  width: 68px;
+  min-width: 68px;
+  height: 50px;
+  margin-right: 8px;
+}
 .imgList img:hover,
 .activeImg {
   border: 3px solid var(--green);
   padding: 2.5px;
+}
+.normal .imgList img:hover,
+.normal .activeImg {
+  border: 2px solid var(--green);
+  padding: 1.5px;
 }
 .amtSec {
   display: flex;
@@ -176,6 +203,9 @@
   justify-content: space-between;
   border-top: 1px solid #bbfacf;
   padding-top: 1rem;
+}
+.row.normal .amtSec {
+  padding-top: 8px;
 }
 .amtSec p {
   font-size: var(--h5);

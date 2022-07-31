@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Footer } from "../footer";
-import { Navbar } from "../navbar";
+import { Navbar, NavbarProps } from "../navbar";
 import styles from "./styles.module.css";
 
-export interface UnAuthLayoutProps {
+export interface UnAuthLayoutProps extends NavbarProps {
   children: any;
 }
 
-const UnAuthLayout: React.FC<UnAuthLayoutProps> = ({ children }) => {
+const UnAuthLayout: React.FC<UnAuthLayoutProps> = ({ children, active }) => {
   return (
     <>
-      <Navbar />
+      <Navbar active={active} />
       <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />
     </>
