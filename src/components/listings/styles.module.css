@@ -1,0 +1,18 @@
+.topDeals {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.ttl {
+  font-size: var(--h3);
+  margin-bottom: 2.3rem;
+}
+.propertyList {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100vw;
+}
+.propertyList > div {
+  min-width: 75vw;
+  margin-right: 4rem;
+}

@@ -1,0 +1,157 @@
+.property {
+  display: flex;
+}
+.imgSec {
+  position: relative;
+}
+.tag {
+  color: var(--white);
+  background: var(--green);
+  position: absolute;
+  right: 0;
+  font-size: var(--h4);
+  padding: 6px 2rem;
+  top: 44px;
+  font-weight: 600;
+}
+.row .imgSec {
+  width: 53%;
+  max-height: 540px;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px 0px 0px 16px;
+}
+.info {
+  padding-top: 1rem;
+}
+.row .info {
+  width: 47%;
+  padding: 1rem 1rem 1rem 2rem;
+}
+.sec1 {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sec1 p {
+  color: var(--green);
+  font-weight: 600;
+}
+.iconSec {
+  width: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+.iconSec svg {
+}
+.name {
+  font-size: var(--h3);
+  white-space: nowrap;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+.address {
+  color: #808080;
+  margin-bottom: 16px;
+}
+.amenityWrap {
+    display: flex;
+}
+.amenities {
+  font-size: var(--caption);
+  width: fit-content;
+  margin-right: 1.5rem;
+  margin-bottom: 12px;
+}
+.amenities > div {
+  display: flex;
+  align-items: center;
+}
+.amenities p {
+  font-size: var(--caption);
+  color: #808080;
+}
+.amenities span {
+  color: #1f1d1e;
+}
+.icon {
+  background: #0fc94b06;
+  border-radius: 50%;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+.icon svg {
+  width: 100%;
+}
+.description {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  font-weight: 500;
+}
+.moreBtn {
+  background: transparent;
+  color: inherit;
+  border: none;
+  margin-bottom: 1rem;
+  font-size: 14.5px;
+}
+.moreBtn svg {
+  margin-left: 4px;
+  width: 13px;
+  transform: rotate(-45deg);
+}
+.moreBtn svg path {
+  fill: var(--green);
+}
+.imgList {
+  margin-bottom: 1.5rem;
+}
+.imgList p {
+  color: #808080;
+  margin-bottom: 12px;
+}
+.imgList > div {
+  display: flex;
+  overflow: auto;
+}
+.imgList img {
+  width: 108px;
+  min-width: 108px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+.imgList img:hover, .activeImg {
+  border: 3px solid var(--green);
+  padding: 2.5px;
+}
+.amtSec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #bbfacf;
+  padding-top: 1rem;
+}
+.amtSec p {
+  font-size: var(--h5);
+  font-weight: 600;
+}
+.amtSec button {
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 10px 24px;
+}

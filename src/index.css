@@ -25,10 +25,10 @@
   --h1: 54px;
   --h2: 44px;
   --h3: 34px;
-  --h4: 24px;
+  --h4: 26px;
   --h5: 22px;
   --title: 24px;
-  --base: 14px;
+  --base: 14.5px;
   --caption: 12px;
   --misc: 10px;
 
@@ -114,6 +114,7 @@ img {
   }
 }
 
+button,
 input,
 textarea {
   outline: none;

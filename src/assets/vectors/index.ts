@@ -10,6 +10,10 @@ import { ReactComponent as UsersIcon } from "./usersIcon.svg";
 import { ReactComponent as MoneyIcon } from "./moneyIcon.svg";
 import { ReactComponent as HomeIcon } from "./homeIcon.svg";
 import { ReactComponent as MoneyBagIcon } from "./moneyBagIcon.svg";
+import { ReactComponent as ShareIcon } from "./shareIconFill.svg";
+import { ReactComponent as MailIcon } from "./mailIconOutline.svg";
+import { ReactComponent as BedRoomIcon } from "./bedRoomIcon.svg";
+import { ReactComponent as BathRoomIcon } from "./bathRoomIcon.svg";
 
 export {
   LogoSymbol,
@@ -24,4 +28,8 @@ export {
   MoneyBagIcon,
   MoneyIcon,
   HomeIcon,
+  ShareIcon,
+  MailIcon,
+  BathRoomIcon,
+  BedRoomIcon,
 };
