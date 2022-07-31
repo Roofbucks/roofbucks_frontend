@@ -12,7 +12,7 @@ import * as React from "react";
 import { Button } from "../button";
 import styles from "./styles.module.css";
 
-interface AmenityProp {
+export interface AmenityProp {
   Icon: React.FunctionComponent<
     React.SVGProps<SVGSVGElement> & {
       title?: string | undefined;
@@ -36,84 +36,86 @@ const Amenity: React.FC<AmenityProp> = ({ Icon, name, value }) => {
   );
 };
 
-const PropertyCard = () => {
+export interface PropertyCardProps {
+  type: "row" | "column";
+  images: string[];
+  amenities: AmenityProp[];
+  discount?: string;
+  owner: string;
+  name: string;
+  address: string;
+  description?: string;
+  moreDetails: (id) => void;
+  amount: string;
+  buy: (id) => void;
+  size: "large" | "normal";
+  className?: string;
+}
+const PropertyCard: React.FC<PropertyCardProps> = ({
+  type,
+  images,
+  address,
+  amenities,
+  amount,
+  owner,
+  name,
+  description,
+  buy,
+  moreDetails,
+  discount,
+  size,
+  className,
+}) => {
   const [activeImg, setActiveImg] = React.useState(0);
-  const propertyImages: string[] = [
-    property3,
-    property2,
-    property3,
-    property1,
-    property3,
-    property3,
-  ];
 
-  const amenities: AmenityProp[] = [
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bathroom",
-      Icon: BathRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-  ];
   return (
-    <div className={`${styles.property} ${styles.row}`}>
+    <div
+      className={`${styles.property} ${styles[type]} ${styles[size]} ${className}`}
+    >
       <div className={styles.imgSec}>
-        <img
-          className={styles.img}
-          src={propertyImages[activeImg]}
-          alt="property"
-        />
-        <div className={styles.tag}>20% off</div>
+        <img className={styles.img} src={images[activeImg]} alt="property" />
+        {discount ? <div className={styles.tag}>{discount}</div> : ""}
       </div>
       <div className={styles.info}>
         <div className={styles.sec1}>
-          <p>By Bear Properties</p>
+          <p>{owner}</p>
           <div className={styles.iconSec}>
             <ShareIcon role={"button"} />
             <MailIcon role={"button"} />
           </div>
         </div>
-        <p className={styles.name}>Two Bedroom Apartmentpartmentttt</p>
-        <p className={styles.address}>256, Bayajida Close. LA. Nigeria</p>
+        <p className={styles.name}>{name}</p>
+        <p className={styles.address}>{address}</p>
         <div className={styles.amenityWrap}>
           {amenities.map((item, index) => (
             <Amenity {...item} key={index} />
           ))}
         </div>
-        <p className={styles.description}>
-          Modern two-bedroom apartment in sought-after Ghana marries traditional
-          SF charm with contemporary city living. Tall arching columns in the
-          front of the roomy living area provide beauty....
-        </p>
-        <button className={styles.moreBtn}>
+        {description ? <p className={styles.description}>{description}</p> : ""}
+        <button className={styles.moreBtn} onClick={() => moreDetails(1234)}>
           More Details <ArrowRight />
         </button>
-        <div className={styles.imgList}>
-          <p>Images</p>
-          <div>
-            {propertyImages.map((item, index) => (
-              <img
-                key={index}
-                src={item}
-                alt="property"
-                onClick={() => setActiveImg(index)}
-                className={activeImg === index ? styles.activeImg : ""}
-              />
-            ))}
+        {images.length > 1 ? (
+          <div className={styles.imgList}>
+            <p>Images</p>
+            <div>
+              {images.map((item, index) => (
+                <img
+                  key={index}
+                  src={item}
+                  alt="property"
+                  onClick={() => setActiveImg(index)}
+                  className={activeImg === index ? styles.activeImg : ""}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
         <div className={styles.amtSec}>
-          <p>$10,000</p>
-          <Button type="primary" onClick={() => {}}>
+          <p>{amount}</p>
+          <Button type="primary" onClick={() => buy(123)}>
             Buy Shares
           </Button>
         </div>
