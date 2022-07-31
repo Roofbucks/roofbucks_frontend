@@ -17,6 +17,9 @@ import { ReactComponent as BathRoomIcon } from "./bathRoomIcon.svg";
 import { ReactComponent as SearchIcon } from "./searchIcon.svg";
 import { ReactComponent as FilterIcon } from "./filterIcon.svg";
 import { ReactComponent as WarningIcon } from "./warningIcon.svg";
+import { ReactComponent as KeyboardIconOutline } from "./keyboardIconOutline.svg";
+import { ReactComponent as LocationIconOutline } from "./locationIconOutline.svg";
+import { ReactComponent as PhoneIconOutline } from "./phoneIconOutline.svg";
 
 export {
   LogoSymbol,
@@ -38,4 +41,7 @@ export {
   SearchIcon,
   FilterIcon,
   WarningIcon,
+  KeyboardIconOutline,
+  LocationIconOutline,
+  PhoneIconOutline,
 };
