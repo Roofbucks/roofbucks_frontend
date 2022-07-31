@@ -1,5 +1,5 @@
 import { UnAuthLayout } from "components";
-import { AgentList, Home, Listings, Marketplace } from "pages";
+import { About, AgentList, Home, Listings, Marketplace } from "pages";
 import { RouteProps } from "react-router-dom";
 import { Routes } from "./routes";
 
@@ -55,6 +55,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "agents",
+    },
+  },
+  {
+    path: Routes.about,
+    Element: About,
+    Layout: UnAuthLayout,
+    caseSensitive: true,
+    props: {
+      active: "about",
     },
   },
 ];

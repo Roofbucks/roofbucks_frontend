@@ -3,4 +3,5 @@ export * from "./logo";
 export * from "./button";
 export * from "./heroSection";
 export * from "./propertyCard";
-export * from "./select"
+export * from "./select";
+export * from "./dashboard";

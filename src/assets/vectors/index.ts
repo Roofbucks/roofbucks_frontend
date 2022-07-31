@@ -20,8 +20,16 @@ import { ReactComponent as WarningIcon } from "./warningIcon.svg";
 import { ReactComponent as KeyboardIconOutline } from "./keyboardIconOutline.svg";
 import { ReactComponent as LocationIconOutline } from "./locationIconOutline.svg";
 import { ReactComponent as PhoneIconOutline } from "./phoneIconOutline.svg";
+import { ReactComponent as PartnershipIcon } from "./handshake.svg";
+import { ReactComponent as TransparencyIcon } from "./transparency.svg";
+import { ReactComponent as LoyaltyIcon } from "./loyalty.svg";
+import { ReactComponent as TrustIcon } from "./trust.svg";
 
 export {
+  PartnershipIcon,
+  TransparencyIcon,
+  LoyaltyIcon,
+  TrustIcon,
   LogoSymbol,
   ArrowRight,
   DateIcon,

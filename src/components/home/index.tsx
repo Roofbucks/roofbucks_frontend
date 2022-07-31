@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dashboard } from "./dashboard";
+import { Dashboard } from "../generalComponents";
 import { HeroSection } from "./hero";
 import { HowItWorks } from "./howItWorks";
 import { Property } from "./property";
