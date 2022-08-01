@@ -1,0 +1,64 @@
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: transparent;
+  margin-bottom: 16px;
+}
+.label {
+  font-size: 14px;
+  background: transparent;
+  padding: 0;
+  color: #1f1d1e;
+  font-weight: 700;
+}
+.message {
+  font-size: 11px;
+  color: var(--red);
+  display: block;
+  margin-top: 8px;
+}
+.message svg {
+  width: 16px;
+  margin-right: 4px;
+}
+.input {
+  height: 44px;
+  padding-left: 1rem;
+  margin-top: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.6);
+  border-radius: 10px;
+  background: #fcfcfc;
+  font-size: 14px;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: #757575;
+}
+.textarea {
+  padding-left: 1rem;
+  padding-top: 12px;
+  margin-top: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.6);
+  border-radius: 10px;
+  background: #fcfcfc;
+  font-size: 14px;
+  resize: none;
+  height: 200px;
+}
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 2.2rem;
+  width: 20px;
+  height: auto;
+  cursor: pointer;
+}
+.error label {
+  color: var(--red);
+}
+.error .input {
+  background: #fffafa;
+  border-bottom: 1.5px solid var(--red);
+}

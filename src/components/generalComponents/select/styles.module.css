@@ -7,11 +7,11 @@
   margin-bottom: 16px;
 }
 .label {
-  font-size: 11px;
+  font-size: 14px;
   background: transparent;
   padding: 0;
-  color: #757575;
-  font-weight: 400;
+  color: #1f1d1e;
+  font-weight: 700;
 }
 .message {
   font-size: 11px;
@@ -33,10 +33,10 @@
 .select [class*="formSelect__control"] {
   min-height: unset;
   margin-top: 10px;
-  border: 1.5px solid #808080;
+  border: 1px solid rgba(128, 128, 128, 0.6);
   border-radius: 10px;
-  text-transform: capitalize;
-  background: #FCFCFC;
+  background: #fcfcfc;
+  font-size: 14px;
 }
 .select [class*="formSelect__control--is-focused"] {
   /* background: transparent; */
@@ -44,7 +44,7 @@
   box-shadow: none;
 }
 .select [class*="formSelect__input-container"] {
-  height: 36px;
+  height: 44px;
   margin: 0;
 }
 .select [class*="formSelect__value-container"] {
@@ -66,5 +66,5 @@
   text-transform: capitalize;
 }
 .select svg path {
-  fill: var(--green)
+  fill: var(--green);
 }

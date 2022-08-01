@@ -145,6 +145,11 @@
 .countrySelect [class*="formSelect__dropdown-indicator"] {
   padding: 0;
 }
+.currencySelect [class*="formSelect__input-container"],
+.countrySelect [class*="formSelect__input-container"],
+.stateSelect [class*="formSelect__input-container"] {
+  height: 36px;
+}
 .currencySelectWrap {
   width: 60px;
   margin: 0;
@@ -156,7 +161,8 @@
 .stateSelectWrap {
   width: calc(100% - 95px);
 }
-.locationWrap, .priceWrap {
+.locationWrap,
+.priceWrap {
   display: flex;
   justify-content: space-between;
 }

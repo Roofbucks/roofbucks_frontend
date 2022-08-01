@@ -24,6 +24,8 @@ import { ReactComponent as PartnershipIcon } from "./handshake.svg";
 import { ReactComponent as TransparencyIcon } from "./transparency.svg";
 import { ReactComponent as LoyaltyIcon } from "./loyalty.svg";
 import { ReactComponent as TrustIcon } from "./trust.svg";
+import { ReactComponent as PlusIcon } from "./plusIcon.svg";
+import { ReactComponent as MinusIcon } from "./minusIcon.svg";
 
 export {
   PartnershipIcon,
@@ -52,4 +54,6 @@ export {
   KeyboardIconOutline,
   LocationIconOutline,
   PhoneIconOutline,
+  PlusIcon,
+  MinusIcon,
 };

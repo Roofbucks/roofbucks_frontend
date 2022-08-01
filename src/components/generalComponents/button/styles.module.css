@@ -1,9 +1,10 @@
 .btn {
   font-family: "DM Sans";
-  border-radius: 14px;
+  border-radius: 7px;
   padding: 8px 20px;
   border: 1px solid;
   cursor: pointer;
+  font-size: 13px;
 }
 .primary {
   color: var(--white);

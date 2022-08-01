@@ -1,0 +1,85 @@
+.faq {
+  padding-bottom: 6rem;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 3rem;
+}
+.faqList {
+  max-width: 630px;
+}
+.faqItem {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(111, 118, 126, 0.4);
+}
+.activeItem {
+}
+.faqBtn {
+  width: 100%;
+  text-align: left;
+  padding: 0 0 1rem;
+  background: transparent;
+  color: var(--lightText);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+}
+.faqBtn span {
+  width: 92%;
+  line-height: 1.7;
+}
+.faqBody {
+  line-height: 1.8;
+  width: 90%;
+  overflow: hidden;
+  height: 0;
+  transition: height 0.3s ease-out;
+  color: var(--lightText);
+  font-size: var(--base);
+}
+.faqBody > div {
+  padding-bottom: 1.8rem;
+}
+.activeItem .faqBody {
+  height: auto;
+}
+.faqBody ol,
+.faqBody ul {
+  padding-left: 2rem;
+  padding-top: 12px;
+}
+.faqBody li {
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 1000px) {
+  .faqItem {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .faqItem {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .faq {
+    padding-right: 1rem;
+  }
+  .faqItem {
+    font-size: 15px;
+    margin-bottom: 1.5rem;
+  }
+  .faqBtn {
+    padding-bottom: 2rem;
+  }
+  .faqBtn svg {
+    width: 20px;
+  }
+}

@@ -36,7 +36,11 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   disabled,
 }) => {
   return (
-    <div className={`${styles.inputWrapper} ${parentClassName} ${validatorMessage ? styles.error : ""}`}>
+    <div
+      className={`${styles.inputWrapper} ${parentClassName} ${
+        validatorMessage ? styles.error : ""
+      }`}
+    >
       {label && <label className={styles.label}>{label}</label>}
       <Select
         onChange={(x) => onChange(x)}

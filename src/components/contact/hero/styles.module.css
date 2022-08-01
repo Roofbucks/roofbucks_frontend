@@ -1,0 +1,69 @@
+.contact {
+  padding-top: 5rem;
+  padding-bottom: 10rem;
+}
+.hero {
+  padding-bottom: 3rem;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.ttl span {
+  color: var(--green);
+}
+.txt {
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+.contactWrap {
+  display: flex;
+  justify-content: space-between;
+}
+.form {
+  background: #f4f4f4;
+  border-radius: 16px;
+  padding: 1.8rem;
+  max-width: 600px;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.input {
+  width: 47.5%;
+}
+.textarea {
+  width: 100%;
+}
+.contactInfo {
+}
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2.3rem;
+}
+.contactItem:first-of-type svg {
+  width: 26px;
+}
+.contactItem svg {
+  margin-right: 1.5rem;
+  width: 20px;
+}
+.contactTxtSec {
+}
+.contactTtl {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.contactTxt {
+  margin-bottom: 12px;
+}
+.contactTxt2 {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 600;
+}
