@@ -17,7 +17,7 @@
 .icon {
   position: absolute;
   right: 3rem;
-  top: 5rem;
+  top: 4rem;
   width: 92px;
 }
 .info p {
@@ -41,13 +41,8 @@
   font-size: 18px;
   margin-bottom: 1rem;
 }
-.info h4::before {
-  color: var(--green);
-  margin-right: 8px;
-}
-.info h4:nth-of-type(1)::before {
-  content: "1.";
-}
-.info h4:nth-of-type(2)::before {
-  content: "2.";
+.list2 ul {
+  padding-left: 2rem;
+  padding-top: 1rem;
+  list-style-type: disc;
 }
