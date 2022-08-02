@@ -10,10 +10,10 @@
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
-  width: 100vw;
+  width: calc(100% + (50vw + 3rem - 603px));
 }
 .propertyList > div {
-  min-width: 75vw;
+  min-width: 83%;
   margin-right: 4rem;
 }
 

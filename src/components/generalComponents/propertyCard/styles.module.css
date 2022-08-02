@@ -147,6 +147,7 @@
   border: none;
   margin-bottom: 1rem;
   font-size: 14.5px;
+  cursor: pointer;
 }
 .moreBtn svg {
   margin-left: 4px;

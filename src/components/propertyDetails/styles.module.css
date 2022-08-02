@@ -1,0 +1,304 @@
+.propertyWrap {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.backBtn {
+  margin-bottom: 2rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+.backBtn svg {
+  transform: rotate(180deg);
+  margin-right: 1rem;
+  width: 12px;
+}
+.backBtn svg path {
+  fill: var(--green);
+}
+.imgSec {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+.imgSec img {
+  width: 100%;
+  height: 100%;
+  max-height: 550px;
+  object-fit: cover;
+  border-radius: 12px 12px 0px 0px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+.propertyID {
+  font-size: var(--h5);
+  font-weight: 600;
+}
+.propertyID span {
+  color: var(--green);
+  margin-right: 1rem;
+}
+.tagSec {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  margin-left: 6%;
+}
+.tag {
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+.tag span {
+  font-size: 14px;
+  margin-left: 1rem;
+  color: var(--green);
+  background: #bbfacf;
+  border-radius: 32px;
+  padding: 5px 10px;
+}
+.shareIcon {
+  width: 40px;
+}
+.ttlWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+}
+.location {
+  font-size: 18px;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+}
+.location svg {
+  width: 16px;
+  margin-right: 10px;
+}
+.amenityWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+.amenityList {
+  display: flex;
+}
+.amenityList p {
+  font-size: 14px;
+}
+.amenityList [class*="icon"] {
+  width: 44px;
+  height: 44px;
+}
+.amenityList [class*="amenities"] {
+  font-size: 14px;
+}
+.priceWrap {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #bbfacf;
+  padding-top: 10px;
+}
+.priceWrap p {
+  font-size: var(--h5);
+  font-weight: 600;
+  margin-right: 7rem;
+}
+.buyBtn {
+  font-size: 16px;
+}
+.descriptionSec,
+.benefitsSec,
+.featuresSec,
+.additionalSec,
+.contactSec {
+  margin-bottom: 3rem;
+}
+.subTtl {
+  margin-bottom: 1.8rem;
+  font-size: var(--h3);
+  font-weight: 600;
+}
+.descriptionSec p {
+  line-height: 1.8;
+}
+
+.list {
+  line-height: 1.8;
+  list-style-type: none;
+}
+.list li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.list li::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0 1rem;
+  line-height: 2;
+  max-width: 850px;
+}
+.features li {
+  width: fit-content;
+}
+.additional {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.additional > div {
+  display: flex;
+}
+.additional > div > span:nth-child(1) {
+  font-weight: 600;
+  width: 120px;
+}
+.additional > div > span:nth-child(2) {
+}
+.contact {
+  grid-template-columns: 300px auto;
+  gap: 2.5rem;
+  display: grid;
+  background: #f4f4f4;
+  border-radius: 24px;
+  padding: 1.8rem;
+}
+.personal {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 1rem;
+}
+.name {
+  color: var(--green);
+  font-weight: 600;
+  font-size: var(--h5);
+  margin-bottom: 1.5rem;
+}
+.avatar {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  border-radius: 50%;
+}
+.contactItem {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.contactItem span:nth-child(1) {
+  color: rgba(33, 33, 33, 0.5);
+  width: 120px;
+  display: inline-block;
+}
+.contactItem span:nth-child(2) {
+  width: 140px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.contactItem a {
+  color: var(--green);
+  text-decoration: underline;
+  display: inline-block;
+  width: 140px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.contactBtn {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+.contactBtn svg {
+  width: 12px;
+  margin-left: 1rem;
+}
+.contactBtn svg path {
+  fill: var(--green);
+}
+.contactForm {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 1rem;
+  height: fit-content;
+}
+.input {
+  margin-bottom: 1rem;
+}
+.input label {
+  width: 80px;
+  display: inline-block;
+  font-size: 18px;
+}
+.input input {
+  border: 0.5px solid #808080;
+  border-radius: 8px;
+  background: transparent;
+  height: 34px;
+  padding-left: 12px;
+  width: calc(100% - 80px);
+  max-width: 200px;
+}
+.input textarea {
+  width: 100%;
+  padding-left: 12px;
+  padding-top: 12px;
+  border: 0.5px solid #808080;
+  border-radius: 8px;
+  background: transparent;
+  margin-top: 1rem;
+  min-height: 200px;
+  resize: vertical;
+}
+.sendBtn {
+  font-size: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.similarSec {
+  padding-bottom: 2rem;
+}
+.similar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin-bottom: 13rem;
+  gap: 2rem;
+}
+.backBtn2 {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+.backBtn2 svg {
+  transform: rotate(180deg);
+  margin-right: 1rem;
+  width: 12px;
+}
+.backBtn2 svg path {
+  fill: var(--green);
+}
+.similar [class*="imgSec"] {
+  height: 340px;
+}

@@ -14,9 +14,13 @@ import {
   PropertyCardProps,
 } from "components";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "router";
 import styles from "./styles.module.css";
 
 const ListingsUI = () => {
+  const navigate = useNavigate();
+
   const filters = [
     {
       name: "Country",
@@ -78,7 +82,7 @@ const ListingsUI = () => {
     description: `Modern two-bedroom apartment in sought-after Ghana marries traditional
     SF charm with contemporary city living. Tall arching columns in the
     front of the roomy living area provide beauty....`,
-    moreDetails: (id) => console.log(id),
+    moreDetails: (id) => navigate(Routes.propertyListingID(id)),
     buy: (id) => console.log(id),
     amount: "$10,000",
     owner: "By Bear Properties",
@@ -94,7 +98,7 @@ const ListingsUI = () => {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
-    moreDetails: (id) => console.log(id),
+    moreDetails: (id) => navigate(Routes.propertyListingID(id)),
     buy: (id) => console.log(id),
     amount: "$10,000",
     owner: "By Bear Properties",

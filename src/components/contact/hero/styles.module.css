@@ -39,6 +39,7 @@
   width: 100%;
 }
 .contactInfo {
+  padding-left: 2rem;
 }
 .contactItem {
   display: flex;

@@ -4,3 +4,4 @@ export * from "./marketplace";
 export * from "./agentList";
 export * from "./about";
 export * from "./contact";
+export * from "./propertyDetails";

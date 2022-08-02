@@ -17,7 +17,7 @@ export interface AmenityProp {
   value: string;
 }
 
-const Amenity: React.FC<AmenityProp> = ({ Icon, name, value }) => {
+export const Amenity: React.FC<AmenityProp> = ({ Icon, name, value }) => {
   return (
     <div className={styles.amenities}>
       <div>

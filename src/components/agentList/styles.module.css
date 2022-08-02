@@ -48,6 +48,9 @@
 .topDealsWrap > div {
   margin-bottom: 2rem;
 }
+.topDealsWrap [class*="imgSec"] {
+  height: 320px;
+}
 .topDealsWrap [class*="amtSec"] button {
   font-size: 11px;
   border-radius: 6px;
