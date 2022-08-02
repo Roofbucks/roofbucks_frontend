@@ -1,0 +1,53 @@
+.terms {
+  position: relative;
+  padding-top: 5rem;
+  padding-bottom: 8rem;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.txt {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5rem;
+}
+.icon {
+  position: absolute;
+  right: 3rem;
+  top: 5rem;
+  width: 92px;
+}
+.info p {
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.info li {
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.list1 {
+  padding-left: 3rem;
+  padding-top: 1rem;
+  margin-bottom: 3rem;
+}
+.list2 {
+  padding-left: 2rem;
+  margin-bottom: 3rem;
+}
+.info h4 {
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+.info h4::before {
+  color: var(--green);
+  margin-right: 8px;
+}
+.info h4:nth-of-type(1)::before {
+  content: "1.";
+}
+.info h4:nth-of-type(2)::before {
+  content: "2.";
+}

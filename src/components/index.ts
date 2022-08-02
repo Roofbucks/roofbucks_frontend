@@ -6,3 +6,4 @@ export * from "./agentList";
 export * from "./about";
 export * from "./contact";
 export * from "./propertyDetails";
+export * from "./termsOfService";

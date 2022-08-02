@@ -26,8 +26,12 @@ import { ReactComponent as LoyaltyIcon } from "./loyalty.svg";
 import { ReactComponent as TrustIcon } from "./trust.svg";
 import { ReactComponent as PlusIcon } from "./plusIcon.svg";
 import { ReactComponent as MinusIcon } from "./minusIcon.svg";
+import { ReactComponent as TermsIcon } from "./terms.svg";
+import { ReactComponent as PrivacyIcon } from "./privacy.svg";
 
 export {
+  TermsIcon,
+  PrivacyIcon,
   PartnershipIcon,
   TransparencyIcon,
   LoyaltyIcon,
