@@ -15,12 +15,12 @@
   margin-bottom: 2.5rem;
 }
 .cardWrap {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 .card {
   background: var(--white);
-  width: 23%;
   border-radius: 12px;
   padding: 1rem 1rem 1.5rem;
 }

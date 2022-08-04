@@ -6,12 +6,18 @@ import { Routes } from "router";
 import styles from "./styles.module.css";
 
 const Footer = () => {
+  const backToTop = () => {
+    window.scrollTo(-0, -0);
+  };
   return (
     <footer className={styles.footerBg}>
       <div className={`appContainer ${styles.footer}`}>
         <div className={styles.sec1}>
           <div className={styles.logoSec}>
             <LogoWithText className={styles.logo} type="light" />
+            <button onClick={backToTop} className={styles.backToTopMobile}>
+              Top <ArrowRight />
+            </button>
           </div>
           <div className={styles.listSec}>
             <ul>
@@ -42,7 +48,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.sec2}>
-          <button className={styles.backToTop}>
+          <button onClick={backToTop} className={styles.backToTop}>
             Back To Top <ArrowRight />{" "}
           </button>
           <div className={styles.socialsNews}>

@@ -28,6 +28,8 @@ import { ReactComponent as PlusIcon } from "./plusIcon.svg";
 import { ReactComponent as MinusIcon } from "./minusIcon.svg";
 import { ReactComponent as TermsIcon } from "./terms.svg";
 import { ReactComponent as PrivacyIcon } from "./privacy.svg";
+import { ReactComponent as MenuOpen } from "./menuOpen.svg";
+import { ReactComponent as MenuClose } from "./menuClose.svg";
 
 export {
   TermsIcon,
@@ -60,4 +62,6 @@ export {
   PhoneIconOutline,
   PlusIcon,
   MinusIcon,
+  MenuClose,
+  MenuOpen,
 };

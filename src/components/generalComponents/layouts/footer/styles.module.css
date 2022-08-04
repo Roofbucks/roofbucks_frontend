@@ -145,3 +145,138 @@
 }
 .rights {
 }
+.backToTopMobile {
+  display: none;
+}
+@media screen and (max-width: 1000px) {
+  .sec1 {
+    width: 55%;
+  }
+  .sec2 {
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .sec1 {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+  .sec2 {
+    width: 100%;
+  }
+  .logo svg {
+    width: 22px;
+  }
+  .logo p {
+    font-size: 16px;
+  }
+  .footer {
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+  .listSec {
+    line-height: 2.2;
+  }
+  .backToTop {
+    display: none;
+  }
+  .backToTopMobile {
+    display: block;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .backToTopMobile svg {
+    transform: rotate(-45deg);
+    width: 20px;
+    width: 12px;
+    margin-top: -16px;
+    margin-left: 4px;
+  }
+  .socialsNews {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .socials {
+    display: flex;
+    flex-direction: column;
+    line-height: 2.2;
+  }
+  .sec2 {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    padding-top: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 12px;
+  }
+  .listSec {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    line-height: 2.5;
+  }
+  .listSec ul {
+    margin-bottom: 1.5rem;
+  }
+  .backToTopMobile {
+    font-size: 14px;
+  }
+  .logoSec {
+    padding-bottom: 10px;
+    padding-left: 8px;
+    margin-bottom: 2rem;
+  }
+  .sec1 {
+    margin-bottom: 1rem;
+  }
+  .sec2 {
+    font-size: 14px;
+    line-height: 2.5;
+    margin-bottom: 0;
+  }
+  .socialsNews {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: none;
+    padding-top: 0;
+  }
+  .socials {
+    flex-direction: row;
+    width: 300px;
+    margin-top: 1.5rem;
+  }
+  .form {
+    margin: auto;
+    max-width: 300px;
+  }
+  .newsTxt {
+    max-width: 300px;
+  }
+  .newsTtl {
+    margin-bottom: 0;
+  }
+  .sec3 {
+    text-align: center;
+  }
+  .dvdr {
+    margin-top: 0;
+  }
+}
