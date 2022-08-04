@@ -15,7 +15,8 @@
 }
 .cardWrap {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 0.9fr));
+  justify-content: center;
   gap: 1.5rem;
 }
 .card {
@@ -38,4 +39,10 @@
   margin: auto;
   line-height: 1.8;
   letter-spacing: 0.2px;
+}
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    font-size: var(--h4);
+  }
 }

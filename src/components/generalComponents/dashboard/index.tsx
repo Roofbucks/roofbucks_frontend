@@ -11,6 +11,7 @@ const Dashboard = () => {
         <div className={`appContainer ${styles.dashboard}`}>
           <div className={styles.txtSec}>
             <h4 className={styles.ttl}>Manage and organize your assets and properties</h4>
+            <img className={styles.imgMobile} src={dashboardImg} alt="dashbord preview on mac book" />
             <p className={styles.txt} >
               Get full control and manage your assets like a pro from your
               Roofbucks dashboard. View your assets real-time performance,book

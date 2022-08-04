@@ -4,7 +4,7 @@
   background-size: cover;
   background-position: top center;
   color: var(--white);
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
 }
 .hero {
   padding-top: 11rem;
@@ -36,3 +36,47 @@ button.btn {
   letter-spacing: 0.3px;
   font-weight: 500;
 }
+
+@media screen and (max-width: 800px) {
+  .hero {
+    padding-top: 8rem;
+    padding-bottom: 10rem;
+  }
+  .label {
+    font-size: 16px;
+  }
+  .ttl {
+    font-size: var(--h2);
+    letter-spacing: normal;
+    max-width: 500px;
+  }
+  .txt {
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .heroBg {
+    background-position-x: left;
+  }
+  .hero {
+    padding-top: 6rem;
+    padding-bottom: 8rem;
+  }
+  .label {
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+  }
+  .ttl {
+    font-size: var(--h4);
+    letter-spacing: normal;
+    max-width: 350px;
+  }
+  .txt {
+    max-width: 300px;
+    font-size: 14px;
+  }
+}
+

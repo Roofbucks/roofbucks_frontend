@@ -40,6 +40,7 @@ button.btn {
 .imgSec {
   width: 50%;
   position: relative;
+  height: fit-content;
 }
 .property1 {
   width: 80%;
@@ -111,3 +112,63 @@ button.btn {
 .viewTxt3 svg {
   margin-left: 4px;
 }
+
+@media screen and (max-width: 800px) {
+  .propertyBg {
+    padding: 5rem 0 12rem;
+  }
+  .property {
+    flex-direction: column;
+  }
+  .txtSec {
+    margin-bottom: 3rem;
+    width: 100%;
+    text-align: center;
+  }
+  .ttl {
+    font-size: var(--h3);
+  }
+  .txt {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3rem;
+  }
+  .stat {
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  .statNo {
+    font-size: var(--h3);
+    margin-bottom: 8px;
+    margin-right: 0;
+  }
+  .statTxt {
+    max-width: 250px;
+  }
+  .imgSec {
+    width: 80%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ttl {
+    font-size: var(--h4);
+  }
+  .propertyBg {
+    padding: 4rem 0 9rem;
+  }
+  .statNo {
+    font-size: var(--h4);
+    margin-bottom: 2px;
+  }
+  .statTxt {
+    font-size: 13px;
+    max-width: 200px;
+  }
+}
+

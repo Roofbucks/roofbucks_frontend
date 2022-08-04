@@ -2,7 +2,7 @@
   background: #f4f4f4;
   padding-top: 3.3rem;
   padding-bottom: 3.3rem;
-  margin: 11rem 0 9rem
+  margin: 11rem 0 9rem;
 }
 .how {
   text-align: center;
@@ -16,7 +16,8 @@
 }
 .cardWrap {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 0.9fr));
+  justify-content: center;
   gap: 1.5rem;
 }
 .card {
@@ -38,4 +39,14 @@
   margin: auto;
   line-height: 1.8;
   letter-spacing: 0.2px;
+}
+
+@media screen and (max-width: 800px) {
+  .howBg {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+  .ttl {
+    font-size: var(--h4);
+  }
 }
