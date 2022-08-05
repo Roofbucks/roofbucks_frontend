@@ -194,9 +194,43 @@
 .propertyList {
   grid-area: c;
 }
-.propertyList [class*="imgSec"] {
+.propertyList [class*="imgSec"] img {
   max-height: 360px;
 }
 .propertyList > div {
   margin-bottom: 3rem;
+}
+
+@media screen and (max-width: 800px) {
+  .listings {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "a"
+      "b"
+      "c";
+    position: relative;
+  }
+  .filterWrap {
+    position: absolute;
+    background: #f8faf9;
+    width: 300px;
+    padding: 1rem;
+    border-radius: 8px;
+    z-index: 2;
+    box-shadow: 289px 720px 310px rgb(39 181 67 / 1%),
+      163px 405px 262px rgb(39 181 67 / 3%),
+      72px 180px 194px rgb(39 181 67 / 4%), 18px 45px 107px rgb(39 181 67 / 5%),
+      0px 0px 0px rgb(39 181 67 / 5%);
+    left: 0;
+    top: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .propertyList [class*="imgSec"] img {
+    max-height: 300px;
+  }
+  .propertyList > div {
+    margin-bottom: 2rem;
+  }
 }

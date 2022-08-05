@@ -20,6 +20,10 @@ import * as React from "react";
 import styles from "./styles.module.css";
 
 const MarketplaceUI = () => {
+  const [showFilter, setShowFilter] = React.useState(false);
+  const [mobile, setMobile] = React.useState(
+    window.innerWidth <= 800 ? true : false
+  );
   const [filters, setFilters] = React.useState({
     propertyType: false,
     propertyStatus: false,
@@ -68,6 +72,15 @@ const MarketplaceUI = () => {
   };
 
   const properties: PropertyCardProps[] = new Array(6).fill(property);
+
+  const screenSizeUpdate = () => {
+    if (window.innerWidth <= 800) {
+      setMobile(true);
+    } else if (window.innerWidth > 800) {
+      setMobile(false);
+    }
+  };
+  window.onresize = screenSizeUpdate;
   return (
     <>
       <HeroSection title="Market Place" />
@@ -83,204 +96,211 @@ const MarketplaceUI = () => {
       </section>
       <section className={`appContainer ${styles.listings}`}>
         <div className={styles.searchWrap}>
-          <FilterIcon role="button" />
+          <FilterIcon
+            onClick={() => setShowFilter(!showFilter)}
+            role="button"
+          />
           <div>
             <SearchIcon />
             <input placeholder="Search by name" type={"text"} />
           </div>
         </div>
 
-        <div className={styles.filterWrap}>
-          <div className={styles.filterItem}>
-            <div className={styles.filterHd}>
-              <span>Property Type</span>{" "}
-              <CaretRight
-                role={"button"}
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    propertyType: !filters.propertyType,
-                  })
-                }
-              />
-            </div>
-            {filters.propertyType ? (
-              <>
-                <div className={styles.filterCheck}>
-                  <span>Residential</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>Single Family House</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>Hotel Apartment</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>Studio Apartment</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>Apart Complex</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>Town House</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className={styles.filterItem}>
-            <div className={styles.filterHd}>
-              <span>Property Status</span>{" "}
-              <CaretRight
-                role={"button"}
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    propertyStatus: !filters.propertyStatus,
-                  })
-                }
-              />
-            </div>
-            {filters.propertyStatus ? (
-              <>
-                <div className={styles.filterCheck}>
-                  <span>Completed</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-                <div className={styles.filterCheck}>
-                  <span>In-progress</span>
-                  <label>
-                    <input type={"checkbox"} />
-                    <span className={styles.mark}></span>
-                  </label>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className={styles.filterItem}>
-            <div className={styles.filterHd}>
-              <span>Price</span>{" "}
-              <CaretRight
-                role={"button"}
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    propertyPrice: !filters.propertyPrice,
-                  })
-                }
-              />
-            </div>
-            {filters.propertyPrice ? (
-              <div className={styles.priceWrap}>
-                <CustomSelect
-                  onChange={() => {}}
-                  validatorMessage={""}
-                  name={"currency"}
-                  placeholder={"Currency"}
-                  label={""}
-                  options={[
-                    { label: "USD", value: "USD" },
-                    { label: "GHC", value: "GHC" },
-                    { label: "NGN", value: "NGN" },
-                  ]}
-                  value={{ label: "USD", value: "USD" }}
-                  inputClass={styles.currencySelect}
-                  parentClassName={styles.currencySelectWrap}
-                />
-                <div className={styles.minMax}>
-                  <input placeholder="Min" /> to
-                  <input placeholder="Max" />
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className={styles.filterItem}>
-            <div className={styles.filterHd}>
-              <span>Property Location</span>{" "}
-              <CaretRight
-                role={"button"}
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    propertyLocation: !filters.propertyLocation,
-                  })
-                }
-              />
-            </div>
-            {filters.propertyLocation ? (
-              <div className={styles.locationWrap}>
-                <CustomSelect
-                  onChange={() => {}}
-                  validatorMessage={""}
-                  name={"country"}
-                  placeholder={"Country"}
-                  label={""}
-                  options={[
-                    { label: "Nigeria", value: "Nigeria" },
-                    { label: "Ghana", value: "Ghana" },
-                  ]}
-                  value={{ label: "Nigeria", value: "Nigeria" }}
-                  inputClass={styles.countrySelect}
-                  parentClassName={styles.countrySelectWrap}
-                />
-                <CustomSelect
-                  onChange={() => {}}
-                  validatorMessage={""}
-                  name={"state"}
-                  placeholder={"State"}
-                  label={""}
-                  options={[{ label: "Lagos", value: "Lagos" }]}
-                  value={{ label: "Lagos", value: "Lagos" }}
-                  inputClass={styles.stateSelect}
-                  parentClassName={styles.stateSelectWrap}
+        {(mobile && showFilter) || !mobile ? (
+          <div className={styles.filterWrap}>
+            <div className={styles.filterItem}>
+              <div className={styles.filterHd}>
+                <span>Property Type</span>{" "}
+                <CaretRight
+                  role={"button"}
+                  onClick={() =>
+                    setFilters({
+                      ...filters,
+                      propertyType: !filters.propertyType,
+                    })
+                  }
                 />
               </div>
-            ) : (
-              ""
-            )}
-          </div>
+              {filters.propertyType ? (
+                <>
+                  <div className={styles.filterCheck}>
+                    <span>Residential</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>Single Family House</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>Hotel Apartment</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>Studio Apartment</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>Apart Complex</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>Town House</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={styles.filterItem}>
+              <div className={styles.filterHd}>
+                <span>Property Status</span>{" "}
+                <CaretRight
+                  role={"button"}
+                  onClick={() =>
+                    setFilters({
+                      ...filters,
+                      propertyStatus: !filters.propertyStatus,
+                    })
+                  }
+                />
+              </div>
+              {filters.propertyStatus ? (
+                <>
+                  <div className={styles.filterCheck}>
+                    <span>Completed</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                  <div className={styles.filterCheck}>
+                    <span>In-progress</span>
+                    <label>
+                      <input type={"checkbox"} />
+                      <span className={styles.mark}></span>
+                    </label>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={styles.filterItem}>
+              <div className={styles.filterHd}>
+                <span>Price</span>{" "}
+                <CaretRight
+                  role={"button"}
+                  onClick={() =>
+                    setFilters({
+                      ...filters,
+                      propertyPrice: !filters.propertyPrice,
+                    })
+                  }
+                />
+              </div>
+              {filters.propertyPrice ? (
+                <div className={styles.priceWrap}>
+                  <CustomSelect
+                    onChange={() => {}}
+                    validatorMessage={""}
+                    name={"currency"}
+                    placeholder={"Currency"}
+                    label={""}
+                    options={[
+                      { label: "USD", value: "USD" },
+                      { label: "GHC", value: "GHC" },
+                      { label: "NGN", value: "NGN" },
+                    ]}
+                    value={{ label: "USD", value: "USD" }}
+                    inputClass={styles.currencySelect}
+                    parentClassName={styles.currencySelectWrap}
+                  />
+                  <div className={styles.minMax}>
+                    <input placeholder="Min" /> to
+                    <input placeholder="Max" />
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={styles.filterItem}>
+              <div className={styles.filterHd}>
+                <span>Property Location</span>{" "}
+                <CaretRight
+                  role={"button"}
+                  onClick={() =>
+                    setFilters({
+                      ...filters,
+                      propertyLocation: !filters.propertyLocation,
+                    })
+                  }
+                />
+              </div>
+              {filters.propertyLocation ? (
+                <div className={styles.locationWrap}>
+                  <CustomSelect
+                    onChange={() => {}}
+                    validatorMessage={""}
+                    name={"country"}
+                    placeholder={"Country"}
+                    label={""}
+                    options={[
+                      { label: "Nigeria", value: "Nigeria" },
+                      { label: "Ghana", value: "Ghana" },
+                    ]}
+                    value={{ label: "Nigeria", value: "Nigeria" }}
+                    inputClass={styles.countrySelect}
+                    parentClassName={styles.countrySelectWrap}
+                  />
+                  <CustomSelect
+                    onChange={() => {}}
+                    validatorMessage={""}
+                    name={"state"}
+                    placeholder={"State"}
+                    label={""}
+                    options={[{ label: "Lagos", value: "Lagos" }]}
+                    value={{ label: "Lagos", value: "Lagos" }}
+                    inputClass={styles.stateSelect}
+                    parentClassName={styles.stateSelectWrap}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
 
-          <div className={styles.btnSec}>
-            <Button type={"primary"} onClick={() => {}}>
-              Apply
-            </Button>
-            <Button type={"tertiary"} onClick={() => {}}>
-              Clear
-            </Button>
+            <div className={styles.btnSec}>
+              <Button type={"primary"} onClick={() => {}}>
+                Apply
+              </Button>
+              <Button type={"tertiary"} onClick={() => {}}>
+                Clear
+              </Button>
+            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
         <div className={styles.propertyList}>
           {properties.map((item, index) => (
             <PropertyCard {...item} key={index} className={styles.property} />
