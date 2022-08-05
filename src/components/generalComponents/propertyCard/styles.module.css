@@ -254,8 +254,57 @@
   .imgList {
     display: none;
   }
+  .tag {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 6px 1.2rem;
+    top: 20px;
+  }
+  .sec1 {
+    font-size: var(--caption);
+  }
+  .iconSec svg {
+    width: 18px;
+  }
   .name {
+    font-size: var(--h5);
     white-space: normal;
-    font-size: 20px;
+  }
+  .address {
+    font-size: var(--caption);
+  }
+  .icon {
+    width: 28px;
+    margin-bottom: 2px;
+  }
+  .moreBtn {
+    font-size: 13px;
+  }
+  .moreBtn svg {
+    width: 10px;
+  }
+  .imgList img {
+    width: 68px;
+    min-width: 68px;
+    height: 50px;
+    margin-right: 8px;
+  }
+  .imgList img:hover,
+  .activeImg {
+    border: 2px solid var(--green);
+    padding: 1.5px;
+  }
+
+  .amtSec {
+    padding-top: 8px;
+  }
+
+  .amtSec p {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .amtSec button {
+    font-size: 13.5px;
+    padding: 8px 20px;
   }
 }
