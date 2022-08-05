@@ -121,6 +121,12 @@ const PropertyDetailsUI = () => {
             ore eller kropöbel, antening tikälogi.
           </p>
         </div>
+        <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
+            <p>$10,000</p>
+            <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
+              Buy Shares
+            </Button>
+          </div>
         <div className={styles.benefitsSec}>
           <h4 className={styles.subTtl}>Benefits</h4>
           <ul className={styles.list}>
