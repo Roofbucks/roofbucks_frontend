@@ -46,3 +46,12 @@
   padding-top: 1rem;
   list-style-type: disc;
 }
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    font-size: var(--h3);
+  }
+  .icon {
+    width: 70px;
+  }
+}
