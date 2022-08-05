@@ -115,7 +115,7 @@ const AboutUI = () => {
           />
         </div>
       </section>
-      <section className={`appContainer ${styles.inspirationSec}`}>
+      <section className={`appContainer ${styles.inspirationSec} ${styles.statSec}`}>
         <div className={`${styles.sec1}`}>
           <img src={aboutStat} alt="" className={styles.inspirationImg} />
         </div>

@@ -121,3 +121,94 @@
 .bar4 .progressBar::after {
   width: 90%;
 }
+
+@media screen and (max-width: 1000px) {
+  .sec2 {
+    padding-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .welcome {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .values {
+    padding-bottom: 3rem;
+  }
+  .ttl {
+    font-size: var(--h5);
+    margin-bottom: 1rem;
+  }
+  .about,
+  .values,
+  .inspirationSec {
+    flex-direction: column;
+  }
+  .sec1 {
+    width: 100%;
+  }
+  .sec2 {
+    padding-left: 0;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  .subTtl {
+    font-size: var(--h5);
+    width: 100%;
+    max-width: 400px;
+  }
+  .inspirationSec {
+    padding-bottom: 4rem;
+  }
+  .inspirationSec .txt {
+    max-width: unset;
+  }
+  .inspirationSec .sec2 {
+    padding: 0;
+  }
+  .inspirationImg {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .statSec {
+    flex-direction: column-reverse;
+  }
+  .progressBar {
+    height: 10px;
+  }
+  .progressBar::after {
+    height: 10px;
+    left: 0;
+    right: unset;
+  }
+  .barTxt {
+    font-size: 14px;
+    flex-direction: row-reverse;
+    margin-right: auto;
+    margin-left: unset;
+  }
+  .statSec .inspirationImg {
+    max-width: 400px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .statSec .sec2 {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .valueWrap {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .valueWrap {
+    grid-template-columns: 1fr;
+  }
+}
