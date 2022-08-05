@@ -66,9 +66,18 @@
   .faqItem {
     font-size: 17px;
   }
+  .ttl {
+    font-size: var(--h3);
+  }
+  .faqBtn {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 600px) {
+  .ttl {
+    font-size: var(--h4);
+  }
   .faq {
     padding-right: 1rem;
   }

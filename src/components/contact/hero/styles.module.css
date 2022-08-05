@@ -68,3 +68,34 @@
   text-decoration: none;
   font-weight: 600;
 }
+
+@media screen and (max-width: 900px) {
+  .contactWrap {
+    flex-direction: column;
+  }
+  .contactInfo {
+    margin-top: 3rem;
+    padding-left: 0;
+  }
+  .form {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    font-size: var(--h3);
+  }
+  .contact {
+    padding-bottom: 5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ttl {
+    font-size: var(--h4);
+  }
+  .input {
+    width: 100%;
+  }
+}
