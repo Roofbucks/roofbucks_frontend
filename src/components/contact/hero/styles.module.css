@@ -22,6 +22,10 @@
   display: flex;
   justify-content: space-between;
 }
+.contactWrap label {
+  font-weight: 700;
+  color: var(--black);
+}
 .form {
   background: #f4f4f4;
   border-radius: 16px;

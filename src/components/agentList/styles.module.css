@@ -152,6 +152,20 @@
     padding-bottom: 4rem;
     padding-top: 3rem;
   }
+  .searchWrap input {
+    height: 40px;
+    border-radius: 7px;
+    font-size: 14px;
+    padding-left: 2.4rem;
+  }
+  .searchWrap > div svg {
+    width: 14px;
+    left: 12px;
+    top: 14px;
+  }
+  .searchWrap > svg {
+    margin-right: 1rem;
+  }
 }
 
 @media screen and (max-width: 600px) {

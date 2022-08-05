@@ -224,6 +224,27 @@
     left: 0;
     top: 0;
   }
+  .searchWrap input {
+    height: 40px;
+    border-radius: 7px;
+    font-size: 14px;
+    padding-left: 2.4rem;
+  }
+  .searchWrap > div svg {
+    width: 14px;
+    left: 12px;
+    top: 14px;
+  }
+  .searchWrap > svg {
+    margin-right: 1rem;
+  }
+  .welcome {
+    padding-top: 3rem;
+  }
+  .ttl {
+    font-size: var(--h5);
+    margin-bottom: 1rem;
+  }
 }
 
 @media screen and (max-width: 600px) {

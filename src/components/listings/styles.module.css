@@ -94,6 +94,40 @@
   }
 }
 
+@media screen and (max-width: 800px) {
+  .searchWrap {
+    width: 100%;
+  }
+  .searchWrap input {
+    height: 40px;
+    border-radius: 7px;
+    font-size: 14px;
+    padding-left: 2.4rem;
+    width: 100%;
+  }
+  .searchWrap svg {
+    width: 14px;
+    left: 12px;
+    top: 14px;
+  }
+  .ttl {
+    font-size: var(--h4);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  .topDeals {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    border-bottom: 1px solid #80808080;
+  }
+  .propertyListings {
+    padding-top: 10px;
+  }
+  .listings {
+    padding-top: 3rem;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .propertyList {
     width: 100%;
