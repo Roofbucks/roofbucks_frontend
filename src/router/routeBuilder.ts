@@ -39,6 +39,9 @@ export const RouteBuilder: RouteBuilderItem[] = [
     Element: Home,
     Layout: UnAuthLayout,
     caseSensitive: true,
+    props: {
+      active: "home",
+    },
   },
   {
     path: Routes.listing,

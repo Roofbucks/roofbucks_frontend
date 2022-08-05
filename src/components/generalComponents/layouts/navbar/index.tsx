@@ -6,7 +6,7 @@ import { Routes } from "router";
 import styles from "./styles.module.css";
 
 export interface NavbarProps {
-  active?: "listing" | "marketplace" | "agents" | "about" | "contact";
+  active?: "home" | "listing" | "marketplace" | "agents" | "about" | "contact";
 }
 
 const Navbar: React.FC<NavbarProps> = ({ active }) => {
@@ -20,10 +20,14 @@ const Navbar: React.FC<NavbarProps> = ({ active }) => {
       setMobile(true);
     } else if (window.innerWidth > 900) {
       setMobile(false);
-      setShowNav(false)
+      setShowNav(false);
     }
   };
   window.onresize = screenSizeUpdate;
+
+  const closeNav = () => {
+    setShowNav(false);
+  };
 
   return (
     <nav className={styles.navBg}>
@@ -37,6 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ active }) => {
             className={styles.logo}
             style={{ textDecoration: "none" }}
             to={Routes.home}
+            onClick={closeNav}
           >
             <LogoWithText type="dark" />
           </Link>
@@ -59,32 +64,48 @@ const Navbar: React.FC<NavbarProps> = ({ active }) => {
         {(mobile && showNav) || !mobile ? (
           <>
             <div className={styles.navItems}>
+              {mobile ? (
+                <Link
+                  className={active === "home" ? styles.activeItem : ""}
+                  onClick={closeNav}
+                  to={Routes.home}
+                >
+                  Home
+                </Link>
+              ) : (
+                ""
+              )}
               <Link
                 className={active === "listing" ? styles.activeItem : ""}
+                onClick={closeNav}
                 to={Routes.listing}
               >
                 Listing
               </Link>
               <Link
                 className={active === "marketplace" ? styles.activeItem : ""}
+                onClick={closeNav}
                 to={Routes.marketplace}
               >
                 Market Place
               </Link>
               <Link
                 className={active === "agents" ? styles.activeItem : ""}
+                onClick={closeNav}
                 to={Routes.agents}
               >
                 Agent List
               </Link>
               <Link
                 className={active === "about" ? styles.activeItem : ""}
+                onClick={closeNav}
                 to={Routes.about}
               >
                 About{" "}
               </Link>
               <Link
                 className={active === "contact" ? styles.activeItem : ""}
+                onClick={closeNav}
                 to={Routes.contact}
               >
                 Contact{" "}
