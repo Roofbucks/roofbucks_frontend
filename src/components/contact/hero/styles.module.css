@@ -25,6 +25,7 @@
 .contactWrap label {
   font-weight: 700;
   color: var(--black);
+  font-size: 14px;
 }
 .form {
   background: #f4f4f4;
@@ -41,6 +42,9 @@
 }
 .textarea {
   width: 100%;
+}
+.input input, .textarea textarea, .input [class*="formSelect__control"] {
+  border-color: rgba(128, 128, 128, 0.6);;
 }
 .contactInfo {
   padding-left: 2rem;

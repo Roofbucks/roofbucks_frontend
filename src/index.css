@@ -124,3 +124,9 @@ textarea {
 [role="button"] {
   cursor: pointer;
 }
+
+[class*="modal-content"] {
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+}

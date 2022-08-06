@@ -1,4 +1,4 @@
-import { UnAuthLayout } from "components";
+import { Layout } from "components";
 import {
   About,
   AgentList,
@@ -37,7 +37,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.home,
     Element: Home,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "home",
@@ -46,7 +46,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.listing,
     Element: Listings,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "listing",
@@ -55,7 +55,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.marketplace,
     Element: Marketplace,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "marketplace",
@@ -64,7 +64,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.agents,
     Element: AgentList,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "agents",
@@ -73,7 +73,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.about,
     Element: About,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "about",
@@ -82,7 +82,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.contact,
     Element: Contact,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "contact",
@@ -91,7 +91,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.propertyListing,
     Element: PropertyDetails,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "listing",
@@ -100,7 +100,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.terms,
     Element: TermsOfService,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "",
@@ -109,7 +109,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.privacy,
     Element: Privacy,
-    Layout: UnAuthLayout,
+    Layout: Layout,
     caseSensitive: true,
     props: {
       active: "",

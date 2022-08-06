@@ -7,9 +7,11 @@ import styles from "./styles.module.css";
 
 export interface NavbarProps {
   active?: "home" | "listing" | "marketplace" | "agents" | "about" | "contact";
+  login: () => void;
+  signup: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ active }) => {
+const Navbar: React.FC<NavbarProps> = ({ active, login, signup }) => {
   const [showNav, setShowNav] = React.useState(false);
   const [mobile, setMobile] = React.useState(
     window.innerWidth <= 800 ? true : false
@@ -114,12 +116,12 @@ const Navbar: React.FC<NavbarProps> = ({ active }) => {
             <div className={styles.btnWrap}>
               <Button
                 className={styles.loginBtn}
-                onClick={() => {}}
+                onClick={login}
                 type="tertiary"
               >
                 Login
               </Button>
-              <Button onClick={() => {}} type="primary">
+              <Button onClick={signup} type="primary">
                 Sign Up
               </Button>
             </div>

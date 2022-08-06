@@ -7,7 +7,7 @@
   margin-bottom: 16px;
 }
 .label {
-  font-size: 14px;
+  font-size: 12px;
   background: transparent;
   padding: 0;
   color: #808080;
@@ -32,7 +32,7 @@
 .select [class*="formSelect__control"] {
   min-height: unset;
   margin-top: 10px;
-  border: 1px solid rgba(128, 128, 128, 0.6);
+  border: 1px solid #EFEFEF;
   border-radius: 10px;
   background: #fcfcfc;
   font-size: 14px;
