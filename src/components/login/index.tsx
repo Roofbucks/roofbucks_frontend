@@ -1,11 +1,11 @@
 import * as React from "react";
 import styles from "./styles.module.css";
 import { Modal } from "react-bootstrap";
-import { LoginProps } from "pages";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input } from "components/generalComponents";
+import { ModalProps } from "types";
 
 interface LoginData {
   phone: string;
@@ -17,7 +17,7 @@ const initialValues: LoginData = {
   password: "",
 };
 
-export interface LoginModalProps extends LoginProps {
+export interface LoginModalProps extends ModalProps {
   login: (data: LoginData) => void;
 }
 

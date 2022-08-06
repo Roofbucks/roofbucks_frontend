@@ -1,4 +1,4 @@
-import { LoginModal } from "pages";
+import { LoginModal, SignupModal } from "pages";
 import * as React from "react";
 import { Footer } from "./footer";
 import { Navbar, NavbarProps } from "./navbar";
@@ -15,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
   return (
     <>
       <LoginModal show={showLogin} closeModal={() => setShowLogin(false)} />
+      <SignupModal show={showSignup} closeModal={() => setShowSignup(false)} />
       <Navbar
         active={active}
         login={() => setShowLogin(true)}

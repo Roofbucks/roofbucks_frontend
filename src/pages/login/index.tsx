@@ -1,12 +1,8 @@
 import * as React from "react";
 import { LoginModalUI } from "components";
+import { ModalProps } from "types";
 
-export interface LoginProps {
-  show: boolean;
-  closeModal: () => void;
-}
-
-const LoginModal: React.FC<LoginProps> = ({ show, closeModal }) => {
+const LoginModal: React.FC<ModalProps> = ({ show, closeModal }) => {
   return (
     <>
       <LoginModalUI
