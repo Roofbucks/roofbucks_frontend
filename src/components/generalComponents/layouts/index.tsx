@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
   const [showSignup, setShowSignup] = React.useState(false);
   const [showReset, setShowReset] = React.useState(false);
   const [showRecovery, setShowRecovery] = React.useState(false);
+  const [mobileNav, setMobileNav] = React.useState(false);
 
   const params = queryObject(search);
   console.log(params);
@@ -38,6 +39,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
         show={showSignup}
         closeModal={() => setShowSignup(false)}
         login={() => setShowLogin(true)}
+        closeMobileNav={() => setMobileNav(!mobileNav)}
       />
       <ResetPasswordModal
         show={showReset}
@@ -59,6 +61,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
         active={active}
         login={() => setShowLogin(true)}
         signup={() => setShowSignup(true)}
+        closeMobileNav={mobileNav}
       />
       <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />

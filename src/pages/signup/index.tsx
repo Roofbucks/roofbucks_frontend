@@ -4,9 +4,15 @@ import { ModalProps } from "types";
 
 interface SignupProps extends ModalProps {
   login: () => void;
+  closeMobileNav: () => void;
 }
 
-const SignupModal: React.FC<SignupProps> = ({ show, closeModal, login }) => {
+const SignupModal: React.FC<SignupProps> = ({
+  show,
+  closeModal,
+  login,
+  closeMobileNav,
+}) => {
   return (
     <>
       <SignupModalUI
@@ -14,6 +20,7 @@ const SignupModal: React.FC<SignupProps> = ({ show, closeModal, login }) => {
         closeModal={closeModal}
         signup={(data) => console.log(data)}
         login={login}
+        closeMobileNav={closeMobileNav}
       />
     </>
   );

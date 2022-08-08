@@ -26,6 +26,7 @@ const initialValues: SignupData = {
 export interface SignupModalProps extends ModalProps {
   signup: (data: SignupData) => void;
   login: () => void;
+  closeMobileNav: () => void;
 }
 
 const signupSchema = yup
@@ -52,6 +53,7 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
   closeModal,
   signup,
   login,
+  closeMobileNav,
 }: SignupModalProps) => {
   const {
     register,
@@ -116,7 +118,13 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             </label>
             <span>
               I agree to Roofbuck’s{" "}
-              <Link onClick={closeModal} to={Routes.terms}>
+              <Link
+                onClick={() => {
+                  closeModal();
+                  closeMobileNav();
+                }}
+                to={Routes.terms}
+              >
                 Terms of Service
               </Link>
             </span>{" "}

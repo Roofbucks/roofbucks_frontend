@@ -59,5 +59,7 @@
   }
   .icon {
     width: 70px;
+    right: 1rem;
+    top: 4rem
   }
 }

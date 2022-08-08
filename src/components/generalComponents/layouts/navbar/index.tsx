@@ -9,9 +9,15 @@ export interface NavbarProps {
   active?: "home" | "listing" | "marketplace" | "agents" | "about" | "contact";
   login: () => void;
   signup: () => void;
+  closeMobileNav?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ active, login, signup }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  active,
+  login,
+  signup,
+  closeMobileNav,
+}) => {
   const [showNav, setShowNav] = React.useState(false);
   const [mobile, setMobile] = React.useState(
     window.innerWidth <= 800 ? true : false
@@ -30,6 +36,10 @@ const Navbar: React.FC<NavbarProps> = ({ active, login, signup }) => {
   const closeNav = () => {
     setShowNav(false);
   };
+
+  React.useEffect(() => {
+    closeMobileNav && closeNav();
+  }, [closeMobileNav]);
 
   return (
     <nav className={styles.navBg}>
