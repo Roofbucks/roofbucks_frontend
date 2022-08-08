@@ -9,3 +9,4 @@ export * from "./termsOfService";
 export * from "./privacy";
 export * from "./login";
 export * from "./signup";
+export * from "./resetPassword";

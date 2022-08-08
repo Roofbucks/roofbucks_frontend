@@ -19,6 +19,8 @@ const initialValues: LoginData = {
 
 export interface LoginModalProps extends ModalProps {
   login: (data: LoginData) => void;
+  forgotPassword: () => void;
+  signup: () => void;
 }
 
 const loginSchema = yup
@@ -36,6 +38,8 @@ const LoginModalUI: React.FC<LoginModalProps> = ({
   show,
   closeModal,
   login,
+  forgotPassword,
+  signup,
 }: LoginModalProps) => {
   const {
     register,
@@ -73,15 +77,37 @@ const LoginModalUI: React.FC<LoginModalProps> = ({
             name="password"
             register={register}
           />
-          <button className={styles.forgotPassword}>Forgot Password?</button>
-          <Button className={styles.continue} type="primary" onClick={handleSubmit(onSubmit)}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              forgotPassword();
+              closeModal();
+            }}
+            className={styles.forgotPassword}
+          >
+            Forgot Password?
+          </button>
+          <Button
+            className={styles.continue}
+            type="primary"
+            onClick={handleSubmit(onSubmit)}
+          >
             Continue
           </Button>
         </form>
 
         <p className={styles.signup}>
           Dont have an account?
-          <button className={styles.forgotPassword}>Sign up</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              signup();
+              closeModal();
+            }}
+            className={styles.forgotPassword}
+          >
+            Sign up
+          </button>
         </p>
       </Modal.Body>
     </Modal>

@@ -6,6 +6,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input } from "components/generalComponents";
 import { ModalProps } from "types";
+import { Routes } from "router";
+import { Link } from "react-router-dom";
 
 interface SignupData {
   firstName: string;
@@ -23,6 +25,7 @@ const initialValues: SignupData = {
 
 export interface SignupModalProps extends ModalProps {
   signup: (data: SignupData) => void;
+  login: () => void;
 }
 
 const signupSchema = yup
@@ -37,13 +40,10 @@ const signupSchema = yup
     password: yup
       .string()
       .required("Required")
-      .min(6, "Password should be at least 6 characters long")
+      .min(8, "Password should be at least 8 characters long")
       .matches(/[A-Z]/, "Password should contain an uppercase character")
-      .matches(/[0-9]/, "Password should contain at least one number")
-      .matches(
-        /[!@#$%^&*]/,
-        "Password should contain at least one of the following special characters: !, @, #, $, %, ^, &,*"
-      ),
+      .matches(/[a-z]/, "Password should contain an lowercase character")
+      .matches(/[0-9]/, "Password should contain at least one number"),
   })
   .required();
 
@@ -51,6 +51,7 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
   show,
   closeModal,
   signup,
+  login,
 }: SignupModalProps) => {
   const {
     register,
@@ -100,7 +101,7 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
           />
           <Input
             label="Enter Password"
-            placeholder="*********"
+            placeholder="---------"
             type="password"
             parentClassName={styles.input}
             required
@@ -108,7 +109,18 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             name="password"
             register={register}
           />
-
+          <div className={styles.check}>
+            <label>
+              <input type="checkbox" />
+              <span className={styles.mark}></span>
+            </label>
+            <span>
+              I agree to Roofbuck’s{" "}
+              <Link onClick={closeModal} to={Routes.terms}>
+                Terms of Service
+              </Link>
+            </span>{" "}
+          </div>
           <Button
             className={styles.continue}
             type="primary"
@@ -120,7 +132,16 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
 
         <p className={styles.signup}>
           Already have an account?
-          <button className={styles.forgotPassword}>Sign in</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              login();
+              closeModal();
+            }}
+            className={styles.forgotPassword}
+          >
+            Sign in
+          </button>
         </p>
       </Modal.Body>
     </Modal>

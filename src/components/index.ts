@@ -9,4 +9,6 @@ export * from "./propertyDetails";
 export * from "./termsOfService";
 export * from "./privacy";
 export * from "./login";
-export * from "./signup"
+export * from "./signup";
+export * from "./resetPassword";
+export * from "./accountRecovery";

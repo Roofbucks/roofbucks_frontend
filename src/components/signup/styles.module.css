@@ -46,3 +46,46 @@
   display: inline;
   margin-left: 6px;
 }
+.check {
+  display: flex;
+}
+.check > span {
+  margin-left: 12px;
+  font-size: 12px;
+}
+.check a {
+  color: var(--green);
+  text-decoration: none;
+}
+.check input {
+  display: none;
+}
+.mark {
+  height: 16px;
+  width: 16px;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+  border: 2px solid var(--green);
+  display: block;
+}
+.check input:checked ~ .mark {
+  background-color: var(--green);
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+.check .mark::after {
+  position: absolute;
+  content: "";
+  border-radius: 5px;
+}
+.check input:checked ~ .mark::after {
+  transform: rotate(45deg) scale(1);
+  left: 3.5px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  border-radius: 0;
+  transition: 0s;
+}
