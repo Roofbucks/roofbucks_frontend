@@ -12,3 +12,4 @@ export * from "./login";
 export * from "./signup";
 export * from "./resetPassword";
 export * from "./accountRecovery";
+export * from "./accountVerification";

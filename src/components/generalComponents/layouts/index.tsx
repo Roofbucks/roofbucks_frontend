@@ -1,5 +1,10 @@
 import { queryObject } from "helpers";
-import { LoginModal, ResetPasswordModal, SignupModal } from "pages";
+import {
+  LoginModal,
+  ResetPasswordModal,
+  SignupModal,
+  VerificationModal,
+} from "pages";
 import { RecoveryModal } from "pages/accountRecovery";
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,12 +24,14 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
   const [showSignup, setShowSignup] = React.useState(false);
   const [showReset, setShowReset] = React.useState(false);
   const [showRecovery, setShowRecovery] = React.useState(false);
+  const [showVerification, setShowVerification] = React.useState(false);
   const [mobileNav, setMobileNav] = React.useState(false);
 
   const params = queryObject(search);
   console.log(params);
   React.useEffect(() => {
     setShowReset(params.reset === "true" ? true : false);
+    setShowVerification(params.verification === "true" ? true : false);
   }, [params]);
 
   return (
@@ -53,6 +60,14 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
         show={showRecovery}
         closeModal={() => {
           setShowRecovery(false);
+          navigate(pathname, { replace: true });
+        }}
+        login={() => setShowLogin(true)}
+      />
+      <VerificationModal
+        show={showVerification}
+        closeModal={() => {
+          setShowVerification(false);
           navigate(pathname, { replace: true });
         }}
         login={() => setShowLogin(true)}

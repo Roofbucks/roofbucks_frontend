@@ -1,0 +1,103 @@
+.login {
+}
+.login [class*="modal-dialog"] {
+  max-width: 400px;
+}
+.login [class*="modal-body"] {
+  padding: 1.8rem;
+  height: 350px;
+}
+.ttl {
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--h5);
+  margin-bottom: 1.5rem;
+}
+
+.resend {
+  color: var(--green);
+  cursor: pointer;
+}
+.continue {
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  margin-top: 8rem;
+}
+.info {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--neutral);
+  font-weight: 500;
+}
+.outsideBtn {
+  width: fit-content;
+  color: var(--white);
+  position: absolute;
+  top: -2.5rem;
+  font-weight: 600;
+  font-size: 13px;
+}
+.outsideBtn svg {
+  transform: rotate(180deg);
+  width: 10px;
+  margin-right: 1rem;
+}
+.outsideBtn svg path {
+  fill: var(--green);
+}
+.otpGroup {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin: 1rem auto;
+}
+.otpGroup input {
+  height: 70px;
+  width: 48px;
+  border-radius: 12px;
+  border: 1px solid #eff0f0;
+  background: #bfbfbf;
+  text-align: center;
+  font-size: 44px;
+  font-weight: 600;
+  padding: 0;
+  color: var(--black);
+}
+.otpGroup input:valid {
+  background: #efefef;
+}
+.otpGroup input:focus {
+  border-color: var(--green);
+  background: var(--white);
+}
+.otpGroup input:focus:required:invalid {
+  background: #eff0f0;
+}
+.otpGroup input:focus:required:valid,
+.otpGroup input:focus:required:placeholder-shown {
+  border-color: var(--green);
+  background: var(--white);
+}
+.otpGroup input::-webkit-outer-spin-button,
+.otpGroup input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.otpGroup input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media screen and (max-width: 500px) {
+  .otpGroup input {
+    height: 60px;
+    width: 14%;
+    border-radius: 10px;
+    font-size: 30px;
+  }
+  .login [class*="modal-body"] {
+    height: 300px;
+  }
+}
