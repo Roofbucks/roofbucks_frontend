@@ -19,6 +19,31 @@ import {
 } from "components/generalComponents";
 import * as React from "react";
 import styles from "./styles.module.css";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Filler,
+  ChartData,
+  ChartOptions,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js";
+import { Doughnut, Line } from "react-chartjs-2";
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  Filler,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+);
 
 const amenities: AmenityProp[] = [
   {
@@ -59,6 +84,118 @@ const property: PropertyCardProps = {
   amenities: amenities,
   type: "column",
   size: "normal",
+};
+
+const data: ChartData<"doughnut"> = {
+  labels: ["Complete", "Incomplete"],
+  datasets: [
+    {
+      label: "Property Status",
+      data: [70, 30],
+      backgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+      hoverBackgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+      borderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+      hoverBorderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+      hoverOffset: 0,
+      borderAlign: "inner",
+    },
+  ],
+};
+
+const options: ChartOptions<"doughnut"> = {
+  responsive: true,
+  cutout: "78%",
+  animation: {
+    animateRotate: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
+const config = {
+  type: "doughnut",
+  data: data,
+  options: options,
+};
+
+// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+const lineData: ChartData<"line"> = {
+  labels: labels,
+  datasets: [
+    {
+      label: "Rent Roll",
+      data: [30, 10, 50, 42, 80, 76, 92],
+      backgroundColor: "rgba(15, 201, 75, 0.2)",
+      borderColor: "rgb(15, 201, 75)",
+      fill: true,
+      tension: 0.3,
+      pointRadius: 8,
+      pointBackgroundColor: "rgb(217, 217, 217)",
+      pointBorderColor: "rgb(31 29 30)",
+      pointBorderWidth: 2,
+    },
+  ],
+};
+
+const lineOptions: ChartOptions<"line"> = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+      title: {
+        text: "Time",
+        display: true,
+        color: "rgb(15, 201, 75)",
+        padding: {
+          top: 20
+        }
+      }
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+      title: {
+        text: "Rent",
+        display: true,
+        color: "rgb(15, 201, 75)",
+        padding: {
+          bottom: 20
+        }
+      },
+      ticks: {
+        // Include a dollar sign in the ticks
+        callback: function(value, index, ticks) {
+            return '$' + value;
+        }
+    }
+    },
+  },
+};
+const lineConfig = {
+  type: "line",
+  data: lineData,
+  options: lineOptions,
 };
 
 const properties: PropertyCardProps[] = new Array(3).fill(property);
@@ -108,6 +245,26 @@ const PropertyDetailsUI = () => {
             </Button>
           </div>
         </div>
+        <div className={styles.statusSec}>
+          <h3 className={styles.subTtl}>Property Status</h3>
+          <div>
+            <div className={styles.chart}>
+              <Doughnut {...config} />
+            </div>
+            <div className={styles.statuses}>
+              <p>
+                <span>Expected Completion date:</span>
+                September, 2023.
+              </p>
+              <p>
+                <span>Completion Cost:</span> $20,000
+              </p>
+              <p>
+                <span>% Completion:</span> 70%
+              </p>
+            </div>
+          </div>
+        </div>
         <div className={styles.descriptionSec}>
           <h3 className={styles.subTtl}>Description</h3>
           <p>
@@ -122,11 +279,11 @@ const PropertyDetailsUI = () => {
           </p>
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
-            <p>$10,000</p>
-            <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
-              Buy Shares
-            </Button>
-          </div>
+          <p>$10,000</p>
+          <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
+            Buy Shares
+          </Button>
+        </div>
         <div className={styles.benefitsSec}>
           <h4 className={styles.subTtl}>Benefits</h4>
           <ul className={styles.list}>
@@ -221,31 +378,45 @@ const PropertyDetailsUI = () => {
             </div>
           </div>
         </div>
+        <div className={styles.graphSec}>
+          <h4 className={styles.subTtl}>Rent Roll</h4>
+          <div className={styles.graph}>
+            <Line {...lineConfig} />
+          </div>
+        </div>
         <div className={styles.contactSec}>
           <h4 className={styles.subTtl}>Contact Info</h4>
           <div className={styles.contact}>
             <div className={styles.personal}>
-              <p className={styles.name}>Jessica Doe</p>
-              <img className={styles.avatar} src={avatar} alt="agent picture" />
-              <div className={styles.contactItem}>
-                <span>NATIONALITY</span>
-                <span>Afghan</span>
+              <div className={styles.photoSec}>
+                <p className={styles.name}>Jessica Doe</p>
+                <img
+                  className={styles.avatar}
+                  src={avatar}
+                  alt="agent picture"
+                />
               </div>
-              <div className={styles.contactItem}>
-                <span>AGENCY </span>
-                <span>Lorem Ipsum</span>
-              </div>
-              <div className={styles.contactItem}>
-                <span>PHONE</span>
-                <a>0814000000</a>
-              </div>
-              <div className={styles.contactItem}>
-                <span>EMAIL</span>
-                <a>jessicadoe@gmail.com</a>
-              </div>
-              <div className={styles.contactItem}>
-                <span>LISTED</span>
-                <span>50</span>
+              <div className={styles.agentInfoSec}>
+                <div className={styles.contactItem}>
+                  <span>NATIONALITY</span>
+                  <span>Afghan</span>
+                </div>
+                <div className={styles.contactItem}>
+                  <span>AGENCY </span>
+                  <span>Lorem Ipsum</span>
+                </div>
+                <div className={styles.contactItem}>
+                  <span>PHONE</span>
+                  <a>0814000000</a>
+                </div>
+                <div className={styles.contactItem}>
+                  <span>EMAIL</span>
+                  <a>jessicadoe@gmail.com</a>
+                </div>
+                <div className={styles.contactItem}>
+                  <span>LISTED</span>
+                  <span>50</span>
+                </div>
               </div>
               <Button
                 className={styles.contactBtn}
@@ -255,31 +426,6 @@ const PropertyDetailsUI = () => {
                 View Profile <ArrowRight />
               </Button>
             </div>
-            <form className={styles.contactForm}>
-              <div className={styles.input}>
-                <label htmlFor="name">NAME</label>
-                <input type={"text"} id="name" placeholder="jessica doe" />
-              </div>
-              <div className={styles.input}>
-                <label htmlFor="email">EMAIL</label>
-                <input
-                  type={"email"}
-                  id="email"
-                  placeholder="jessicadoe@mail.com"
-                />
-              </div>
-              <div className={styles.input}>
-                <label htmlFor="message">MESSAGE</label>
-                <textarea id="message" />
-              </div>
-              <Button
-                className={styles.sendBtn}
-                type="primary"
-                onClick={() => {}}
-              >
-                Send Message
-              </Button>
-            </form>
           </div>
         </div>
       </section>
