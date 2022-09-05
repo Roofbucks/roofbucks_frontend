@@ -11,3 +11,5 @@ export * from "./login";
 export * from "./signup";
 export * from "./resetPassword";
 export * from "./accountVerification";
+export * from "./error404";
+export * from "./error500";

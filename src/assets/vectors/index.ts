@@ -30,6 +30,8 @@ import { ReactComponent as TermsIcon } from "./terms.svg";
 import { ReactComponent as PrivacyIcon } from "./privacy.svg";
 import { ReactComponent as MenuOpen } from "./menuOpen.svg";
 import { ReactComponent as MenuClose } from "./menuClose.svg";
+import { ReactComponent as Error404Svg } from "./error404.svg";
+import { ReactComponent as Error500Svg } from "./error500.svg";
 
 export {
   TermsIcon,
@@ -64,4 +66,6 @@ export {
   MinusIcon,
   MenuClose,
   MenuOpen,
+  Error404Svg,
+  Error500Svg,
 };

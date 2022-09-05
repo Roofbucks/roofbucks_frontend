@@ -1,3 +1,4 @@
+import { Error500 } from "pages";
 import * as React from "react";
 
 class ErrorBoundary extends React.Component<any, { hasError: boolean }> {
@@ -20,10 +21,7 @@ class ErrorBoundary extends React.Component<any, { hasError: boolean }> {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div>
-          <h1>Internal Server Error</h1>
-          <p>Something went wrong</p>
-        </div>
+        <Error500 />
       );
     }
 

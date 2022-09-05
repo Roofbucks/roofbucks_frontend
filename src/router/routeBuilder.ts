@@ -3,6 +3,7 @@ import {
   About,
   AgentList,
   Contact,
+  Error404,
   Home,
   Listings,
   Marketplace,
@@ -114,5 +115,9 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "",
     },
+  },
+  {
+    path: "*",
+    Element: Error404,
   },
 ];
