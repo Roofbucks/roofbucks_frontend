@@ -6,3 +6,4 @@ export * from "./propertyCard";
 export * from "./select";
 export * from "./dashboard";
 export * from "./input";
+export * from "./dropdown";

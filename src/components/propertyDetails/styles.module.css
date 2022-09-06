@@ -282,12 +282,39 @@
 .statusSec {
   margin-bottom: 3rem;
 }
-.statusSec > div {
+.statusTtlSec {
+  justify-content: space-between;
+  margin-bottom: 1.8rem;
+}
+.statusTtlSec .subTtl {
+  margin-bottom: 0;
+}
+.statusDropdownList {
+  min-width: 100%;
+  white-space: nowrap;
+  right: 0;
+}
+.chartWrap,
+.statusTtlSec {
   display: flex;
   align-items: center;
 }
 .chart {
   width: 240px;
+  position: relative;
+}
+.chartTxt {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  font-size: 18px;
+}
+.chartTxt span {
+  font-size: var(--h5);
+  margin-right: 10px;
+  font-weight: 600;
 }
 .statuses {
   padding-left: 2rem;
@@ -309,6 +336,9 @@
 .graph {
   width: 100%;
   max-width: 850px;
+}
+.graphSec .statusTtlSec {
+  max-width: 840px;
 }
 @media screen and (max-width: 1000px) {
   .imgSec {
@@ -349,6 +379,9 @@
     font-size: var(--h4);
     margin-bottom: 1.2rem;
   }
+  .statusTtlSec {
+    margin-bottom: 1.2rem;
+  }
   .similar [class*="imgSec"] {
     height: 240px;
   }
@@ -358,10 +391,12 @@
   .backBtn {
     margin-bottom: 1rem;
   }
-  .statuses p {
+  .statuses p,
+  .chartTxt {
     font-size: 16px;
   }
-  .statuses p span {
+  .statuses p span,
+  .chartTxt span {
     font-size: 18px;
   }
 }
@@ -370,9 +405,12 @@
   .chart {
     margin: auto;
   }
-  .statusSec > div {
+  .chartWrap {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .statusTtlSec {
+    flex-direction: row;
   }
   .statuses {
     padding-left: 0;
@@ -454,13 +492,18 @@
     font-size: 20px;
     margin-bottom: 1rem;
   }
-  .statuses p {
+  .statuses p,
+  .chartTxt {
     font-size: 14px;
   }
-  .statuses p span {
+  .statuses p span,
+  .chartTxt span {
     font-size: 14px;
   }
   .agentInfoSec {
     display: block;
+  }
+  .chart {
+    width: 200px;
   }
 }

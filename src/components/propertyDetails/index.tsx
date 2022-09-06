@@ -13,6 +13,9 @@ import {
   Amenity,
   AmenityProp,
   Button,
+  Dropdown,
+  DropdownItemType,
+  DropdownListItem,
   HeroSection,
   PropertyCard,
   PropertyCardProps,
@@ -121,7 +124,7 @@ const config = {
   options: options,
 };
 
-// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const labels = [
   "Monday",
   "Tuesday",
@@ -167,9 +170,9 @@ const lineOptions: ChartOptions<"line"> = {
         display: true,
         color: "rgb(15, 201, 75)",
         padding: {
-          top: 20
-        }
-      }
+          top: 20,
+        },
+      },
     },
     y: {
       grid: {
@@ -180,15 +183,15 @@ const lineOptions: ChartOptions<"line"> = {
         display: true,
         color: "rgb(15, 201, 75)",
         padding: {
-          bottom: 20
-        }
+          bottom: 20,
+        },
       },
       ticks: {
         // Include a dollar sign in the ticks
-        callback: function(value, index, ticks) {
-            return '$' + value;
-        }
-    }
+        callback: function (value, index, ticks) {
+          return "$" + value;
+        },
+      },
     },
   },
 };
@@ -200,7 +203,44 @@ const lineConfig = {
 
 const properties: PropertyCardProps[] = new Array(3).fill(property);
 
+const StatusList: DropdownItemType[] = [
+  {
+    value: "7 days",
+    label: "Last 7 days",
+  },
+  {
+    value: "14 days",
+    label: "Last 14 days",
+  },
+  {
+    value: "30 days",
+    label: "Last 30 days",
+  },
+  {
+    value: "60 days",
+    label: "Last 60 days",
+  },
+  {
+    value: "90 days",
+    label: "Last 90 days",
+  },
+  {
+    value: "1 year",
+    label: "Last year",
+  },
+  {
+    value: "All time",
+    label: "All time",
+  },
+];
+
 const PropertyDetailsUI = () => {
+  const [period, setPeriod] = React.useState({
+    propertyStatus: "7 days",
+    rentRoll: "7 days",
+    performanceType: "Income",
+    performance: "7 days",
+  });
   return (
     <>
       <HeroSection title="Property Details" />
@@ -246,10 +286,32 @@ const PropertyDetailsUI = () => {
           </div>
         </div>
         <div className={styles.statusSec}>
-          <h3 className={styles.subTtl}>Property Status</h3>
-          <div>
+          <div className={styles.statusTtlSec}>
+            <h3 className={styles.subTtl}>Property Status</h3>
+            <Dropdown
+              dropdownListClassName={styles.statusDropdownList}
+              active={period.propertyStatus}
+              type="select"
+            >
+              {StatusList.map((item2, index) => (
+                <DropdownListItem
+                  onDropdownChange={(x) =>
+                    setPeriod({ ...period, propertyStatus: x })
+                  }
+                  value={item2.value}
+                  key={index}
+                >
+                  {item2.label}
+                </DropdownListItem>
+              ))}
+            </Dropdown>
+          </div>
+          <div className={styles.chartWrap}>
             <div className={styles.chart}>
-              <Doughnut {...config} />
+              <Doughnut {...config} />{" "}
+              <p className={styles.chartTxt}>
+                <span>Completion</span> <br /> 70%
+              </p>
             </div>
             <div className={styles.statuses}>
               <p>
@@ -379,7 +441,26 @@ const PropertyDetailsUI = () => {
           </div>
         </div>
         <div className={styles.graphSec}>
-          <h4 className={styles.subTtl}>Rent Roll</h4>
+          <div className={styles.statusTtlSec}>
+            <h3 className={styles.subTtl}>Rent Roll</h3>
+            <Dropdown
+              dropdownListClassName={styles.statusDropdownList}
+              active={period.propertyStatus}
+              type="select"
+            >
+              {StatusList.map((item2, index) => (
+                <DropdownListItem
+                  onDropdownChange={(x) =>
+                    setPeriod({ ...period, propertyStatus: x })
+                  }
+                  value={item2.value}
+                  key={index}
+                >
+                  {item2.label}
+                </DropdownListItem>
+              ))}
+            </Dropdown>
+          </div>
           <div className={styles.graph}>
             <Line {...lineConfig} />
           </div>
