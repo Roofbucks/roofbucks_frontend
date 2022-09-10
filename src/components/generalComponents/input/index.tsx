@@ -24,6 +24,7 @@ interface InputProps {
   readOnly?: boolean;
   value?: string;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  showRequired?: boolean
 }
 
 const Input: React.FC<InputProps> = ({
@@ -46,11 +47,11 @@ const Input: React.FC<InputProps> = ({
   min,
   readOnly,
   value,
-  onKeyDown,
+  onKeyDown,showRequired
 }) => {
   return (
     <div className={`${styles.inputWrapper} ${parentClassName} ${validatorMessage ? styles.error : ""}`}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && <label className={styles.label}>{label}{showRequired ? <span className={styles.req}>*</span> : ""}</label>}
       {Icon ? (
         <Icon
           role={iconFunction ? "button" : "none"}

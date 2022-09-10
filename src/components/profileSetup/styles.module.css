@@ -1,0 +1,362 @@
+.header {
+  padding-top: 5rem;
+  padding-bottom: 3rem;
+}
+.ttl {
+  font-size: var(--h2);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.nav {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+}
+.navList {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #6f767e;
+}
+.navItem {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 2.8rem;
+  padding-right: 1.2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  cursor: pointer;
+  transition: unset;
+}
+.navItem svg {
+  margin-right: 1rem;
+  width: 16px;
+}
+.navItem p {
+}
+.activeItem {
+  border-bottom: 1px solid var(--green);
+  margin-bottom: -1px;
+}
+.activeItem p {
+  color: var(--black);
+  font-weight: 700;
+}
+.activeItem svg path {
+  fill: var(--green);
+}
+
+/* Form Wrapper */
+.formWrapper {
+  background-image: url(../../assets/vectors/profileMapBg.svg);
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 64%;
+}
+.form {
+}
+.subSec {
+  max-width: 700px;
+  margin-bottom: 3rem;
+}
+.secTtl {
+  font-size: var(--h5);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.secTxt {
+  margin-bottom: 1.5rem;
+}
+div.input {
+  display: inline-flex;
+  width: 48%;
+  margin-bottom: 1.7rem;
+}
+.input:nth-of-type(odd) {
+  margin-right: 4%;
+}
+.input input {
+  border-color: #808080;
+}
+.input input[type="date"] {
+  padding-right: 1rem;
+}
+.docType {
+}
+.docType p {
+  font-size: 13px;
+  color: #808080;
+  margin-bottom: 12px;
+}
+.docType div {
+  margin-bottom: 1.1rem;
+}
+.idType {
+  background: #f4f4f4;
+  padding: 10px;
+  margin-right: 1rem;
+  border-radius: 8px;
+  width: 130px;
+  height: 40px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+}
+.activeType {
+  background: var(--green);
+  color: var(--white);
+}
+div.filterCheck {
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+}
+.filterCheck label {
+  margin-right: 10px;
+}
+.filterCheck input {
+  display: none;
+}
+.mark {
+  height: 16px;
+  width: 16px;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+  border: 2px solid var(--green);
+  display: block;
+}
+.filterCheck input:checked ~ .mark {
+  background-color: var(--green);
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+.filterCheck .mark::after {
+  position: absolute;
+  content: "";
+  border-radius: 5px;
+}
+.filterCheck input:checked ~ .mark::after {
+  transform: rotate(45deg) scale(1);
+  left: 3.5px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  border-radius: 0;
+  transition: 0s;
+}
+.filterCheck > span {
+  display: flex;
+  align-items: center;
+}
+
+/* Doc Upload */
+.docSec {
+}
+.docTtl {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.docTxt {
+  margin-bottom: 1rem;
+}
+.docLabel {
+  background: #f2f3f2;
+  border: 2px dashed #808080;
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.5rem 1rem;
+  margin: 1.5rem 0;
+}
+.docLabel svg {
+}
+.docLabel p {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.docLabel p span {
+  color: var(--green);
+  padding-left: 4px;
+  cursor: pointer;
+}
+.docNote {
+  text-align: center;
+}
+.uploadedSec {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.uploadedDoc {
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  width: 48%;
+  justify-content: space-between;
+  min-width: 250px;
+  margin-bottom: 1rem;
+}
+.docIcon {
+  border-radius: 50%;
+  background: rgba(237, 248, 241, 0.35);
+  box-shadow: 0px 0px 0px 4px rgb(157 209 160 / 24%);
+  padding: 4px;
+  width: 24px;
+}
+.docInfo {
+  margin-right: auto;
+  margin-left: 12px;
+  padding-right: 12px;
+  color: #757575;
+  font-weight: 600;
+  width: calc(100% - 60px);
+}
+.docInfo p:first-of-type {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.docInfo p:nth-of-type(2) {
+  font-size: 12px;
+}
+.docDelete {
+}
+.margBotttom {
+  margin-bottom: 2rem;
+}
+.btnSec {
+  margin: 6rem 0;
+}
+.btnSec button {
+  font-size: 16px;
+  padding: 12px 1.3rem;
+}
+.backBtn {
+  color: var(--green);
+  margin-left: 1rem;
+}
+.txtArea {
+}
+.txtArea label {
+  font-size: 14px;
+  color: var(--black);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.txtArea textarea {
+  resize: vertical;
+  border-color: #808080;
+}
+.companyLogoSec {
+  border: 1px solid #808080;
+  background: #fcfcfc;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin-bottom: 3rem;
+}
+.companyLogoSec img {
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.companyLogo {
+  background: var(--black);
+  border-radius: 50%;
+  padding: 4px;
+  border: 1px solid #fcfcfc;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+.companyLogo svg {
+}
+.regNoSec {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.regNoSec .input {
+  margin: 0;
+  width: calc(100% - 180px);
+}
+.regNoBtn {
+  height: 44px;
+  width: 150px;
+  font-size: 15px;
+  border-radius: 10px;
+}
+.regNote {
+  background: #febb99;
+  border-radius: 8px;
+  color: #64240f;
+  padding: 12px 1rem;
+  max-width: 600px;
+  margin-top: 4rem;
+  line-height: 1.7;
+}
+.loneInput {
+  margin-right: 5%;
+}
+.sideMargin {
+  margin-right: 4%;
+}
+.noMargin.input {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .header {
+    padding-top: 3rem;
+  }
+  .ttl {
+    font-size: var(--h4);
+  }
+}
+@media screen and (max-width: 600px) {
+  div.input {
+    width: 100%;
+    margin-right: 0;
+  }
+  .navItem {
+    margin-right: 1rem;
+    padding-right: 1rem;
+    white-space: nowrap;
+  }
+  .uploadedDoc {
+    width: 100%;
+    max-width: 300px;
+  }
+  .btnSec button {
+    font-size: 14px;
+    padding: 10px 1rem;
+  }
+  .regNoBtn {
+    width: 130px;
+    padding: 4px;
+    font-size: 14px;
+  }
+  .regNoSec .input {
+    width: calc(100% - 145px);
+  }
+  .regNote {
+    margin-top: 2.5rem;
+  }
+}

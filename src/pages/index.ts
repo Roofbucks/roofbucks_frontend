@@ -13,3 +13,4 @@ export * from "./resetPassword";
 export * from "./accountVerification";
 export * from "./error404";
 export * from "./error500";
+export * from "./profileSetup";

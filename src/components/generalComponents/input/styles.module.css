@@ -60,3 +60,7 @@
 .error .input {
   background: #fffafa;
 }
+.req {
+  color: #E43030;
+  font-weight: 600;
+}

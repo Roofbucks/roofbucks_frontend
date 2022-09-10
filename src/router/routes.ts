@@ -22,4 +22,9 @@ export const Routes = {
   contact: `/contact`,
   terms: `/terms-of-service`,
   privacy: `/privacy-policy`,
+
+  // Profile
+  profileSetup: `/profile/setup`,
+  profile: `/profile/:id`,
+  profileID: (id) => `/profile/${id}`,
 };

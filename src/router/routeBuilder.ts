@@ -8,6 +8,7 @@ import {
   Listings,
   Marketplace,
   Privacy,
+  ProfileSetup,
   PropertyDetails,
   TermsOfService,
 } from "pages";
@@ -110,6 +111,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.privacy,
     Element: Privacy,
+    Layout: Layout,
+    caseSensitive: true,
+    props: {
+      active: "",
+    },
+  },
+  {
+    path: Routes.profileSetup,
+    Element: ProfileSetup,
     Layout: Layout,
     caseSensitive: true,
     props: {

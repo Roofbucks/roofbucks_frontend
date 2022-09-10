@@ -32,8 +32,22 @@ import { ReactComponent as MenuOpen } from "./menuOpen.svg";
 import { ReactComponent as MenuClose } from "./menuClose.svg";
 import { ReactComponent as Error404Svg } from "./error404.svg";
 import { ReactComponent as Error500Svg } from "./error500.svg";
+import { ReactComponent as ProfileIcon } from "./profileIcon.svg";
+import { ReactComponent as DollarIcon } from "./dollarIcon.svg";
+import { ReactComponent as BarChartIcon } from "./barChartIcon.svg";
+import { ReactComponent as DownloadIcon } from "./downloadIcon.svg";
+import { ReactComponent as TrashIcon } from "./trashIcon.svg";
+import { ReactComponent as DocumentIcon } from "./documentIcon.svg";
+import { ReactComponent as EditIcon } from "./editIcon.svg";
 
 export {
+  EditIcon,
+  TrashIcon,
+  DocumentIcon,
+  DownloadIcon,
+  ProfileIcon,
+  DollarIcon,
+  BarChartIcon,
   TermsIcon,
   PrivacyIcon,
   PartnershipIcon,
