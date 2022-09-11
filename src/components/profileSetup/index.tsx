@@ -486,7 +486,7 @@ const ProfileSetupUI = () => {
           <form className={`appContainer ${styles.form}`}>
             <section className={styles.subSec}>
               <div className={styles.companyLogoSec}>
-                <img />
+                <img alt="" />
                 <label className={styles.companyLogo} htmlFor="logo">
                   <input
                     style={{ display: "none" }}

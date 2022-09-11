@@ -7634,6 +7634,11 @@ react-select@^5.4.0:
     prop-types "^15.6.0"
     react-transition-group "^4.3.0"
 
+react-simple-star-rating@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/react-simple-star-rating/-/react-simple-star-rating-4.0.5.tgz#030e576015c9fca881677c9eeb55218f42278cd8"
+  integrity sha512-995YpXtLNNLim/K59lhRqFnvpRXJHsiJAnYAu2iHEjfCn4u8hP9Eam53hi+ubc6stU25FzvBPyXKzjhu7wl+hA==
+
 react-transition-group@^4.3.0:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.4.tgz#9af1707487e39006658afc0150b2c5230fb75f0c"

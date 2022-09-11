@@ -39,8 +39,14 @@ import { ReactComponent as DownloadIcon } from "./downloadIcon.svg";
 import { ReactComponent as TrashIcon } from "./trashIcon.svg";
 import { ReactComponent as DocumentIcon } from "./documentIcon.svg";
 import { ReactComponent as EditIcon } from "./editIcon.svg";
+import { ReactComponent as LinkIcon } from "./linkIcon.svg";
+import { ReactComponent as BellIcon } from "./bellIcon.svg";
+import { ReactComponent as CloseIcon } from "./closeIcon.svg";
 
 export {
+  BellIcon,
+  CloseIcon,
+  LinkIcon,
   EditIcon,
   TrashIcon,
   DocumentIcon,

@@ -8,6 +8,7 @@ import dashboardImg from "./dashboard.png";
 import avatar from "./avatar.png";
 import inspiration from "./inspiration.png";
 import aboutStat from "./aboutStat.png";
+import coverImg from "./coverImg.png";
 
 export {
   listing,
@@ -20,4 +21,5 @@ export {
   avatar,
   inspiration,
   aboutStat,
+  coverImg,
 };
