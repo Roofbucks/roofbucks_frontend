@@ -77,6 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
         login={() => setShowLogin(true)}
         signup={() => setShowSignup(true)}
         closeMobileNav={mobileNav}
+        auth={true}
       />
       <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />

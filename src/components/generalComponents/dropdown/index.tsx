@@ -6,7 +6,7 @@ import { updateDropdown } from "redux/actions";
 
 // interface DropdownProps {}
 
-const useOutsideAlerter = (ref: any, closeFunction: () => any) => {
+export const useOutsideAlerter = (ref: any, closeFunction: () => any) => {
   React.useEffect(() => {
     /**
      * Hide if clicked on outside of element

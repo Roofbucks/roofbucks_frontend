@@ -41,9 +41,13 @@ import { ReactComponent as DocumentIcon } from "./documentIcon.svg";
 import { ReactComponent as EditIcon } from "./editIcon.svg";
 import { ReactComponent as LinkIcon } from "./linkIcon.svg";
 import { ReactComponent as BellIcon } from "./bellIcon.svg";
+import { ReactComponent as BellIconOutline } from "./bellIconOutline.svg";
 import { ReactComponent as CloseIcon } from "./closeIcon.svg";
+import { ReactComponent as ChevronIcon } from "./chevronIcon.svg";
 
 export {
+  ChevronIcon,
+  BellIconOutline,
   BellIcon,
   CloseIcon,
   LinkIcon,

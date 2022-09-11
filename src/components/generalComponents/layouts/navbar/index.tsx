@@ -1,5 +1,16 @@
-import { MenuClose, MenuOpen } from "assets";
-import { Button, LogoWithText } from "components/generalComponents";
+import {
+  avatar,
+  BellIconOutline,
+  CaretRight,
+  ChevronIcon,
+  MenuClose,
+  MenuOpen,
+} from "assets";
+import {
+  Button,
+  LogoWithText,
+  useOutsideAlerter,
+} from "components/generalComponents";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
@@ -10,6 +21,7 @@ export interface NavbarProps {
   login: () => void;
   signup: () => void;
   closeMobileNav?: boolean;
+  auth: boolean;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -17,8 +29,11 @@ const Navbar: React.FC<NavbarProps> = ({
   login,
   signup,
   closeMobileNav,
+  auth,
 }) => {
   const [showNav, setShowNav] = React.useState(false);
+  const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
+  const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
   const [mobile, setMobile] = React.useState(
     window.innerWidth <= 800 ? true : false
   );
@@ -123,18 +138,54 @@ const Navbar: React.FC<NavbarProps> = ({
                 Contact{" "}
               </Link>
             </div>
-            <div className={styles.btnWrap}>
-              <Button
-                className={styles.loginBtn}
-                onClick={login}
-                type="tertiary"
-              >
-                Login
-              </Button>
-              <Button onClick={signup} type="primary">
-                Sign Up
-              </Button>
-            </div>
+            {!auth ? (
+              <div className={styles.btnWrap}>
+                <Button
+                  className={styles.loginBtn}
+                  onClick={login}
+                  type="tertiary"
+                >
+                  Login
+                </Button>
+                <Button onClick={signup} type="primary">
+                  Sign Up
+                </Button>
+              </div>
+            ) : (
+              <div className={styles.authMenu}>
+                <div
+                  className={`${styles.notifWrap} ${styles.notifRed} ${
+                    showNotifDropdown ? styles.disableCaret : ""
+                  }`}
+                >
+                  <BellIconOutline
+                    role="button"
+                    className={styles.notif}
+                    onClick={() => setShowNotifDropdown(true)}
+                  />
+                  <NotifDropdown
+                    show={showNotifDropdown}
+                    closeMenu={(x) => setShowNotifDropdown(x)}
+                    className={styles.notifDropdownWrap}
+                  />
+                </div>
+                <img src={avatar} alt="" />
+                <p>Hi Daniel</p>
+                <div
+                  className={`${showMenuDropdown ? styles.disableCaret : ""}`}
+                >
+                  <CaretRight
+                    className={styles.dropdownCaret}
+                    role="button"
+                    onClick={() => setShowMenuDropdown(true)}
+                  />
+                  <AuthMenuDropdown
+                    show={showMenuDropdown}
+                    closeMenu={(x) => setShowMenuDropdown(x)}
+                  />
+                </div>
+              </div>
+            )}
           </>
         ) : (
           ""
@@ -153,3 +204,96 @@ const Navbar: React.FC<NavbarProps> = ({
   );
 };
 export { Navbar };
+
+interface MenuDropdownProps {
+  show: boolean;
+  className?: string;
+  children: any;
+  closeMenu: (x: boolean) => void;
+}
+
+const MenuDropdown: React.FC<MenuDropdownProps> = ({
+  show,
+  className,
+  children,
+  closeMenu,
+}) => {
+  const listRef = React.useRef(null);
+
+  const onHide = () => {
+    closeMenu(false);
+  };
+
+  useOutsideAlerter(listRef, onHide);
+
+  if (!show) return null;
+
+  return (
+    <div ref={listRef} className={`${styles.authMenuDropdown} ${className}`}>
+      <ChevronIcon className={styles.chevron} />
+      {children}
+    </div>
+  );
+};
+
+interface AuthMenuDropdownProps {
+  show: boolean;
+  className?: string;
+  closeMenu: (x: boolean) => void;
+}
+
+const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
+  show,
+  className = "",
+  closeMenu,
+}) => {
+  return (
+    <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
+      <ul className={styles.authMenuList}>
+        <li>Home</li>
+        <li>My Dashboard</li>
+        <li>My Cart</li>
+        <li className={styles.activeMenuItem}>Profile</li>
+        <li>Logout</li>
+      </ul>
+    </MenuDropdown>
+  );
+};
+
+const NotifDropdown: React.FC<AuthMenuDropdownProps> = ({
+  show,
+  className = "",
+  closeMenu,
+}) => {
+  return (
+    <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
+      <div className={styles.notifHdSec}>
+        <p className={styles.notifHeading}>Notifications</p>{" "}
+        <button>Clear all</button>
+      </div>
+      <div className={styles.notifList}>
+        <div className={styles.notifCard}>
+          <p className={styles.notifTtl}>
+            Welcome to Roofbucks{" "}
+            <span className={`${styles.notifTime} ${styles.newNotif}`}>08:35PM </span>
+          </p>
+          <p className={styles.notifTxt}>You can do a lot with Roofbucks</p>
+        </div>
+        <div className={styles.notifCard}>
+          <p className={styles.notifTtl}>
+            Welcome to Roofbucks{" "}
+            <span className={styles.notifTime}>08:35PM </span>
+          </p>
+          <p className={styles.notifTxt}>You can do a lot with Roofbucks</p>
+        </div>
+        <div className={styles.notifCard}>
+          <p className={styles.notifTtl}>
+            Welcome to Roofbucks{" "}
+            <span className={styles.notifTime}>08:35PM </span>
+          </p>
+          <p className={styles.notifTxt}>You can do a lot with Roofbucks</p>
+        </div>
+      </div>
+    </MenuDropdown>
+  );
+};

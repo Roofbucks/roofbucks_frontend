@@ -52,6 +52,164 @@
 .closeMenu {
   display: none;
 }
+
+/* Auth Nav */
+.authMenu {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  font-family: "Source Sans Pro";
+}
+.notifWrap {
+  position: relative;
+  width: 22px;
+  margin-right: 1rem;
+}
+.notif {
+  width: 100%;
+}
+.notifRed::after {
+  content: "";
+  background: #ff6a55;
+  border: 2px solid #fafafa;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.authMenu img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.authMenu p {
+  font-weight: 700;
+  margin: 0 10px;
+}
+.authMenu > div {
+  position: relative;
+}
+.dropdownCaret {
+  transform: rotate(90deg);
+  width: 16px;
+  padding: 4px;
+}
+.dropdownCaret path {
+  fill: var(--green);
+}
+.authMenuDropdown {
+  position: absolute;
+  background: #fafafa;
+  box-shadow: 289px 720px 310px rgb(39 181 67 / 1%),
+    163px 405px 262px rgb(39 181 67 / 3%), 72px 180px 194px rgb(39 181 67 / 4%),
+    18px 45px 107px rgb(39 181 67 / 5%), 0px 0px 0px rgb(39 181 67 / 5%);
+  border-radius: 16px;
+  padding: 1rem;
+  right: -30px;
+  top: 4rem;
+  width: 270px;
+}
+.chevron {
+  position: absolute;
+  top: -9px;
+  right: 30px;
+}
+.authMenuList {
+  list-style: none;
+}
+.authMenuList li {
+  font-weight: 700;
+  line-height: 1.7;
+  border-radius: 12px;
+  padding: 10px;
+}
+.activeMenuItem {
+  background: #efefef;
+}
+.disableCaret {
+  position: relative;
+}
+.disableCaret::after {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+.notifHdSec {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.notifHeading {
+  font-size: 22px;
+  font-weight: 600;
+}
+.notifHdSec button {
+  background: transparent;
+  border: none;
+  color: #808080;
+  font-size: 13px;
+}
+.notifList {
+}
+.notifCard {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.notifCard:hover {
+  background: #efefef;
+}
+p.notifTtl {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 600;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 5px;
+}
+.notifTime {
+  color: #9a9fa5;
+  font-weight: 400;
+  font-size: 12px;
+  position: relative;
+  margin-right: 1.2rem;
+}
+.notifTime::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  border-radius: 50%;
+  background: #9A9FA5;
+  position: absolute;
+  right: -20px;
+  top: 2px;
+}
+.newNotif::after {
+  background: var(--green);
+}
+p.notifTxt {
+  color: #6f767e;
+  font-weight: 400;
+  margin: 0;
+}
+.notifDropdownWrap {
+  width: 370px;
+}
 @media screen and (max-width: 1200px) {
   .nav {
     padding-left: 2rem;
