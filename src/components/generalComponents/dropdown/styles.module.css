@@ -19,6 +19,12 @@
 .active svg path {
   fill: var(--green);
 }
+svg.greenCaret path {
+  fill: var(--green);
+}
+svg.blackCaret path {
+  fill: var(--black);
+}
 .dropdownList {
   border-radius: 6px;
   background: var(--white);

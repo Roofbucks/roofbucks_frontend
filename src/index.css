@@ -35,7 +35,6 @@
   /* Letter spacing */
   --h1-space: 1.8px;
 
-
   /* Font weights */
   --regular: 400;
   --semiBold: 400;
@@ -129,4 +128,9 @@ textarea {
   border: none !important;
   border-radius: 16px !important;
   box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--green);
 }

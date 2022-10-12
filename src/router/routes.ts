@@ -27,4 +27,11 @@ export const Routes = {
   profileSetup: `/profile/setup`,
   profile: `/profile/:id`,
   profileID: (id) => `/profile/${id}`,
+
+  // Dashboard
+  overview: `/overview`,
+  properties: `/properties`,
+  finances: `/finances`,
+  settings: `/settings`,
+  inbox: `/inbox`,
 };

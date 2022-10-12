@@ -7,3 +7,5 @@ export interface ModalProps {
   show: boolean;
   closeModal: () => void;
 }
+
+export type users = "agent" | "shareHolder";

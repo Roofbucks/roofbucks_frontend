@@ -7,3 +7,4 @@ export * from "./select";
 export * from "./dashboard";
 export * from "./input";
 export * from "./dropdown";
+export * from "./dateRange"

@@ -44,8 +44,32 @@ import { ReactComponent as BellIcon } from "./bellIcon.svg";
 import { ReactComponent as BellIconOutline } from "./bellIconOutline.svg";
 import { ReactComponent as CloseIcon } from "./closeIcon.svg";
 import { ReactComponent as ChevronIcon } from "./chevronIcon.svg";
+import { ReactComponent as OverviewIcon } from "./overviewIcon.svg";
+import { ReactComponent as PropertiesIcon } from "./propertiesIcon.svg";
+import { ReactComponent as FinancesIcon } from "./financesIcon.svg";
+import { ReactComponent as SettingsIcon } from "./settingsIcon.svg";
+import { ReactComponent as InboxIcon } from "./inboxIcon.svg";
+import { ReactComponent as LogoutIcon } from "./logoutIcon.svg";
+import { ReactComponent as SupportIcon } from "./supportIcon.svg";
+import { ReactComponent as HouseIcon } from "./houseIcon.svg";
+import { ReactComponent as ChevronUpIcon } from "./chevronUp.svg";
+import { ReactComponent as CalendarIconOutline } from "./calendarIconOutline.svg";
+import { ReactComponent as MoneyIcon2 } from "./moneyIcon2.svg";
+import { ReactComponent as MoneyBagIcon2 } from "./moneyBagIcon2.svg";
 
 export {
+  MoneyBagIcon2,
+  MoneyIcon2,
+  CalendarIconOutline,
+  ChevronUpIcon,
+  HouseIcon,
+  SupportIcon,
+  LogoutIcon,
+  OverviewIcon,
+  PropertiesIcon,
+  FinancesIcon,
+  InboxIcon,
+  SettingsIcon,
   ChevronIcon,
   BellIconOutline,
   BellIcon,

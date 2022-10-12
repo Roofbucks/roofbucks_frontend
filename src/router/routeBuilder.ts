@@ -1,4 +1,4 @@
-import { Layout } from "components";
+import { DashboardLayout, Layout } from "components";
 import {
   About,
   AgentList,
@@ -7,6 +7,7 @@ import {
   Home,
   Listings,
   Marketplace,
+  Overview,
   Privacy,
   Profile,
   ProfileSetup,
@@ -134,6 +135,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "",
+    },
+  },
+  {
+    path: Routes.overview,
+    Element: Overview,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Overview",
     },
   },
   {

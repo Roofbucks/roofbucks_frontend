@@ -1,0 +1,119 @@
+.main {
+}
+.sideBar {
+  background: var(--black);
+  width: 220px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.6rem 2rem 0;
+  align-items: flex-start;
+  position: fixed;
+  z-index: 2;
+  overflow: auto;
+}
+.logo {
+}
+.logo svg {
+  width: 32px;
+}
+.logo p {
+  font-size: 24px;
+  line-height: 0.8;
+  margin-left: 10px;
+}
+.sidebarList {
+  color: var(--white);
+  margin-bottom: auto;
+  margin-top: 4rem;
+  list-style: none;
+}
+.sidebarItem {
+  margin-bottom: 1.8rem;
+}
+.sidebarType {
+  display: flex;
+  align-items: center;
+}
+a.sidebarType {
+  color: var(--white);
+  text-decoration: none;
+}
+button.sidebarType {
+  color: inherit;
+  border: none;
+  background: transparent;
+}
+.sidebarIcon {
+  margin-right: 1rem;
+}
+.sidebarText {
+}
+.sidebarItem:hover .sidebarText,
+.activeItem .sidebarText {
+  color: var(--green);
+}
+.sidebarItem:hover .sidebarIcon path,
+.activeItem .sidebarIcon path {
+  fill: var(--green);
+}
+.navBar {
+  margin-left: 220px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - 220px);
+  padding: 13px 3rem;
+  border-bottom: 1px solid #d0e3ff;
+  z-index: 2;
+  background: var(--white);
+}
+.profileSec {
+  display: flex;
+  align-items: center;
+}
+.profileSec p {
+  font-weight: 600;
+  margin-left: 2rem;
+  font-size: 18px;
+}
+.profile {
+}
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+.profile svg {
+  width: 8px;
+  transform: rotate(90deg);
+}
+.search {
+  position: relative;
+  width: 280px;
+}
+.search svg {
+  position: absolute;
+  width: 18px;
+  left: 1rem;
+  top: 12px;
+}
+.search input {
+  height: 44px;
+  border: 1px solid #808080;
+  border-radius: 10px;
+  background: transparent;
+  width: 100%;
+  padding-left: 3rem;
+}
+.content {
+  padding: 2rem 3rem;
+  width: calc(100% - 220px);
+  margin-left: 220px;
+  position: relative;
+  top: 83px;
+}

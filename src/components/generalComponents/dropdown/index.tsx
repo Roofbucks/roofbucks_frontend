@@ -41,7 +41,12 @@ interface DropdownListItemProp extends Props {
   onDropdownChange?: (value?: any) => void;
 }
 
-const DropdownListItem = ({ children, className, value, onDropdownChange = () => {} }: DropdownListItemProp) => {
+const DropdownListItem = ({
+  children,
+  className,
+  value,
+  onDropdownChange = () => {},
+}: DropdownListItemProp) => {
   const dispatch = useAppDispatch();
 
   const closeDropdown = () => {
@@ -49,7 +54,11 @@ const DropdownListItem = ({ children, className, value, onDropdownChange = () =>
     dispatch(updateDropdown("DROPDOWN", { show: false }));
   };
   return (
-    <div role="button" onClick={closeDropdown} className={`${styles.dropdownListItem} ${className}`}>
+    <div
+      role="button"
+      onClick={closeDropdown}
+      className={`${styles.dropdownListItem} ${className}`}
+    >
       {children}
     </div>
   );
@@ -59,8 +68,12 @@ interface DropdownProps extends Props {
   dropdownClassName?: string;
   dropdownListClassName?: string;
   type: "action" | "select";
+  caretColor?: "green" | "black";
   active?: string;
-  Icon?: { icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>; className: string };
+  Icon?: {
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    className: string;
+  };
 }
 
 const Dropdown = ({
@@ -71,6 +84,7 @@ const Dropdown = ({
   type,
   active = "Select...",
   Icon,
+  caretColor,
 }: DropdownProps) => {
   const dispatch = useAppDispatch();
   const { show } = useAppSelector((state) => state.dropdown);
@@ -92,20 +106,31 @@ const Dropdown = ({
   }, [show, showList]);
 
   React.useEffect(() => {
-    if (show && !showList) dispatch(updateDropdown("DROPDOWN", { show: false }));
+    if (show && !showList)
+      dispatch(updateDropdown("DROPDOWN", { show: false }));
   }, [showList]);
   return (
-    <div ref={listRef} className={`${styles.dropdownWrapper} ${dropdownClassName}`}>
+    <div
+      ref={listRef}
+      className={`${styles.dropdownWrapper} ${dropdownClassName}`}
+    >
       <div
         onClick={toggleDropdown}
-        className={`${styles.active} ${className} ${type === "action" ? styles.ellipsisWrap : ""}`}
+        className={`${styles.active} ${className} ${
+          type === "action" ? styles.ellipsisWrap : ""
+        }`}
         role="button"
         aria-label="dropdown"
         tabIndex={0}
       >
         {type === "select" ? (
           <>
-            {active === "" ? "Select..." : active} <CaretRight className={Icon?.className ?? ""} />
+            {active === "" ? "Select..." : active}{" "}
+            <CaretRight
+              className={`${Icon?.className ?? ""} ${
+                caretColor === "green" ? styles.greenCaret : styles.blackCaret
+              }`}
+            />
           </>
         ) : Icon ? (
           <Icon.icon className={Icon.className} />
@@ -117,7 +142,13 @@ const Dropdown = ({
           </div>
         )}
       </div>
-      {showList ? <div className={`${styles.dropdownList} ${dropdownListClassName}`}>{children}</div> : ""}
+      {showList ? (
+        <div className={`${styles.dropdownList} ${dropdownListClassName}`}>
+          {children}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

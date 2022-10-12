@@ -1,0 +1,170 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.main {
+  width: 69%;
+}
+.extra {
+  width: 26%;
+}
+.secWrap {
+  background: #f4f4f4;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 2rem;
+}
+.secWrap > div {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.statList {
+  --auto-grid-min-size: 20%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--auto-grid-min-size), 1fr)
+  );
+  grid-gap: 1rem;
+}
+.statCard {
+  background: #fafafa;
+  box-shadow: 289px 720px 310px rgba(39, 181, 67, 0.01),
+    163px 405px 262px rgba(39, 181, 67, 0.03),
+    72px 180px 194px rgba(39, 181, 67, 0.04),
+    18px 45px 107px rgba(39, 181, 67, 0.05), 0px 0px 0px rgba(39, 181, 67, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.statIcon {
+  margin-right: 8px;
+  width: 14px;
+  margin-top: 3px;
+}
+.statInfo {
+}
+.statTxt1 {
+  margin-bottom: 8px;
+}
+.statTxt2 {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.statTxt3 {
+}
+.statTxt3 span {
+  font-weight: 600;
+}
+.statTxt3 svg {
+  margin-left: 10px;
+  margin-top: -6px;
+  width: 8px;
+}
+.downwardRed {
+  transform: rotate(180deg);
+  margin-top: 2px;
+}
+.downwardRed path {
+  fill: #fa6564;
+}
+.statRange {
+  justify-content: flex-end;
+}
+.trendsWrap > div {
+  padding: 0;
+}
+.trendsHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ebf1ec;
+  padding: 1.6rem 1.6rem 12px;
+}
+.trendsHeading p {
+  font-weight: 600;
+  font-size: 22px;
+}
+.trendsHeading input {
+  /* The native appearance is hidden */
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* For a circular appearance we need a border-radius. */
+  border-radius: 50%;
+
+  /* The background will be the radio dot's color. */
+  background: #ccc;
+
+  /* The border will be the spacing between the dot and the outer circle */
+  border: 3px solid #f2f4f2;
+
+  /* And by creating a box-shadow with no offset and no blur, we have an outer circle */
+  box-shadow: 0 0 0 1px #ccc;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+input[type="radio"].selectedRadio {
+  background: var(--green);
+  box-shadow: 0 0 0 1px var(--green);
+  border: 3px solid #fff;
+}
+.trendsHeading fieldset {
+  display: flex;
+  align-items: center;
+}
+.trendsHeading fieldset label {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+.trendsHeading fieldset label span {
+  font-weight: 600;
+  margin-left: 8px;
+}
+.dropdown {
+  font-weight: 600;
+  padding-right: 0;
+  padding-left: 12px;
+}
+.filterWrap {
+  display: flex;
+}
+.trendsFilterSec {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.6rem 1.6rem 12px;
+  align-items: flex-start;
+}
+.summarySec {
+}
+.summary {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.summaryIconSec {
+  width: 24px;
+  margin-right: 8px;
+}
+.summaryIcon {
+  
+}
+.summaryValue {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.summaryLabel {
+  color: #808080;
+  font-size: 12px;
+}
+.trendsChart {
+  padding: 0 1.6rem 2rem;
+  max-width: 580px;
+}
