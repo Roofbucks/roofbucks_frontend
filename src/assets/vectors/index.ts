@@ -56,8 +56,16 @@ import { ReactComponent as ChevronUpIcon } from "./chevronUp.svg";
 import { ReactComponent as CalendarIconOutline } from "./calendarIconOutline.svg";
 import { ReactComponent as MoneyIcon2 } from "./moneyIcon2.svg";
 import { ReactComponent as MoneyBagIcon2 } from "./moneyBagIcon2.svg";
+import { ReactComponent as EyeIconOutline } from "./eyeIconOutline.svg";
+import { ReactComponent as PrinterIconOutline } from "./printerIconOutline.svg";
+import { ReactComponent as ClockIconOutline } from "./clockIconOutline.svg";
+import { ReactComponent as CloseIcon2 } from "./closeIcon2.svg";
 
 export {
+  CloseIcon2,
+  ClockIconOutline,
+  EyeIconOutline,
+  PrinterIconOutline,
   MoneyBagIcon2,
   MoneyIcon2,
   CalendarIconOutline,

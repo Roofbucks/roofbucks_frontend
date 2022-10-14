@@ -36,9 +36,10 @@ svg.blackCaret path {
 }
 .dropdownListItem {
   padding: 10px 1.2rem;
-  border-bottom: 1px solid  rgba(191, 191, 191, 0.6);
+  border-bottom: 1px solid rgba(191, 191, 191, 0.6);
   cursor: pointer;
   text-align: left;
+  white-space: nowrap;
 }
 .dropdownListItem:last-of-type {
   border-bottom: none;
@@ -48,18 +49,16 @@ svg.blackCaret path {
 }
 .ellipsisWrap {
   border: none;
-  background: #dcedff;
 }
 .ellipsis {
   display: flex;
-  flex-direction: column;
 }
 .ellipsis div {
   width: 5px;
   height: 5px;
-  background: #4e5d78;
+  background: var(--black);
   border-radius: 50%;
-  margin: 1.5px 0;
+  margin: 0 1.5px;
 }
 @keyframes fadeIn {
   0% {

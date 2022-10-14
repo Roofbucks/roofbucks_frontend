@@ -1,4 +1,12 @@
-import { ChevronUpIcon, HouseIcon, MoneyBagIcon2, MoneyIcon2 } from "assets";
+import {
+  CaretRight,
+  ChevronUpIcon,
+  ClockIconOutline,
+  CloseIcon2,
+  HouseIcon,
+  MoneyBagIcon2,
+  MoneyIcon2,
+} from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 import {
@@ -6,6 +14,9 @@ import {
   DropdownItemType,
   DropdownListItem,
   MyDateRangePicker,
+  Table,
+  TableHeaderItemProps,
+  TransactionTable,
 } from "components";
 import { Bar } from "react-chartjs-2";
 import {
@@ -14,21 +25,33 @@ import {
   Tooltip,
   Legend,
   Filler,
-  BarProps,
-  BarOptions,
 } from "chart.js";
 import "chart.js/auto";
+import { Calendar } from "react-date-range";
 
 ChartJS.unregister();
 ChartJS.register(ArcElement, Tooltip, Legend, Filler);
 
-const labels = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const labels = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const data = {
   labels,
   datasets: [
     {
-      label: '$',
+      label: "$",
       data: [45, 30, 20, 42, 60, 16, 72, 34, 58, 102, 41, 30],
       backgroundColor: "rgba(221, 227, 221, 1)",
       hoverBackgroundColor: "rgb(15, 201, 75)",
@@ -43,7 +66,7 @@ const options = {
   plugins: {
     legend: {
       position: "top" as const,
-      display: false
+      display: false,
     },
   },
   scales: {
@@ -58,7 +81,7 @@ const options = {
           return "$" + value;
         },
       },
-      display: false
+      display: false,
     },
     x: {
       grid: {
@@ -113,6 +136,16 @@ const OverviewUI = () => {
       label: "Yearly",
     },
   ];
+
+  const tableHeaderTitles: TableHeaderItemProps[] = [
+    { title: "Property ID" },
+    { title: "Property Name" },
+    { title: "Invoice ID" },
+    { title: "Amount" },
+    { title: "Date" },
+    { title: "Action" },
+  ];
+
   return (
     <>
       <div className={styles.container}>
@@ -212,17 +245,146 @@ const OverviewUI = () => {
                 </div>
               </div>
               <div className={styles.trendsChart}>
-              <Bar {...config} />
+                <Bar {...config} />
               </div>
             </div>
           </div>
-          <div className={`${styles.secWrap}`}>
-            <div>
-              
-            </div>
+          <p className={styles.tableTtl}>Recent Transactions</p>
+          <div className={` ${styles.tableWrap}`}>
+            <Table
+              tableHeaderTitles={tableHeaderTitles}
+              tableBody={
+                <TransactionTable
+                  tableBodyItems={[
+                    {
+                      propertyID: "#C123456",
+                      propertyName: "Mathia’s Family Ho..",
+                      invoiceID: "#C123456",
+                      amount: "$1,200.00",
+                      date: "14/12/2022",
+                    },
+                    {
+                      propertyID: "#C123456",
+                      propertyName: "Mathia’s Family Ho..",
+                      invoiceID: "#C123456",
+                      amount: "$1,200.00",
+                      date: "14/12/2022",
+                    },
+                    {
+                      propertyID: "#C123456",
+                      propertyName: "Mathia’s Family Ho..",
+                      invoiceID: "#C123456",
+                      amount: "$1,200.00",
+                      date: "14/12/2022",
+                    },
+                    {
+                      propertyID: "#C123456",
+                      propertyName: "Mathia’s Family Ho..",
+                      invoiceID: "#C123456",
+                      amount: "$1,200.00",
+                      date: "14/12/2022",
+                    },
+                    {
+                      propertyID: "#C123456",
+                      propertyName: "Mathia’s Family Ho..",
+                      invoiceID: "#C123456",
+                      amount: "$1,200.00",
+                      date: "14/12/2022",
+                    },
+                  ]}
+                />
+              }
+              customTableClasses={{ tableWrapperClass: styles.tableWrap }}
+              emptyTableElement={{
+                show:
+                  [
+                    {
+                      name: "string;",
+                      university: "string;",
+                      student: "string;",
+                      status: "string;",
+                    },
+                  ].length <= 0,
+                text: "You have no transactions",
+              }}
+            />
           </div>
         </div>
-        <aside className={styles.extra}>calendar</aside>
+        <aside className={styles.extra}>
+          <div className={styles.scheduleSec}>
+            <p className={styles.scheduleTtl}>Schedule</p>
+            <Calendar
+              className={styles.calendarWrap}
+              showMonthAndYearPickers={false}
+            />
+            <div className={styles.visitList}>
+              <div className={styles.visit}>
+                <ClockIconOutline className={styles.visitClock} />
+                <div className={styles.visitTxtSec}>
+                  <p className={styles.visitTtl}>Site visit with client</p>
+                  <p className={styles.visitTime}>09:30pm</p>
+                </div>
+                <CaretRight role="button" className={styles.visitCaret} />
+              </div>
+              <div className={styles.visit}>
+                <ClockIconOutline className={styles.visitClock} />
+                <div className={styles.visitTxtSec}>
+                  <p className={styles.visitTtl}>Site visit with client</p>
+                  <p className={styles.visitTime}>09:30pm</p>
+                </div>
+                <CaretRight role="button" className={styles.visitCaret} />
+              </div>
+              <div className={styles.visit}>
+                <ClockIconOutline className={styles.visitClock} />
+                <div className={styles.visitTxtSec}>
+                  <p className={styles.visitTtl}>Site visit with client</p>
+                  <p className={styles.visitTime}>09:30pm</p>
+                </div>
+                <CaretRight role="button" className={styles.visitCaret} />
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className={styles.activityTtl}>Activity</p>
+            <div className={styles.activityList}>
+              <div className={styles.activity}>
+                <p className={styles.activityTxt1}>22 minutes ago</p>
+                <p className={styles.activityTxt2}>
+                  A new property Listing got approved.
+                </p>
+                <CloseIcon2 role="button" className={styles.activityClose} />
+              </div>
+              <div className={styles.activity}>
+                <p className={styles.activityTxt1}>22 minutes ago</p>
+                <p className={styles.activityTxt2}>
+                  A new property Listing got approved.
+                </p>
+                <CloseIcon2 role="button" className={styles.activityClose} />
+              </div>
+              <div className={styles.activity}>
+                <p className={styles.activityTxt1}>22 minutes ago</p>
+                <p className={styles.activityTxt2}>
+                  A new property Listing got approved.
+                </p>
+                <CloseIcon2 role="button" className={styles.activityClose} />
+              </div>
+              <div className={styles.activity}>
+                <p className={styles.activityTxt1}>22 minutes ago</p>
+                <p className={styles.activityTxt2}>
+                  A new property Listing got approved.
+                </p>
+                <CloseIcon2 role="button" className={styles.activityClose} />
+              </div>
+              <div className={styles.activity}>
+                <p className={styles.activityTxt1}>22 minutes ago</p>
+                <p className={styles.activityTxt2}>
+                  A new property Listing got approved.
+                </p>
+                <CloseIcon2 role="button" className={styles.activityClose} />
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </>
   );
