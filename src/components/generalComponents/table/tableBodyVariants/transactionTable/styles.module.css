@@ -1,39 +1,4 @@
-.hideOnDesktop {
-  display: none;
-}
-.dropdownList {
-  padding: 12px;
-  right: -2.2rem;
-  margin-bottom: 1rem;
-  background: #fafafa;
-  box-shadow: 289px 720px 310px rgba(39, 181, 67, 0.01),
-    163px 405px 262px rgba(39, 181, 67, 0.03),
-    72px 180px 194px rgba(39, 181, 67, 0.04),
-    18px 45px 107px rgba(39, 181, 67, 0.05), 0px 0px 0px rgba(39, 181, 67, 0.05);
-  border-radius: 8px;
-}
-.dropdownListItem {
-  border: none;
-  border-radius: 4px;
-  padding: 10px 12px;
-  margin-bottom: 2px;
-}
-.dropdownListItem:hover {
-  background: var(--green);
-  color: #fff;
-}
 .dropdownIcon {
   width: 22px;
   margin-right: 12px;
-}
-.dropdownListItem:hover .dropdownIcon path {
-  fill: var(--white);
-}
-@media screen and (max-width: 1000px) {
-  .hideOnMobile {
-    display: none;
-  }
-  .hideOnDesktop {
-    display: block;
-  }
 }

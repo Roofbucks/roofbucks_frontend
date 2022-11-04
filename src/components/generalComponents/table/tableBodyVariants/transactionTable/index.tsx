@@ -1,5 +1,4 @@
 import { EyeIconOutline, PrinterIconOutline } from "assets";
-import { Dropdown, DropdownListItem } from "components";
 import * as React from "react";
 import { ActionItem, TableAction, TableBody } from "../../components";
 import styles from "./styles.module.css";
@@ -16,9 +15,17 @@ export interface TransactionTableItem {
 // Test Table Body Props
 interface TableBodyProps {
   tableBodyItems: TransactionTableItem[];
+  viewProperty: () => void;
+  viewInvoice: () => void;
+  printInvoice: () => void;
 }
 
-const TransactionTable: React.FC<TableBodyProps> = ({ tableBodyItems }) => {
+const TransactionTable: React.FC<TableBodyProps> = ({
+  tableBodyItems,
+  viewProperty,
+  viewInvoice,
+  printInvoice,
+}) => {
   const actions: ActionItem[] = [
     {
       text: (
@@ -26,7 +33,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({ tableBodyItems }) => {
           <EyeIconOutline className={styles.dropdownIcon} /> View Property
         </>
       ),
-      action: () => {},
+      action: viewProperty,
     },
     {
       text: (
@@ -34,7 +41,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({ tableBodyItems }) => {
           <EyeIconOutline className={styles.dropdownIcon} /> View Invoice
         </>
       ),
-      action: () => {},
+      action: viewInvoice,
     },
     {
       text: (
@@ -42,7 +49,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({ tableBodyItems }) => {
           <PrinterIconOutline className={styles.dropdownIcon} /> Print Invoice
         </>
       ),
-      action: () => {},
+      action: printInvoice,
     },
   ];
   return (

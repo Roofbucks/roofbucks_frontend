@@ -11,6 +11,7 @@ import {
   Privacy,
   Profile,
   ProfileSetup,
+  Properties,
   PropertyDetails,
   TermsOfService,
 } from "pages";
@@ -144,6 +145,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "Overview",
+    },
+  },
+  {
+    path: Routes.properties,
+    Element: Properties,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Properties",
     },
   },
   {

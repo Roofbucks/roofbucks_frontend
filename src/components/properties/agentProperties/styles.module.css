@@ -1,0 +1,36 @@
+.heading {
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+}
+.ttl {
+  color: var(--black);
+  font-size: 22px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 2rem;
+}
+.ttl::before {
+  content: "";
+  background: var(--green);
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.addBtn {
+  font-size: 17px;
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+}
+.addBtn svg {
+  margin-right: 12px;
+}

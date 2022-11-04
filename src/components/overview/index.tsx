@@ -3,6 +3,7 @@ import {
   ChevronUpIcon,
   ClockIconOutline,
   CloseIcon2,
+  EmptyStreet,
   HouseIcon,
   MoneyBagIcon2,
   MoneyIcon2,
@@ -17,6 +18,7 @@ import {
   Table,
   TableHeaderItemProps,
   TransactionTable,
+  TransactionTableItem,
 } from "components";
 import { Bar } from "react-chartjs-2";
 import {
@@ -146,6 +148,16 @@ const OverviewUI = () => {
     { title: "Action" },
   ];
 
+  const tableItem: TransactionTableItem = {
+    propertyID: "#C123456",
+    propertyName: "Mathia’s Family Ho..",
+    invoiceID: "#C123456",
+    amount: "$1,200.00",
+    date: "14/12/2022",
+  };
+
+  const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
+
   return (
     <>
       <div className={styles.container}>
@@ -255,57 +267,16 @@ const OverviewUI = () => {
               tableHeaderTitles={tableHeaderTitles}
               tableBody={
                 <TransactionTable
-                  tableBodyItems={[
-                    {
-                      propertyID: "#C123456",
-                      propertyName: "Mathia’s Family Ho..",
-                      invoiceID: "#C123456",
-                      amount: "$1,200.00",
-                      date: "14/12/2022",
-                    },
-                    {
-                      propertyID: "#C123456",
-                      propertyName: "Mathia’s Family Ho..",
-                      invoiceID: "#C123456",
-                      amount: "$1,200.00",
-                      date: "14/12/2022",
-                    },
-                    {
-                      propertyID: "#C123456",
-                      propertyName: "Mathia’s Family Ho..",
-                      invoiceID: "#C123456",
-                      amount: "$1,200.00",
-                      date: "14/12/2022",
-                    },
-                    {
-                      propertyID: "#C123456",
-                      propertyName: "Mathia’s Family Ho..",
-                      invoiceID: "#C123456",
-                      amount: "$1,200.00",
-                      date: "14/12/2022",
-                    },
-                    {
-                      propertyID: "#C123456",
-                      propertyName: "Mathia’s Family Ho..",
-                      invoiceID: "#C123456",
-                      amount: "$1,200.00",
-                      date: "14/12/2022",
-                    },
-                  ]}
+                  viewInvoice={() => {}}
+                  viewProperty={() => {}}
+                  printInvoice={() => {}}
+                  tableBodyItems={tableBodyItems}
                 />
               }
               customTableClasses={{ tableWrapperClass: styles.tableWrap }}
-              emptyTableElement={{
-                show:
-                  [
-                    {
-                      name: "string;",
-                      university: "string;",
-                      student: "string;",
-                      status: "string;",
-                    },
-                  ].length <= 0,
-                text: "You have no transactions",
+              emptyTable={{
+                show: tableBodyItems.length <= 0,
+                element: <EmptyTransactions />,
               }}
             />
           </div>
@@ -387,6 +358,15 @@ const OverviewUI = () => {
         </aside>
       </div>
     </>
+  );
+};
+
+const EmptyTransactions = () => {
+  return (
+    <div className={styles.emptySec}>
+      <EmptyStreet />
+      <p>You have no recent transactions</p>
+    </div>
   );
 };
 

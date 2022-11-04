@@ -60,8 +60,18 @@ import { ReactComponent as EyeIconOutline } from "./eyeIconOutline.svg";
 import { ReactComponent as PrinterIconOutline } from "./printerIconOutline.svg";
 import { ReactComponent as ClockIconOutline } from "./clockIconOutline.svg";
 import { ReactComponent as CloseIcon2 } from "./closeIcon2.svg";
+import { ReactComponent as PlusIconFill } from "./plusIconFill.svg";
+import { ReactComponent as EmptyStreet } from "./emptyStreet.svg";
+import { ReactComponent as EditIcon2 } from "./editIcon2.svg";
+import { ReactComponent as BedIconOutline } from "./bedIconOutline.svg";
+import { ReactComponent as ImageIcon } from "./imageIcon.svg";
 
 export {
+  ImageIcon,
+  EditIcon2,
+  BedIconOutline,
+  EmptyStreet,
+  PlusIconFill,
   CloseIcon2,
   ClockIconOutline,
   EyeIconOutline,

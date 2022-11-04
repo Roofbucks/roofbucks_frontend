@@ -114,7 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 onClick={closeNav}
                 to={Routes.marketplace}
               >
-                Market Place
+                Marketplace
               </Link>
               <Link
                 className={active === "agents" ? styles.activeItem : ""}

@@ -219,6 +219,14 @@ div.calendarWrap [class*="rdrDayPassive"] span {
   color: #d5dce0;
   font-weight: 400;
 }
+div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"]::after,
+div.calendarWrap [class*="rdrDayStartPreview"][class*="rdrDayEndPreview"] {
+  content: unset !important;
+  border: none !important;
+}
+div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
+  transform: scale(1.5);
+}
 .visitList {
 }
 .visit {
@@ -289,36 +297,50 @@ div.calendarWrap [class*="rdrDayPassive"] span {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.activity:hover .activityTxt2 {
+/* .activity:hover .activityTxt2 {
   white-space: normal;
-}
+} */
 .activityClose {
   position: absolute;
   width: 22px;
   top: 6px;
   right: 14px;
 }
-.activity:nth-of-type(3n+1) {
+.activity:nth-of-type(3n + 1) {
   background: #e1f5e7;
 }
-.activity:nth-of-type(3n+1)::before {
+.activity:nth-of-type(3n + 1)::before {
   background: rgba(15, 201, 75, 0.1);
   box-shadow: 0 0 0 4px rgb(15 201 75 / 10%);
   border-color: var(--green);
 }
-.activity:nth-of-type(3n+2) {
+.activity:nth-of-type(3n + 2) {
   background: #f4e2f4;
 }
-.activity:nth-of-type(3n+2)::before {
+.activity:nth-of-type(3n + 2)::before {
   border-color: #c50fc9;
   background: rgba(197, 15, 201, 0.1);
   box-shadow: 0 0 0 4px rgb(197 15 201 /10%);
 }
-.activity:nth-of-type(3n+3) {
+.activity:nth-of-type(3n + 3) {
   background: #e3e6f7;
 }
-.activity:nth-of-type(3n+3)::before {
+.activity:nth-of-type(3n + 3)::before {
   border-color: #1231d9;
   background: rgba(18, 49, 217, 0.1);
   box-shadow: 0 0 0 4px rgb(18 49 217 /10%);
+}
+.emptySec {
+  text-align: center;
+  padding: 2rem 0;
+  background: #fafafa;
+  border-radius: 8px;
+}
+.emptySec svg {
+  width: 70%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+.emptySec p {
+  text-align: center;
 }

@@ -18,3 +18,4 @@ export * from "./error500";
 export * from "./profileSetup";
 export * from "./profile";
 export * from "./overview";
+export * from "./properties";

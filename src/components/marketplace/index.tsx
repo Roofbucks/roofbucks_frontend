@@ -83,9 +83,9 @@ const MarketplaceUI = () => {
   window.onresize = screenSizeUpdate;
   return (
     <>
-      <HeroSection title="Market Place" />
+      <HeroSection title="Marketplace" />
       <section className={`appContainer ${styles.welcome}`}>
-        <h2 className={styles.ttl}>Welcome to The Market Place</h2>
+        <h2 className={styles.ttl}>Welcome to The Marketplace</h2>
         <p className={styles.txt}>
           Lörem ipsum kunade hypokrott och sos underturism för lyngar anter i
           jasminmöte. Depode varen till ydist: i desa transponder var sedan

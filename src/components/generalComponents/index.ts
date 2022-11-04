@@ -9,3 +9,4 @@ export * from "./input";
 export * from "./dropdown";
 export * from "./dateRange";
 export * from "./table";
+export * from "./checkBox";

@@ -14,10 +14,9 @@ interface AllCustomTableClasses {
 interface TableProps {
   tableHeaderTitles: TableHeaderItemProps[];
   tableBody: React.ReactElement;
-  emptyTableElement?: {
+  emptyTable?: {
     show: boolean;
-    text: string;
-    hideImg?: boolean;
+    element: any;
   };
   customTableClasses?: AllCustomTableClasses;
   hideHeaders?: boolean;
@@ -32,7 +31,7 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({
   tableHeaderTitles,
   tableBody,
-  emptyTableElement,
+  emptyTable,
   hideHeaders,
   customTableClasses,
 }) => {
@@ -46,8 +45,10 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <section className={`${styles.tableWrapper} ${tableWrapperClass}`}>
-      {!emptyTableElement?.show ? (
-        <table className={`${styles.mainTableContainer} ${tableContainerClassName}`}>
+      {!emptyTable?.show ? (
+        <table
+          className={`${styles.mainTableContainer} ${tableContainerClassName}`}
+        >
           {!hideHeaders && (
             <TableHeader
               tableHeaderClassName={tableHeaderClassName}
@@ -58,10 +59,7 @@ const Table: React.FC<TableProps> = ({
           {tableBody}
         </table>
       ) : (
-        <div className={styles.emptyTable}>
-          {!emptyTableElement.hideImg ? <div>No data </div> : ""}
-          <p>{emptyTableElement.text}</p>
-        </div>
+        <>{emptyTable.element}</>
       )}
     </section>
   );
