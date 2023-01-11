@@ -65,8 +65,10 @@ import { ReactComponent as EmptyStreet } from "./emptyStreet.svg";
 import { ReactComponent as EditIcon2 } from "./editIcon2.svg";
 import { ReactComponent as BedIconOutline } from "./bedIconOutline.svg";
 import { ReactComponent as ImageIcon } from "./imageIcon.svg";
+import { ReactComponent as EmptyFinances } from "./emptyFinances.svg";
 
 export {
+  EmptyFinances,
   ImageIcon,
   EditIcon2,
   BedIconOutline,

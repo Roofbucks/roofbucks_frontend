@@ -1,0 +1,95 @@
+.ttl {
+  color: var(--black);
+  font-size: 22px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+.ttl::before {
+  content: "";
+  background: var(--green);
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.accountList {
+  display: flex;
+  overflow: scroll hidden;
+}
+.accountCard {
+  border: 2px solid var(--green);
+  border-radius: 8px;
+  padding: 1rem;
+  width: fit-content;
+  display: flex;
+  align-items: flex-start;
+  min-width: 330px;
+  margin-right: 1.5rem;
+}
+.accountCard input {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  background: #ccc;
+  border: 3px solid #f2f4f2;
+  box-shadow: 0 0 0 1px #ccc;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.accountCard .selectedRadio {
+  background: var(--green);
+  box-shadow: 0 0 0 1px var(--green);
+  border: 3px solid #fff;
+}
+.accountInfo {
+  margin-left: 1rem;
+}
+.name {
+  color: var(--neutral);
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.bank {
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.number {
+  font-size: 12px;
+}
+.addBtn {
+  font-size: 17px;
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+  margin-top: 2rem;
+}
+.addBtn svg {
+  margin-right: 12px;
+}
+.tableWrap {
+  margin-top: 3rem;
+}
+.emptySec {
+  text-align: center;
+  padding: 2rem 0;
+  background: #fafafa;
+  border-radius: 8px;
+}
+.emptySec svg {
+  width: 70%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+.emptySec p {
+  text-align: center;
+}

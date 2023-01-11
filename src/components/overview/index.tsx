@@ -145,7 +145,7 @@ const OverviewUI = () => {
     { title: "Invoice ID" },
     { title: "Amount" },
     { title: "Date" },
-    { title: "Action" },
+    { title: "" },
   ];
 
   const tableItem: TransactionTableItem = {

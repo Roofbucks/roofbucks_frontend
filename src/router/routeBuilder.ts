@@ -4,6 +4,7 @@ import {
   AgentList,
   Contact,
   Error404,
+  Finances,
   Home,
   Listings,
   Marketplace,
@@ -154,6 +155,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "Properties",
+    },
+  },
+  {
+    path: Routes.finances,
+    Element: Finances,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Finances",
     },
   },
   {

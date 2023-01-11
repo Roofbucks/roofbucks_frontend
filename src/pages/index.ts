@@ -17,3 +17,4 @@ export * from "./profileSetup";
 export * from "./profile";
 export * from "./overview";
 export * from "./properties";
+export * from "./finances";
