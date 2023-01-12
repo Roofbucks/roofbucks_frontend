@@ -317,46 +317,6 @@ const OverviewUI = () => {
             </div>
           </div>
           <ActivityList />
-          {/* <div>
-            <p className={styles.activityTtl}>Activity</p>
-            <div className={styles.activityList}>
-              <div className={styles.activity}>
-                <p className={styles.activityTxt1}>22 minutes ago</p>
-                <p className={styles.activityTxt2}>
-                  A new property Listing got approved.
-                </p>
-                <CloseIcon2 role="button" className={styles.activityClose} />
-              </div>
-              <div className={styles.activity}>
-                <p className={styles.activityTxt1}>22 minutes ago</p>
-                <p className={styles.activityTxt2}>
-                  A new property Listing got approved.
-                </p>
-                <CloseIcon2 role="button" className={styles.activityClose} />
-              </div>
-              <div className={styles.activity}>
-                <p className={styles.activityTxt1}>22 minutes ago</p>
-                <p className={styles.activityTxt2}>
-                  A new property Listing got approved.
-                </p>
-                <CloseIcon2 role="button" className={styles.activityClose} />
-              </div>
-              <div className={styles.activity}>
-                <p className={styles.activityTxt1}>22 minutes ago</p>
-                <p className={styles.activityTxt2}>
-                  A new property Listing got approved.
-                </p>
-                <CloseIcon2 role="button" className={styles.activityClose} />
-              </div>
-              <div className={styles.activity}>
-                <p className={styles.activityTxt1}>22 minutes ago</p>
-                <p className={styles.activityTxt2}>
-                  A new property Listing got approved.
-                </p>
-                <CloseIcon2 role="button" className={styles.activityClose} />
-              </div>
-            </div>
-          </div> */}
         </aside>
       </div>
     </>

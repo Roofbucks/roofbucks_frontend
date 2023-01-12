@@ -6,6 +6,7 @@ import {
   Error404,
   Finances,
   Home,
+  Inbox,
   Listings,
   Marketplace,
   Overview,
@@ -174,6 +175,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "Settings",
+    },
+  },
+  {
+    path: Routes.inbox,
+    Element: Inbox,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Inbox",
     },
   },
   {

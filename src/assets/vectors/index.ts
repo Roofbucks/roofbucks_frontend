@@ -68,8 +68,16 @@ import { ReactComponent as ImageIcon } from "./imageIcon.svg";
 import { ReactComponent as EmptyFinances } from "./emptyFinances.svg";
 import { ReactComponent as UserIcon } from "./userIcon.svg";
 import { ReactComponent as SecurityIcon } from "./securityIcon.svg";
+import { ReactComponent as EllipsisIcon } from "./ellipsisIcon.svg";
+import { ReactComponent as SmileyIcon } from "./smileyIcon.svg";
+import { ReactComponent as SendIcon } from "./sendIcon.svg";
+import { ReactComponent as AttachmentIcon } from "./attachmentIcon.svg";
 
 export {
+  AttachmentIcon,
+  SmileyIcon,
+  SendIcon,
+  EllipsisIcon,
   UserIcon,
   SecurityIcon,
   EmptyFinances,
