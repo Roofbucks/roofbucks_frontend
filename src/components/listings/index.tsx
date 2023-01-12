@@ -83,13 +83,16 @@ const ListingsUI = () => {
     SF charm with contemporary city living. Tall arching columns in the
     front of the roomy living area provide beauty....`,
     moreDetails: (id) => navigate(Routes.propertyListingID(id)),
-    buy: (id) => console.log(id),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
     amenities: amenities,
     type: "row",
     size: "large",
+    primaryBtn: {
+      text: "Sell shares",
+      action: (id) => console.log(id),
+    },
   };
 
   const topDeals: PropertyCardProps[] = new Array(4).fill(property);
@@ -99,13 +102,16 @@ const ListingsUI = () => {
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
     moreDetails: (id) => navigate(Routes.propertyListingID(id)),
-    buy: (id) => console.log(id),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: [property3],
     amenities: amenities,
     type: "column",
     size: "normal",
+    primaryBtn: {
+      text: "Sell shares",
+      action: (id) => console.log(id),
+    },
   };
 
   const listings: PropertyCardProps[] = new Array(12).fill(list);

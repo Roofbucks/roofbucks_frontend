@@ -11,6 +11,7 @@ import {
 import * as React from "react";
 import styles from "./styles.module.css";
 import {
+  ActivityList,
   Dropdown,
   DropdownItemType,
   DropdownListItem,
@@ -315,7 +316,8 @@ const OverviewUI = () => {
               </div>
             </div>
           </div>
-          <div>
+          <ActivityList />
+          {/* <div>
             <p className={styles.activityTtl}>Activity</p>
             <div className={styles.activityList}>
               <div className={styles.activity}>
@@ -354,7 +356,7 @@ const OverviewUI = () => {
                 <CloseIcon2 role="button" className={styles.activityClose} />
               </div>
             </div>
-          </div>
+          </div> */}
         </aside>
       </div>
     </>

@@ -11,3 +11,9 @@ export interface reduxDropdownAction {
   type: dropdownActions;
   payload: any;
 }
+
+export interface User {
+  type: "agent" | "shareholder",
+  id: string;
+  name: string;
+}

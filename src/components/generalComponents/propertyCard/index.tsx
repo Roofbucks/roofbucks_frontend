@@ -1,8 +1,4 @@
-import {
-  ArrowRight,
-  MailIcon,
-  ShareIcon,
-} from "assets";
+import { ArrowRight, MailIcon, ShareIcon } from "assets";
 import * as React from "react";
 import { Button } from "../button";
 import styles from "./styles.module.css";
@@ -42,9 +38,18 @@ export interface PropertyCardProps {
   description?: string;
   moreDetails: (id) => void;
   amount: string;
-  buy: (id) => void;
   size: "large" | "normal";
   className?: string;
+  primaryBtn: {
+    text: string;
+    action: (id) => void;
+    className?: string;
+  };
+  secondaryBtn?: {
+    text: string;
+    action: (id) => void;
+    className?: string;
+  };
 }
 const PropertyCard: React.FC<PropertyCardProps> = ({
   type,
@@ -55,11 +60,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   owner,
   name,
   description,
-  buy,
   moreDetails,
   discount,
   size,
   className,
+  primaryBtn,
+  secondaryBtn,
 }) => {
   const [activeImg, setActiveImg] = React.useState(0);
 
@@ -110,9 +116,24 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         )}
         <div className={styles.amtSec}>
           <p>{amount}</p>
-          <Button type="primary" onClick={() => buy(123)}>
-            Buy Shares
-          </Button>
+          <div>
+            {secondaryBtn && (
+              <Button
+                className={secondaryBtn.className}
+                type="secondary"
+                onClick={() => secondaryBtn.action(123)}
+              >
+                {secondaryBtn.text}
+              </Button>
+            )}
+            <Button
+              className={primaryBtn.className}
+              type="primary"
+              onClick={() => primaryBtn.action(123)}
+            >
+              {primaryBtn.text}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

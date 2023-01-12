@@ -80,13 +80,16 @@ const property: PropertyCardProps = {
   name: "Two Bedroom Apartmentpartmentttt",
   discount: "20% off",
   moreDetails: (id) => console.log(id),
-  buy: (id) => console.log(id),
   amount: "$10,000",
   owner: "By Bear Properties",
   images: propertyImages,
   amenities: amenities,
   type: "column",
   size: "normal",
+  primaryBtn: {
+    text: "Buy shares",
+    action: (id) => console.log(id),
+  },
 };
 
 const data: ChartData<"doughnut"> = {

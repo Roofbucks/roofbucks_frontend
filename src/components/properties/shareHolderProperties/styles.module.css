@@ -1,0 +1,64 @@
+.ttl {
+  color: var(--black);
+  font-size: 22px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+.ttl::before {
+  content: "";
+  background: var(--green);
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+.propertyList {
+}
+.propertyCard {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #efefef;
+}
+.propertyCard [class*="imgSec"] {
+  max-width: 240px;
+  height: 100%;
+}
+.propertyCard [class*="imgSec"] img {
+  border-radius: 10px;
+}
+.propertyCard [class*="info"] {
+  padding: 10px 1rem 10px 1.2rem;
+  width: 54%;
+}
+.propertyCard [class*="name"] {
+  font-size: 14px;
+}
+.propertyCard [class*="moreBtn"] {
+  font-size: 13px;
+}
+.propertyCard [class*="amtSec"] {
+ border: none;
+ padding: 0;
+}
+button.secBtn {
+  color: var(--green);
+  margin-right: 12px;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 600;
+}
+.propertyCard button.pryBtn {
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 600;
+}

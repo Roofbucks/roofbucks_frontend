@@ -95,7 +95,10 @@ const AgentListUI = () => {
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
     moreDetails: (id) => console.log(id),
-    buy: (id) => console.log(id),
+    primaryBtn: {
+      text: "Sell shares",
+      action: (id) => console.log(id),
+    },
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
