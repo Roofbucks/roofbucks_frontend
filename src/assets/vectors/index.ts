@@ -66,8 +66,12 @@ import { ReactComponent as EditIcon2 } from "./editIcon2.svg";
 import { ReactComponent as BedIconOutline } from "./bedIconOutline.svg";
 import { ReactComponent as ImageIcon } from "./imageIcon.svg";
 import { ReactComponent as EmptyFinances } from "./emptyFinances.svg";
+import { ReactComponent as UserIcon } from "./userIcon.svg";
+import { ReactComponent as SecurityIcon } from "./securityIcon.svg";
 
 export {
+  UserIcon,
+  SecurityIcon,
   EmptyFinances,
   ImageIcon,
   EditIcon2,

@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { PlusIconFill } from "assets";
+import { EmptyFinances, PlusIconFill } from "assets";
 import {
   Button,
   Table,
@@ -45,7 +45,6 @@ const FinancesUI = () => {
   };
 
   const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
-//   const tableBodyItems: TransactionTableItem[] = []
 
   return (
     <>
@@ -87,14 +86,14 @@ const FinancesUI = () => {
         }}
         emptyTable={{
           show: tableBodyItems.length <= 0,
-          element: <EmptyFinances />,
+          element: <EmptyFinancesElement />,
         }}
       />
     </>
   );
 };
 
-const EmptyFinances = () => {
+const EmptyFinancesElement = () => {
   return (
     <div className={styles.emptySec}>
       <EmptyFinances />

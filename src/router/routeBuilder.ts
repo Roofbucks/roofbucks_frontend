@@ -14,6 +14,7 @@ import {
   ProfileSetup,
   Properties,
   PropertyDetails,
+  Settings,
   TermsOfService,
 } from "pages";
 import { RouteProps } from "react-router-dom";
@@ -164,6 +165,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
     caseSensitive: true,
     props: {
       active: "Finances",
+    },
+  },
+  {
+    path: Routes.settings,
+    Element: Settings,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Settings",
     },
   },
   {
