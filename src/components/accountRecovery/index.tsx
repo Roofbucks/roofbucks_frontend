@@ -9,11 +9,11 @@ import { ModalProps } from "types";
 import { ArrowRight } from "assets";
 
 interface RecoveryData {
-  info: string;
+  email: string;
 }
 
 const initialValues: RecoveryData = {
-  info: "",
+  email: "",
 };
 
 export interface RecoveryModalProps extends ModalProps {
@@ -23,7 +23,7 @@ export interface RecoveryModalProps extends ModalProps {
 
 const RecoverySchema = yup
   .object({
-    info: yup.string().required("Required"),
+    email: yup.string().email("Enter a valid email").required("Required"),
   })
   .required();
 
@@ -48,7 +48,6 @@ const RecoveryModalUI: React.FC<RecoveryModalProps> = ({
     <Modal className={styles.login} show={show} onHide={closeModal} centered>
       <Button
         onClick={() => {
-          closeModal();
           login();
         }}
         type="tertiary"
@@ -60,18 +59,17 @@ const RecoveryModalUI: React.FC<RecoveryModalProps> = ({
         <h1 className={styles.ttl}>Account Recovery</h1>
         <form className={styles.form}>
           <Input
-            label="Phone Number / Email Address"
-            placeholder="e.g. 2338140000000"
-            type="text"
+            label="Email Address"
+            placeholder="e.g. user@gmail.com"
+            type="email"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.info?.message}
-            name="info"
+            validatorMessage={errors.email?.message}
+            name="email"
             register={register}
           />
           <p className={styles.info}>
-            Enter your recovery phone number or email address with which you
-            will recieve an OTP
+            Enter your recovery email address with which you will recieve an OTP
           </p>
           <Button
             className={styles.continue}

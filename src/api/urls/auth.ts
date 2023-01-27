@@ -20,13 +20,22 @@ export const signupURL = () => `/auth/signup/`;
  *
  */
 
- export const signupVerificationURL = () => `/auth/verify-email/`;
+export const signupVerificationURL = () => `/auth/verify-email/`;
 
- /**
+/**
  * Resend Verification mail URL
  *
  * @returns url string
  *
  */
 
-  export const resendVerificationURL = () => `/auth/resend-verification-mail/`;
+export const resendVerificationURL = () => `/auth/resend-verification-mail/`;
+
+/**
+ * Login URL
+ *
+ * @returns url string
+ *
+ */
+
+export const loginURL = () => `/auth/login/`;

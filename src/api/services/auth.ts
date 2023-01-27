@@ -5,6 +5,7 @@ AUTH SERVICES
 */
 
 import {
+  loginURL,
   postRequest,
   resendVerificationURL,
   signupURL,
@@ -62,6 +63,24 @@ interface ResendVerificationData {
 export const resendVerificationService = (data: ResendVerificationData) => {
   const requestData = {
     url: resendVerificationURL(),
+    data,
+  };
+
+  return postRequest(requestData);
+};
+
+interface loginData {
+  email: string;
+  password: string;
+}
+/**
+ * login service
+ * @returns axios promise
+ */
+
+export const loginService = (data: loginData) => {
+  const requestData = {
+    url: loginURL(),
     data,
   };
 
