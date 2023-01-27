@@ -11,6 +11,11 @@
 export const Routes = {
   // General
   home: "/",
+  signup: "/?signup=true",
+  login: "/?login=true",
+  recovery: "/?recovery=true",
+  verification: "/?verification=true",
+  reset: "/?reset=true",
   listing: "/listing",
   marketplace: "/marketplace",
   propertyListing: "/property/listing/:id",

@@ -25,7 +25,7 @@
   margin-top: 8rem;
 }
 .info {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--neutral);
   font-weight: 500;
@@ -88,6 +88,14 @@
 /* Firefox */
 .otpGroup input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-size: 16px;
+  height: 40px;
 }
 
 @media screen and (max-width: 500px) {

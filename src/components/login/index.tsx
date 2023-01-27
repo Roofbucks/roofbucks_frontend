@@ -8,12 +8,12 @@ import { Button, Input } from "components/generalComponents";
 import { ModalProps } from "types";
 
 interface LoginData {
-  phone: string;
+  email: string;
   password: string;
 }
 
 const initialValues: LoginData = {
-  phone: "",
+  email: "",
   password: "",
 };
 
@@ -25,11 +25,7 @@ export interface LoginModalProps extends ModalProps {
 
 const loginSchema = yup
   .object({
-    phone: yup
-      .string()
-      .required("Required")
-      .min(10, "Enter a valid phone number")
-      .matches(/^[0-9]+$/, "Phone number can only contain numbers"),
+    email: yup.string().required("Required").email("Enter a valid email"),
     password: yup.string().required("Required"),
   })
   .required();
@@ -58,13 +54,13 @@ const LoginModalUI: React.FC<LoginModalProps> = ({
         <h1 className={styles.ttl}>Login</h1>
         <form className={styles.form}>
           <Input
-            label="Phone Number"
-            placeholder="e.g. 0814 000 0000"
-            type="text"
+            label="Email"
+            placeholder="e.g. user@email.com"
+            type="email"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.phone?.message}
-            name="phone"
+            validatorMessage={errors.email?.message}
+            name="email"
             register={register}
           />
           <Input
@@ -81,7 +77,6 @@ const LoginModalUI: React.FC<LoginModalProps> = ({
             onClick={(e) => {
               e.preventDefault();
               forgotPassword();
-              closeModal();
             }}
             className={styles.forgotPassword}
           >
@@ -102,7 +97,6 @@ const LoginModalUI: React.FC<LoginModalProps> = ({
             onClick={(e) => {
               e.preventDefault();
               signup();
-              closeModal();
             }}
             className={styles.forgotPassword}
           >

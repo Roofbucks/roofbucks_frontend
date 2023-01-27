@@ -72,8 +72,10 @@ import { ReactComponent as EllipsisIcon } from "./ellipsisIcon.svg";
 import { ReactComponent as SmileyIcon } from "./smileyIcon.svg";
 import { ReactComponent as SendIcon } from "./sendIcon.svg";
 import { ReactComponent as AttachmentIcon } from "./attachmentIcon.svg";
+import { ReactComponent as CheckIcon } from "./checkIcon.svg";
 
 export {
+  CheckIcon,
   AttachmentIcon,
   SmileyIcon,
   SendIcon,

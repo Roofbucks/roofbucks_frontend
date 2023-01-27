@@ -12,14 +12,11 @@ interface VerificationData {
   code: string;
 }
 
-const initialValues: VerificationData = {
-  code: "",
-};
-
 export interface VerificationModalProps extends ModalProps {
   submit: (data: VerificationData) => void;
   resendEmail: () => void;
-  login: () => void;
+  signup: () => void;
+  email: string;
 }
 
 const VerificationSchema = yup
@@ -33,17 +30,9 @@ const VerificationModalUI: React.FC<VerificationModalProps> = ({
   closeModal,
   submit,
   resendEmail,
-  login,
+  signup,
+  email,
 }: VerificationModalProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<VerificationData>({
-    resolver: yupResolver(VerificationSchema),
-    defaultValues: initialValues,
-  });
-
   const [enableResend, setEnableResend] = React.useState(false);
   const [otp, setOTP] = React.useState({
     first: "",
@@ -54,6 +43,9 @@ const VerificationModalUI: React.FC<VerificationModalProps> = ({
     sixth: "",
   });
   const { first, second, third, fourth, fifth, sixth } = otp;
+  const [count, setCount] = React.useState(
+    document.getElementById("countDown")?.innerText
+  );
 
   const onSubmit = () => {
     const keys = Object.keys(otp);
@@ -111,27 +103,55 @@ const VerificationModalUI: React.FC<VerificationModalProps> = ({
   };
 
   React.useEffect(() => {
-    setTimeout(() => {
+    if (!localStorage.getItem("resendCount")) {
+      setTimeout(() => {
+        setEnableResend(true);
+      }, 60000);
+
+      var timeleft = 60;
+      var downloadTimer = setInterval(function () {
+        if (timeleft <= 0) {
+          clearInterval(downloadTimer);
+        }
+        if (!timeleft) {
+          localStorage.setItem("resendCount", "true");
+        }
+        setCount(`${timeleft}`);
+        timeleft -= 1;
+      }, 1000);
+    } else {
       setEnableResend(true);
-    }, 60000);
+    }
   }, []);
+
+  const close = () => {
+    closeModal();
+    setOTP({
+      first: "",
+      second: "",
+      third: "",
+      fourth: "",
+      fifth: "",
+      sixth: "",
+    });
+  };
+
+  const showSubmit = Object.keys(otp).every((key) => otp[key] !== "");
   return (
-    <Modal className={styles.login} show={show} onHide={closeModal} centered>
+    <Modal className={styles.login} show={show} onHide={close} centered>
       <Button
         onClick={() => {
-          closeModal();
-          login();
+          // close();
+          signup();
         }}
         type="tertiary"
         className={styles.outsideBtn}
       >
-        <ArrowRight /> Back to login
+        <ArrowRight /> Back to signup
       </Button>
       <Modal.Body>
         <h1 className={styles.ttl}>Verify your account</h1>
-        <p className={styles.info}>
-          Enter the code we’ve sent to janedoe@mail.com
-        </p>
+        <p className={styles.info}>Enter the code we’ve sent to {email}</p>
         <form className={styles.otpGroup}>
           <input
             name="first"
@@ -189,12 +209,23 @@ const VerificationModalUI: React.FC<VerificationModalProps> = ({
             required
           />
         </form>
+        {showSubmit && (
+          <Button
+            className={styles.submitBtn}
+            type={"primary"}
+            onClick={onSubmit}
+          >
+            Submit
+          </Button>
+        )}
         <p className={styles.info}>
           Haven’t received an Email?{" "}
           {enableResend ? (
-            <span className={styles.resend}>Send again</span>
+            <span onClick={resendEmail} className={styles.resend}>Send again</span>
           ) : (
-            "Resend in 60s"
+            <span>
+              Resend in <span id="countDown">{count}</span>s
+            </span>
           )}
         </p>
       </Modal.Body>

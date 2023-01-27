@@ -8,19 +8,22 @@ import { Button, Input } from "components/generalComponents";
 import { ModalProps } from "types";
 import { Routes } from "router";
 import { Link } from "react-router-dom";
+import { WarningIcon } from "assets";
 
-interface SignupData {
+export interface SignupData {
   firstName: string;
   lastName: string;
-  phone: string;
+  email: string;
   password: string;
+  agreement: boolean;
 }
 
 const initialValues: SignupData = {
   firstName: "",
   lastName: "",
-  phone: "",
+  email: "",
   password: "",
+  agreement: false,
 };
 
 export interface SignupModalProps extends ModalProps {
@@ -31,11 +34,6 @@ export interface SignupModalProps extends ModalProps {
 
 const signupSchema = yup
   .object({
-    phone: yup
-      .string()
-      .required("Required")
-      .min(10, "Enter a valid phone number")
-      .matches(/^[0-9]+$/, "Phone number can only contain numbers"),
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),
     password: yup
@@ -45,6 +43,11 @@ const signupSchema = yup
       .matches(/[A-Z]/, "Password should contain an uppercase character")
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number"),
+    email: yup.string().email("Enter valid email").required("Required"),
+    agreement: yup
+      .boolean()
+      .required("Accept the terms and conditions to continue")
+      .oneOf([true], "Accept the terms and conditions to continue."),
   })
   .required();
 
@@ -59,6 +62,9 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
+    setError,
   } = useForm<SignupData>({
     resolver: yupResolver(signupSchema),
     defaultValues: initialValues,
@@ -92,13 +98,13 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             register={register}
           />
           <Input
-            label="Phone Number"
-            placeholder="e.g. 0814 000 0000"
-            type="text"
+            label="Email"
+            placeholder="e.g. johndoe@gmail.com"
+            type="email"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.phone?.message}
-            name="phone"
+            validatorMessage={errors.email?.message}
+            name="email"
             register={register}
           />
           <Input
@@ -113,7 +119,14 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
           />
           <div className={styles.check}>
             <label>
-              <input type="checkbox" />
+              <input
+                checked={watch("agreement")}
+                onChange={() => {
+                  setValue("agreement", !watch("agreement"));
+                  setError("agreement", { message: "" });
+                }}
+                type="checkbox"
+              />
               <span className={styles.mark}></span>
             </label>
             <span>
@@ -129,6 +142,11 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
               </Link>
             </span>{" "}
           </div>
+          {errors.agreement?.message && (
+            <p className={styles.errorMsg}>
+              <WarningIcon /> {errors.agreement?.message}
+            </p>
+          )}
           <Button
             className={styles.continue}
             type="primary"
@@ -144,7 +162,6 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             onClick={(e) => {
               e.preventDefault();
               login();
-              closeModal();
             }}
             className={styles.forgotPassword}
           >

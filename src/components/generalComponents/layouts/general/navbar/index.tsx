@@ -20,7 +20,9 @@ export interface NavbarProps {
   active?: "home" | "listing" | "marketplace" | "agents" | "about" | "contact";
   login: () => void;
   signup: () => void;
-  closeMobileNav?: boolean;
+  closeNav: () => void;
+  openNav: () => void;
+  showNav: boolean;
   auth: boolean;
 }
 
@@ -28,10 +30,12 @@ const Navbar: React.FC<NavbarProps> = ({
   active,
   login,
   signup,
-  closeMobileNav,
   auth,
+  closeNav,
+  showNav,
+  openNav,
 }) => {
-  const [showNav, setShowNav] = React.useState(false);
+  // const [showNav, setShowNav] = React.useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
   const [mobile, setMobile] = React.useState(
@@ -43,18 +47,18 @@ const Navbar: React.FC<NavbarProps> = ({
       setMobile(true);
     } else if (window.innerWidth > 900) {
       setMobile(false);
-      setShowNav(false);
+      closeNav();
     }
   };
   window.onresize = screenSizeUpdate;
 
-  const closeNav = () => {
-    setShowNav(false);
-  };
+  // const closeNav = () => {
+  //   setShowNav(false);
+  // };
 
-  React.useEffect(() => {
-    closeMobileNav && closeNav();
-  }, [closeMobileNav]);
+  // React.useEffect(() => {
+  //   closeMobileNav && closeNav();
+  // }, [closeMobileNav]);
 
   return (
     <nav className={styles.navBg}>
@@ -79,13 +83,13 @@ const Navbar: React.FC<NavbarProps> = ({
           <MenuClose
             className={styles.closeMenu}
             role={"button"}
-            onClick={() => setShowNav(false)}
+            onClick={() => closeNav()}
           />
         ) : (
           <MenuOpen
             className={styles.openMenu}
             role={"button"}
-            onClick={() => setShowNav(true)}
+            onClick={() => openNav()}
           />
         )}
         {(mobile && showNav) || !mobile ? (
@@ -275,7 +279,9 @@ const NotifDropdown: React.FC<AuthMenuDropdownProps> = ({
         <div className={styles.notifCard}>
           <p className={styles.notifTtl}>
             Welcome to Roofbucks{" "}
-            <span className={`${styles.notifTime} ${styles.newNotif}`}>08:35PM </span>
+            <span className={`${styles.notifTime} ${styles.newNotif}`}>
+              08:35PM{" "}
+            </span>
           </p>
           <p className={styles.notifTxt}>You can do a lot with Roofbucks</p>
         </div>

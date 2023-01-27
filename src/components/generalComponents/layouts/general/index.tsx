@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Footer } from "./footer";
 import { Navbar, NavbarProps } from "./navbar";
 import styles from "./styles.module.css";
+import { Routes } from "router";
 
 export interface LayoutProps {
   children: any;
@@ -31,53 +32,63 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
   console.log(params);
   React.useEffect(() => {
     setShowReset(params.reset === "true" ? true : false);
+    setShowLogin(params.login === "true" ? true : false);
+    setShowSignup(params.signup === "true" ? true : false);
+    setShowRecovery(params.recovery === "true" ? true : false);
     setShowVerification(params.verification === "true" ? true : false);
   }, [params]);
+
+  const openNav = () => setMobileNav(true);
+  const closeNav = () => setMobileNav(false);
+
+  const closeAuthModals = () => {
+    navigate(pathname, { replace: true });
+  };
 
   return (
     <>
       <LoginModal
         show={showLogin}
-        closeModal={() => setShowLogin(false)}
-        forgot={() => setShowRecovery(true)}
-        signup={() => setShowSignup(true)}
+        closeModal={closeAuthModals}
+        forgot={() => navigate(Routes.recovery)}
+        signup={() => navigate(Routes.signup)}
       />
       <SignupModal
         show={showSignup}
-        closeModal={() => setShowSignup(false)}
-        login={() => setShowLogin(true)}
-        closeMobileNav={() => setMobileNav(!mobileNav)}
+        closeModal={closeAuthModals}
+        login={() => navigate(Routes.login)}
+        closeMobileNav={closeNav}
       />
       <ResetPasswordModal
         show={showReset}
-        closeModal={() => {
-          setShowReset(false);
-          navigate(pathname, { replace: true });
-        }}
-        login={() => setShowLogin(true)}
+        closeModal={closeAuthModals}
+        login={() => navigate(Routes.login)}
       />
       <RecoveryModal
         show={showRecovery}
-        closeModal={() => {
-          setShowRecovery(false);
-          navigate(pathname, { replace: true });
-        }}
-        login={() => setShowLogin(true)}
+        closeModal={closeAuthModals}
+        login={() => navigate(Routes.login)}
       />
       <VerificationModal
         show={showVerification}
-        closeModal={() => {
-          setShowVerification(false);
-          navigate(pathname, { replace: true });
-        }}
-        login={() => setShowLogin(true)}
+        closeModal={closeAuthModals}
+        signup={() => navigate(Routes.signup)}
+        login={() => navigate(Routes.login)}
       />
       <Navbar
         active={active}
-        login={() => setShowLogin(true)}
-        signup={() => setShowSignup(true)}
-        closeMobileNav={mobileNav}
-        auth={true}
+        login={() => {
+          navigate(Routes.login);
+          closeNav();
+        }}
+        signup={() => {
+          navigate(Routes.signup);
+          closeNav();
+        }}
+        closeNav={closeNav}
+        openNav={openNav}
+        showNav={mobileNav}
+        auth={false}
       />
       <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />
