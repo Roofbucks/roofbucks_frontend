@@ -19,6 +19,7 @@ const initialValues: RecoveryData = {
 export interface RecoveryModalProps extends ModalProps {
   recovery: (data: RecoveryData) => void;
   login: () => void;
+  clear: boolean;
 }
 
 const RecoverySchema = yup
@@ -32,15 +33,21 @@ const RecoveryModalUI: React.FC<RecoveryModalProps> = ({
   closeModal,
   recovery,
   login,
+  clear,
 }: RecoveryModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<RecoveryData>({
     resolver: yupResolver(RecoverySchema),
     defaultValues: initialValues,
   });
+
+  React.useEffect(() => {
+    reset();
+  }, [clear]);
 
   const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
 

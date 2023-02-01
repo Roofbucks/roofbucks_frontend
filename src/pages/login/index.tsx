@@ -32,7 +32,7 @@ const LoginModal: React.FC<LoginProps> = ({
 
   React.useMemo(() => {
     if (loginResponse) {
-      if (loginResponse.status === 201) {
+      if (loginResponse.status === 200) {
         dispatch(
           updateToast({
             show: true,
@@ -43,6 +43,14 @@ const LoginModal: React.FC<LoginProps> = ({
         );
 
         setTimeout(() => {
+          dispatch(
+            updateToast({
+              show: false,
+              heading: "",
+              text: "",
+              type: true,
+            })
+          );
           navigate(Routes.overview);
         }, 1000);
       } else {
@@ -51,7 +59,7 @@ const LoginModal: React.FC<LoginProps> = ({
             show: true,
             heading: "Sorry",
             text: getErrorMessage({
-              error: loginResponse,
+              error: error ?? loginResponse,
               message: "Login failed, please try again later",
             }),
             type: false,

@@ -6,8 +6,11 @@ AUTH SERVICES
 
 import {
   loginURL,
+  newPasswordURL,
+  patchRequest,
   postRequest,
   resendVerificationURL,
+  resetPasswordURL,
   signupURL,
   signupVerificationURL,
 } from "api";
@@ -85,4 +88,40 @@ export const loginService = (data: loginData) => {
   };
 
   return postRequest(requestData);
+};
+
+interface resetPasswordData {
+  email: string;
+}
+/**
+ * login service
+ * @returns axios promise
+ */
+
+export const resetPasswordService = (data: resetPasswordData) => {
+  const requestData = {
+    url: resetPasswordURL(),
+    data,
+  };
+
+  return postRequest(requestData);
+};
+
+interface newPasswordData {
+  password: string;
+  uid64: string;
+  token: string;
+}
+/**
+ * login service
+ * @returns axios promise
+ */
+
+export const newPasswordService = (data: newPasswordData) => {
+  const requestData = {
+    url: newPasswordURL(),
+    data,
+  };
+
+  return patchRequest(requestData);
 };

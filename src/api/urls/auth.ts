@@ -39,3 +39,21 @@ export const resendVerificationURL = () => `/auth/resend-verification-mail/`;
  */
 
 export const loginURL = () => `/auth/login/`;
+
+/**
+ * Request Password Reset URL
+ *
+ * @returns url string
+ *
+ */
+
+export const resetPasswordURL = () => `/auth/request-reset-password-email/`;
+
+/**
+ * Password Reset URL
+ *
+ * @returns url string
+ *
+ */
+
+export const newPasswordURL = () => `/auth/set-new-password/`;
