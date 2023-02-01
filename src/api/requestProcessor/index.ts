@@ -1,3 +1,4 @@
+import { refreshTokenService } from "api/services";
 import axios, { AxiosRequestConfig } from "axios";
 
 // Create and axios instance
@@ -9,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // Get Access Token from local storage
-    const accessToken = localStorage.getItem("roofbucksAccessToken");
+    const accessToken = localStorage.getItem("roofbucksAccess");
     if (accessToken && config.headers) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
@@ -18,18 +19,44 @@ axiosInstance.interceptors.request.use(
   (error) => error
 );
 
-// Log a user out with an expired token
+// Refresh access token if token has expired
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error?.response?.status === 401 && window.location.pathname !== "/") {
-      window.location.assign("/login");
-      // Redirect user to login page if not authorized
-      // TODO: Add redirect logic
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error?.response?.status === 401 &&
+      !originalRequest._retry &&
+      window.location.pathname !== "/"
+    ) {
+      originalRequest._retry = true;
+      refreshToken();
     }
     return error;
   }
 );
+
+export const refreshToken = async (): Promise<string> => {
+  let token = "";
+
+  refreshTokenService({
+    refresh: localStorage.getItem("roofbucksRefresh") ?? "",
+  })
+    .then((res) => {
+      token = res.data.access;
+      localStorage.setItem("accessToken", token);
+      axios.defaults.headers.common["authorization"] = "Bearer " + token;
+      return token;
+    })
+    .catch((err) => {
+      console.log(err);
+      localStorage.clear();
+      window.location.assign("/");
+    });
+
+  return token;
+};
 
 // API Request Functions
 interface ApiRequestProps {

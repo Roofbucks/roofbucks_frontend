@@ -5,10 +5,12 @@ AUTH SERVICES
 */
 
 import {
+  getRequest,
   loginURL,
   newPasswordURL,
   patchRequest,
   postRequest,
+  refreshTokenURL,
   resendVerificationURL,
   resetPasswordURL,
   signupURL,
@@ -94,7 +96,7 @@ interface resetPasswordData {
   email: string;
 }
 /**
- * login service
+ * request password reset service
  * @returns axios promise
  */
 
@@ -113,7 +115,7 @@ interface newPasswordData {
   token: string;
 }
 /**
- * login service
+ * reset password service
  * @returns axios promise
  */
 
@@ -124,4 +126,21 @@ export const newPasswordService = (data: newPasswordData) => {
   };
 
   return patchRequest(requestData);
+};
+
+interface refreshTokenData {
+  refresh: string;
+}
+/**
+ * refresh JWT service
+ * @returns axios promise
+ */
+
+export const refreshTokenService = (data: refreshTokenData) => {
+  const requestData = {
+    url: refreshTokenURL(),
+    data,
+  };
+
+  return postRequest(requestData);
 };

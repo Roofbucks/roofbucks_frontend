@@ -57,3 +57,12 @@ export const resetPasswordURL = () => `/auth/request-reset-password-email/`;
  */
 
 export const newPasswordURL = () => `/auth/set-new-password/`;
+
+/**
+ * Refresh JWT URL
+ *
+ * @returns url string
+ *
+ */
+
+export const refreshTokenURL = () => `/auth/refresh-token/`;
