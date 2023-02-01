@@ -3,7 +3,7 @@ import { LoginModalUI, Preloader } from "components";
 import { ModalProps } from "types";
 import { useApiRequest } from "hooks";
 import { loginService } from "api";
-import { updateToast } from "redux/actions";
+import { updateToast, updateUser } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 import { Routes } from "router";
 import { getErrorMessage } from "helpers";
@@ -33,6 +33,15 @@ const LoginModal: React.FC<LoginProps> = ({
   React.useMemo(() => {
     if (loginResponse) {
       if (loginResponse.status === 200) {
+        localStorage.setItem("roofbucksAccess", loginResponse.data.tokens.access)
+        localStorage.setItem("roofbucksRefresh", loginResponse.data.tokens.refresh)
+
+        dispatch(updateUser({
+          role: loginResponse.data.role,
+          firstName: loginResponse.data.firstname,
+          lastName: loginResponse.data.lastname,
+          email: loginResponse.data.email
+        }))
         dispatch(
           updateToast({
             show: true,
@@ -51,7 +60,7 @@ const LoginModal: React.FC<LoginProps> = ({
               type: true,
             })
           );
-          navigate(Routes.overview);
+          // navigate(Routes.overview);
         }, 1000);
       } else {
         dispatch(

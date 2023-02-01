@@ -34,7 +34,6 @@ export type RootReducerAction =
   | any;
 
 const rootReducer = (state: RootReducerState, action: RootReducerAction) => {
-  console.log("root", state, action);
   if (action.type === "RESET_APP") {
     state = undefined;
   }

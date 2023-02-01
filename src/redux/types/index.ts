@@ -16,10 +16,10 @@ export interface reduxDropdownAction {
  * User State
  */
 export interface UserData {
-  type: "agent" | "shareholder" | "";
-  id: string;
-  name: string;
-  isAuth: boolean;
+  role: "agent" | "shareholder" | "";
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 
 export type userActions = "UPDATE_USER";

@@ -29,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
   const [mobileNav, setMobileNav] = React.useState(false);
 
   const params = queryObject(search);
-  console.log(params);
+
   React.useEffect(() => {
     setShowReset(params.reset === "true" ? true : false);
     setShowLogin(params.login === "true" ? true : false);

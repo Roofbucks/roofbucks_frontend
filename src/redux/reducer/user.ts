@@ -1,10 +1,10 @@
 import { reduxUserAction, UserData } from "redux/types";
 
 const initalState: UserData = {
-  type: "",
-  id: "",
-  name: "",
-  isAuth: false,
+  role: "",
+  firstName: "",
+  lastName: "",
+  email: "",
 };
 
 const userReducer = (state = initalState, action: reduxUserAction) => {
