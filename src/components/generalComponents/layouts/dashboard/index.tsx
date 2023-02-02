@@ -4,12 +4,13 @@ import {
   FinancesIcon,
   InboxIcon,
   LogoutIcon,
+  MenuOpen,
   OverviewIcon,
   PropertiesIcon,
   SettingsIcon,
   SupportIcon,
 } from "assets";
-import { LogoWithText } from "components";
+import { LogoWithText, useOutsideAlerter } from "components";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
@@ -114,33 +115,46 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       action: () => console.log("logout"),
       Icon: LogoutIcon,
     },
+    {
+      active,
+      state: "Support",
+      url: Routes.contact,
+      type: "link",
+      Icon: SupportIcon,
+    },
   ];
-
-  const support: SidebarType = {
-    active,
-    state: "Support",
-    url: Routes.contact,
-    type: "link",
-    Icon: SupportIcon,
-  };
 
   const SidebarItems: SidebarType[] = items.filter((item) =>
     user === "agent" ? item.state !== "Inbox" : item
   );
 
+  const [showMenu, setShowMenu] = React.useState(false);
+
+  const menuRef = React.useRef(null);
+
+  const onHide = () => {
+    setShowMenu(false);
+  };
+  useOutsideAlerter(menuRef, onHide);
+
   return (
     <>
       <main className={styles.main}>
-        <aside className={styles.sideBar}>
-          <LogoWithText className={styles.logo} type={"light"} />
-          <ul className={styles.sidebarList}>
+        <nav className={`${styles.sideBar} ${showMenu ? styles.overLay : ""}`}>
+          <div className={styles.mobileNav}>
+            <LogoWithText className={styles.logo} type={"light"} />
+            <MenuOpen
+              role="button"
+              onClick={() => setShowMenu(!showMenu)}
+              className={styles.menuBtn}
+            />
+          </div>
+          <ul ref={menuRef} className={styles.sidebarList}>
             {SidebarItems.map((item, index) => (
               <SidebarItem {...item} key={index} />
             ))}
           </ul>
-
-          <SidebarItem {...support} />
-        </aside>
+        </nav>
         <header className={styles.navBar}>
           <div className={styles.profileSec}>
             <span className={styles.profile} role={"button"}>

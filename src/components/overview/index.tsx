@@ -7,6 +7,7 @@ import {
   HouseIcon,
   MoneyBagIcon2,
   MoneyIcon2,
+  avatar,
 } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
@@ -163,6 +164,10 @@ const OverviewUI = () => {
     <>
       <div className={styles.container}>
         <div className={styles.main}>
+          <div className={styles.profileSec}>
+            <img src={avatar} alt="" />
+            <p>Welcome Back Jane!</p>
+          </div>
           <div>
             <MyDateRangePicker className={styles.statRange} />
 
