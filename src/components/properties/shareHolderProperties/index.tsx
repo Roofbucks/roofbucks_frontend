@@ -8,20 +8,9 @@ import {
 } from "components/generalComponents";
 import {
   property3,
-  property2,
-  property1,
   BedRoomIcon,
   BathRoomIcon,
 } from "assets";
-
-const propertyImages: string[] = [
-  property3,
-  property2,
-  property3,
-  property1,
-  property3,
-  property3,
-];
 
 const amenities: AmenityProp[] = [
   {
@@ -79,7 +68,7 @@ const ShareHolderPropertiesUI = () => {
             />
           ))}
         </div>
-        <ActivityList />
+        <ActivityList className={styles.activity} />
       </section>
     </>
   );

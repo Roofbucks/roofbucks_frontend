@@ -14,9 +14,9 @@ const ActivityCard = () => {
   );
 };
 
-const ActivityList = () => {
+const ActivityList = ({ className }: { className?: string }) => {
   return (
-    <div>
+    <div className={className}>
       <p className={styles.activityTtl}>Activity</p>
       <div className={styles.activityList}>
         <ActivityCard />

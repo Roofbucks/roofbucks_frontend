@@ -47,8 +47,8 @@
   font-size: 13px;
 }
 .propertyCard [class*="amtSec"] {
- border: none;
- padding: 0;
+  border: none;
+  padding: 0;
 }
 button.secBtn {
   color: var(--green);
@@ -61,4 +61,58 @@ button.secBtn {
   border-radius: 6px;
   padding: 8px 12px;
   font-weight: 600;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .activity {
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    margin-top: 1.2rem;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 20px;
+  }
+  .ttl::before {
+    width: 10px;
+  }
+  .activity {
+    display: none;
+  }
+  .propertyCard {
+    border: none;
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .propertyCard {
+    max-width: 600px;
+  }
+  .propertyCard [class*="imgSec"] {
+    max-width: unset;
+    margin-bottom: 10px;
+  }
+  .propertyCard [class*="imgSec"] img {
+    max-height: 250px;
+  }
+  .propertyCard [class*="info"] {
+    padding: 10px 1rem 10px 1.2rem;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .propertyCard [class*="imgSec"] img {
+    max-height: 200px;
+  }
 }
