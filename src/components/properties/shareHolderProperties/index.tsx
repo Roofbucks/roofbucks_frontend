@@ -6,11 +6,7 @@ import {
   PropertyCard,
   PropertyCardProps,
 } from "components/generalComponents";
-import {
-  property3,
-  BedRoomIcon,
-  BathRoomIcon,
-} from "assets";
+import { property3, BedRoomIcon, BathRoomIcon, EmptyStreet } from "assets";
 
 const amenities: AmenityProp[] = [
   {
@@ -43,12 +39,12 @@ const property: PropertyCardProps = {
   primaryBtn: {
     text: "Sell shares",
     action: (id) => console.log(id),
-    className: styles.pryBtn
+    className: styles.pryBtn,
   },
   secondaryBtn: {
     text: "More",
     action: (id) => console.log(id),
-    className: styles.secBtn
+    className: styles.secBtn,
   },
 };
 
@@ -60,17 +56,30 @@ const ShareHolderPropertiesUI = () => {
       <h1 className={styles.ttl}>Properties</h1>
       <section className={styles.container}>
         <div className={styles.propertyList}>
-          {properties.map((item, index) => (
-            <PropertyCard
-              {...item}
-              key={index}
-              className={styles.propertyCard}
-            />
-          ))}
+          {properties.length > 0 ? (
+            properties.map((item, index) => (
+              <PropertyCard
+                {...item}
+                key={index}
+                className={styles.propertyCard}
+              />
+            ))
+          ) : (
+            <EmptyProperties />
+          )}
         </div>
         <ActivityList className={styles.activity} />
       </section>
     </>
+  );
+};
+
+const EmptyProperties = () => {
+  return (
+    <div className={styles.emptySec}>
+      <EmptyStreet />
+      <p>You don't have any properties</p>
+    </div>
   );
 };
 

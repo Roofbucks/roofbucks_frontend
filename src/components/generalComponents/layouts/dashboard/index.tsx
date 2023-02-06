@@ -41,7 +41,7 @@ const SidebarItem: React.FC<SidebarType> = ({
       }`}
     >
       {type === "link" ? (
-        <Link className={styles.sidebarType} to={url}>
+        <Link onClick={action} className={styles.sidebarType} to={url}>
           <Icon className={styles.sidebarIcon} />
           <span className={styles.sidebarText}>{state}</span>
         </Link>
@@ -79,6 +79,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.overview,
       type: "link",
       Icon: OverviewIcon,
+      action: () => setShowMenu(false),
     },
     {
       active,
@@ -86,6 +87,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.properties,
       type: "link",
       Icon: PropertiesIcon,
+      action: () => setShowMenu(false),
     },
     {
       active,
@@ -93,6 +95,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.finances,
       type: "link",
       Icon: FinancesIcon,
+      action: () => setShowMenu(false),
     },
     {
       active,
@@ -100,6 +103,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.inbox,
       type: "link",
       Icon: InboxIcon,
+      action: () => setShowMenu(false),
     },
     {
       active,
@@ -107,6 +111,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.settings,
       type: "link",
       Icon: SettingsIcon,
+      action: () => setShowMenu(false),
     },
     {
       active,
@@ -121,6 +126,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       url: Routes.contact,
       type: "link",
       Icon: SupportIcon,
+      action: () => setShowMenu(false),
     },
   ];
 

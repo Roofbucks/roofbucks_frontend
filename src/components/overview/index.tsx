@@ -1,4 +1,5 @@
 import {
+  CalendarIconOutline,
   CaretRight,
   ChevronUpIcon,
   ClockIconOutline,
@@ -126,6 +127,7 @@ const StatCard = () => {
 };
 
 const OverviewUI = () => {
+  const [showMobileCalendar, setShowMobileCalendar] = React.useState(false);
   const [earningsFilter, setEarningsFilter] = React.useState({
     period: "Monthly",
     type: "income",
@@ -159,6 +161,8 @@ const OverviewUI = () => {
   };
 
   const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
+
+
 
   return (
     <>
@@ -268,7 +272,7 @@ const OverviewUI = () => {
             </div>
           </div>
           <p className={styles.tableTtl}>Recent Transactions</p>
-          <div className={` ${styles.tableWrap}`}>
+          <div className={`${styles.tableWrap}`}>
             <Table
               tableHeaderTitles={tableHeaderTitles}
               tableBody={
@@ -279,7 +283,7 @@ const OverviewUI = () => {
                   tableBodyItems={tableBodyItems}
                 />
               }
-              customTableClasses={{ tableWrapperClass: styles.tableWrap }}
+              customTableClasses={{ tableWrapperClass: styles.table }}
               emptyTable={{
                 show: tableBodyItems.length <= 0,
                 element: <EmptyTransactions />,
@@ -289,9 +293,18 @@ const OverviewUI = () => {
         </div>
         <aside className={styles.extra}>
           <div className={styles.scheduleSec}>
-            <p className={styles.scheduleTtl}>Schedule</p>
+            <div className={styles.scheduleTtlSec}>
+              <p className={styles.scheduleTtl}>Schedule</p>
+              <button
+                onClick={() => setShowMobileCalendar(!showMobileCalendar)}
+              >
+                <CalendarIconOutline /> Jan 1, 2022
+              </button>
+            </div>
             <Calendar
-              className={styles.calendarWrap}
+              className={`${styles.calendarWrap} ${
+                showMobileCalendar ? styles.showMobileCalendar : ""
+              }`}
               showMonthAndYearPickers={false}
             />
             <div className={styles.visitList}>

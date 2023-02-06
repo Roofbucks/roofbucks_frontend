@@ -188,10 +188,6 @@ input[type="radio"].selectedRadio {
 }
 .tableSec {
 }
-.tableWrap {
-  overflow-x: scroll;
-  padding: 0px;
-}
 .tableWrap table {
   min-width: 600px;
 }
@@ -204,11 +200,14 @@ input[type="radio"].selectedRadio {
 /* Schedule */
 .scheduleSec {
   margin-bottom: 2rem;
+  position: relative;
+}
+.scheduleTtlSec {
+  margin-bottom: 4px;
 }
 .scheduleTtl {
   font-size: var(--h5);
   font-weight: 600;
-  margin-bottom: 4px;
 }
 div.calendarWrap {
   width: 100%;
@@ -281,6 +280,9 @@ div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
 .profileSec {
   display: none;
 }
+.scheduleTtlSec button {
+  display: none;
+}
 
 @media screen and (max-width: 1200px) {
   .main {
@@ -307,6 +309,12 @@ div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
   .scheduleTtl {
     font-size: 20px;
   }
+  .tableWrap {
+    overflow-x: scroll;
+  }
+  .table {
+    padding: 1px 0px;
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -321,6 +329,7 @@ div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
   }
   .extra {
     position: unset;
+    overflow: unset;
   }
   .statList {
     overflow-x: scroll;
@@ -362,15 +371,44 @@ div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
   }
   .tableTtl,
   .scheduleTtl {
-    margin-bottom: 1rem;
     font-size: 18px;
   }
-  .tableWrap table {
-    border: 1px solid #d4e4f6;
-  }
+
   .extra {
     width: 100%;
     height: unset;
+  }
+  .scheduleTtlSec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .scheduleTtlSec button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  .scheduleTtlSec button svg {
+    margin-right: 6px;
+  }
+  .scheduleTtlSec button svg path {
+    fill: var(--green);
+  }
+  div.calendarWrap {
+    position: absolute;
+    background: var(--white);
+    z-index: 10;
+    box-shadow: 0px 0px 4px 2px rgb(92 88 88 / 15%);
+    max-width: 350px;
+    right: 0px;
+    border-radius: 6px;
+    display: none;
+  }
+  div.showMobileCalendar {
+    display: block;
   }
 }
 

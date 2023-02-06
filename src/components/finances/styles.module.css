@@ -61,7 +61,7 @@
   margin-bottom: 8px;
 }
 .number {
-  font-size: 12px;
+  font-size: 14px;
 }
 .addBtn {
   font-size: 17px;
@@ -72,12 +72,13 @@
   font-family: "Source Sans Pro";
   font-weight: 500;
   margin-top: 2rem;
+  margin-bottom: 3rem;
 }
 .addBtn svg {
   margin-right: 12px;
 }
 .tableWrap {
-  margin-top: 3rem;
+ 
 }
 .emptySec {
   text-align: center;
@@ -94,4 +95,52 @@
   text-align: center;
   font-size: 22px;
   font-weight: 600;
+}
+.tableTtl {
+  font-size: var(--h5);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .tableWrap {
+    padding: 1px 0px;
+    overflow-x: scroll;
+  }
+  .tableWrap table {
+    min-width: 600px;
+  }
+  .tableTtl {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .name {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .bank {
+    font-size: 18px;
+  }
+  .number {
+    font-size: 13px;
+  }
+  .accountCard {
+    min-width: 300px;
+    margin-right: 1rem;
+    padding: 12px;
+  }
+  .accountCard input {
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+  }
+  .tableTtl {
+    font-size: 18px;
+    margin-bottom: 1.5rem ;
+  }
+  .addBtn {
+    font-size: 14px;
+    margin-top: 1.5rem;
+  }
 }

@@ -70,7 +70,7 @@ const FinancesUI = () => {
         <PlusIconFill />
         Add new
       </Button>
-
+      <p className={styles.tableTtl}>Transactions</p>
       <Table
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
@@ -82,7 +82,7 @@ const FinancesUI = () => {
           />
         }
         customTableClasses={{
-          tableWrapperClass: styles.tableWrap
+          tableWrapperClass: styles.tableWrap,
         }}
         emptyTable={{
           show: tableBodyItems.length <= 0,
