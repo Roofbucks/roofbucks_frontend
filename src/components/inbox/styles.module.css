@@ -94,6 +94,7 @@
 }
 .chat img {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: contain;
   object-position: center;
@@ -281,4 +282,105 @@
   margin: auto;
   font-size: 12px;
   color: rgba(128, 128, 128, 0.8);
+}
+.backBtn {
+  display: none;
+}
+@media screen and (max-width: 1000px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .activeNow {
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 1rem;
+    margin-bottom: 0;
+  }
+  .activeNow div {
+    max-width: calc(100vw - 2rem);
+  }
+  .chats {
+    max-height: unset;
+    height: unset;
+  }
+  .backBtn {
+    display: block;
+    width: 12px;
+    transform: rotate(180deg);
+    margin-right: 1rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    width: 100vw;
+    margin-left: -1rem;
+  }
+  .ttl {
+    margin-top: 1.2rem;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 20px;
+  }
+  .ttl::before {
+    width: 10px;
+  }
+  .chatInputArea {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    left: 0;
+    background: var(--white);
+  }
+  .chatInputArea textarea {
+    height: 44px;
+    resize: none;
+    width: calc(100% - 100px);
+  }
+  .chatInputArea svg {
+    width: 20px;
+  }
+  .chatHd {
+    border-radius: 0;
+    background: var(--white);
+    padding: 12px 1rem;
+  }
+  .chatTtl {
+    font-size: 16px;
+  }
+  .chatBody {
+    padding: 1rem;
+  }
+  .searchChat {
+    width: 300px;
+    right: 0;
+    height: calc(100vh - 63px);
+    top: -4px;
+    border-radius: 0;
+  }
+  .chatSearch {
+    width: 16px;
+  }
+  .chatMenu {
+    width: 20px;
+    margin-left: 1rem;
+  }
+  .chatList {
+    padding: 0 1rem;
+  }
+  .chatAreaReduce {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .chat div p:first-of-type {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .chat div p:last-of-type {
+    font-size: 14px;
+  }
 }
