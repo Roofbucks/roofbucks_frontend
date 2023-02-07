@@ -78,3 +78,33 @@ section.tableWrap {
   font-size: 22px;
   font-weight: 600;
 }
+@media screen and (max-width: 1200px) {
+  .tableWrap {
+    padding: 2px !important;
+    overflow-x: scroll;
+  }
+  .tableWrap table {
+    min-width: 700px;
+  }
+  .tableTtl {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .emptySec p {
+    font-size: 16px;
+  }
+  .searchWrap p {
+    font-size: 14px;
+  }
+  .addBtn {
+    font-size: 13px;
+    padding: 8px 12px;
+    height: 40px;
+  }
+  .addBtn svg {
+    width: 18px;
+    margin-right: 10px;
+  }
+}

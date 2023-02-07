@@ -286,3 +286,84 @@ p.docNote {
   font-size: 14px;
   padding: 12px 1.3rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .inputSec {
+    grid-template-columns: 1fr 3fr;
+  }
+  .ttl {
+    font-size: 18px;
+  }
+  .secTtl {
+    font-size: 16px;
+  }
+  .radioTtl {
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .inputSec {
+    grid-template-columns: 1fr;
+  }
+  .secTtl {
+    color: var(--black);
+    font-size: 18px;
+  }
+  .ttl {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .halfWidth {
+    width: 100%;
+  }
+  .inputSec {
+    border-bottom: 1px solid #ebf1ec;
+    padding-bottom: 1rem;
+  }
+  .nav {
+    display: flex;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    margin-top: -2rem;
+    overflow-x: scroll;
+    white-space: nowrap;
+    /* transition: none; */
+  }
+  .nav a {
+    padding: 0 6px;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 10px;
+    margin-right: 12px;
+    cursor: pointer;
+    color: var(--black);
+    text-decoration: none;
+  }
+  a.activeNav {
+    border-color: var(--green);
+  }
+  .fixNav {
+    position: fixed;
+    background: var(--white);
+    padding: 10px 1rem 1rem;
+    z-index: 3;
+    top: 88px;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #ebf1ec;
+  }
+  .hideNav {
+    opacity: 0;
+  }
+  .checkGroup {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 10px;
+  }
+  .docInfo p:first-of-type {
+    font-size: 14px;
+    white-space: unset;
+  }
+}

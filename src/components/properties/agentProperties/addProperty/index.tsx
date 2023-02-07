@@ -228,6 +228,8 @@ interface AddPropertyProps {
 
 const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
   const [stage, setStage] = React.useState(1);
+  const [scrollPosition, setPosition] = React.useState(0);
+  const [scrollDir, setScrollDir] = React.useState("down");
 
   const {
     register: registerStageOne,
@@ -309,12 +311,61 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
     { added: true, label: "Certificate of Occupancy" },
   ];
 
+  window.addEventListener("scroll", () => setPosition(window.pageYOffset));
+
+  // Detect scroll direction
+  React.useEffect(() => {
+    const threshold = 0;
+    let lastScrollY = window.pageYOffset;
+    let ticking = false;
+
+    const updateScrollDir = () => {
+      const scrollY = window.pageYOffset;
+
+      if (Math.abs(scrollY - lastScrollY) < threshold) {
+        ticking = false;
+        return;
+      }
+      setScrollDir(scrollY > lastScrollY ? "down" : "up");
+      lastScrollY = scrollY > 0 ? scrollY : 0;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDir);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrollDir]);
+
   return (
     <section className={styles.addPropertyContainer}>
       <h2 className={styles.ttl}>{stage}. Property Information</h2>
+      <nav
+        className={`${styles.nav} ${scrollPosition > 71 ? styles.fixNav : ""} ${
+          scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
+        }`}
+      >
+        <a href="#description" className={styles.activeNav}>
+          Description
+        </a>
+        <a href="#address">Address</a>
+        <a href="#amenities">Amenities & Features</a>
+        <a href="#more">More details</a>
+        <a href="#media">Media</a>
+        <a href="#documents">Documents</a>
+
+        {/* <span>Cost</span>
+        <span>Incentives</span> */}
+      </nav>
       {stage == 1 ? (
         <form className={styles.form}>
-          <div className={styles.inputSec}>
+          <div id="description" className={styles.inputSec}>
             <p className={styles.secTtl}>Description</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -488,7 +539,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               )}
             </div>
           </div>
-          <div className={styles.inputSec}>
+          <div id="address" className={styles.inputSec}>
             <p className={styles.secTtl}>Address</p>
             <div className={styles.inputGroup}>
               <div className={styles.fullWidth}>
@@ -554,7 +605,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div className={styles.inputSec}>
+          <div id="amenities" className={styles.inputSec}>
             <p className={styles.secTtl}>Amenities & Features</p>
             <div>
               <div className={`${styles.fullWidth} ${styles.checkSec}`}>
@@ -607,7 +658,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div className={styles.inputSec}>
+          <div id="more" className={styles.inputSec}>
             <p className={styles.secTtl}>More details</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -709,7 +760,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div className={styles.inputSec}>
+          <div id="media" className={styles.inputSec}>
             <p className={styles.secTtl}>Media</p>
             <div className={styles.docGroup}>
               <p className={styles.radioTtl}>Pictures & Videos</p>
@@ -756,7 +807,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div className={styles.inputSec}>
+          <div id="documents" className={styles.inputSec}>
             <p className={styles.secTtl}>Documents</p>
             <div className={styles.docGroup}>
               <p className={styles.radioTtl}>Required Documents</p>

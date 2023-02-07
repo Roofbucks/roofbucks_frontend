@@ -36,6 +36,8 @@ import { Calendar } from "react-date-range";
 
 ChartJS.unregister();
 ChartJS.register(ArcElement, Tooltip, Legend, Filler);
+ChartJS.defaults.font.family = "inherit";
+ChartJS.defaults.font.size = 18;
 
 const labels = [
   "Jan",
@@ -161,8 +163,6 @@ const OverviewUI = () => {
   };
 
   const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
-
-
 
   return (
     <>

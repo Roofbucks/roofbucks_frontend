@@ -48,6 +48,7 @@ const AgentPropertiesUI = () => {
   ];
 
   const tableBodyItems: PropertyTableItem[] = [...items, ...items];
+  
   return (
     <>
       <section className={styles.heading}>

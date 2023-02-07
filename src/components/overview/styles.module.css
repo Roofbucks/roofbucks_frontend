@@ -310,10 +310,11 @@ div.calendarWrap [class*="rdrDayHovered"] [class*="rdrDayNumber"] span {
     font-size: 20px;
   }
   .tableWrap {
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
   }
   .table {
     padding: 1px 0px;
+    overflow: auto;
   }
 }
 

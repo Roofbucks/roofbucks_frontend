@@ -71,7 +71,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   active,
   children,
 }) => {
-  let user: users = "shareHolder";
+  let user: users = "agent";
   const items: SidebarType[] = [
     {
       active,

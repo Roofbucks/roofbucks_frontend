@@ -5,8 +5,8 @@ import { ShareHolderProperties } from "./shareHolderProperties";
 const Properties = () => {
   return (
     <>
-      {/* <AgentProperties /> */}
-      <ShareHolderProperties />
+      <AgentProperties />
+      {/* <ShareHolderProperties /> */}
     </>
   );
 };

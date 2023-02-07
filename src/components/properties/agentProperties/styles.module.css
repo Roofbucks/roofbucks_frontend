@@ -34,3 +34,26 @@
 .addBtn svg {
   margin-right: 12px;
 }
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 20px;
+  }
+  .ttl::before {
+    width: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .addBtn {
+    font-size: 13px;
+    padding: 8px 12px;
+    height: 40px;
+  }
+}
