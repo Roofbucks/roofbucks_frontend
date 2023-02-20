@@ -333,16 +333,14 @@ p.docNote {
     white-space: nowrap;
     /* transition: none; */
   }
-  .nav a {
+  .nav span {
     padding: 0 6px;
     border-bottom: 2px solid transparent;
     padding-bottom: 10px;
     margin-right: 12px;
     cursor: pointer;
-    color: var(--black);
-    text-decoration: none;
   }
-  a.activeNav {
+  span.activeNav {
     border-color: var(--green);
   }
   .fixNav {

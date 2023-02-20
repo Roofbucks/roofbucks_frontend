@@ -1,7 +1,7 @@
 import { reduxUserAction, UserData } from "redux/types";
 
 const initalState: UserData = {
-  role: "",
+  role: "agent",
   firstName: "",
   lastName: "",
   email: "",

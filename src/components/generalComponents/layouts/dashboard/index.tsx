@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { Routes } from "router";
 import { users } from "types";
 import styles from "./styles.module.css";
+import { useAppSelector } from "redux/hooks";
 
 interface SidebarType {
   active: dashboardPages;
@@ -71,7 +72,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   active,
   children,
 }) => {
-  let user: users = "agent";
+  const {role: user} =  useAppSelector(state => state.user)
+
   const items: SidebarType[] = [
     {
       active,

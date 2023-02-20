@@ -1,3 +1,5 @@
+import { users } from "types";
+
 /**
  * Dropdown State
  */
@@ -16,7 +18,7 @@ export interface reduxDropdownAction {
  * User State
  */
 export interface UserData {
-  role: "agent" | "shareholder" | "";
+  role: users;
   email: string;
   firstName: string;
   lastName: string;

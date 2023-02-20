@@ -8,4 +8,4 @@ export interface ModalProps {
   closeModal: () => void;
 }
 
-export type users = "agent" | "shareHolder";
+export type users = "agent" | "shareholder";

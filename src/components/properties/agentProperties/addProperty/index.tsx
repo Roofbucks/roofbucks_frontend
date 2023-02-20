@@ -343,6 +343,55 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollDir]);
 
+  const ref1 = React.useRef(null);
+  const ref2 = React.useRef(null);
+  const ref3 = React.useRef(null);
+
+  const scrollToCategory = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView();
+    }
+  };
+
+  const isInView1 = useIsInViewport(ref1);
+  const isInView2 = useIsInViewport(ref2);
+  const isInView3 = useIsInViewport(ref3);
+
+  const categories = [
+    {
+      name: "Description",
+      scrollId: "description",
+      active: isInView1,
+    },
+    {
+      name: "Address",
+      scrollId: "address",
+      active: isInView2,
+    },
+    {
+      name: "Amenities & Features",
+      scrollId: "",
+      active: isInView3,
+    },
+    {
+      name: "More details",
+      scrollId: "more",
+      active: isInView3,
+    },
+    {
+      name: "Media",
+      scrollId: "media",
+      active: isInView3,
+    },
+    {
+      name: "Documents",
+      scrollId: "documents",
+      active: isInView3,
+    },
+
+  ];
+
   return (
     <section className={styles.addPropertyContainer}>
       <h2 className={styles.ttl}>{stage}. Property Information</h2>
@@ -351,14 +400,14 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
           scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
         }`}
       >
-        <a href="#description" className={styles.activeNav}>
+       {categories.map((item, index) => <span  className={styles.activeNav}>
           Description
-        </a>
-        <a href="#address">Address</a>
-        <a href="#amenities">Amenities & Features</a>
-        <a href="#more">More details</a>
-        <a href="#media">Media</a>
-        <a href="#documents">Documents</a>
+        </span>)}
+        <span >Address</span>
+        <span >Amenities & Features</span>
+        <span>More details</span>
+        <span >Media</span>
+        <span >Documents</span>
 
         {/* <span>Cost</span>
         <span>Incentives</span> */}
@@ -1062,3 +1111,25 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
 };
 
 export { AddProperty };
+
+const useIsInViewport = (ref) => {
+  const [isIntersecting, setIsIntersecting] = React.useState(false);
+
+  const observer = React.useMemo(
+    () =>
+      new IntersectionObserver(([entry]) =>
+        setIsIntersecting(entry.isIntersecting)
+      ),
+    []
+  );
+
+  React.useEffect(() => {
+    observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref, observer]);
+
+  return isIntersecting;
+};
