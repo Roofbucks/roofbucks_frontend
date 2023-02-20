@@ -12,6 +12,7 @@ import { Footer } from "./footer";
 import { Navbar, NavbarProps } from "./navbar";
 import styles from "./styles.module.css";
 import { Routes } from "router";
+import { useAppSelector } from "redux/hooks";
 
 export interface LayoutProps {
   children: any;
@@ -19,6 +20,7 @@ export interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, active }) => {
+  const { role: user } = useAppSelector((state) => state.user);
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = React.useState(false);
@@ -88,7 +90,7 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
         closeNav={closeNav}
         openNav={openNav}
         showNav={mobileNav}
-        auth={false}
+        auth={user !== ""}
       />
       <main className={`${styles.mainContent}`}>{children}</main>
       <Footer />
