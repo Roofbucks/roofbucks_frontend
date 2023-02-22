@@ -73,8 +73,10 @@ import { ReactComponent as SmileyIcon } from "./smileyIcon.svg";
 import { ReactComponent as SendIcon } from "./sendIcon.svg";
 import { ReactComponent as AttachmentIcon } from "./attachmentIcon.svg";
 import { ReactComponent as CheckIcon } from "./checkIcon.svg";
+import { ReactComponent as LogoutOutlineIcon } from "./logoutIcon.svg";
 
 export {
+  LogoutOutlineIcon,
   CheckIcon,
   AttachmentIcon,
   SmileyIcon,

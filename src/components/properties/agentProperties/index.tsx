@@ -1,11 +1,18 @@
 import { PlusIconFill } from "assets";
 import { Button, PropertyTableItem } from "components/generalComponents";
 import * as React from "react";
-import { AddProperty } from "./addProperty";
+import { AddProperty, AddPropertyProps } from "./addProperty";
 import { ListProperties } from "./listProperties";
 import styles from "./styles.module.css";
 
-const AgentPropertiesUI = () => {
+interface AgentPropertiesUIProps extends AddPropertyProps {
+  tableItems: PropertyTableItem[];
+}
+
+const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
+  tooLarge,
+  closeForm,
+}) => {
   const [showAddProperty, setShowAddProperty] = React.useState(false);
 
   const tableItem: PropertyTableItem = {
@@ -48,7 +55,7 @@ const AgentPropertiesUI = () => {
   ];
 
   const tableBodyItems: PropertyTableItem[] = [...items, ...items];
-  
+
   return (
     <>
       <section className={styles.heading}>
@@ -69,6 +76,7 @@ const AgentPropertiesUI = () => {
               window.scrollTo(-0, -0);
               setShowAddProperty(false);
             }}
+            tooLarge={tooLarge}
           />
         ) : (
           <ListProperties

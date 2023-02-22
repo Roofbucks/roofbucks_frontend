@@ -13,6 +13,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, Textarea } from "components";
+import { useLocation, useNavigate } from "react-router-dom";
+import { queryObject } from "helpers";
 
 interface ProfileData {
   firstName: string;
@@ -148,7 +150,9 @@ const billingSchema = yup
   .required();
 
 const ProfileSetupUI = () => {
-  const [view, setView] = React.useState(1);
+  const [view, setView] = React.useState<number>(1);
+  const { search } = useLocation();
+  const params = queryObject(search);
 
   const {
     register: registerProfile,
@@ -191,6 +195,10 @@ const ProfileSetupUI = () => {
   const viewBillings = () => {
     setView(3);
   };
+
+  React.useEffect(() => {
+    setView(params.profile === "true" ? 1 : params.business === "true" ? 2 : 3);
+  }, []);
 
   return (
     <>

@@ -4,17 +4,30 @@ import { Modal } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input } from "components/generalComponents";
-import { ModalProps } from "types";
+import { Button, CustomSelect, Input } from "components/generalComponents";
+import { ModalProps, optionType } from "types";
 import { Routes } from "router";
 import { Link } from "react-router-dom";
 import { WarningIcon } from "assets";
+import { initialOptionType } from "utils";
+
+const accountTypeOptions: optionType[] = [
+  {
+    label: "I want to sell property shares",
+    value: "agent",
+  },
+  {
+    label: "I want to buy property shares",
+    value: "shareholder",
+  },
+];
 
 export interface SignupData {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  accountType: optionType;
   agreement: boolean;
 }
 
@@ -23,6 +36,7 @@ const initialValues: SignupData = {
   lastName: "",
   email: "",
   password: "",
+  accountType: initialOptionType,
   agreement: false,
 };
 
@@ -31,6 +45,11 @@ export interface SignupModalProps extends ModalProps {
   login: () => void;
   closeMobileNav: () => void;
 }
+
+const optionTypeSchemaReq = yup.object({
+  label: yup.string().required("Required"),
+  value: yup.string().required("Required"),
+});
 
 const signupSchema = yup
   .object({
@@ -48,6 +67,7 @@ const signupSchema = yup
       .boolean()
       .required("Accept the terms and conditions to continue")
       .oneOf([true], "Accept the terms and conditions to continue."),
+    accountType: optionTypeSchemaReq,
   })
   .required();
 
@@ -96,6 +116,17 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             validatorMessage={errors.lastName?.message}
             name="lastName"
             register={register}
+          />
+          <CustomSelect
+            onChange={(x) => setValue("accountType", x)}
+            validatorMessage={errors.accountType?.message ?? ""}
+            name={"accountType"}
+            placeholder={"Please Select"}
+            label={"Account Type"}
+            options={accountTypeOptions}
+            value={watch("accountType")}
+            inputClass={styles.select}
+            parentClassName={styles.input}
           />
           <Input
             label="Email"

@@ -33,15 +33,23 @@ const LoginModal: React.FC<LoginProps> = ({
   React.useMemo(() => {
     if (loginResponse) {
       if (loginResponse.status === 200) {
-        localStorage.setItem("roofbucksAccess", loginResponse.data.tokens.access)
-        localStorage.setItem("roofbucksRefresh", loginResponse.data.tokens.refresh)
+        localStorage.setItem(
+          "roofbucksAccess",
+          loginResponse.data.tokens.access
+        );
+        localStorage.setItem(
+          "roofbucksRefresh",
+          loginResponse.data.tokens.refresh
+        );
 
-        dispatch(updateUser({
-          role: loginResponse.data.role,
-          firstName: loginResponse.data.firstname,
-          lastName: loginResponse.data.lastname,
-          email: loginResponse.data.email
-        }))
+        dispatch(
+          updateUser({
+            role: loginResponse.data.role === "AGENT" ? "agent" : "shareholder",
+            firstName: loginResponse.data.firstname,
+            lastName: loginResponse.data.lastname,
+            email: loginResponse.data.email,
+          })
+        );
         dispatch(
           updateToast({
             show: true,
@@ -60,7 +68,20 @@ const LoginModal: React.FC<LoginProps> = ({
               type: true,
             })
           );
-          // navigate(Routes.overview);
+
+          if (loginResponse.data.role === "AGENT") {
+            const profileCompletion =
+              loginResponse.data.stages_of_profile_completion;
+
+            if (!profileCompletion.profile) {
+              return navigate(Routes.profileSetup("?profile=true"));
+            } else if (!profileCompletion.business) {
+              return navigate(Routes.profileSetup("?business=true"));
+            } else if (!profileCompletion.billing) {
+              return navigate(Routes.profileSetup("?billing=true"));
+            }
+          }
+          navigate(Routes.overview);
         }, 1000);
       } else {
         dispatch(

@@ -286,6 +286,9 @@ p.docNote {
   font-size: 14px;
   padding: 12px 1.3rem;
 }
+.nav {
+  display: none;
+}
 
 @media screen and (max-width: 1000px) {
   .inputSec {

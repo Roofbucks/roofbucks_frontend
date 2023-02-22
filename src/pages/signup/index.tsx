@@ -43,6 +43,7 @@ const SignupModal: React.FC<SignupProps> = ({
         lastname: data.lastName,
         password: data.password,
         email: data.email,
+        role: data.accountType.value === "agent" ? 1 : 0,
       })
     );
   };

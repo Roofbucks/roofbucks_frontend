@@ -48,13 +48,13 @@ interface stageOneData {
     address1: string;
     address2: string;
   };
-  media: string[];
-  surveyPlan: string;
-  purchaseReceipt: string;
-  excision: string;
-  gazette: string;
-  deadOfAssignment: string;
-  certificateOfOccupancy: string;
+  media: File[];
+  surveyPlan: File | undefined;
+  purchaseReceipt: File | undefined;
+  excision: File | undefined;
+  gazette: File | undefined;
+  deedOfAssignment: File | undefined;
+  certificateOfOccupancy: File | undefined;
 }
 
 const initialValuesStageOne: stageOneData = {
@@ -93,12 +93,12 @@ const initialValuesStageOne: stageOneData = {
     address2: "",
   },
   media: [],
-  surveyPlan: "",
-  purchaseReceipt: "",
-  excision: "",
-  gazette: "",
-  deadOfAssignment: "",
-  certificateOfOccupancy: "",
+  surveyPlan: undefined,
+  purchaseReceipt: undefined,
+  excision: undefined,
+  gazette: undefined,
+  deedOfAssignment: undefined,
+  certificateOfOccupancy: undefined,
 };
 
 const stageOneSchema = yup
@@ -161,7 +161,7 @@ const stageOneSchema = yup
     purchaseReceipt: yup.string().required("Required"),
     excision: yup.string().required("Required"),
     gazette: yup.string().required("Required"),
-    deadOfAssignment: yup.string().required("Required"),
+    deedOfAssignment: yup.string().required("Required"),
     certificateOfOccupancy: yup.string().required("Required"),
   })
   .required();
@@ -222,11 +222,12 @@ const stageTwoSchema = yup
   })
   .required();
 
-interface AddPropertyProps {
+export interface AddPropertyProps {
   closeForm: () => void;
+  tooLarge: () => void;
 }
 
-const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
+const AddProperty: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
   const [stage, setStage] = React.useState(1);
   const [scrollPosition, setPosition] = React.useState(0);
   const [scrollDir, setScrollDir] = React.useState("down");
@@ -299,18 +300,6 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
     "Secured parking garage",
   ];
 
-  const requiredDocuments = [
-    { added: false, label: "Approved Survey Plan" },
-    { added: true, label: "Purchase Receipt" },
-    { added: false, label: "Excision" },
-    { added: false, label: "Gazette" },
-    {
-      added: true,
-      label: "Registered Deed of Assignment (Governor's consent)",
-    },
-    { added: true, label: "Certificate of Occupancy" },
-  ];
-
   window.addEventListener("scroll", () => setPosition(window.pageYOffset));
 
   // Detect scroll direction
@@ -346,6 +335,11 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
   const ref1 = React.useRef(null);
   const ref2 = React.useRef(null);
   const ref3 = React.useRef(null);
+  const ref4 = React.useRef(null);
+  const ref5 = React.useRef(null);
+  const ref6 = React.useRef(null);
+  const ref7 = React.useRef(null);
+  const ref8 = React.useRef(null);
 
   const scrollToCategory = (id) => {
     const element = document.getElementById(id);
@@ -357,8 +351,13 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
   const isInView1 = useIsInViewport(ref1);
   const isInView2 = useIsInViewport(ref2);
   const isInView3 = useIsInViewport(ref3);
+  const isInView4 = useIsInViewport(ref4);
+  const isInView5 = useIsInViewport(ref5);
+  const isInView6 = useIsInViewport(ref6);
+  const isInView7 = useIsInViewport(ref7);
+  const isInView8 = useIsInViewport(ref8);
 
-  const categories = [
+  const categories1 = [
     {
       name: "Description",
       scrollId: "description",
@@ -371,25 +370,141 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
     },
     {
       name: "Amenities & Features",
-      scrollId: "",
+      scrollId: "amenities",
       active: isInView3,
     },
     {
       name: "More details",
       scrollId: "more",
-      active: isInView3,
+      active: isInView4,
     },
     {
       name: "Media",
       scrollId: "media",
-      active: isInView3,
+      active: isInView5,
     },
     {
       name: "Documents",
       scrollId: "documents",
-      active: isInView3,
+      active: isInView6,
     },
+  ];
 
+  const categories2 = [
+    {
+      name: "Cost",
+      scrollId: "cost",
+      active: isInView7,
+    },
+    {
+      name: "Incentives",
+      scrollId: "incentives",
+      active: isInView8,
+    },
+  ];
+
+  const categories = stage === 1 ? categories1 : categories2;
+
+  const checkFileSize = ({
+    file,
+    onSuccess,
+  }: {
+    file: any;
+    onSuccess: () => void;
+  }) => {
+    if (file.size <= 1048576 * 8) {
+      onSuccess();
+    } else {
+      tooLarge();
+    }
+  };
+
+  const handleChangeMedia = (e) => {
+    const prevList = watchStageOne("media");
+    const file = e.target.files[0];
+    const doc = new File([file], file.name);
+
+    prevList.push(doc);
+
+    checkFileSize({
+      file: file,
+      onSuccess: () => {
+        setValueStageOne("media", prevList);
+      },
+    });
+  };
+
+  const handleRemoveMedia = (index) => {
+    const prevList = watchStageOne("media");
+
+    if (prevList.length > 1) {
+      prevList.splice(index, 1);
+      setValueStageOne("media", [...prevList]);
+    } else {
+      const newList = prevList.map((item, idx) =>
+        idx === index ? new File([], "") : item
+      );
+
+      setValueStageOne("media", newList);
+    }
+  };
+
+  const handleChangeDoc = ({ id, e }) => {
+    const file = e.target.files[0];
+    // const name = `${getFileName(file.name)} VobbOther.${getExtension(file.name)}`;
+    // const doc = new File([file], name);
+    const doc = new File([file], file.name);
+
+    setValueStageOne(id, doc);
+  };
+
+  const handleRemoveDoc = ({ id }) => {
+    setValueStageOne(id, undefined);
+  };
+
+  const requiredDocuments: DocumentProps[] = [
+    {
+      label: "Approved Survey Plan",
+      file: watchStageOne("surveyPlan"),
+      id: "surveyPlan",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
+    {
+      label: "Purchase Receipt",
+      file: watchStageOne("purchaseReceipt"),
+      id: "purchaseReceipt",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
+    {
+      label: "Excision",
+      file: watchStageOne("excision"),
+      id: "excision",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
+    {
+      label: "Gazette",
+      file: watchStageOne("gazette"),
+      id: "gazette",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
+    {
+      label: "Registered Deed of Assignment (Governor's consent)",
+      file: watchStageOne("deedOfAssignment"),
+      id: "deedOfAssignment",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
+    {
+      label: "Certificate of Occupancy",
+      file: watchStageOne("certificateOfOccupancy"),
+      id: "certificateOfOccupancy",
+      handleChangeDoc: handleChangeDoc,
+      handleRemoveDoc: handleRemoveDoc,
+    },
   ];
 
   return (
@@ -400,21 +515,19 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
           scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
         }`}
       >
-       {categories.map((item, index) => <span  className={styles.activeNav}>
-          Description
-        </span>)}
-        <span >Address</span>
-        <span >Amenities & Features</span>
-        <span>More details</span>
-        <span >Media</span>
-        <span >Documents</span>
-
-        {/* <span>Cost</span>
-        <span>Incentives</span> */}
+        {categories.map((item, index) => (
+          <span
+            onClick={() => scrollToCategory(item.scrollId)}
+            key={index}
+            className={item.active ? styles.activeNav : ""}
+          >
+            {item.name}
+          </span>
+        ))}
       </nav>
       {stage == 1 ? (
         <form className={styles.form}>
-          <div id="description" className={styles.inputSec}>
+          <div ref={ref1} id="description" className={styles.inputSec}>
             <p className={styles.secTtl}>Description</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -588,7 +701,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               )}
             </div>
           </div>
-          <div id="address" className={styles.inputSec}>
+          <div ref={ref2} id="address" className={styles.inputSec}>
             <p className={styles.secTtl}>Address</p>
             <div className={styles.inputGroup}>
               <div className={styles.fullWidth}>
@@ -654,7 +767,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div id="amenities" className={styles.inputSec}>
+          <div ref={ref3} id="amenities" className={styles.inputSec}>
             <p className={styles.secTtl}>Amenities & Features</p>
             <div>
               <div className={`${styles.fullWidth} ${styles.checkSec}`}>
@@ -707,7 +820,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div id="more" className={styles.inputSec}>
+          <div ref={ref4} id="more" className={styles.inputSec}>
             <p className={styles.secTtl}>More details</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -809,7 +922,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div id="media" className={styles.inputSec}>
+          <div ref={ref5} id="media" className={styles.inputSec}>
             <p className={styles.secTtl}>Media</p>
             <div className={styles.docGroup}>
               <p className={styles.radioTtl}>Pictures & Videos</p>
@@ -818,89 +931,51 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
                   Please ensure that all media are clear and meet our acceptance
                   criteria
                 </p>
-                <label className={styles.docLabel} htmlFor="id">
+                <label className={styles.docLabel} htmlFor="media">
                   <DownloadIcon />
                   <p>
                     Drop your file to upload or <span>Browse</span>
                   </p>
                   <p className={styles.docNote}>
-                    Maximum size of image 8MB, PDF, JPG, PNG
+                    Maximum size of image 8MB, JPEG, JPG, PNG
                   </p>
                   <input
                     style={{ display: "none" }}
-                    id="id"
+                    id="media"
                     type={"file"}
-                    accept=".pdf, .png, .jpg, .jpeg"
+                    accept=".png, .jpg, .jpeg"
                     onDrop={(e) => console.log(e, "drop")}
+                    onChange={(e) => handleChangeMedia(e)}
                   />
                 </label>
 
                 <div className={styles.uploadedSec}>
-                  <div className={styles.uploadedDoc}>
-                    <ImageIcon className={styles.docIcon} />
-                    <div className={styles.docInfo}>
-                      <p>Picture-1.jpeg</p>
-                      <p>360kB</p>
+                  {watchStageOne("media").map((file, index) => (
+                    <div key={index} className={styles.uploadedDoc}>
+                      <ImageIcon className={styles.docIcon} />
+                      <div className={styles.docInfo}>
+                        <p>{file.name}</p>
+                        <p>{getMegaByte(file.size)} MB</p>
+                      </div>
+                      <TrashIcon
+                        onClick={() => handleRemoveMedia(index)}
+                        role="button"
+                        className={styles.docDelete}
+                      />
                     </div>
-                    <TrashIcon role="button" className={styles.docDelete} />
-                  </div>
-                  <div className={styles.uploadedDoc}>
-                    <ImageIcon className={styles.docIcon} />
-                    <div className={styles.docInfo}>
-                      <p>Picture-2.jpeg</p>
-                      <p>530kB</p>
-                    </div>
-                    <TrashIcon role="button" className={styles.docDelete} />
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-          <div id="documents" className={styles.inputSec}>
+          <div ref={ref6} id="documents" className={styles.inputSec}>
             <p className={styles.secTtl}>Documents</p>
             <div className={styles.docGroup}>
               <p className={styles.radioTtl}>Required Documents</p>
               <div className={styles.docSec}>
                 {requiredDocuments.map((item, index) => (
                   <>
-                    {!item.added ? (
-                      <div>
-                        <p className={styles.docTxt}>{item.label}</p>
-                        <label className={styles.docLabel} htmlFor="id">
-                          <DownloadIcon />
-                          <p>
-                            Drop your file to upload or <span>Browse</span>
-                          </p>
-                          <p className={styles.docNote}>
-                            Maximum size of image 8MB, PDF, JPG, PNG
-                          </p>
-                          <input
-                            style={{ display: "none" }}
-                            id="id"
-                            type={"file"}
-                            accept=".pdf, .png, .jpg, .jpeg"
-                            onDrop={(e) => console.log(e, "drop")}
-                          />
-                        </label>
-                      </div>
-                    ) : (
-                      <div className={styles.fullUploadedDoc}>
-                        <div className={styles.docSec1}>
-                          <DocumentIcon className={styles.docIcon} />
-                          <div className={styles.docInfo}>
-                            <p>{item.label}.pdf</p>
-                            <p>530kB</p>
-                          </div>
-                          <TrashIcon
-                            role="button"
-                            className={styles.docDelete}
-                          />
-                        </div>
-                        <div className={styles.docSec2}>
-                          <div className={styles.uploadProgress}></div>
-                        </div>
-                      </div>
-                    )}
+                    <Document {...item} key={index} />
                   </>
                 ))}
               </div>
@@ -926,7 +1001,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
         </form>
       ) : (
         <form className={styles.form}>
-          <div className={styles.inputSec}>
+          <div ref={ref7} id="cost" className={styles.inputSec}>
             <p className={styles.secTtl}>Cost</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -968,7 +1043,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
               </div>
             </div>
           </div>
-          <div className={styles.inputSec}>
+          {/* <div ref={ref8}  id="deals" className={styles.inputSec}>
             <p className={styles.secTtl}>Deals</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -1008,8 +1083,8 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm }) => {
                 />
               </div>
             </div>
-          </div>
-          <div className={styles.inputSec}>
+          </div> */}
+          <div ref={ref8} id="incentives" className={styles.inputSec}>
             <p className={styles.secTtl}>Incentives</p>
             <div className={styles.inputGroup}>
               <div className={styles.halfWidth}>
@@ -1124,7 +1199,7 @@ const useIsInViewport = (ref) => {
   );
 
   React.useEffect(() => {
-    observer.observe(ref.current);
+    ref.current && observer.observe(ref.current);
 
     return () => {
       observer.disconnect();
@@ -1132,4 +1207,69 @@ const useIsInViewport = (ref) => {
   }, [ref, observer]);
 
   return isIntersecting;
+};
+
+interface DocumentProps {
+  id: string;
+  label: string;
+  file: File | undefined;
+  handleChangeDoc: ({ id, e }) => void;
+  handleRemoveDoc: ({ id }) => void;
+}
+
+const Document: React.FC<DocumentProps> = ({
+  id,
+  label,
+  file,
+  handleChangeDoc,
+  handleRemoveDoc,
+}) => {
+  return (
+    <>
+      {!file ? (
+        <div>
+          <p className={styles.docTxt}>{label}</p>
+          <label className={styles.docLabel} htmlFor={id}>
+            <DownloadIcon />
+            <p>
+              Drop your file to upload or <span>Browse</span>
+            </p>
+            <p className={styles.docNote}>
+              Maximum size of image 8MB, PDF, JPG, PNG, JPEG
+            </p>
+            <input
+              style={{ display: "none" }}
+              id={id}
+              type={"file"}
+              accept=".pdf, .png, .jpg, .jpeg"
+              onDrop={(e) => console.log(e, "drop")}
+              onChange={(e) => handleChangeDoc({ id, e })}
+            />
+          </label>
+        </div>
+      ) : (
+        <div className={styles.fullUploadedDoc}>
+          <div className={styles.docSec1}>
+            <DocumentIcon className={styles.docIcon} />
+            <div className={styles.docInfo}>
+              <p>{file.name}</p>
+              <p>{getMegaByte(file.size)}MB</p>
+            </div>
+            <TrashIcon
+              onClick={() => handleRemoveDoc({ id })}
+              role="button"
+              className={styles.docDelete}
+            />
+          </div>
+          <div className={styles.docSec2}>
+            <div className={styles.uploadProgress}></div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+const getMegaByte = (num) => {
+  return num ? (Number(num) / 1000000).toFixed(3) : 0;
 };

@@ -29,7 +29,7 @@ export const Routes = {
   privacy: `/privacy-policy`,
 
   // Profile
-  profileSetup: `/profile/setup`,
+  profileSetup: (view = "") => `/profile/setup${view}`,
   profile: `/profile/:id`,
   profileID: (id) => `/profile/${id}`,
 

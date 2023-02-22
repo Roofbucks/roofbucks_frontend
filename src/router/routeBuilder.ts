@@ -124,7 +124,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     },
   },
   {
-    path: Routes.profileSetup,
+    path: Routes.profileSetup(""),
     Element: ProfileSetup,
     Layout: Layout,
     caseSensitive: true,
