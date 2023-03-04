@@ -49,7 +49,6 @@ const useApiRequest = (initialState: APIRequestHookProps) => {
       dispatch({ type: APIRequestStatuses.pending });
       await promise
         .then((data) => {
-          console.log(data, "then block");
           dispatch({
             type: APIRequestStatuses.resolved,
             data: data,
@@ -57,7 +56,6 @@ const useApiRequest = (initialState: APIRequestHookProps) => {
           });
         })
         .catch((error) => {
-          console.log(error, "catch block");
           dispatch({
             type: APIRequestStatuses.rejected,
             error: error,

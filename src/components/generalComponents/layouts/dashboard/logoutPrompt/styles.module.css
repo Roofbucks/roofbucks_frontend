@@ -28,12 +28,12 @@
   font-size: 14px;
   font-weight: 500;
 }
-.btn2 {
+button.btn2 {
   background: var(--red);
   color: #fff;
   border: 1px solid var(--red);
 }
-.btn1 {
+button.btn1 {
   background: #e5e5e5;
   color: #000;
   border: 1px solid #e5e5e5;

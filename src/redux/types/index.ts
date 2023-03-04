@@ -22,6 +22,23 @@ export interface UserData {
   email: string;
   firstName: string;
   lastName: string;
+
+  // role: users;
+  // id: string;
+  // personal: {
+  //   firstName: string;
+  //   lastName: string;
+  //   doB: string;
+  // };
+  // contact: {
+  //   email: string;
+  //   phone: string;
+  // };
+  // address: {
+  //   city: string;
+  //   street: string;
+  //   country: string;
+  // };
 }
 
 export type userActions = "UPDATE_USER";

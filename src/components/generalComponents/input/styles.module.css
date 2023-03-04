@@ -30,6 +30,7 @@
   border-radius: 10px;
   background: #fcfcfc;
   font-size: 14px;
+  padding-right: 10px;
 }
 .input::placeholder,
 .textarea::placeholder {

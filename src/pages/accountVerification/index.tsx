@@ -51,7 +51,6 @@ const VerificationModal: React.FC<VerificationProps> = ({
   };
 
   React.useMemo(() => {
-    console.log(verificationResponse, verificationError);
     if (verificationResponse) {
       if (verificationResponse.status === 200) {
         dispatch(
@@ -95,7 +94,6 @@ const VerificationModal: React.FC<VerificationProps> = ({
   }, [verificationResponse, verificationError]);
 
   React.useMemo(() => {
-    console.log(resendResponse, resendError);
     if (resendResponse) {
       if (resendResponse.status === 200) {
         dispatch(

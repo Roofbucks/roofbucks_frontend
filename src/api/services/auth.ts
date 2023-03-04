@@ -5,11 +5,9 @@ AUTH SERVICES
 */
 
 import {
-  getRequest,
+  axiosInstanceUnauth,
   loginURL,
   newPasswordURL,
-  patchRequest,
-  postRequest,
   refreshTokenURL,
   resendVerificationURL,
   resetPasswordURL,
@@ -30,12 +28,7 @@ interface SignupRequestData {
  */
 
 export const signupService = (data: SignupRequestData) => {
-  const requestData = {
-    url: signupURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(signupURL(), data);
 };
 
 interface SignupVerificationRequestData {
@@ -50,12 +43,7 @@ interface SignupVerificationRequestData {
 export const signupVerificationService = (
   data: SignupVerificationRequestData
 ) => {
-  const requestData = {
-    url: signupVerificationURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(signupVerificationURL(), data);
 };
 
 interface ResendVerificationData {
@@ -67,12 +55,7 @@ interface ResendVerificationData {
  */
 
 export const resendVerificationService = (data: ResendVerificationData) => {
-  const requestData = {
-    url: resendVerificationURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(resendVerificationURL(), data);
 };
 
 interface loginData {
@@ -85,12 +68,7 @@ interface loginData {
  */
 
 export const loginService = (data: loginData) => {
-  const requestData = {
-    url: loginURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(loginURL(), data);
 };
 
 interface resetPasswordData {
@@ -102,12 +80,7 @@ interface resetPasswordData {
  */
 
 export const resetPasswordService = (data: resetPasswordData) => {
-  const requestData = {
-    url: resetPasswordURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(resetPasswordURL(), data);
 };
 
 interface newPasswordData {
@@ -121,12 +94,7 @@ interface newPasswordData {
  */
 
 export const newPasswordService = (data: newPasswordData) => {
-  const requestData = {
-    url: newPasswordURL(),
-    data,
-  };
-
-  return patchRequest(requestData);
+  return axiosInstanceUnauth.patch(newPasswordURL(), data);
 };
 
 interface refreshTokenData {
@@ -138,10 +106,5 @@ interface refreshTokenData {
  */
 
 export const refreshTokenService = (data: refreshTokenData) => {
-  const requestData = {
-    url: refreshTokenURL(),
-    data,
-  };
-
-  return postRequest(requestData);
+  return axiosInstanceUnauth.post(refreshTokenURL(), data);
 };

@@ -35,7 +35,6 @@ const Navbar: React.FC<NavbarProps> = ({
   showNav,
   openNav,
 }) => {
-  // const [showNav, setShowNav] = React.useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
   const [mobile, setMobile] = React.useState(
@@ -51,15 +50,8 @@ const Navbar: React.FC<NavbarProps> = ({
     }
   };
   window.onresize = screenSizeUpdate;
-
-  // const closeNav = () => {
-  //   setShowNav(false);
-  // };
-
-  // React.useEffect(() => {
-  //   closeMobileNav && closeNav();
-  // }, [closeMobileNav]);
-
+  window.onload = screenSizeUpdate;
+  
   return (
     <nav className={styles.navBg}>
       <div

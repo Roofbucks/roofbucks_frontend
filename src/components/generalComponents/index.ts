@@ -13,3 +13,4 @@ export * from "./checkBox";
 export * from "./activity";
 export * from "./preloader";
 export * from "./toast";
+export * from "./document";

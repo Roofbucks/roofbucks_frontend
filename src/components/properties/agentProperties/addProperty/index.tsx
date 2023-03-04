@@ -12,6 +12,7 @@ import {
 } from "utils";
 import { Button, CheckBox, CustomSelect, Input, Textarea } from "components";
 import { DocumentIcon, DownloadIcon, TrashIcon, ImageIcon } from "assets";
+import { getMegaByte } from "helpers";
 
 interface stageOneData {
   propertyStatus: "in-progress" | "completed";
@@ -451,8 +452,6 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
 
   const handleChangeDoc = ({ id, e }) => {
     const file = e.target.files[0];
-    // const name = `${getFileName(file.name)} VobbOther.${getExtension(file.name)}`;
-    // const doc = new File([file], name);
     const doc = new File([file], file.name);
 
     setValueStageOne(id, doc);
@@ -1268,8 +1267,4 @@ const Document: React.FC<DocumentProps> = ({
       )}
     </>
   );
-};
-
-const getMegaByte = (num) => {
-  return num ? (Number(num) / 1000000).toFixed(3) : 0;
 };

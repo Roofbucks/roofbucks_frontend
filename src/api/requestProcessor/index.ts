@@ -6,6 +6,10 @@ const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
+export const axiosInstanceUnauth = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+});
+
 // axios request interceptor
 axiosInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -31,7 +35,13 @@ axiosInstance.interceptors.response.use(
       window.location.pathname !== "/"
     ) {
       originalRequest._retry = true;
-      refreshToken();
+      const accessToken = await refreshToken();
+      if (accessToken) {
+        return axiosInstance(originalRequest);
+      } else {
+        localStorage.clear();
+        window.location.assign("/?login=true");
+      }
     }
     return error;
   }
@@ -40,17 +50,16 @@ axiosInstance.interceptors.response.use(
 export const refreshToken = async (): Promise<string> => {
   let token = "";
 
-  refreshTokenService({
+  await refreshTokenService({
     refresh: localStorage.getItem("roofbucksRefresh") ?? "",
   })
     .then((res) => {
       token = res.data.access;
-      localStorage.setItem("accessToken", token);
-      axios.defaults.headers.common["authorization"] = "Bearer " + token;
+      localStorage.setItem("roofbucksAccess", token);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       return token;
     })
     .catch((err) => {
-      console.log(err);
       localStorage.clear();
       window.location.assign("/");
     });

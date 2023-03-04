@@ -23,7 +23,6 @@ const ResetPasswordModal: React.FC<ResetProps> = ({
   const { search } = useLocation();
 
   const params = queryObject(search);
-  console.log(params);
 
   const {
     run: runReset,
