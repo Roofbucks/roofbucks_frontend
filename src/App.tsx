@@ -2,8 +2,9 @@ import * as React from "react";
 import { MainRouter } from "./router";
 import { Toast } from "components";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { updateToast } from "redux/actions";
+import { updateToast, updateUser } from "redux/actions";
 import { useLocation } from "react-router-dom";
+import { users } from "types";
 
 function App() {
   const { pathname } = useLocation();
@@ -11,16 +12,21 @@ function App() {
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(updateToast({ ...toast, show: false }));
 
-  // React.useEffect(() => {
-  //   dispatch(
-  //     updateToast({
-  //       show: false,
-  //       heading: "",
-  //       text: "",
-  //       type: true,
-  //     })
-  //   );
-  // }, [pathname]);
+  React.useEffect(() => {
+    const role = localStorage.getItem("role") ?? "";
+    const firstName = localStorage.getItem("firstName") ?? "";
+    const lastName = localStorage.getItem("lastName") ?? "";
+    const email = localStorage.getItem("email") ?? "";
+
+    dispatch(
+      updateUser({
+        role,
+        firstName,
+        lastName,
+        email,
+      })
+    );
+  }, []);
 
   return (
     <>

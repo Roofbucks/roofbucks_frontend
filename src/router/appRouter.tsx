@@ -1,8 +1,7 @@
 import { ErrorBoundary, ScrollToTop } from "helpers";
-import path from "path";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { RouteBuilder } from ".";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { RouteBuilder, Routes as RouteList } from ".";
 
 /**
  * MAIN ROUTER COMPONENT
@@ -16,28 +15,44 @@ import { RouteBuilder } from ".";
  */
 
 const MainRouter: React.FC = () => {
+  const hasAccessToken = localStorage.getItem("roofbucksAccess");
+
   return (
     <>
       <ScrollToTop />
       <Routes>
         {RouteBuilder?.length > 0 &&
           RouteBuilder.map((item, idx) => {
-            const { Element, path, caseSensitive, Layout, props } = item;
+            const { Element, path, caseSensitive, Layout, props, isProtected } =
+              item;
             // Checks if a layout exists or not
-            const PageComponent =
-              Layout ? (
-                <ErrorBoundary>
-                  <Layout {...props}>
-                    <Element />
-                  </Layout>
-                </ErrorBoundary>
-              ) : (
-                <ErrorBoundary>
+            const PageComponent = Layout ? (
+              <ErrorBoundary>
+                <Layout {...props}>
                   <Element />
-                </ErrorBoundary>
+                </Layout>
+              </ErrorBoundary>
+            ) : (
+              <ErrorBoundary>
+                <Element />
+              </ErrorBoundary>
+            );
+
+            const AccessiblePageComponent =
+              isProtected && !hasAccessToken ? (
+                <Navigate to={RouteList.login} replace />
+              ) : (
+                PageComponent
               );
 
-            return <Route key={idx} path={path} element={PageComponent} caseSensitive={caseSensitive} />;
+            return (
+              <Route
+                key={idx}
+                path={path}
+                element={AccessiblePageComponent}
+                caseSensitive={caseSensitive}
+              />
+            );
           })}
       </Routes>
     </>

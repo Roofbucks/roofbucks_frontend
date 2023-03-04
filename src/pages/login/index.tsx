@@ -33,23 +33,28 @@ const LoginModal: React.FC<LoginProps> = ({
   React.useMemo(() => {
     if (loginResponse) {
       if (loginResponse.status === 200) {
-        localStorage.setItem(
-          "roofbucksAccess",
-          loginResponse.data.tokens.access
-        );
-        localStorage.setItem(
-          "roofbucksRefresh",
-          loginResponse.data.tokens.refresh
-        );
+        const data = loginResponse.data;
+        const role = data.role === "AGENT" ? "agent" : "shareholder";
+        const firstName = data.firstname;
+        const lastName = data.lastname;
+        const email = data.email;
+
+        localStorage.setItem("roofbucksAccess", data.tokens.access);
+        localStorage.setItem("roofbucksRefresh", data.tokens.refresh);
+        localStorage.setItem("role", role);
+        localStorage.setItem("firstName", firstName);
+        localStorage.setItem("lastName", lastName);
+        localStorage.setItem("email", email);
 
         dispatch(
           updateUser({
-            role: loginResponse.data.role === "AGENT" ? "agent" : "shareholder",
-            firstName: loginResponse.data.firstname,
-            lastName: loginResponse.data.lastname,
-            email: loginResponse.data.email,
+            role,
+            firstName,
+            lastName,
+            email,
           })
         );
+
         dispatch(
           updateToast({
             show: true,

@@ -18,27 +18,10 @@ export interface reduxDropdownAction {
  * User State
  */
 export interface UserData {
-  role: users;
+  role: users | string;
   email: string;
   firstName: string;
   lastName: string;
-
-  // role: users;
-  // id: string;
-  // personal: {
-  //   firstName: string;
-  //   lastName: string;
-  //   doB: string;
-  // };
-  // contact: {
-  //   email: string;
-  //   phone: string;
-  // };
-  // address: {
-  //   city: string;
-  //   street: string;
-  //   country: string;
-  // };
 }
 
 export type userActions = "UPDATE_USER";

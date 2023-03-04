@@ -10,15 +10,13 @@ import {
   SettingsIcon,
   SupportIcon,
 } from "assets";
-import { LogoWithText, Preloader, useOutsideAlerter } from "components";
+import { LogoWithText, useOutsideAlerter } from "components";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Routes } from "router";
-import { users } from "types";
 import styles from "./styles.module.css";
-import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { useAppSelector } from "redux/hooks";
 import { Logout } from "./logoutPrompt";
-import { resetStore } from "redux/actions";
 
 interface SidebarType {
   active: dashboardPages;
@@ -75,8 +73,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
 }) => {
   const { role: user } = useAppSelector((state) => state.user);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const items: SidebarType[] = [
     {
@@ -142,7 +138,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   const [showMenu, setShowMenu] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
 
   const menuRef = React.useRef(null);
 
@@ -151,25 +146,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
   useOutsideAlerter(menuRef, onHide);
 
-  const logout = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      localStorage.clear();
-      setLoading(false);
-      dispatch(resetStore());
-      navigate(Routes.home);
-    }, 1000);
-  };
-
   return (
     <>
-      <Preloader loading={loading} />
-      <Logout
-        show={showLogout}
-        closeModal={() => setShowLogout(false)}
-        logoutAction={logout}
-      />
+      <Logout show={showLogout} closeModal={() => setShowLogout(false)} />
       <main className={styles.main}>
         <nav className={`${styles.sideBar} ${showMenu ? styles.overLay : ""}`}>
           <div className={styles.mobileNav}>
@@ -202,3 +181,4 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 };
 
 export { DashboardLayout };
+export * from "./logoutPrompt";

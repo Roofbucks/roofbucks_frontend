@@ -26,6 +26,7 @@ export interface RouteBuilderItem extends RouteProps {
   Layout?: React.FC<any>; // If you wish to add a layout to the page
   Element: React.FC;
   props?: any;
+  isProtected?: boolean;
 }
 
 /**
@@ -131,6 +132,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "",
     },
+    isProtected: true
   },
   {
     path: Routes.profile,
@@ -149,6 +151,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Overview",
     },
+    isProtected: true
   },
   {
     path: Routes.properties,
@@ -158,6 +161,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Properties",
     },
+    isProtected: true
   },
   {
     path: Routes.finances,
@@ -167,6 +171,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Finances",
     },
+    isProtected: true
   },
   {
     path: Routes.settings,
@@ -176,6 +181,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Settings",
     },
+    isProtected: true
   },
   {
     path: Routes.inbox,
@@ -185,6 +191,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Inbox",
     },
+    isProtected: true
   },
   {
     path: "*",
