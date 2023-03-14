@@ -1,7 +1,11 @@
 import { AgentPropertiesUI, Toast } from "components";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "router";
 
 const AgentProperties = () => {
+  const navigate = useNavigate();
+
   const [toast, setToast] = React.useState({
     show: false,
     heading: "",
@@ -9,25 +13,16 @@ const AgentProperties = () => {
     type: false,
   });
 
-  const tooLarge = () =>
-    setToast({
-      show: true,
-      heading: "File size error",
-      text: "Failed to attach file greater than 8MB. Please reduce size and try again.",
-      type: false,
-    });
-
+  const addProperty = () => {
+    navigate(Routes.addProperty);
+  };
   return (
     <>
       <Toast
         {...toast}
         closeModal={() => setToast({ ...toast, show: false })}
       />
-      <AgentPropertiesUI
-        tooLarge={tooLarge}
-        closeForm={() => {}}
-        tableItems={[]}
-      />
+      <AgentPropertiesUI tableItems={[]} addProperty={addProperty} />
     </>
   );
 };

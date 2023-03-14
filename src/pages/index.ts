@@ -20,3 +20,4 @@ export * from "./properties";
 export * from "./finances";
 export * from "./settings";
 export * from "./inbox";
+export * from "./addProperty";

@@ -112,7 +112,13 @@ interface StatInfo {
   difference: number;
 }
 
-const StatCard = () => {
+const StatCard: React.FC<StatInfo> = ({
+  title,
+  total,
+  percentage,
+  increase,
+  difference,
+}) => {
   return (
     <div className={styles.statCard}>
       <HouseIcon className={styles.statIcon} />
@@ -164,6 +170,37 @@ const OverviewUI = () => {
 
   const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
 
+  const statList: StatInfo[] = [
+    {
+      title: "Total Listing",
+      total: 140,
+      percentage: 0.5,
+      increase: true,
+      difference: 12,
+    },
+    {
+      title: "Total Closing",
+      total: 140,
+      percentage: 0.5,
+      increase: true,
+      difference: 12,
+    },
+    {
+      title: "Total Active",
+      total: 140,
+      percentage: 0.5,
+      increase: true,
+      difference: 12,
+    },
+    {
+      title: "Total Inactive",
+      total: 140,
+      percentage: 0.5,
+      increase: true,
+      difference: 12,
+    },
+  ];
+
   return (
     <>
       <div className={styles.container}>
@@ -176,10 +213,9 @@ const OverviewUI = () => {
             <MyDateRangePicker className={styles.statRange} />
 
             <div className={`${styles.statList} ${styles.secWrap}`}>
-              <StatCard />
-              <StatCard />
-              <StatCard />
-              <StatCard />
+              {statList.map((item, index) => (
+                <StatCard {...item} key={index} />
+              ))}
             </div>
           </div>
           <div className={`${styles.secWrap} ${styles.trendsWrap}`}>

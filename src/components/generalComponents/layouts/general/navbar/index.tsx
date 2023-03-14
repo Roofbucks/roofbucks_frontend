@@ -183,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       show={showMenuDropdown}
                       closeMenu={(x) => setShowMenuDropdown(x)}
                       logout={() => {
-                        closeNav()
+                        closeNav();
                         setShowMenuDropdown(false);
                         setShowLogout(true);
                       }}
@@ -259,7 +259,9 @@ const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
       <ul className={styles.authMenuList}>
         <li>Home</li>
-        <li>My Dashboard</li>
+        <li>
+          <Link to={Routes.overview}>My Dashboard</Link>
+        </li>
         <li>My Cart</li>
         <li className={styles.activeMenuItem}>Profile</li>
         <li role="button" onClick={logout}>

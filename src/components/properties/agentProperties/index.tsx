@@ -1,20 +1,23 @@
-import { PlusIconFill } from "assets";
-import { Button, PropertyTableItem } from "components/generalComponents";
+import { EmptyStreet, PlusIconFill, SearchIcon } from "assets";
+import {
+  Button,
+  PropertyTable,
+  PropertyTableItem,
+  Table,
+  TableHeaderItemProps,
+} from "components/generalComponents";
 import * as React from "react";
-import { AddProperty, AddPropertyProps } from "./addProperty";
-import { ListProperties } from "./listProperties";
 import styles from "./styles.module.css";
 
-interface AgentPropertiesUIProps extends AddPropertyProps {
+interface AgentPropertiesUIProps {
   tableItems: PropertyTableItem[];
+  addProperty;
 }
 
 const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
-  tooLarge,
-  closeForm,
+  addProperty,
+  tableItems,
 }) => {
-  const [showAddProperty, setShowAddProperty] = React.useState(false);
-
   const tableItem: PropertyTableItem = {
     propertyID: "#C123456",
     propertyName: "St John Francis Hotel and suite",
@@ -53,7 +56,14 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
       status: "approved",
     },
   ];
-
+  const tableHeaderTitles: TableHeaderItemProps[] = [
+    { title: "Property ID" },
+    { title: "Property Name" },
+    { title: "Date" },
+    { title: "Amount" },
+    { title: "Status" },
+    { title: "" },
+  ];
   const tableBodyItems: PropertyTableItem[] = [...items, ...items];
 
   return (
@@ -63,32 +73,54 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
         <Button
           className={styles.addBtn}
           type={"primary"}
-          onClick={() => setShowAddProperty(true)}
+          onClick={addProperty}
         >
           <PlusIconFill />
           Add new property
         </Button>
       </section>
-      <>
-        {showAddProperty ? (
-          <AddProperty
-            closeForm={() => {
-              window.scrollTo(-0, -0);
-              setShowAddProperty(false);
-            }}
-            tooLarge={tooLarge}
-          />
-        ) : (
-          <ListProperties
-            tableBodyItems={tableBodyItems}
-            addStays={() => {}}
-            edit={() => {}}
-            addProperty={() => setShowAddProperty(true)}
-          />
-        )}
-      </>
+      <section>
+        <div className={styles.searchWrap}>
+          <SearchIcon />
+          <input type="search" placeholder="Search by property name" />
+        </div>
+        <Table
+          tableHeaderTitles={tableHeaderTitles}
+          tableBody={
+            <PropertyTable
+              edit={() => {}}
+              view={(id) => console.log(id)}
+              addStays={() => {}}
+              tableBodyItems={tableBodyItems}
+              tableBodyItemClassName={styles.tableBodyItem}
+            />
+          }
+          customTableClasses={{
+            tableWrapperClass: styles.tableWrap,
+            tableHeaderClassName: styles.tableHeader,
+            tableHeaderItemClassName: styles.tableHeaderItem,
+          }}
+          emptyTable={{
+            show: tableBodyItems.length <= 0,
+            element: <EmptyProperties />,
+          }}
+        />
+      </section>
     </>
   );
 };
 
 export { AgentPropertiesUI };
+
+const EmptyProperties = () => {
+  return (
+    <div className={styles.emptySec}>
+      <EmptyStreet />
+      <p>You haven’t added any properties</p>
+      <Button className={styles.addBtn} type={"primary"} onClick={() => {}}>
+        <PlusIconFill />
+        Add new property
+      </Button>
+    </div>
+  );
+};

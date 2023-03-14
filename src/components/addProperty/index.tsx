@@ -228,7 +228,7 @@ export interface AddPropertyProps {
   tooLarge: () => void;
 }
 
-const AddProperty: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
+const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
   const [stage, setStage] = React.useState(1);
   const [scrollPosition, setPosition] = React.useState(0);
   const [scrollDir, setScrollDir] = React.useState("down");
@@ -1184,7 +1184,7 @@ const AddProperty: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
   );
 };
 
-export { AddProperty };
+export { AddPropertyUI };
 
 const useIsInViewport = (ref) => {
   const [isIntersecting, setIsIntersecting] = React.useState(false);

@@ -1,6 +1,7 @@
 import { DashboardLayout, Layout } from "components";
 import {
   About,
+  AddProperty,
   AgentList,
   Contact,
   Error404,
@@ -156,6 +157,16 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.properties,
     Element: Properties,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Properties",
+    },
+    isProtected: true
+  },
+  {
+    path: Routes.addProperty,
+    Element: AddProperty,
     Layout: DashboardLayout,
     caseSensitive: true,
     props: {

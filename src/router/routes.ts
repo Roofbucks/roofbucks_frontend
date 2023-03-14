@@ -36,6 +36,7 @@ export const Routes = {
   // Dashboard
   overview: `/overview`,
   properties: `/properties`,
+  addProperty: `/properties/add`,
   finances: `/finances`,
   settings: `/settings`,
   inbox: `/inbox`,
