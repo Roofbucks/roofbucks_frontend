@@ -12,50 +12,19 @@ import styles from "./styles.module.css";
 interface AgentPropertiesUIProps {
   tableItems: PropertyTableItem[];
   addProperty;
+  search: {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+  hide: boolean;
 }
 
 const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
   addProperty,
   tableItems,
+  search,
+  hide,
 }) => {
-  const tableItem: PropertyTableItem = {
-    propertyID: "#C123456",
-    propertyName: "St John Francis Hotel and suite",
-    amount: "NGN 100,000,000.00",
-    date: "14/12/2022",
-    status: "pending",
-  };
-
-  const items: PropertyTableItem[] = [
-    {
-      propertyID: "#C123456",
-      propertyName: "St John Francis Hotel and suite",
-      amount: "NGN 100,000,000.00",
-      date: "14/12/2022",
-      status: "pending",
-    },
-    {
-      propertyID: "#C123456",
-      propertyName: "St John Francis Hotel and suite",
-      amount: "NGN 100,000,000.00",
-      date: "14/12/2022",
-      status: "rejected",
-    },
-    {
-      propertyID: "#C123456",
-      propertyName: "St John Francis Hotel and suite",
-      amount: "NGN 100,000,000.00",
-      date: "14/12/2022",
-      status: "incomplete",
-    },
-    {
-      propertyID: "#C123456",
-      propertyName: "St John Francis Hotel and suite",
-      amount: "NGN 100,000,000.00",
-      date: "14/12/2022",
-      status: "approved",
-    },
-  ];
   const tableHeaderTitles: TableHeaderItemProps[] = [
     { title: "Property ID" },
     { title: "Property Name" },
@@ -64,7 +33,6 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
     { title: "Status" },
     { title: "" },
   ];
-  const tableBodyItems: PropertyTableItem[] = [...items, ...items];
 
   return (
     <>
@@ -82,8 +50,14 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
       <section>
         <div className={styles.searchWrap}>
           <SearchIcon />
-          <input type="search" placeholder="Search by property name" />
+          <input
+            type="search"
+            placeholder="Search by property name"
+            value={search.value}
+            onChange={search.onChange}
+          />
         </div>
+
         <Table
           tableHeaderTitles={tableHeaderTitles}
           tableBody={
@@ -91,7 +65,7 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
               edit={() => {}}
               view={(id) => console.log(id)}
               addStays={() => {}}
-              tableBodyItems={tableBodyItems}
+              tableBodyItems={tableItems}
               tableBodyItemClassName={styles.tableBodyItem}
             />
           }
@@ -101,7 +75,7 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
             tableHeaderItemClassName: styles.tableHeaderItem,
           }}
           emptyTable={{
-            show: tableBodyItems.length <= 0,
+            show: tableItems.length <= 0 && !hide,
             element: <EmptyProperties />,
           }}
         />
@@ -117,7 +91,11 @@ const EmptyProperties = () => {
     <div className={styles.emptySec}>
       <EmptyStreet />
       <p>You haven’t added any properties</p>
-      <Button className={styles.addBtn} type={"primary"} onClick={() => {}}>
+      <Button
+        className={`${styles.addBtn} ${styles.center}`}
+        type={"primary"}
+        onClick={() => {}}
+      >
         <PlusIconFill />
         Add new property
       </Button>

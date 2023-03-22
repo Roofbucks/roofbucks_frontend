@@ -61,3 +61,10 @@
   margin: auto;
   min-width: 180px;
 }
+.propertyID {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: auto;
+  max-width: 100px;
+}

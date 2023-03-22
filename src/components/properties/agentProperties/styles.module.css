@@ -71,7 +71,11 @@ section.tableWrap {
   font-size: 22px;
   font-weight: 600;
 }
-
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+}
 @media screen and (max-width: 1200px) {
   .tableWrap {
     padding: 2px !important;

@@ -59,10 +59,10 @@ const PropertyTable: React.FC<TableBodyProps> = ({
       <TableBody customClassName={`${styles.tableBody}`}>
         {tableBodyItems.map((item, index) => (
           <tr key={`body ${index}`}>
-            <td className={tableBodyItemClassName}>{item.propertyID}</td>
+            <td className={tableBodyItemClassName}><p className={styles.propertyID} >{item.propertyID}</p></td>
             <td className={tableBodyItemClassName}><p className={styles.name} >{item.propertyName}</p></td>
             <td className={tableBodyItemClassName}>{item.date}</td>
-            <td className={tableBodyItemClassName}>{item.amount}</td>
+            <td className={tableBodyItemClassName}>$ {item.amount}</td>
             <td className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>
                 {item.status}
