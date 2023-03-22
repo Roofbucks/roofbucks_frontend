@@ -1,4 +1,3 @@
-
 /* Doc Upload */
 .docName {
   margin-bottom: 10px;
@@ -79,4 +78,17 @@ p.docNote {
   font-size: 12px;
 }
 .docDelete {
+}
+.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: 8px;
+}
+.errorMsg svg {
+  width: 16px;
+  margin-right: 4px;
+}
+.emptyDoc {
+  border-color: var(--red);
 }

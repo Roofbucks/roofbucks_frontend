@@ -276,9 +276,23 @@ p.docNote {
   padding: 10px 1.3rem;
 }
 .stayScheduleWrap {
+  width: 100%;
+}
+.stayScheduleWrap > div {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+.stayScheduleWrap > div > div {
+  margin-bottom: 1.3rem;
+}
+.removeStayBtn {
+  position: absolute;
+  right: 0;
+  width: 16px;
+  height: 16px;
 }
 .addStayBtn {
   margin-top: 1rem;
@@ -288,6 +302,17 @@ p.docNote {
 }
 .nav {
   display: none;
+}
+.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+.errorMsg svg {
+  width: 16px;
+  margin-right: 4px;
 }
 
 @media screen and (max-width: 1000px) {
@@ -322,6 +347,9 @@ p.docNote {
 @media screen and (max-width: 600px) {
   .halfWidth {
     width: 100%;
+  }
+  .stayScheduleWrap > div > div {
+    width: 48.5%;
   }
   .inputSec {
     border-bottom: 1px solid #ebf1ec;
@@ -366,5 +394,8 @@ p.docNote {
   .docInfo p:first-of-type {
     font-size: 14px;
     white-space: unset;
+  }
+  .hideOnMobile {
+    display: none;
   }
 }

@@ -2,7 +2,7 @@ import { DocumentIcon, DownloadIcon, TrashIcon, WarningIcon } from "assets";
 import styles from "./styles.module.css";
 import { getMegaByte } from "helpers";
 
-interface DocumentProps {
+export interface DocumentProps {
   id: string;
   label?: string;
   file: File | undefined;
@@ -20,7 +20,8 @@ export const Document: React.FC<DocumentProps> = ({
   handleChangeDoc,
   handleRemoveDoc,
   className,
-  error,uploadedDocClassName
+  error,
+  uploadedDocClassName,
 }) => {
   return (
     <div className={className}>

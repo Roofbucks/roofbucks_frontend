@@ -10,20 +10,28 @@ import {
   promotionTypeOptions,
   propertyTypeOptions,
 } from "utils";
-import { Button, CheckBox, CustomSelect, Input, Textarea } from "components";
-import { DocumentIcon, DownloadIcon, TrashIcon, ImageIcon } from "assets";
+import {
+  Button,
+  CheckBox,
+  CustomSelect,
+  DocumentProps,
+  Input,
+  Textarea,
+  Document,
+} from "components";
+import { DownloadIcon, TrashIcon, ImageIcon, WarningIcon } from "assets";
 import { getMegaByte } from "helpers";
 
 interface stageOneData {
   propertyStatus: "in-progress" | "completed";
   propertyType: optionType;
+  name: string;
   inProgress?: {
     completionPercent: string;
     completionDate: string;
     completionCost: string;
   };
   completed?: {
-    name: string;
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
@@ -61,13 +69,13 @@ interface stageOneData {
 const initialValuesStageOne: stageOneData = {
   propertyStatus: "in-progress",
   propertyType: initialOptionType,
+  name: "",
   inProgress: {
     completionPercent: "",
     completionDate: "",
     completionCost: "",
   },
   completed: {
-    name: "",
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
@@ -103,28 +111,34 @@ const initialValuesStageOne: stageOneData = {
 };
 
 const stageOneSchema = yup
-  .object({
-    propertyStatus: yup.string().required("Required"),
+  .object()
+  .shape({
+    propertyStatus: yup
+      .string()
+      .oneOf(["in-progress", "completed"], "Invalid property status")
+      .required("Required"),
     propertyType: yup.object({
       label: yup.string().required("Required"),
       value: yup.string().required("Required"),
     }),
-    inProgress: yup
-      .object({
+    name: yup.string().required("Required"),
+    inProgress: yup.object().when("propertyStatus", {
+      is: (val) => val === "in-progress",
+      then: yup.object({
         completionPercent: yup.string().required("Required"),
         completionDate: yup.string().required("Required"),
         completionCost: yup.string().required("Required"),
-      })
-      .notRequired(),
-    completed: yup
-      .object({
-        name: yup.string().required("Required"),
+      }),
+    }),
+    completed: yup.object().when("propertyStatus", {
+      is: (val) => val === "completed",
+      then: yup.object({
         yearBuilt: yup.string().required("Required"),
         noOfBedrooms: yup.number().required("Required"),
         noOfToilets: yup.number().required("Required"),
         description: yup.string().required("Required"),
-      })
-      .notRequired(),
+      }),
+    }),
     address: yup.string().required("Required"),
     city: yup.string().required("Required"),
     state: yup.string().required("Required"),
@@ -133,37 +147,31 @@ const stageOneSchema = yup
       label: yup.string().required("Required"),
       value: yup.string().required("Required"),
     }),
-    indoorAmenities: yup
-      .array()
-      .min(1, "Please select at least indoor one amenity")
-      .required("Required"),
+    indoorAmenities: yup.array().required("Required"),
     otherIndoorAmenities: yup.string(),
-    outdoorAmenities: yup
-      .array()
-      .min(1, "Please select at least one amenity")
-      .required("Required"),
+    outdoorAmenities: yup.array().required("Required"),
     otherOutdoorAmenities: yup.string(),
     erfSize: yup.string().required("Required"),
     diningArea: yup.string().required("Required"),
     floorSize: yup.string().required("Required"),
     crossRoads: yup.object({
-      address1: yup.string().required("Required"),
-      address2: yup.string().required("Required"),
+      address1: yup.string(),
+      address2: yup.string(),
     }),
     landmarks: yup.object({
-      address1: yup.string().required("Required"),
-      address2: yup.string().required("Required"),
+      address1: yup.string(),
+      address2: yup.string(),
     }),
     media: yup
       .array()
       .min(1, "Please add at least one media")
       .required("Required"),
-    surveyPlan: yup.string().required("Required"),
-    purchaseReceipt: yup.string().required("Required"),
-    excision: yup.string().required("Required"),
-    gazette: yup.string().required("Required"),
-    deedOfAssignment: yup.string().required("Required"),
-    certificateOfOccupancy: yup.string().required("Required"),
+    surveyPlan: yup.mixed().required("Required"),
+    purchaseReceipt: yup.mixed().required("Required"),
+    excision: yup.mixed().required("Required"),
+    gazette: yup.mixed().required("Required"),
+    deedOfAssignment: yup.mixed().required("Required"),
+    certificateOfOccupancy: yup.mixed().required("Required"),
   })
   .required();
 
@@ -171,9 +179,6 @@ interface stageTwoData {
   totalCost: number;
   noOfShares: number;
   costPerShare: number;
-  promotionType: optionType;
-  dealClosing: string;
-  otherDeals: string;
   annualROI: number;
   rentRoll: number;
   stays: { start: string; end: string }[];
@@ -184,9 +189,9 @@ const initialValuesStageTwo: stageTwoData = {
   totalCost: 0,
   noOfShares: 0,
   costPerShare: 0,
-  promotionType: initialOptionType,
-  dealClosing: "",
-  otherDeals: "",
+  // promotionType: initialOptionType,
+  // dealClosing: "",
+  // otherDeals: "",
   annualROI: 0,
   rentRoll: 0,
   stays: [{ start: "", end: "" }],
@@ -202,12 +207,6 @@ const stageTwoSchema = yup
       .max(10, "Maximum of 10 shares allowed")
       .required("Required"),
     costPerShare: yup.number().required("Required"),
-    promotionType: yup.object({
-      label: yup.string().required("Required"),
-      value: yup.string().required("Required"),
-    }),
-    dealClosing: yup.string().required("Required"),
-    otherDeals: yup.string().required("Required"),
     annualROI: yup.number().required("Required"),
     rentRoll: yup.number().required("Required"),
     stays: yup
@@ -219,19 +218,24 @@ const stageTwoSchema = yup
       )
       .min(1, "At least one stay is required")
       .required("Required"),
-    otherIncentives: yup.string().required("Required"),
+    otherIncentives: yup.string(),
   })
   .required();
 
 export interface AddPropertyProps {
   closeForm: () => void;
   tooLarge: () => void;
+  submit: (data: FormData) => void;
 }
 
-const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
+const AddPropertyUI: React.FC<AddPropertyProps> = ({
+  closeForm,
+  tooLarge,
+  submit,
+}) => {
   const [stage, setStage] = React.useState(1);
   const [scrollPosition, setPosition] = React.useState(0);
-  const [scrollDir, setScrollDir] = React.useState("down");
+  const [scrollDir, setScrollDir] = React.useState("none");
 
   const {
     register: registerStageOne,
@@ -311,12 +315,20 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
 
     const updateScrollDir = () => {
       const scrollY = window.pageYOffset;
-
       if (Math.abs(scrollY - lastScrollY) < threshold) {
         ticking = false;
         return;
       }
-      setScrollDir(scrollY > lastScrollY ? "down" : "up");
+      setTimeout(() => {
+        const scroll =
+          scrollY > lastScrollY
+            ? "down"
+            : scrollY < lastScrollY
+            ? "up"
+            : "none";
+        setScrollDir(scroll);
+      }, 1000);
+
       lastScrollY = scrollY > 0 ? scrollY : 0;
       ticking = false;
     };
@@ -421,40 +433,26 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
   };
 
   const handleChangeMedia = (e) => {
-    const prevList = watchStageOne("media");
-    const file = e.target.files[0];
-    const doc = new File([file], file.name);
-
-    prevList.push(doc);
+    const file: File = e.target.files[0];
 
     checkFileSize({
       file: file,
       onSuccess: () => {
-        setValueStageOne("media", prevList);
+        setValueStageOne("media", [...watchStageOne("media"), file]);
       },
     });
   };
 
   const handleRemoveMedia = (index) => {
-    const prevList = watchStageOne("media");
-
-    if (prevList.length > 1) {
-      prevList.splice(index, 1);
-      setValueStageOne("media", [...prevList]);
-    } else {
-      const newList = prevList.map((item, idx) =>
-        idx === index ? new File([], "") : item
-      );
-
-      setValueStageOne("media", newList);
-    }
+    const prevList = [...watchStageOne("media")];
+    prevList.splice(index, 1);
+    setValueStageOne("media", [...prevList]);
   };
 
   const handleChangeDoc = ({ id, e }) => {
-    const file = e.target.files[0];
-    const doc = new File([file], file.name);
+    const file: File = e.target.files[0];
 
-    setValueStageOne(id, doc);
+    setValueStageOne(id, file);
   };
 
   const handleRemoveDoc = ({ id }) => {
@@ -468,6 +466,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "surveyPlan",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.surveyPlan?.message,
     },
     {
       label: "Purchase Receipt",
@@ -475,6 +474,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "purchaseReceipt",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.purchaseReceipt?.message,
     },
     {
       label: "Excision",
@@ -482,6 +482,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "excision",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.excision?.message,
     },
     {
       label: "Gazette",
@@ -489,6 +490,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "gazette",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.gazette?.message,
     },
     {
       label: "Registered Deed of Assignment (Governor's consent)",
@@ -496,6 +498,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "deedOfAssignment",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.deedOfAssignment?.message,
     },
     {
       label: "Certificate of Occupancy",
@@ -503,8 +506,132 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
       id: "certificateOfOccupancy",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
+      error: errorsStageOne.certificateOfOccupancy?.message,
     },
   ];
+
+  const [submitFormData, setsubmitFormData] = React.useState<FormData>(
+    new FormData()
+  );
+
+  const onSubmitStageOne: SubmitHandler<stageOneData> = (data) => {
+    const indoorAmenities = data.indoorAmenities.join(",");
+    const otherIndoorAmenities = data.otherIndoorAmenities
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item !== "");
+    const outdoorAmenities = data.outdoorAmenities.join(",");
+    const otherOutdoorAmenities = data.otherOutdoorAmenities
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item !== "");
+
+    const amenities = `${indoorAmenities},${otherIndoorAmenities},${outdoorAmenities},${otherOutdoorAmenities}`;
+    console.log(amenities);
+    console.log(data);
+
+    let formData = new FormData();
+
+    if (data.propertyStatus === "completed" && data.completed) {
+      formData.append("description", data.completed?.description);
+      formData.append(
+        "number_of_bedrooms",
+        String(data.completed?.noOfBedrooms)
+      );
+      formData.append("number_of_toilets", String(data.completed?.noOfToilets));
+      formData.append("date_built", data.completed.yearBuilt);
+    }
+
+    if (data.propertyStatus === "in-progress" && data.inProgress) {
+      formData.append("completion_cost", data.inProgress?.completionCost);
+      formData.append("completion_date", data.inProgress?.completionDate);
+      formData.append(
+        "percentage_completed",
+        data.inProgress?.completionPercent
+      );
+    }
+
+    formData.append("name", data.name);
+    formData.append("completion_status", data.propertyStatus.toUpperCase());
+    formData.append("apartment_type", String(data.propertyType.value));
+    formData.append("address", data.address);
+    formData.append("city", data.city);
+    formData.append("state", data.state);
+    formData.append("country", String(data.country.value));
+    formData.append("zip_code", data.zipCode);
+
+    if (data.crossRoads.address1 !== "" || data.crossRoads.address2 !== "") {
+      formData.append(
+        "cross_streets",
+        `${data.crossRoads.address1},${data.crossRoads.address2}`
+      );
+    }
+
+    if (data.landmarks.address1 !== "" || data.landmarks.address2 !== "") {
+      formData.append(
+        "landmarks",
+        `${data.landmarks.address1},${data.landmarks.address2}`
+      );
+    }
+    formData.append("amenities", amenities);
+    formData.append("ERF_size", String(data.erfSize));
+    formData.append("dining_area", String(data.diningArea));
+    formData.append("floor_size", String(data.floorSize));
+    data.media.map((item) => formData.append("images", item));
+    data.deedOfAssignment &&
+      formData.append("registered_deed_of_assignment", data.deedOfAssignment);
+    data.certificateOfOccupancy &&
+      formData.append("certificate_of_occupancy", data.certificateOfOccupancy);
+    data.gazette && formData.append("gazette_document", data.gazette);
+    data.excision && formData.append("excision_document", data.excision);
+    data.purchaseReceipt &&
+      formData.append("purchase_receipt", data.purchaseReceipt);
+    data.surveyPlan && formData.append("approved_survey_plan", data.surveyPlan);
+    data.surveyPlan && formData.append("default_image", data.media[0]);
+
+    // data.append("percentage_discount", "5");
+    // data.append("benefits", "benefit1,benefit2,benefit3,benefit4,benefit5");
+
+    setsubmitFormData(formData);
+
+    setStage(2);
+  };
+
+  const onSubmitStageTwo: SubmitHandler<stageTwoData> = (data) => {
+    let formData = new FormData();
+    formData.append("price_per_share", String(data.costPerShare));
+    formData.append("total_number_of_shares", String(data.noOfShares));
+    formData.append("total_property_cost", String(data.totalCost));
+    formData.append("expected_ROI", String(data.annualROI));
+    formData.append("area_rent_rolls", String(data.rentRoll));
+    formData.append("other_incentives", data.otherIncentives);
+    let stays = "";
+    data.stays.map(
+      (item, index) =>
+        (stays += `${item.start},${item.end}${
+          data.stays.length - 1 === index ? "" : ","
+        }`)
+    );
+
+    formData.append("scheduled_stays", stays);
+
+    formData.forEach((value, key) => submitFormData.append(key, value));
+    submit(submitFormData);
+  };
+
+  const addNewStay = () => {
+    const isComplete = watchStageTwo("stays").every(
+      (item) => item.start !== "" && item.end !== ""
+    );
+    const stay = { start: "", end: "" };
+    isComplete && setValueStageTwo("stays", [...watchStageTwo("stays"), stay]);
+  };
+
+  const removeStay = (index) => {
+    const prevList = [...watchStageTwo("stays")];
+    prevList.splice(index, 1);
+    setValueStageTwo("stays", [...prevList]);
+  };
 
   return (
     <section className={styles.addPropertyContainer}>
@@ -572,7 +699,11 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                 <p className={styles.radioTtl}>Property Type</p>
                 <CustomSelect
                   onChange={(x) => setValueStageOne("propertyType", x)}
-                  validatorMessage={errorsStageOne.propertyType?.message ?? ""}
+                  validatorMessage={
+                    watchStageOne("propertyType").value === ""
+                      ? errorsStageOne.propertyType?.value?.message ?? ""
+                      : ""
+                  }
                   name={"propertyType"}
                   placeholder={"Please Select"}
                   label={""}
@@ -580,6 +711,19 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   value={watchStageOne("propertyType")}
                   inputClass={styles.select}
                   parentClassName={styles.selectParent}
+                />
+              </div>
+              <div className={styles.halfWidth}>
+                <Input
+                  label="PROPERTY NAME"
+                  placeholder=""
+                  type="text"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errorsStageOne?.name?.message}
+                  name="name"
+                  register={registerStageOne}
+                  value={watchStageOne("name")}
                 />
               </div>
               {watchStageOne("propertyStatus") === "in-progress" ? (
@@ -620,27 +764,15 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                       parentClassName={styles.input}
                       required
                       validatorMessage={
-                        errorsStageOne.inProgress?.completionPercent?.message
+                        errorsStageOne.inProgress?.completionCost?.message
                       }
-                      name="inProgress.completionPercent"
+                      name="inProgress.completionCost"
                       register={registerStageOne}
                     />
                   </div>
                 </>
               ) : (
                 <>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="PROPERTY NAME"
-                      placeholder=""
-                      type="text"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={errorsStageOne.completed?.name?.message}
-                      name="completed.name"
-                      register={registerStageOne}
-                    />
-                  </div>
                   <div className={styles.halfWidth}>
                     <Input
                       label="YEAR BUILT"
@@ -713,6 +845,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   validatorMessage={errorsStageOne.address?.message}
                   name="address"
                   register={registerStageOne}
+                  value={watchStageOne("address")}
                 />
               </div>
               <div className={styles.halfWidth}>
@@ -725,6 +858,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   validatorMessage={errorsStageOne.city?.message}
                   name="city"
                   register={registerStageOne}
+                  value={watchStageOne("city")}
                 />
               </div>
               <div className={styles.halfWidth}>
@@ -754,114 +888,11 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
               <div className={styles.halfWidth}>
                 <CustomSelect
                   onChange={(x) => setValueStageOne("country", x)}
-                  validatorMessage={errorsStageOne.country?.message ?? ""}
-                  name={"country"}
-                  placeholder={"Please Select"}
-                  label={"COUNTRY"}
-                  options={countryOptions}
-                  value={watchStageOne("country")}
-                  inputClass={styles.select}
-                  parentClassName={styles.selectParent}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref3} id="amenities" className={styles.inputSec}>
-            <p className={styles.secTtl}>Amenities & Features</p>
-            <div>
-              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
-                <p className={styles.radioTtl}>Indoor</p>
-                <div className={styles.checkGroup}>
-                  {indoorAmenities.map((item, index) => (
-                    <CheckBox
-                      key={index}
-                      label={item}
-                      check={watchStageOne("indoorAmenities").includes(item)}
-                      onChange={() => addIndoorAmenity(item)}
-                    />
-                  ))}
-                </div>
-                <Textarea
-                  label="OTHER"
-                  placeholder=""
-                  parentClassName={styles.input}
-                  required
                   validatorMessage={
-                    errorsStageOne.otherIndoorAmenities?.message
+                    watchStageOne("country").value === ""
+                      ? errorsStageOne.country?.value?.message ?? ""
+                      : ""
                   }
-                  name="otherIndoorAmenities"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
-                <p className={styles.radioTtl}>Outdoor</p>
-                <div className={styles.checkGroup}>
-                  {outdoorAmenities.map((item, index) => (
-                    <CheckBox
-                      key={index}
-                      label={item}
-                      check={watchStageOne("outdoorAmenities").includes(item)}
-                      onChange={() => addOutdoorAmenity(item)}
-                    />
-                  ))}
-                </div>
-                <Textarea
-                  label="OTHER"
-                  placeholder=""
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={
-                    errorsStageOne.otherOutdoorAmenities?.message
-                  }
-                  name="otherOutdoorAmenities"
-                  register={registerStageOne}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref4} id="more" className={styles.inputSec}>
-            <p className={styles.secTtl}>More details</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="ERF SIZE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.erfSize?.message}
-                  name="erfSize"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="DINING AREA"
-                  placeholder="No. of seater"
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.diningArea?.message}
-                  name="diningArea"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="FLOOR SIZE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.floorSize?.message}
-                  name="floorSize"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <CustomSelect
-                  onChange={(x) => setValueStageOne("country", x)}
-                  validatorMessage={errorsStageOne.country?.message ?? ""}
                   name={"country"}
                   placeholder={"Please Select"}
                   label={"COUNTRY"}
@@ -921,6 +952,100 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
               </div>
             </div>
           </div>
+          <div ref={ref3} id="amenities" className={styles.inputSec}>
+            <p className={styles.secTtl}>Amenities & Features</p>
+            <div>
+              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
+                <p className={styles.radioTtl}>Indoor</p>
+                <div className={styles.checkGroup}>
+                  {indoorAmenities.map((item, index) => (
+                    <CheckBox
+                      key={index}
+                      label={item}
+                      check={watchStageOne("indoorAmenities").includes(item)}
+                      onChange={() => addIndoorAmenity(item)}
+                    />
+                  ))}
+                </div>
+                <Textarea
+                  label="OTHER"
+                  placeholder="Separate the different amenities by a comma"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={
+                    errorsStageOne.otherIndoorAmenities?.message
+                  }
+                  name="otherIndoorAmenities"
+                  register={registerStageOne}
+                />
+              </div>
+              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
+                <p className={styles.radioTtl}>Outdoor</p>
+                <div className={styles.checkGroup}>
+                  {outdoorAmenities.map((item, index) => (
+                    <CheckBox
+                      key={index}
+                      label={item}
+                      check={watchStageOne("outdoorAmenities").includes(item)}
+                      onChange={() => addOutdoorAmenity(item)}
+                    />
+                  ))}
+                </div>
+                <Textarea
+                  label="OTHER"
+                  placeholder="Separate the different amenities by a comma"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={
+                    errorsStageOne.otherOutdoorAmenities?.message
+                  }
+                  name="otherOutdoorAmenities"
+                  register={registerStageOne}
+                />
+              </div>
+            </div>
+          </div>
+          <div ref={ref4} id="more" className={styles.inputSec}>
+            <p className={styles.secTtl}>More details</p>
+            <div className={styles.inputGroup}>
+              <div className={styles.halfWidth}>
+                <Input
+                  label="ERF SIZE"
+                  placeholder=""
+                  type="text"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errorsStageOne.erfSize?.message}
+                  name="erfSize"
+                  register={registerStageOne}
+                />
+              </div>
+              <div className={styles.halfWidth}>
+                <Input
+                  label="DINING AREA"
+                  placeholder="No. of seater"
+                  type="number"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errorsStageOne.diningArea?.message}
+                  name="diningArea"
+                  register={registerStageOne}
+                />
+              </div>
+              <div className={styles.halfWidth}>
+                <Input
+                  label="FLOOR SIZE"
+                  placeholder=""
+                  type="text"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errorsStageOne.floorSize?.message}
+                  name="floorSize"
+                  register={registerStageOne}
+                />
+              </div>
+            </div>
+          </div>
           <div ref={ref5} id="media" className={styles.inputSec}>
             <p className={styles.secTtl}>Media</p>
             <div className={styles.docGroup}>
@@ -930,7 +1055,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   Please ensure that all media are clear and meet our acceptance
                   criteria
                 </p>
-                <label className={styles.docLabel} htmlFor="media">
+                <label className={styles.docLabel} htmlFor="media-input">
                   <DownloadIcon />
                   <p>
                     Drop your file to upload or <span>Browse</span>
@@ -940,13 +1065,18 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   </p>
                   <input
                     style={{ display: "none" }}
-                    id="media"
+                    id="media-input"
                     type={"file"}
                     accept=".png, .jpg, .jpeg"
                     onDrop={(e) => console.log(e, "drop")}
-                    onChange={(e) => handleChangeMedia(e)}
+                    onChange={handleChangeMedia}
                   />
                 </label>
+                {errorsStageOne.media?.message && (
+                  <p className={styles.errorMsg}>
+                    <WarningIcon /> {errorsStageOne.media?.message}
+                  </p>
+                )}
 
                 <div className={styles.uploadedSec}>
                   {watchStageOne("media").map((file, index) => (
@@ -990,9 +1120,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
             </Button>
             <Button
               type="primary"
-              onClick={() => {
-                setStage(2);
-              }}
+              onClick={handleSubmitStageOne(onSubmitStageOne)}
             >
               Save & continue
             </Button>
@@ -1015,7 +1143,9 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   register={registerStageTwo}
                 />
               </div>
-              <div className={styles.halfWidth}></div>
+              <div
+                className={`${styles.halfWidth} ${styles.hideOnMobile}`}
+              ></div>
               <div className={styles.halfWidth}>
                 <Input
                   label="NO. of SHARES"
@@ -1096,6 +1226,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   validatorMessage={errorsStageTwo.annualROI?.message}
                   name="annualROI"
                   register={registerStageTwo}
+                  value={String(watchStageTwo("annualROI"))}
                 />
               </div>
               <div className={styles.halfWidth}>
@@ -1108,48 +1239,62 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
                   validatorMessage={errorsStageTwo.rentRoll?.message}
                   name="rentRoll"
                   register={registerStageTwo}
+                  value={String(watchStageTwo("rentRoll"))}
                 />
               </div>
-              <div className={styles.fullWidth}>
-                <p className={styles.radioTtl}>Scheduled Stays</p>
-                <div className={styles.stayScheduleWrap}>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="Start"
-                      placeholder=""
-                      type="date"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={errorsStageTwo.rentRoll?.message}
-                      name="rentRoll"
-                      register={registerStageTwo}
+              <p className={styles.radioTtl}>Scheduled Stays</p>
+              <div className={styles.stayScheduleWrap}>
+                {watchStageTwo("stays").map((item, index) => (
+                  <div key={index}>
+                    <div className={styles.halfWidth}>
+                      <Input
+                        label="Start"
+                        placeholder=""
+                        type="date"
+                        parentClassName={styles.input}
+                        required
+                        validatorMessage={
+                          errorsStageTwo?.stays &&
+                          errorsStageTwo?.stays[index]?.start?.message
+                        }
+                        name={`stays.${index}.start`}
+                        register={registerStageTwo}
+                      />
+                    </div>
+                    <div className={styles.halfWidth}>
+                      <Input
+                        label="End"
+                        placeholder=""
+                        type="date"
+                        parentClassName={styles.input}
+                        required
+                        validatorMessage={
+                          errorsStageTwo?.stays &&
+                          errorsStageTwo?.stays[index]?.end?.message
+                        }
+                        name={`stays.${index}.end`}
+                        register={registerStageTwo}
+                      />
+                    </div>
+                    <TrashIcon
+                      role="button"
+                      className={styles.removeStayBtn}
+                      onClick={() => removeStay(index)}
                     />
                   </div>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="End"
-                      placeholder=""
-                      type="date"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={errorsStageTwo.rentRoll?.message}
-                      name="rentRoll"
-                      register={registerStageTwo}
-                    />
-                  </div>
-                  <Button
-                    className={styles.addStayBtn}
-                    type="primary"
-                    onClick={() => {}}
-                  >
-                    Add new stay period
-                  </Button>
-                </div>
+                ))}
+                <Button
+                  className={styles.addStayBtn}
+                  type="primary"
+                  onClick={addNewStay}
+                >
+                  Add new stay period
+                </Button>
               </div>
               <div className={styles.fullWidth}>
                 <Textarea
                   label="OTHER"
-                  placeholder=""
+                  placeholder="Enter other incentives"
                   parentClassName={styles.input}
                   required
                   validatorMessage={errorsStageTwo.otherIncentives?.message}
@@ -1171,9 +1316,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({ closeForm, tooLarge }) => {
             </Button>
             <Button
               type="primary"
-              onClick={() => {
-                setStage(2);
-              }}
+              onClick={handleSubmitStageTwo(onSubmitStageTwo)}
             >
               List property
             </Button>
@@ -1206,65 +1349,4 @@ const useIsInViewport = (ref) => {
   }, [ref, observer]);
 
   return isIntersecting;
-};
-
-interface DocumentProps {
-  id: string;
-  label: string;
-  file: File | undefined;
-  handleChangeDoc: ({ id, e }) => void;
-  handleRemoveDoc: ({ id }) => void;
-}
-
-const Document: React.FC<DocumentProps> = ({
-  id,
-  label,
-  file,
-  handleChangeDoc,
-  handleRemoveDoc,
-}) => {
-  return (
-    <>
-      {!file ? (
-        <div>
-          <p className={styles.docTxt}>{label}</p>
-          <label className={styles.docLabel} htmlFor={id}>
-            <DownloadIcon />
-            <p>
-              Drop your file to upload or <span>Browse</span>
-            </p>
-            <p className={styles.docNote}>
-              Maximum size of image 8MB, PDF, JPG, PNG, JPEG
-            </p>
-            <input
-              style={{ display: "none" }}
-              id={id}
-              type={"file"}
-              accept=".pdf, .png, .jpg, .jpeg"
-              onDrop={(e) => console.log(e, "drop")}
-              onChange={(e) => handleChangeDoc({ id, e })}
-            />
-          </label>
-        </div>
-      ) : (
-        <div className={styles.fullUploadedDoc}>
-          <div className={styles.docSec1}>
-            <DocumentIcon className={styles.docIcon} />
-            <div className={styles.docInfo}>
-              <p>{file.name}</p>
-              <p>{getMegaByte(file.size)}MB</p>
-            </div>
-            <TrashIcon
-              onClick={() => handleRemoveDoc({ id })}
-              role="button"
-              className={styles.docDelete}
-            />
-          </div>
-          <div className={styles.docSec2}>
-            <div className={styles.uploadProgress}></div>
-          </div>
-        </div>
-      )}
-    </>
-  );
 };

@@ -123,11 +123,11 @@ const StatCard: React.FC<StatInfo> = ({
     <div className={styles.statCard}>
       <HouseIcon className={styles.statIcon} />
       <div className={styles.statInfo}>
-        <p className={styles.statTxt1}>Total Listing</p>
-        <p className={styles.statTxt2}>140</p>
+        <p className={styles.statTxt1}>{title}</p>
+        <p className={styles.statTxt2}>{total}</p>
         <p className={styles.statTxt3}>
-          <span>12</span> (0.5%){" "}
-          <ChevronUpIcon className={styles.downwardRed} />{" "}
+          <span>{difference}</span> ({percentage}%){" "}
+          <ChevronUpIcon className={!increase ? styles.downwardRed : ""} />
         </p>
       </div>
     </div>
@@ -182,7 +182,7 @@ const OverviewUI = () => {
       title: "Total Closing",
       total: 140,
       percentage: 0.5,
-      increase: true,
+      increase: false,
       difference: 12,
     },
     {
