@@ -36,8 +36,8 @@ interface stageOneData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
-    description: string;
   };
+  description: string;
   address: string;
   city: string;
   state: string;
@@ -79,8 +79,8 @@ const initialValuesStageOne: stageOneData = {
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
-    description: "",
   },
+  description: "",
   address: "",
   city: "",
   state: "",
@@ -135,9 +135,9 @@ const stageOneSchema = yup
         yearBuilt: yup.string().required("Required"),
         noOfBedrooms: yup.number().required("Required"),
         noOfToilets: yup.number().required("Required"),
-        description: yup.string().required("Required"),
       }),
     }),
+    description: yup.string().required("Required"),
     address: yup.string().required("Required"),
     city: yup.string().required("Required"),
     state: yup.string().required("Required"),
@@ -499,9 +499,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     const amenities = `${indoorAmenities},${outdoorAmenities},${otherAmenities}`;
 
     let formData = new FormData();
-
     if (data.propertyStatus === "completed" && data.completed) {
-      formData.append("description", data.completed?.description);
       formData.append(
         "number_of_bedrooms",
         String(data.completed?.noOfBedrooms)
@@ -520,6 +518,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     }
 
     formData.append("name", data.name);
+    formData.append("description", data.description);
     formData.append("completion_status", data.propertyStatus.toUpperCase());
     formData.append("apartment_type", String(data.propertyType.value));
     formData.append("address", data.address);
@@ -784,21 +783,19 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                       register={registerStageOne}
                     />
                   </div>
-                  <div className={styles.fullWidth}>
-                    <Textarea
-                      label="DESCRIPTION"
-                      placeholder=""
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.completed?.description?.message
-                      }
-                      name="completed.description"
-                      register={registerStageOne}
-                    />
-                  </div>
                 </>
               )}
+              <div className={styles.fullWidth}>
+                <Textarea
+                  label="DESCRIPTION"
+                  placeholder=""
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errorsStageOne?.description?.message}
+                  name="completed.description"
+                  register={registerStageOne}
+                />
+              </div>
             </div>
           </div>
           <div ref={ref2} id="address" className={styles.inputSec}>

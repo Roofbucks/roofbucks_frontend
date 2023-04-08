@@ -7,6 +7,9 @@
   font-weight: 400;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 600;
 }
 .backBtn svg {
   transform: rotate(180deg);
@@ -34,18 +37,29 @@
   margin-bottom: 2.5rem;
 }
 .propertyID {
-  font-size: var(--h5);
+  font-size: 18px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-right: 6%;
+  margin-top: 1rem;
 }
 .propertyID span {
   color: var(--green);
   margin-right: 1rem;
 }
+.propertyID p {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .tagSec {
   display: flex;
   align-items: center;
   margin-right: auto;
-  margin-left: 6%;
+  white-space: nowrap;
+  margin-top: 1rem;
 }
 .tag {
   font-size: 18px;
@@ -63,7 +77,8 @@
   padding: 5px 10px;
 }
 .shareIcon {
-  width: 40px;
+  margin-top: 1rem;
+  width: 32px;
 }
 .ttlWrap {
   display: flex;
@@ -190,6 +205,8 @@
   grid-template-columns: 150px auto;
   display: grid;
   gap: 1rem;
+  align-items: flex-start;
+  gap: 0rem 3rem;
 }
 .photoSec {
   grid-row-start: 1;
@@ -211,6 +228,8 @@
   object-fit: cover;
   margin-bottom: 1.5rem;
   border-radius: 50%;
+  display: block;
+  background: #f1f3f1;
 }
 .contactItem {
   margin-bottom: 1rem;
@@ -241,6 +260,9 @@
   display: flex;
   align-items: center;
   font-weight: 400;
+  margin-top: auto;
+  font-weight: 600;
+  font-size: 14px;
 }
 .contactBtn svg {
   width: 12px;

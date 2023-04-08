@@ -106,6 +106,15 @@ const AgentProperties = () => {
     navigate(Routes.editPropertyID(id));
   };
 
+  const viewProperty = (id) => {
+    navigate(Routes.propertyID(id), {
+      state: {
+        from: "properties",
+        url: Routes.properties
+      }
+    });
+  };
+
   const showLoader = propertiesStatus.isPending;
 
   return (
@@ -120,6 +129,7 @@ const AgentProperties = () => {
         }}
         hide={showLoader}
         editProperty={editProperty}
+        viewProperty={viewProperty}
       />
 
       <Pagination

@@ -18,6 +18,7 @@ interface AgentPropertiesUIProps {
   };
   hide: boolean;
   editProperty: (id: string) => void;
+  viewProperty: (id: string) => void;
 }
 
 const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
@@ -26,6 +27,7 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
   search,
   hide,
   editProperty,
+  viewProperty,
 }) => {
   const tableHeaderTitles: TableHeaderItemProps[] = [
     { title: "Property ID" },
@@ -65,7 +67,7 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
           tableBody={
             <PropertyTable
               edit={editProperty}
-              view={(id) => console.log(id)}
+              view={viewProperty}
               addStays={() => {}}
               tableBodyItems={tableItems}
               tableBodyItemClassName={styles.tableBodyItem}

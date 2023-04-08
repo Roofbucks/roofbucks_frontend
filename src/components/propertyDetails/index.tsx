@@ -36,6 +36,7 @@ import {
   LineElement,
 } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
+import { Link, useLocation } from "react-router-dom";
 
 ChartJS.register(
   ArcElement,
@@ -47,24 +48,6 @@ ChartJS.register(
   PointElement,
   LineElement
 );
-
-const amenities: AmenityProp[] = [
-  {
-    name: "Bedroom",
-    Icon: BedRoomIcon,
-    value: "3",
-  },
-  {
-    name: "Bathroom",
-    Icon: BathRoomIcon,
-    value: "3",
-  },
-  {
-    name: "Bedroom",
-    Icon: BedRoomIcon,
-    value: "3",
-  },
-];
 
 const propertyImages: string[] = [
   property3,
@@ -83,48 +66,13 @@ const property: PropertyCardProps = {
   amount: "$10,000",
   owner: "By Bear Properties",
   images: propertyImages,
-  amenities: amenities,
+  amenities: [],
   type: "column",
   size: "normal",
   primaryBtn: {
     text: "Buy shares",
     action: (id) => console.log(id),
   },
-};
-
-const data: ChartData<"doughnut"> = {
-  labels: ["Complete", "Incomplete"],
-  datasets: [
-    {
-      label: "Property Status",
-      data: [70, 30],
-      backgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
-      hoverBackgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
-      borderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
-      hoverBorderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
-      hoverOffset: 0,
-      borderAlign: "inner",
-    },
-  ],
-};
-
-const options: ChartOptions<"doughnut"> = {
-  responsive: true,
-  cutout: "78%",
-  animation: {
-    animateRotate: true,
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-};
-
-const config = {
-  type: "doughnut",
-  data: data,
-  options: options,
 };
 
 // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -237,42 +185,153 @@ const StatusList: DropdownItemType[] = [
   },
 ];
 
-const PropertyDetailsUI = () => {
+export interface PropertyData {
+  image: string;
+  id: string;
+  type: string;
+  status: string;
+  name: string;
+  inProgress?: {
+    completionPercent: number;
+    completionDate: string;
+    completionCost: number;
+  };
+  completed?: {
+    yearBuilt: string;
+    noOfBedrooms: number;
+    noOfToilets: number;
+  };
+  description: string;
+  amenities: string[];
+  erfSize: string;
+  diningArea: string;
+  floorSize: string;
+  crossRoads: {
+    address1: string;
+    address2: string;
+  };
+  landmarks: {
+    address1: string;
+    address2: string;
+  };
+  agent: {
+    avatar: string;
+    name: string;
+    id: string;
+    agency: string;
+    email: string;
+    listings: number;
+    phone: string;
+  };
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  totalCost: number;
+  noOfShares: number;
+  costPerShare: number;
+  annualROI: number;
+  rentRoll: number;
+  otherIncentives: string;
+}
+
+interface PropertyDetailsProps {
+  property: PropertyData;
+}
+
+const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({ property }) => {
+  const location: any = useLocation();
+
   const [period, setPeriod] = React.useState({
     propertyStatus: "7 days",
     rentRoll: "7 days",
     performanceType: "Income",
     performance: "7 days",
   });
+
+  const completion: number = property.inProgress?.completionPercent ?? 0;
+
+  const chartData: ChartData<"doughnut"> = {
+    labels: ["Complete", "Incomplete"],
+    datasets: [
+      {
+        label: "Property Status",
+        data: [completion, 100 - completion],
+        backgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+        hoverBackgroundColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+        borderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+        hoverBorderColor: ["rgb(15, 201, 75)", "rgb(217, 217, 217)"],
+        hoverOffset: 0,
+        borderAlign: "inner",
+      },
+    ],
+  };
+
+  const options: ChartOptions<"doughnut"> = {
+    responsive: true,
+    cutout: "78%",
+    animation: {
+      animateRotate: true,
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  const config = {
+    type: "doughnut",
+    data: chartData,
+    options: options,
+  };
+
+  const amenities: AmenityProp[] = [
+    {
+      name: "Bedroom",
+      Icon: BedRoomIcon,
+      value: `${property.completed?.noOfBedrooms ?? "--"}`,
+    },
+    {
+      name: "Toilets",
+      Icon: BathRoomIcon,
+      value: `${property.completed?.noOfToilets ?? "--"}`,
+    },
+  ];
   return (
     <>
       <HeroSection title="Property Details" />
       <section className={`appContainer ${styles.propertyWrap}`}>
-        <Button type="tertiary" onClick={() => {}} className={styles.backBtn}>
-          <ArrowRight /> Back to Market Place
-        </Button>
+        <Link
+          to={location.state.url ?? ""}
+          className={styles.backBtn}
+        >
+          <ArrowRight /> Back to {location?.state?.from ?? ""}
+        </Link>
         <div className={styles.imgSec}>
-          <img src={property3} />
+          <img src={property.image} />
         </div>
         <div className={styles.info}>
           <div className={styles.propertyID}>
-            <span>Property ID: </span>KYba778452
+            <span>Property ID: </span>
+            <p>{property.id}</p>
           </div>
           <div className={styles.tagSec}>
             <div className={styles.tag}>
-              Type: <span>Residential</span>
+              Type: <span>{property.type}</span>
             </div>
             <div className={styles.tag}>
-              Status: <span>Complete</span>
+              Status: <span>{property.status}</span>
             </div>
           </div>
           <ShareIcon className={styles.shareIcon} role="button" />
         </div>
         <div className={styles.ttlWrap}>
-          <h2 className={styles.ttl}>Two Bedroom Terrace Duplex</h2>
+          <h2 className={styles.ttl}>{property.name}</h2>
           <p className={styles.location}>
             <LocationIcon />
-            Located in Lagos, Nigeria.
+            Located in {property.state}, {property.country}.
           </p>
         </div>
         <div className={styles.amenityWrap}>
@@ -282,69 +341,65 @@ const PropertyDetailsUI = () => {
             ))}
           </div>
           <div className={styles.priceWrap}>
-            <p>$10,000</p>
+            <p>${property.totalCost}</p>
             <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
               Buy Shares
             </Button>
           </div>
-        </div>
-        <div className={styles.statusSec}>
-          <div className={styles.statusTtlSec}>
-            <h3 className={styles.subTtl}>Property Status</h3>
-            <Dropdown
-              dropdownListClassName={styles.statusDropdownList}
-              active={period.propertyStatus}
-              type="select"
-            >
-              {StatusList.map((item2, index) => (
-                <DropdownListItem
-                  onDropdownChange={(x) =>
-                    setPeriod({ ...period, propertyStatus: x })
-                  }
-                  value={item2.value}
-                  key={index}
-                >
-                  {item2.label}
-                </DropdownListItem>
-              ))}
-            </Dropdown>
-          </div>
-          <div className={styles.chartWrap}>
-            <div className={styles.chart}>
-              <Doughnut {...config} />{" "}
-              <p className={styles.chartTxt}>
-                <span>Completion</span> <br /> 70%
-              </p>
+        </div>{" "}
+        {property.status === "in-progress" && (
+          <div className={styles.statusSec}>
+            <div className={styles.statusTtlSec}>
+              <h3 className={styles.subTtl}>Property Status</h3>
+              <Dropdown
+                dropdownListClassName={styles.statusDropdownList}
+                active={period.propertyStatus}
+                type="select"
+              >
+                {StatusList.map((item2, index) => (
+                  <DropdownListItem
+                    onDropdownChange={(x) =>
+                      setPeriod({ ...period, propertyStatus: x })
+                    }
+                    value={item2.value}
+                    key={index}
+                  >
+                    {item2.label}
+                  </DropdownListItem>
+                ))}
+              </Dropdown>
             </div>
-            <div className={styles.statuses}>
-              <p>
-                <span>Expected Completion date:</span>
-                September, 2023.
-              </p>
-              <p>
-                <span>Completion Cost:</span> $20,000
-              </p>
-              <p>
-                <span>% Completion:</span> 70%
-              </p>
+            <div className={styles.chartWrap}>
+              <div className={styles.chart}>
+                <Doughnut {...config} />{" "}
+                <p className={styles.chartTxt}>
+                  <span>Completion</span> <br />{" "}
+                  {property.inProgress?.completionPercent}%
+                </p>
+              </div>
+              <div className={styles.statuses}>
+                <p>
+                  <span>Expected Completion date:</span>
+                  {property.inProgress?.completionDate}.
+                </p>
+                <p>
+                  <span>Completion Cost:</span> $
+                  {property.inProgress?.completionCost}
+                </p>
+                <p>
+                  <span>% Completion:</span>{" "}
+                  {property.inProgress?.completionPercent}%
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className={styles.descriptionSec}>
           <h3 className={styles.subTtl}>Description</h3>
-          <p>
-            Lörem ipsum mobilblottare nins pulverbrev siposa jäl sedan liktig, i
-            rösev. Täkåra jotrerat och iv didade teonomi: åktig sagt. Göpotening
-            prel askänka ement teleng poddtaxi nira. Dingen gäplare jovivis
-            automas, såväl som mamill det vill säga åläsina. Eutt mobil klubb
-            jäl bigiling lamon såväl som prede. Rödgrönrosa suprakarade lånade
-            stenoväledes i intranat även om kåhött. Makrona polyvis en vynade
-            rus sedan det mörka nätet som desyv didåska. Rement er om exorade,
-            ore eller kropöbel, antening tikälogi.
-          </p>
+          <p>{property.description}</p>
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
-          <p>$10,000</p>
+          <p>${property.totalCost}</p>
           <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
             Buy Shares
           </Button>
@@ -352,94 +407,78 @@ const PropertyDetailsUI = () => {
         <div className={styles.benefitsSec}>
           <h4 className={styles.subTtl}>Benefits</h4>
           <ul className={styles.list}>
-            <li>Includes 14 days benefit</li>
-            <li>20% Monthly Expected Returns on investment </li>
-            <li>Includes lorem ipsum</li>
-            <li>Includes lorem ipsum</li>
+            <li>
+              {property.annualROI}% Annual Expected Returns on investment{" "}
+            </li>
+            <li>{property.otherIncentives}</li>
           </ul>
         </div>
         <div className={styles.featuresSec}>
           <h4 className={styles.subTtl}>Amenities & Features</h4>
           <ul className={`${styles.list} ${styles.features}`}>
-            <li>Grill - Gas</li>
-            <li>Guest Bath</li>
-            <li>Clubhouse & Bar</li>
-            <li>Car Parking</li>
-            <li>Swimming Pool</li>
-            <li>Maintenance</li>
-            <li>Refrigerator</li>
-            <li>Air Conditioning</li>
-            <li>Gym</li>
-            <li>Grand Views</li>
-            <li>Microwave</li>
-            <li>Wi-Fi</li>
-            <li>Fine Dinning</li>
-            <li>Car Parking</li>
-            <li>Swimming Pool</li>
+            {property.amenities.map((item) => (
+              <li>{item}</li>
+            ))}
           </ul>
         </div>
         <div className={styles.additionalSec}>
           <h4 className={styles.subTtl}>Additional Details</h4>
           <div className={styles.additional}>
+            {property.status === "completed" && (
+              <>
+                <div>
+                  <span>Bedroom:</span>
+                  <span>{property?.completed?.noOfBedrooms} Bedrooms</span>
+                </div>
+                <div>
+                  <span>Toilets:</span>
+                  <span>{property?.completed?.noOfToilets} Bedrooms</span>
+                </div>
+              </>
+            )}
             <div>
-              <span>Bathroom:</span>
-              <span>Stall Shower and bathtub</span>
+              <span>Dining Area:</span>
+              <span>{property.diningArea} Seater Dining</span>
             </div>
             <div>
-              <span>Bedroom:</span>
-              <span>4 Bedrooms</span>
+              <span>Type of Property:</span>
+              <span>{property.type}</span>
+            </div>
+            <div>
+              <span>ERF Size:</span>
+              <span>{property.erfSize}</span>
+            </div>
+            <div>
+              <span>Floor Size</span>
+              <span>{property.floorSize}</span>
+            </div>
+            {property.status === "completed" && (
+              <div>
+                <span>Built:</span>
+                <span>{property.completed?.yearBuilt}</span>
+              </div>
+            )}
+            <div>
+              <span>Address:</span>
+              <span>{property.address}</span>
+            </div>
+            <div>
+              <span>Zipcode:</span>
+              <span>{property.zipCode}</span>
             </div>
             <div>
               <span>Cross Streets:</span>
-              <span>Herbert Macualy</span>
+              <span>
+                {property.crossRoads.address1 ?? ""},{" "}
+                {property.crossRoads.address2 ?? ""}
+              </span>
             </div>
             <div>
-              <span>Dining Area:</span>
-              <span>6 Seater Dining</span>
-            </div>
-            <div>
-              <span>6 Seater Dining</span>
-              <span>8th August, 2022</span>
-            </div>
-            <div>
-              <span>Type of Property:</span>
-              <span>Residential</span>
-            </div>
-            <div>
-              <span>ERF Size:</span>
-              <span>2 Acres</span>
-            </div>
-            <div>
-              <span>ID:</span>
-              <span>KYba778452</span>
-            </div>
-            <div>
-              <span>Floor Size</span>
-              <span>1m</span>
-            </div>
-            <div>
-              <span>Built:</span>
-              <span>September, 2022.</span>
-            </div>
-            <div>
-              <span>Type of Property:</span>
-              <span>Residential</span>
-            </div>
-            <div>
-              <span>ERF Size:</span>
-              <span>2 Acres</span>
-            </div>
-            <div>
-              <span>ID:</span>
-              <span>KYba778452</span>
-            </div>
-            <div>
-              <span>Floor Size</span>
-              <span>1m</span>
-            </div>
-            <div>
-              <span>Built:</span>
-              <span>September, 2022.</span>
+              <span>Landmarks:</span>
+              <span>
+                {property.landmarks.address1 ?? ""},{" "}
+                {property.landmarks.address2 ?? ""}
+              </span>
             </div>
           </div>
         </div>
@@ -473,33 +512,33 @@ const PropertyDetailsUI = () => {
           <div className={styles.contact}>
             <div className={styles.personal}>
               <div className={styles.photoSec}>
-                <p className={styles.name}>Jessica Doe</p>
+                <p className={styles.name}>{property.agent.name}</p>
                 <img
                   className={styles.avatar}
-                  src={avatar}
+                  src={property.agent.avatar}
                   alt="agent picture"
                 />
               </div>
               <div className={styles.agentInfoSec}>
                 <div className={styles.contactItem}>
-                  <span>NATIONALITY</span>
-                  <span>Afghan</span>
-                </div>
-                <div className={styles.contactItem}>
                   <span>AGENCY </span>
-                  <span>Lorem Ipsum</span>
+                  <span>{property.agent.agency}</span>
                 </div>
                 <div className={styles.contactItem}>
                   <span>PHONE</span>
-                  <a>0814000000</a>
+                  <a href={`tel:${property.agent.phone}`}>
+                    {property.agent.phone}
+                  </a>
                 </div>
                 <div className={styles.contactItem}>
                   <span>EMAIL</span>
-                  <a>jessicadoe@gmail.com</a>
+                  <a href={`mailto:${property.agent.email}`}>
+                    {property.agent.email}
+                  </a>
                 </div>
                 <div className={styles.contactItem}>
                   <span>LISTED</span>
-                  <span>50</span>
+                  <span>{property.agent.listings}</span>
                 </div>
               </div>
               <Button

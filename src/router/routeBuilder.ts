@@ -100,13 +100,10 @@ export const RouteBuilder: RouteBuilderItem[] = [
     },
   },
   {
-    path: Routes.propertyListing,
+    path: Routes.property,
     Element: PropertyDetails,
     Layout: Layout,
     caseSensitive: true,
-    props: {
-      active: "listing",
-    },
   },
   {
     path: Routes.terms,

@@ -82,7 +82,7 @@ const ListingsUI = () => {
     description: `Modern two-bedroom apartment in sought-after Ghana marries traditional
     SF charm with contemporary city living. Tall arching columns in the
     front of the roomy living area provide beauty....`,
-    moreDetails: (id) => navigate(Routes.propertyListingID(id)),
+    moreDetails: (id) => navigate(Routes.propertyID(id)),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
@@ -101,7 +101,7 @@ const ListingsUI = () => {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
-    moreDetails: (id) => navigate(Routes.propertyListingID(id)),
+    moreDetails: (id) => navigate(Routes.propertyID(id)),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: [property3],
