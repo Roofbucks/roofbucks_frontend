@@ -4,13 +4,7 @@ import styles from "./styles.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import {
-  countryOptions,
-  indoorAmenities,
-  initialOptionType,
-  outdoorAmenities,
-  propertyTypeOptions,
-} from "utils";
+import { countryOptions, propertyTypeOptions } from "utils";
 import {
   Button,
   CheckBox,
@@ -23,7 +17,7 @@ import {
 import { DownloadIcon, TrashIcon, ImageIcon, WarningIcon } from "assets";
 import { getMegaByte } from "helpers";
 
-interface stageOneData {
+export interface stageOneEditData {
   propertyStatus: "in-progress" | "completed";
   propertyType: optionType;
   name: string;
@@ -57,57 +51,14 @@ interface stageOneData {
     address1: string;
     address2: string;
   };
-  media: File[];
-  surveyPlan: File | undefined;
-  purchaseReceipt: File | undefined;
-  excision: File | undefined;
-  gazette: File | undefined;
-  deedOfAssignment: File | undefined;
-  certificateOfOccupancy: File | undefined;
+  media: { file: File; url?: string }[];
+  surveyPlan: File | string;
+  purchaseReceipt: File | string;
+  excision: File | string;
+  gazette: File | string;
+  deedOfAssignment: File | string;
+  certificateOfOccupancy: File | string;
 }
-
-const initialValuesStageOne: stageOneData = {
-  propertyStatus: "in-progress",
-  propertyType: initialOptionType,
-  name: "",
-  inProgress: {
-    completionPercent: "",
-    completionDate: "",
-    completionCost: "",
-  },
-  completed: {
-    yearBuilt: "",
-    noOfBedrooms: 0,
-    noOfToilets: 0,
-    description: "",
-  },
-  address: "",
-  city: "",
-  state: "",
-  zipCode: "",
-  country: initialOptionType,
-  indoorAmenities: [],
-  outdoorAmenities: [],
-  otherAmenities: "",
-  erfSize: "",
-  diningArea: "",
-  floorSize: "",
-  crossRoads: {
-    address1: "",
-    address2: "",
-  },
-  landmarks: {
-    address1: "",
-    address2: "",
-  },
-  media: [],
-  surveyPlan: undefined,
-  purchaseReceipt: undefined,
-  excision: undefined,
-  gazette: undefined,
-  deedOfAssignment: undefined,
-  certificateOfOccupancy: undefined,
-};
 
 const stageOneSchema = yup
   .object()
@@ -173,7 +124,7 @@ const stageOneSchema = yup
   })
   .required();
 
-interface stageTwoData {
+export interface stageTwoEditData {
   totalCost: number;
   noOfShares: number;
   costPerShare: number;
@@ -182,19 +133,6 @@ interface stageTwoData {
   stays: { start: string; end: string }[];
   otherIncentives: string;
 }
-
-const initialValuesStageTwo: stageTwoData = {
-  totalCost: 0,
-  noOfShares: 0,
-  costPerShare: 0,
-  // promotionType: initialOptionType,
-  // dealClosing: "",
-  // otherDeals: "",
-  annualROI: 0,
-  rentRoll: 0,
-  stays: [{ start: "", end: "" }],
-  otherIncentives: "",
-};
 
 const stageTwoSchema = yup
   .object({
@@ -220,20 +158,28 @@ const stageTwoSchema = yup
   })
   .required();
 
-export interface AddPropertyProps {
+export interface EditPropertyProps {
   closeForm: () => void;
   tooLarge: () => void;
   submit: (data: FormData) => void;
+
+  property: {
+    initialValuesStageOne: stageOneEditData;
+    initialValuesStageTwo: stageTwoEditData;
+  };
 }
 
-const AddPropertyUI: React.FC<AddPropertyProps> = ({
+const EditPropertyUI: React.FC<EditPropertyProps> = ({
   closeForm,
   tooLarge,
   submit,
+  property,
 }) => {
   const [stage, setStage] = React.useState(1);
   const [scrollPosition, setPosition] = React.useState(0);
   const [scrollDir, setScrollDir] = React.useState("none");
+
+  const { initialValuesStageOne, initialValuesStageTwo } = property;
 
   const {
     register: registerStageOne,
@@ -241,7 +187,8 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     formState: { errors: errorsStageOne },
     setValue: setValueStageOne,
     watch: watchStageOne,
-  } = useForm<stageOneData>({
+    reset: resetStageOne,
+  } = useForm<stageOneEditData>({
     resolver: yupResolver(stageOneSchema),
     defaultValues: initialValuesStageOne,
   });
@@ -252,10 +199,16 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     formState: { errors: errorsStageTwo },
     setValue: setValueStageTwo,
     watch: watchStageTwo,
-  } = useForm<stageTwoData>({
+    reset: resetStageTwo,
+  } = useForm<stageTwoEditData>({
     resolver: yupResolver(stageTwoSchema),
     defaultValues: initialValuesStageTwo,
   });
+
+  React.useEffect(() => {
+    resetStageOne(initialValuesStageOne);
+    resetStageTwo(initialValuesStageTwo);
+  }, [property]);
 
   const addIndoorAmenity = (item) => {
     const index = watchStageOne("indoorAmenities").indexOf(item);
@@ -278,6 +231,30 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     }
     setValueStageOne("outdoorAmenities", amenityList);
   };
+
+  const indoorAmenities = [
+    "Guest Bath",
+    "Refrigerator",
+    "Air Conditioning",
+    "Microwave",
+    "WiFi",
+    "Fine Dining",
+    "Smart Control Access",
+    "Laundry Facility",
+    "Movie Theatre/Media room",
+  ];
+
+  const outdoorAmenities = [
+    "Swimming pool",
+    "Dog parks",
+    "Garden",
+    "Rooftop deck",
+    "Playground",
+    "Gym",
+    "Grand views",
+    "Club house & bar",
+    "Secured parking garage",
+  ];
 
   window.addEventListener("scroll", () => setPosition(window.pageYOffset));
 
@@ -412,7 +389,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     checkFileSize({
       file: file,
       onSuccess: () => {
-        setValueStageOne("media", [...watchStageOne("media"), file]);
+        setValueStageOne("media", [...watchStageOne("media"), { file }]);
       },
     });
   };
@@ -488,7 +465,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     new FormData()
   );
 
-  const onSubmitStageOne: SubmitHandler<stageOneData> = (data) => {
+  const onSubmitStageOne: SubmitHandler<stageOneEditData> = (data) => {
     const indoorAmenities = data.indoorAmenities.join(",");
     const outdoorAmenities = data.outdoorAmenities.join(",");
     const otherAmenities = data.otherAmenities
@@ -545,17 +522,21 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     formData.append("ERF_size", String(data.erfSize));
     formData.append("dining_area", String(data.diningArea));
     formData.append("floor_size", String(data.floorSize));
-    data.media.map((item) => formData.append("images", item));
-    data.deedOfAssignment &&
+    data.media.map((item) => item.file && formData.append("images", item.file));
+    typeof data.deedOfAssignment !== "string" &&
       formData.append("registered_deed_of_assignment", data.deedOfAssignment);
-    data.certificateOfOccupancy &&
+    typeof data.certificateOfOccupancy !== "string" &&
       formData.append("certificate_of_occupancy", data.certificateOfOccupancy);
-    data.gazette && formData.append("gazette_document", data.gazette);
-    data.excision && formData.append("excision_document", data.excision);
-    data.purchaseReceipt &&
+    typeof data.gazette !== "string" &&
+      formData.append("gazette_document", data.gazette);
+    typeof data.excision !== "string" &&
+      formData.append("excision_document", data.excision);
+    typeof data.deedOfAssignment !== "string" &&
       formData.append("purchase_receipt", data.purchaseReceipt);
-    data.surveyPlan && formData.append("approved_survey_plan", data.surveyPlan);
-    data.surveyPlan && formData.append("default_image", data.media[0]);
+    typeof data.surveyPlan !== "string" &&
+      formData.append("approved_survey_plan", data.surveyPlan);
+
+    data.media[0].file && formData.append("default_image", data.media[0].file);
 
     // data.append("percentage_discount", "5");
     // data.append("benefits", "benefit1,benefit2,benefit3,benefit4,benefit5");
@@ -565,7 +546,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     setStage(2);
   };
 
-  const onSubmitStageTwo: SubmitHandler<stageTwoData> = (data) => {
+  const onSubmitStageTwo: SubmitHandler<stageTwoEditData> = (data) => {
     let formData = new FormData();
     formData.append("price_per_share", String(data.costPerShare));
     formData.append("total_number_of_shares", String(data.noOfShares));
@@ -574,7 +555,6 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     formData.append("area_rent_rolls", String(data.rentRoll));
     formData.append("other_incentives", data.otherIncentives);
     let stays = "";
-
     data.stays.map(
       (item, index) =>
         (stays += `${item.start},${item.end}${
@@ -603,7 +583,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
   };
 
   return (
-    <section className={styles.addPropertyContainer}>
+    <section className={styles.EditPropertyContainer}>
       <h2 className={styles.ttl}>{stage}. Property Information</h2>
       <nav
         className={`${styles.nav} ${scrollPosition > 71 ? styles.fixNav : ""} ${
@@ -1039,8 +1019,13 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                     <div key={index} className={styles.uploadedDoc}>
                       <ImageIcon className={styles.docIcon} />
                       <div className={styles.docInfo}>
-                        <p>{file.name}</p>
-                        <p>{getMegaByte(file.size)} MB</p>
+                        <p>{file?.file?.name ?? file.url}</p>
+                        <p>
+                          {" "}
+                          {file?.file
+                            ? `${getMegaByte(file?.file?.size)} MB`
+                            : ""}{" "}
+                        </p>
                       </div>
                       <TrashIcon
                         onClick={() => handleRemoveMedia(index)}
@@ -1274,7 +1259,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
               type="primary"
               onClick={handleSubmitStageTwo(onSubmitStageTwo)}
             >
-              List property
+              Update property
             </Button>
           </div>
         </form>
@@ -1283,7 +1268,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
   );
 };
 
-export { AddPropertyUI };
+export { EditPropertyUI };
 
 const useIsInViewport = (ref) => {
   const [isIntersecting, setIsIntersecting] = React.useState(false);

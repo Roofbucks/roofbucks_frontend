@@ -88,8 +88,6 @@ const AgentProperties = () => {
     setPages({ ...pages, current: 1 });
   };
 
-  const showLoader = propertiesStatus.isPending;
-
   const getCount = () => {
     let start = 0;
     let end = 0;
@@ -104,6 +102,12 @@ const AgentProperties = () => {
     return { start, end };
   };
 
+  const editProperty = (id) => {
+    navigate(Routes.editPropertyID(id));
+  };
+
+  const showLoader = propertiesStatus.isPending;
+
   return (
     <>
       <Preloader loading={showLoader} />
@@ -115,6 +119,7 @@ const AgentProperties = () => {
           onChange: handleSearch,
         }}
         hide={showLoader}
+        editProperty={editProperty}
       />
 
       <Pagination

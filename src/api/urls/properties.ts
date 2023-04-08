@@ -23,3 +23,14 @@ export const addPropertyURL = () => `/properties/new/`;
  */
 export const fetchPropertiesURL = ({ search, page }) =>
   `/properties/?${appendParams({ search, page })}`;
+
+export const fetchPropertyURL = (id) => `/properties/single/${id}/`;
+
+/**
+ * Add property url
+ *
+ * @returns url string
+ *
+ */
+
+export const updatePropertyURL = (id) => `/properties/update/${id}/`;

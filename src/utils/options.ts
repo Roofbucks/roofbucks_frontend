@@ -106,3 +106,27 @@ export const promotionTypeOptions: optionType[] = [
     value: "Newly released",
   },
 ];
+
+export const indoorAmenities = [
+  "Guest Bath",
+  "Refrigerator",
+  "Air Conditioning",
+  "Microwave",
+  "WiFi",
+  "Fine Dining",
+  "Smart Control Access",
+  "Laundry Facility",
+  "Movie Theatre/Media room",
+];
+
+export const outdoorAmenities = [
+  "Swimming pool",
+  "Dog parks",
+  "Garden",
+  "Rooftop deck",
+  "Playground",
+  "Gym",
+  "Grand views",
+  "Club house & bar",
+  "Secured parking garage",
+];

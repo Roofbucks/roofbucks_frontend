@@ -4,6 +4,7 @@ import {
   AddProperty,
   AgentList,
   Contact,
+  EditProperty,
   Error404,
   Finances,
   Home,
@@ -133,7 +134,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: Routes.profile,
@@ -152,7 +153,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Overview",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: Routes.properties,
@@ -162,7 +163,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Properties",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: Routes.addProperty,
@@ -172,7 +173,17 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Properties",
     },
-    isProtected: true
+    isProtected: true,
+  },
+  {
+    path: Routes.editProperty,
+    Element: EditProperty,
+    Layout: DashboardLayout,
+    caseSensitive: true,
+    props: {
+      active: "Properties",
+    },
+    isProtected: true,
   },
   {
     path: Routes.finances,
@@ -182,7 +193,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Finances",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: Routes.settings,
@@ -192,7 +203,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Settings",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: Routes.inbox,
@@ -202,7 +213,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Inbox",
     },
-    isProtected: true
+    isProtected: true,
   },
   {
     path: "*",

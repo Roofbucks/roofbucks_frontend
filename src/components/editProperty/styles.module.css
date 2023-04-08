@@ -1,0 +1,401 @@
+.addPropertyContainer {
+}
+.ttl {
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.form {
+}
+.inputSec {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.secTtl {
+  color: #808080;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.inputGroup > div {
+  min-height: 44px;
+  margin-bottom: 1.5rem;
+}
+.halfWidth {
+  width: 48.5%;
+}
+.fullWidth {
+  width: 100%;
+}
+.radioTtl {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin-bottom: 2rem;
+}
+.radioSec {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+.radioSec label {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+  font-weight: 500;
+}
+.radioSec label:last-of-type {
+  margin-right: 0;
+}
+.radioSec input {
+  margin-right: 1rem;
+}
+.radio {
+  /* The native appearance is hidden */
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* For a circular appearance we need a border-radius. */
+  border-radius: 50%;
+
+  /* The background will be the radio dot's color. */
+  background: #ccc;
+
+  /* The border will be the spacing between the dot and the outer circle */
+  border: 3px solid #f2f4f2;
+
+  /* And by creating a box-shadow with no offset and no blur, we have an outer circle */
+  box-shadow: 0 0 0 1px #ccc;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.radio.selectedRadio {
+  background: var(--green);
+  box-shadow: 0 0 0 1px var(--green);
+  border: 3px solid #fff;
+}
+
+/* Select */
+.select [class*="formSelect__control"] {
+  background: transparent;
+  border-color: #1f1d1e;
+}
+.select [class*="formSelect__control--is-focused"] {
+  background: transparent;
+  border-color: #1f1d1e !important;
+}
+
+.select [class*="formSelect__placeholder"] {
+  font-size: inherit;
+}
+.selectParent {
+  margin-bottom: 0;
+}
+.input {
+  margin-bottom: 0;
+}
+.input label,
+.selectParent label {
+  font-size: 14px;
+}
+.input input {
+  background: transparent;
+  padding-right: 10px;
+  border-color: #1f1d1e;
+}
+.input textarea {
+  border-color: #1f1d1e;
+  background: transparent;
+}
+
+/* Checks */
+.checkSec {
+  margin-bottom: 2rem;
+}
+.checkGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1.5rem 10px;
+  margin-bottom: 1.5rem;
+}
+
+/* Doc */
+.docTxt {
+  margin-bottom: 1rem;
+}
+.docLabel {
+  background: #f2f3f2;
+  border: 2px dashed #808080;
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.5rem 1rem;
+  margin: 1rem 0 1.5rem;
+}
+.docLabel svg {
+}
+.docLabel p {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.docLabel p span {
+  color: var(--green);
+  padding-left: 4px;
+  cursor: pointer;
+}
+p.docNote {
+  text-align: center;
+  font-weight: 400;
+  margin-top: 10px;
+}
+.uploadedSec {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.uploadedDoc {
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  width: 48%;
+  justify-content: space-between;
+  min-width: 250px;
+  margin-bottom: 1rem;
+}
+.fullUploadedDoc {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  height: 200px;
+}
+.docSec1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.docSec2 {
+  margin-left: 48px;
+  margin-top: 3rem;
+  width: 80%;
+}
+.docIcon {
+  border-radius: 50%;
+  background: rgba(237, 248, 241, 0.35);
+  box-shadow: 0px 0px 0px 4px rgb(157 209 160 / 24%);
+  padding: 4px;
+  width: 24px;
+}
+.docInfo {
+  margin-right: auto;
+  margin-left: 12px;
+  padding-right: 12px;
+  color: #757575;
+  font-weight: 600;
+  width: calc(100% - 60px);
+}
+.docInfo p:first-of-type {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.docInfo p:nth-of-type(2) {
+  font-size: 12px;
+}
+.docDelete {
+  width: 20px;
+}
+.uploadProgress {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  margin: 1rem 0;
+  position: relative;
+}
+.uploadProgress::before {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--green);
+  width: 10%;
+  border-radius: inherit;
+  animation: progress 1.5s ease-in;
+  animation-fill-mode: forwards;
+}
+@keyframes progress {
+  0% {
+    width: 10%;
+  }
+  50% {
+    width: 30%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.fullUploadedDoc .docIcon {
+  width: 28px;
+  min-width: 28px;
+  padding: 5px;
+}
+.fullUploadedDoc .docInfo {
+  margin-left: 1.2rem;
+}
+
+.btnSec {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 1rem;
+}
+.btnSec button {
+  height: 44px;
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  font-size: 15px;
+  margin-left: 1rem;
+}
+.backBtn {
+  border: 1px solid var(--black);
+  padding: 10px 1.3rem;
+}
+.stayScheduleWrap {
+  width: 100%;
+}
+.stayScheduleWrap > div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+.stayScheduleWrap > div > div {
+  margin-bottom: 1.3rem;
+}
+.removeStayBtn {
+  position: absolute;
+  right: 0;
+  width: 16px;
+  height: 16px;
+}
+.addStayBtn {
+  margin-top: 1rem;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  padding: 12px 1.3rem;
+}
+.nav {
+  display: none;
+}
+.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+.errorMsg svg {
+  width: 16px;
+  margin-right: 4px;
+}
+
+@media screen and (max-width: 1000px) {
+  .inputSec {
+    grid-template-columns: 1fr 3fr;
+  }
+  .ttl {
+    font-size: 18px;
+  }
+  .secTtl {
+    font-size: 16px;
+  }
+  .radioTtl {
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .inputSec {
+    grid-template-columns: 1fr;
+  }
+  .secTtl {
+    color: var(--black);
+    font-size: 18px;
+  }
+  .ttl {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .halfWidth {
+    width: 100%;
+  }
+  .stayScheduleWrap > div > div {
+    width: 48.5%;
+  }
+  .inputSec {
+    border-bottom: 1px solid #ebf1ec;
+    padding-bottom: 1rem;
+  }
+  .nav {
+    display: flex;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    margin-top: -2rem;
+    overflow-x: scroll;
+    white-space: nowrap;
+    /* transition: none; */
+  }
+  .nav span {
+    padding: 0 6px;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 10px;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  span.activeNav {
+    border-color: var(--green);
+  }
+  .fixNav {
+    position: fixed;
+    background: var(--white);
+    padding: 10px 1rem 1rem;
+    z-index: 3;
+    top: 88px;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #ebf1ec;
+  }
+  .hideNav {
+    opacity: 0;
+  }
+  .checkGroup {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 10px;
+  }
+  .docInfo p:first-of-type {
+    font-size: 14px;
+    white-space: unset;
+  }
+  .hideOnMobile {
+    display: none;
+  }
+}

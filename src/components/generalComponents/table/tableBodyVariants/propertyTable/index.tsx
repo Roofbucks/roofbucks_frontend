@@ -15,7 +15,7 @@ export interface PropertyTableItem {
 // Test Table Body Props
 interface TableBodyProps {
   tableBodyItems: PropertyTableItem[];
-  edit: () => void;
+  edit: (id) => void;
   view: (id) => void;
   addStays: () => void;
   tableBodyItemClassName: string;
@@ -35,7 +35,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
           <EditIcon2 className={styles.dropdownIcon} /> Edit
         </>
       ),
-      action: edit,
+      action: () => edit(id),
     },
     {
       text: (
@@ -59,8 +59,12 @@ const PropertyTable: React.FC<TableBodyProps> = ({
       <TableBody customClassName={`${styles.tableBody}`}>
         {tableBodyItems.map((item, index) => (
           <tr key={`body ${index}`}>
-            <td className={tableBodyItemClassName}><p className={styles.propertyID} >{item.propertyID}</p></td>
-            <td className={tableBodyItemClassName}><p className={styles.name} >{item.propertyName}</p></td>
+            <td className={tableBodyItemClassName}>
+              <p className={styles.propertyID}>{item.propertyID}</p>
+            </td>
+            <td className={tableBodyItemClassName}>
+              <p className={styles.name}>{item.propertyName}</p>
+            </td>
             <td className={tableBodyItemClassName}>{item.date}</td>
             <td className={tableBodyItemClassName}>$ {item.amount}</td>
             <td className={tableBodyItemClassName}>

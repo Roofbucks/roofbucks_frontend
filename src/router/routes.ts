@@ -36,6 +36,8 @@ export const Routes = {
   // Dashboard
   overview: `/overview`,
   properties: `/properties`,
+  editProperty: `/property/:id`,
+  editPropertyID: (id) => `/property/${id}`,
   addProperty: `/properties/add`,
   finances: `/finances`,
   settings: `/settings`,

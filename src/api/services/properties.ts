@@ -5,7 +5,12 @@ PROPERTIES SERVICES
 */
 
 import { getRequest, postRequest } from "api/requestProcessor";
-import { addPropertyURL, fetchPropertiesURL } from "api/urls";
+import {
+  addPropertyURL,
+  fetchPropertiesURL,
+  fetchPropertyURL,
+  updatePropertyURL,
+} from "api/urls";
 
 /**
  * Create agent property service
@@ -27,7 +32,7 @@ export const addPropertyService = (data: FormData) => {
 };
 
 /**
- * Fetch agent property service
+ * Fetch agent properties service
  * @returns axios promise
  */
 
@@ -37,4 +42,37 @@ export const fetchPropertiesService = ({ search, page }) => {
   };
 
   return getRequest(requestData);
+};
+
+/**
+ * Fetch single property service
+ * @returns axios promise
+ */
+
+export const fetchPropertyService = (id: string) => {
+  const requestData = {
+    url: fetchPropertyURL(id),
+  };
+
+  return getRequest(requestData);
+};
+
+export const updatePropertyService = ({
+  data,
+  id,
+}: {
+  data: FormData;
+  id: string;
+}) => {
+  const requestData = {
+    url: updatePropertyURL(id),
+    data: data,
+    config: {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  };
+
+  return postRequest(requestData);
 };

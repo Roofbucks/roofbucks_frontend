@@ -5,7 +5,7 @@ import { getMegaByte } from "helpers";
 export interface DocumentProps {
   id: string;
   label?: string;
-  file: File | undefined;
+  file: File | undefined | string;
   handleChangeDoc: ({ id, e }) => void;
   handleRemoveDoc: ({ id }) => void;
   className?: string;
@@ -53,8 +53,8 @@ export const Document: React.FC<DocumentProps> = ({
         <div className={`${styles.uploadedDoc} ${uploadedDocClassName}`}>
           <DocumentIcon className={styles.docIcon} />
           <div className={styles.docInfo}>
-            <p>{file.name}</p>
-            <p>{getMegaByte(file.size)}MB</p>
+            <p>{typeof file === "string" ? label : file.name}</p>
+            {typeof file === "string" ? "" : <p>{getMegaByte(file.size)}MB</p>}
           </div>
           <TrashIcon
             onClick={() => handleRemoveDoc({ id })}
