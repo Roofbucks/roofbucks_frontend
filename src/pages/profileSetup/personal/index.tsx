@@ -60,7 +60,7 @@ const PersonalForm: React.FC<PersonalFormProps> = ({ onSuccess }) => {
 
   const initProfile = React.useMemo<ProfileFormData>(() => {
     if (fetchResponse || fetchError) {
-      if (fetchResponse.status === 200) {
+      if (fetchResponse?.status === 200) {
         // success
         const data = fetchResponse.data;
 

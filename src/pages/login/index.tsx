@@ -31,8 +31,8 @@ const LoginModal: React.FC<LoginProps> = ({
   } = useApiRequest({});
 
   React.useMemo(() => {
-    if (loginResponse) {
-      if (loginResponse.status === 200) {
+    if (loginResponse || error) {
+      if (loginResponse?.status === 200) {
         const data = loginResponse.data;
         const role = data.role === "AGENT" ? "agent" : "shareholder";
         const firstName = data.firstname;

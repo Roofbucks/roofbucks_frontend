@@ -26,7 +26,7 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
 
   React.useMemo(() => {
     if (createResponse || createError) {
-      if (createResponse.status === 200) {
+      if (createResponse?.status === 200) {
         //   success
         dispatch(
           updateToast({

@@ -49,8 +49,8 @@ const SignupModal: React.FC<SignupProps> = ({
   };
 
   React.useMemo(() => {
-    if (signupResponse) {
-      if (signupResponse.status === 201) {
+    if (signupResponse || error) {
+      if (signupResponse?.status === 201) {
         dispatch(
           updateToast({
             show: true,
@@ -77,7 +77,7 @@ const SignupModal: React.FC<SignupProps> = ({
             show: true,
             heading: "Sorry",
             text: getErrorMessage({
-              error: signupResponse,
+              error: error ?? signupResponse,
               message: "Signup failed, please try again later",
             }),
             type: false,
