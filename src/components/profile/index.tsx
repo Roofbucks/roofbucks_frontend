@@ -1,7 +1,5 @@
 import {
   avatar,
-  BathRoomIcon,
-  BedRoomIcon,
   BellIcon,
   CloseIcon,
   coverImg,
@@ -16,7 +14,6 @@ import * as React from "react";
 import styles from "./styles.module.css";
 import { Rating } from "react-simple-star-rating";
 import {
-  AmenityProp,
   Button,
   Dropdown,
   DropdownItemType,
@@ -80,24 +77,6 @@ const ProfileUI = () => {
     property3,
   ];
 
-  const amenities: AmenityProp[] = [
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bathroom",
-      Icon: BathRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-  ];
-
   const property: PropertyCardProps = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
@@ -106,7 +85,8 @@ const ProfileUI = () => {
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
-    amenities: amenities,
+    id: "123",
+    amenities: { bedroom: 5, toilet: 5 },
     type: "row",
     size: "normal",
     primaryBtn: {

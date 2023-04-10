@@ -15,3 +15,4 @@ export * from "./preloader";
 export * from "./toast";
 export * from "./document";
 export * from "./pagination";
+export * from "./modals";

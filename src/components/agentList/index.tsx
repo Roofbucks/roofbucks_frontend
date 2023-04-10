@@ -1,8 +1,6 @@
 import {
   ArrowRight,
   avatar,
-  BathRoomIcon,
-  BedRoomIcon,
   FilterIcon,
   KeyboardIconOutline,
   LocationIconOutline,
@@ -14,7 +12,6 @@ import {
   SearchIcon,
 } from "assets";
 import {
-  AmenityProp,
   Button,
   HeroSection,
   PropertyCard,
@@ -72,24 +69,6 @@ const AgentListUI = () => {
     property3,
   ];
 
-  const amenities: AmenityProp[] = [
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bathroom",
-      Icon: BathRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-  ];
-
   const property: PropertyCardProps = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
@@ -99,10 +78,11 @@ const AgentListUI = () => {
       text: "Sell shares",
       action: (id) => console.log(id),
     },
+    id: "123",
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
-    amenities: amenities,
+    amenities: { bedroom: 5, toilet: 5 },
     type: "column",
     size: "normal",
     description: `Modern two-bedroom apartment in sought-after Ghana marries traditional SF charm with contemporary city living. Tall arching columns in the front of the roomy living area provide beauty....`,

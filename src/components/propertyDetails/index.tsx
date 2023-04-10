@@ -460,31 +460,33 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             </div>
           </div>
         </div>
-        <div className={styles.graphSec}>
-          <div className={styles.statusTtlSec}>
-            <h3 className={styles.subTtl}>Rent Roll</h3>
-            <Dropdown
-              dropdownListClassName={styles.statusDropdownList}
-              active={period.propertyStatus}
-              type="select"
-            >
-              {StatusList.map((item2, index) => (
-                <DropdownListItem
-                  onDropdownChange={(x) =>
-                    setPeriod({ ...period, propertyStatus: x })
-                  }
-                  value={item2.value}
-                  key={index}
-                >
-                  {item2.label}
-                </DropdownListItem>
-              ))}
-            </Dropdown>
+        {location?.state?.from === "marketplace" && (
+          <div className={styles.graphSec}>
+            <div className={styles.statusTtlSec}>
+              <h3 className={styles.subTtl}>Rent Roll</h3>
+              <Dropdown
+                dropdownListClassName={styles.statusDropdownList}
+                active={period.propertyStatus}
+                type="select"
+              >
+                {StatusList.map((item2, index) => (
+                  <DropdownListItem
+                    onDropdownChange={(x) =>
+                      setPeriod({ ...period, propertyStatus: x })
+                    }
+                    value={item2.value}
+                    key={index}
+                  >
+                    {item2.label}
+                  </DropdownListItem>
+                ))}
+              </Dropdown>
+            </div>
+            <div className={styles.graph}>
+              <Line {...lineConfig} />
+            </div>
           </div>
-          <div className={styles.graph}>
-            <Line {...lineConfig} />
-          </div>
-        </div>
+        )}
         <div className={styles.contactSec}>
           <h4 className={styles.subTtl}>Contact Info</h4>
           <div className={styles.contact}>

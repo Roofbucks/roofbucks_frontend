@@ -17,7 +17,7 @@ interface TableBodyProps {
   tableBodyItems: PropertyTableItem[];
   edit: (id) => void;
   view: (id) => void;
-  addStays: () => void;
+  viewStays: () => void;
   tableBodyItemClassName: string;
 }
 
@@ -25,7 +25,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
   tableBodyItems,
   edit,
   view,
-  addStays,
+  viewStays,
   tableBodyItemClassName,
 }) => {
   const actions = (id): ActionItem[] => [
@@ -48,10 +48,10 @@ const PropertyTable: React.FC<TableBodyProps> = ({
     {
       text: (
         <>
-          <BedIconOutline className={styles.dropdownIcon} /> Add Stays
+          <BedIconOutline className={styles.dropdownIcon} /> View Stays
         </>
       ),
-      action: addStays,
+      action: viewStays,
     },
   ];
   return (

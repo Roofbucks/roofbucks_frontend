@@ -1,19 +1,11 @@
 import {
-  BathRoomIcon,
-  BedRoomIcon,
   CaretRight,
   property1,
   property2,
   property3,
   SearchIcon,
 } from "assets";
-import {
-  AmenityProp,
-  HeroSection,
-  PropertyCard,
-  PropertyCardProps,
-} from "components";
-import * as React from "react";
+import { HeroSection, PropertyCard, PropertyCardProps } from "components";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 import styles from "./styles.module.css";
@@ -57,24 +49,6 @@ const ListingsUI = () => {
     property3,
   ];
 
-  const amenities: AmenityProp[] = [
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bathroom",
-      Icon: BathRoomIcon,
-      value: "3",
-    },
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: "3",
-    },
-  ];
-
   const property: PropertyCardProps = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
@@ -86,7 +60,8 @@ const ListingsUI = () => {
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
-    amenities: amenities,
+    id: "123",
+    amenities: { bedroom: 5, toilet: 5 },
     type: "row",
     size: "large",
     primaryBtn: {
@@ -105,7 +80,8 @@ const ListingsUI = () => {
     amount: "$10,000",
     owner: "By Bear Properties",
     images: [property3],
-    amenities: amenities,
+    id: "123",
+    amenities: { bedroom: 5, toilet: 5 },
     type: "column",
     size: "normal",
     primaryBtn: {

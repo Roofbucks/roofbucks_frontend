@@ -1,9 +1,11 @@
 import { fetchPropertiesService } from "api";
 import {
+  AddStayModal,
   AgentPropertiesUI,
   Pagination,
   Preloader,
   PropertyTableItem,
+  ViewStayModal,
 } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
@@ -117,9 +119,29 @@ const AgentProperties = () => {
 
   const showLoader = propertiesStatus.isPending;
 
+  const [showStays, setShowStays] = React.useState(false);
+  const [showAddStays, setShowAddStays] = React.useState(false);
+
   return (
     <>
       <Preloader loading={showLoader} />
+      <AddStayModal
+        show={showAddStays}
+        close={() => setShowAddStays(false)}
+        submit={console.log}
+      />
+      <ViewStayModal
+        show={showStays}
+        close={() => setShowStays(false)}
+        stays={[]}
+        handleAdd={() => {
+          setShowStays(false);
+          setShowAddStays(true);
+        }}
+        deleteStay={function (x: any): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
       <AgentPropertiesUI
         tableItems={properties}
         addProperty={addProperty}
@@ -130,6 +152,7 @@ const AgentProperties = () => {
         hide={showLoader}
         editProperty={editProperty}
         viewProperty={viewProperty}
+        viewStays={() => setShowStays(true)}
       />
 
       <Pagination
