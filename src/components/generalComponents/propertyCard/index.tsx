@@ -1,4 +1,10 @@
-import { ArrowRight, MailIcon, ShareIcon } from "assets";
+import {
+  ArrowRight,
+  BathRoomIcon,
+  BedRoomIcon,
+  MailIcon,
+  ShareIcon,
+} from "assets";
 import * as React from "react";
 import { Button } from "../button";
 import styles from "./styles.module.css";
@@ -27,17 +33,21 @@ export const Amenity: React.FC<AmenityProp> = ({ Icon, name, value }) => {
   );
 };
 
-export interface PropertyCardProps {
-  type: "row" | "column";
+export interface PropertyCardData {
   images: string[];
-  amenities: AmenityProp[];
+  amenities: { bedroom: number; toilet: number };
   discount?: string;
   owner: string;
   name: string;
   address: string;
   description?: string;
-  moreDetails: (id) => void;
   amount: string;
+  id: string;
+}
+
+export interface PropertyCardProps extends PropertyCardData {
+  type: "row" | "column";
+  moreDetails: (id) => void;
   size: "large" | "normal";
   className?: string;
   primaryBtn: {
@@ -88,9 +98,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <p className={styles.name}>{name}</p>
         <p className={styles.address}>{address}</p>
         <div className={styles.amenityWrap}>
-          {amenities.map((item, index) => (
-            <Amenity {...item} key={index} />
-          ))}
+          <Amenity
+            Icon={BedRoomIcon}
+            name={"Bedrooms"}
+            value={`${amenities.bedroom}`}
+          />
+          <Amenity
+            Icon={BathRoomIcon}
+            name={"Toilets"}
+            value={`${amenities.toilet}`}
+          />
         </div>
         {description ? <p className={styles.description}>{description}</p> : ""}
         <button className={styles.moreBtn} onClick={() => moreDetails(1234)}>

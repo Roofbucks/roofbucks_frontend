@@ -110,8 +110,8 @@ const AgentProperties = () => {
     navigate(Routes.propertyID(id), {
       state: {
         from: "properties",
-        url: Routes.properties
-      }
+        url: Routes.properties,
+      },
     });
   };
 

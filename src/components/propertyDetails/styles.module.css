@@ -284,6 +284,9 @@
   font-weight: 400;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 600;
 }
 .backBtn2 svg {
   transform: rotate(180deg);

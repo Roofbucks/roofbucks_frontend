@@ -6,25 +6,7 @@ import {
   PropertyCard,
   PropertyCardProps,
 } from "components/generalComponents";
-import { property3, BedRoomIcon, BathRoomIcon, EmptyStreet } from "assets";
-
-const amenities: AmenityProp[] = [
-  {
-    name: "Bedroom",
-    Icon: BedRoomIcon,
-    value: "3",
-  },
-  {
-    name: "Bathroom",
-    Icon: BathRoomIcon,
-    value: "3",
-  },
-  {
-    name: "Bedroom",
-    Icon: BedRoomIcon,
-    value: "3",
-  },
-];
+import { property3, EmptyStreet } from "assets";
 
 const property: PropertyCardProps = {
   address: "256, Bayajida Close. LA. Nigeria",
@@ -33,7 +15,7 @@ const property: PropertyCardProps = {
   amount: "$10,000",
   owner: "By Bear Properties",
   images: [property3],
-  amenities: amenities,
+  amenities: { bedroom: 15, toilet: 21 },
   type: "row",
   size: "normal",
   primaryBtn: {
@@ -46,6 +28,7 @@ const property: PropertyCardProps = {
     action: (id) => console.log(id),
     className: styles.secBtn,
   },
+  id: "",
 };
 
 const properties: PropertyCardProps[] = new Array(6).fill(property);

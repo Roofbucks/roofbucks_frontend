@@ -34,3 +34,13 @@ export const fetchPropertyURL = (id) => `/properties/single/${id}/`;
  */
 
 export const updatePropertyURL = (id) => `/properties/update/${id}/`;
+
+/**
+ * Fetch similar properties url
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchSimilarPropertiesURL = (id) =>
+  `/properties/similar_properties/${id}/`;

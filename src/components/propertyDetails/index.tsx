@@ -18,6 +18,7 @@ import {
   DropdownListItem,
   HeroSection,
   PropertyCard,
+  PropertyCardData,
   PropertyCardProps,
 } from "components/generalComponents";
 import * as React from "react";
@@ -57,23 +58,6 @@ const propertyImages: string[] = [
   property3,
   property3,
 ];
-
-const property: PropertyCardProps = {
-  address: "256, Bayajida Close. LA. Nigeria",
-  name: "Two Bedroom Apartmentpartmentttt",
-  discount: "20% off",
-  moreDetails: (id) => console.log(id),
-  amount: "$10,000",
-  owner: "By Bear Properties",
-  images: propertyImages,
-  amenities: [],
-  type: "column",
-  size: "normal",
-  primaryBtn: {
-    text: "Buy shares",
-    action: (id) => console.log(id),
-  },
-};
 
 // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const labels = [
@@ -151,8 +135,6 @@ const lineConfig = {
   data: lineData,
   options: lineOptions,
 };
-
-const properties: PropertyCardProps[] = new Array(3).fill(property);
 
 const StatusList: DropdownItemType[] = [
   {
@@ -238,9 +220,13 @@ export interface PropertyData {
 
 interface PropertyDetailsProps {
   property: PropertyData;
+  similarProperties: PropertyCardData[];
 }
 
-const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({ property }) => {
+const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
+  property,
+  similarProperties,
+}) => {
   const location: any = useLocation();
 
   const [period, setPeriod] = React.useState({
@@ -287,26 +273,11 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({ property }) => {
     options: options,
   };
 
-  const amenities: AmenityProp[] = [
-    {
-      name: "Bedroom",
-      Icon: BedRoomIcon,
-      value: `${property.completed?.noOfBedrooms ?? "--"}`,
-    },
-    {
-      name: "Toilets",
-      Icon: BathRoomIcon,
-      value: `${property.completed?.noOfToilets ?? "--"}`,
-    },
-  ];
   return (
     <>
       <HeroSection title="Property Details" />
       <section className={`appContainer ${styles.propertyWrap}`}>
-        <Link
-          to={location.state.url ?? ""}
-          className={styles.backBtn}
-        >
+        <Link to={location.state.url ?? ""} className={styles.backBtn}>
           <ArrowRight /> Back to {location?.state?.from ?? ""}
         </Link>
         <div className={styles.imgSec}>
@@ -336,9 +307,16 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({ property }) => {
         </div>
         <div className={styles.amenityWrap}>
           <div className={styles.amenityList}>
-            {amenities.map((item, index) => (
-              <Amenity {...item} key={index} />
-            ))}
+            <Amenity
+              Icon={BedRoomIcon}
+              name={"Bedrooms"}
+              value={`${property.completed?.noOfBedrooms}`}
+            />
+            <Amenity
+              Icon={BathRoomIcon}
+              name={"Toilets"}
+              value={`${property.completed?.noOfToilets}`}
+            />
           </div>
           <div className={styles.priceWrap}>
             <p>${property.totalCost}</p>
@@ -553,15 +531,30 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({ property }) => {
         </div>
       </section>
       <section className={`appContainer ${styles.similarSec}`}>
-        <h5 className={styles.subTtl}>Similar Properties</h5>
-        <div className={styles.similar}>
-          {properties.map((item, index) => (
-            <PropertyCard {...item} key={index} className={styles.property} />
-          ))}
-        </div>
-        <Button type="tertiary" onClick={() => {}} className={styles.backBtn2}>
-          <ArrowRight /> Back to Market Place
-        </Button>
+        {similarProperties.length > 0 && (
+          <>
+            <h5 className={styles.subTtl}>Similar Properties</h5>
+            <div className={styles.similar}>
+              {similarProperties.map((item, index) => (
+                <PropertyCard
+                  {...item}
+                  key={index}
+                  className={styles.property}
+                  moreDetails={() => console.log()}
+                  type="column"
+                  size="normal"
+                  primaryBtn={{
+                    text: "Buy shares",
+                    action: (id) => console.log(id),
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        <Link to={location.state.url ?? ""} className={styles.backBtn2}>
+          <ArrowRight /> Back to {location?.state?.from ?? ""}
+        </Link>
       </section>
     </>
   );

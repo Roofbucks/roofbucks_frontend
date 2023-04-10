@@ -1,6 +1,7 @@
-import { fetchPropertyService } from "api";
+import { fetchPropertyService, fetchSimilarPropertiesService } from "api";
 import {
   Preloader,
+  PropertyCardData,
   PropertyData,
   PropertyDetailsUI,
   stageOneEditData,
@@ -76,15 +77,23 @@ const PropertyDetails = () => {
     error: fetchPropertyError,
   } = useApiRequest({});
 
+  const {
+    run: runSimilarProperties,
+    data: similarPropertiesResponse,
+    requestStatus: similarPropertiesStatus,
+    error: similarPropertiesError,
+  } = useApiRequest({});
+
   React.useEffect(() => {
-    propertyID && runFetchProperty(fetchPropertyService(propertyID));
+    if (propertyID) {
+      runFetchProperty(fetchPropertyService(propertyID));
+      runSimilarProperties(fetchSimilarPropertiesService(propertyID));
+    }
   }, [propertyID]);
 
   const property = React.useMemo<PropertyData>(() => {
     if (fetchPropertyResponse || fetchPropertyError) {
       if (fetchPropertyResponse?.status === 200) {
-        console.log(fetchPropertyResponse.data);
-
         const data = fetchPropertyResponse.data;
 
         const property: PropertyData = {
@@ -163,12 +172,40 @@ const PropertyDetails = () => {
     return initProperty;
   }, [fetchPropertyResponse, fetchPropertyError]);
 
-  const showLoader = fetchPropertyStatus.isPending;
+  const similarProperties = React.useMemo<PropertyCardData[]>(() => {
+    if (similarPropertiesResponse?.status === 200) {
+      console.log(similarPropertiesResponse.data);
+
+      const data = similarPropertiesResponse.data;
+
+      return data.map((item) => ({
+        address: `${item.address}, ${item.city}, ${item.state}, ${item.country}`,
+        name: item.name,
+        discount: "",
+        amount: item.total_property_cost,
+        owner: item.company_name,
+        images: item.images,
+        amenities: {
+          bedroom: item.number_of_bedrooms,
+          toilet: item.number_of_toilets,
+        },
+        id: "",
+      }));
+    }
+
+    return [];
+  }, [similarPropertiesResponse, similarPropertiesError]);
+
+  const showLoader =
+    fetchPropertyStatus.isPending || similarPropertiesStatus.isPending;
 
   return (
     <>
       <Preloader loading={showLoader} />
-      <PropertyDetailsUI property={property} />
+      <PropertyDetailsUI
+        property={property}
+        similarProperties={similarProperties}
+      />
     </>
   );
 };

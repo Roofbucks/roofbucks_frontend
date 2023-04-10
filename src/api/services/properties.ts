@@ -9,6 +9,7 @@ import {
   addPropertyURL,
   fetchPropertiesURL,
   fetchPropertyURL,
+  fetchSimilarPropertiesURL,
   updatePropertyURL,
 } from "api/urls";
 
@@ -75,4 +76,17 @@ export const updatePropertyService = ({
   };
 
   return postRequest(requestData);
+};
+
+/**
+ * Fetch similar properties
+ * @returns axios promise
+ */
+
+ export const fetchSimilarPropertiesService = (id: string) => {
+  const requestData = {
+    url: fetchSimilarPropertiesURL(id),
+  };
+
+  return getRequest(requestData);
 };
