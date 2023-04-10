@@ -1,4 +1,5 @@
 import {
+  addStaysService,
   deleteStayService,
   fetchPropertiesService,
   fetchStaysService,
@@ -52,6 +53,13 @@ const AgentProperties = () => {
     data: deleteStayResponse,
     requestStatus: deleteStayStatus,
     error: deleteStayError,
+  } = useApiRequest({});
+
+  const {
+    run: runAddStay,
+    data: addStayResponse,
+    requestStatus: addStayStatus,
+    error: addStayError,
   } = useApiRequest({});
 
   const addProperty = () => {
@@ -168,9 +176,10 @@ const AgentProperties = () => {
   }, [fetchStaysResponse, fetchStaysError]);
 
   const deleteStay = (index) => {
-    runDeleteStay(
-      deleteStayService({ propertyID: showStays.id, stayIndex: index })
-    );
+    showStays.id !== "" &&
+      runDeleteStay(
+        deleteStayService({ propertyID: showStays.id, stayIndex: index })
+      );
   };
 
   React.useMemo(() => {
@@ -193,10 +202,39 @@ const AgentProperties = () => {
     }
   }, [deleteStayResponse, deleteStayError]);
 
+  const addStay = (stays) => {
+    const data = stays.map((item) => [item.start, item.end]);
+    runAddStay(
+      addStaysService({ id: showStays.id, data: { stay_periods: data } })
+    );
+  };
+
+  React.useMemo(() => {
+    if (addStayResponse) {
+      if (addStayResponse.status === 200) {
+        setShowAddStays(false);
+        fetchStays(showStays.id);
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Sorry",
+            text: getErrorMessage({
+              error: addStayError ?? addStayResponse,
+              message: "Failed to add stay, please try again later",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+  }, [addStayResponse, addStayError]);
+
   const showLoader =
     propertiesStatus.isPending ||
     fetchStaysStatus.isPending ||
-    deleteStayStatus.isPending;
+    deleteStayStatus.isPending ||
+    addStayStatus.isPending;
 
   return (
     <>
@@ -204,14 +242,14 @@ const AgentProperties = () => {
       <AddStayModal
         show={showAddStays}
         close={() => setShowAddStays(false)}
-        submit={console.log}
+        submit={addStay}
       />
       <ViewStayModal
         show={showStays.show}
         close={() => setShowStays({ id: "", show: false })}
         stays={stays}
         handleAdd={() => {
-          setShowStays({ id: "", show: false });
+          setShowStays({ ...showStays, show: false });
           setShowAddStays(true);
         }}
         deleteStay={deleteStay}

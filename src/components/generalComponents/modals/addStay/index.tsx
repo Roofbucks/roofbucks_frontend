@@ -5,6 +5,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { CloseIcon2 } from "assets";
 import { Input, Button } from "components";
+import { useEffect } from "react";
 
 interface StayData {
   start: string;
@@ -37,7 +38,7 @@ const staySchema = yup
 interface AddStayModalProps {
   show: boolean;
   close: () => void;
-  submit: (data: Stays) => void;
+  submit: (data: StayData[]) => void;
 }
 
 const AddStayModal: React.FC<AddStayModalProps> = ({ show, submit, close }) => {
@@ -46,10 +47,15 @@ const AddStayModal: React.FC<AddStayModalProps> = ({ show, submit, close }) => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<Stays>({
     resolver: yupResolver(staySchema),
     defaultValues: { stay: [{ ...initialValues }] },
   });
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   const { append, remove, fields } = useFieldArray({
     control: control,
@@ -61,12 +67,17 @@ const AddStayModal: React.FC<AddStayModalProps> = ({ show, submit, close }) => {
   };
 
   const onSubmit: SubmitHandler<Stays> = (data) => {
-    submit(data);
+    submit(data.stay);
+  };
+
+  const closeAndClear = () => {
+    reset();
+    close();
   };
 
   return (
     <>
-      <Modal onHide={close} show={show} centered>
+      <Modal onHide={closeAndClear} show={show} centered>
         <ModalHeader className={styles.header}>
           <div>
             <p className={styles.tag}>Create Stay Periods</p>
@@ -77,7 +88,7 @@ const AddStayModal: React.FC<AddStayModalProps> = ({ show, submit, close }) => {
           </div>
           <CloseIcon2
             role="button"
-            onClick={close}
+            onClick={closeAndClear}
             className={styles.closeBtn}
           />
         </ModalHeader>

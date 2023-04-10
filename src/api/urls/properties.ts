@@ -63,3 +63,12 @@ export const fetchStaysURL = (id) => `/properties/stay-periods/${id}/`;
 
 export const deleteStayURL = ({ propertyID, stayIndex }) =>
   `/properties/stay-periods/${propertyID}/${stayIndex}/`;
+
+/**
+ * Add stays
+ *
+ * @returns url string
+ *
+ */
+
+export const addStaysURL = (id) => `/properties/stay-periods/${id}/`;

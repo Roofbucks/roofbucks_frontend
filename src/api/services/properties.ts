@@ -4,9 +4,15 @@ PROPERTIES SERVICES
 =================================
 */
 
-import { deleteRequest, getRequest, postRequest } from "api/requestProcessor";
+import {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest,
+} from "api/requestProcessor";
 import {
   addPropertyURL,
+  addStaysURL,
   deleteStayURL,
   fetchPropertiesURL,
   fetchPropertyURL,
@@ -117,4 +123,28 @@ export const deleteStayService = ({ propertyID, stayIndex }) => {
   };
 
   return deleteRequest(requestData);
+};
+
+interface AddStayRequestData {
+  stay_periods: string[][];
+}
+
+/**
+ * Delete stay
+ * @returns axios promise
+ */
+
+export const addStaysService = ({
+  id,
+  data,
+}: {
+  id: string;
+  data: AddStayRequestData;
+}) => {
+  const requestData = {
+    url: addStaysURL(id),
+    data,
+  };
+
+  return patchRequest(requestData);
 };
