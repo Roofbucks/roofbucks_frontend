@@ -31,35 +31,16 @@ div.header {
   fill: #fff;
 }
 div.body {
-  padding: 1rem 1.5rem 2rem;
+  padding: 1.5rem 1.5rem;
 }
 .fieldset {
   display: grid;
-  grid-template-columns: 1fr 1fr 24px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 5%;
-  border-top: 1px solid #efefef;
-  padding-top: 1.2rem;
-  margin-top: 1rem;
 }
-.addBtn {
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 1rem;
-}
-.addBtn svg {
-  transform: rotate(45deg);
-  width: 20px;
-  background: var(--green);
-  border-radius: 50%;
-  padding: 2px;
-  margin-right: 8px;
-}
-.addBtn svg path {
-  fill: #fff;
+.input {
+  margin-bottom: 1.5rem;
 }
 .submitBtn {
   margin-top: 1rem;

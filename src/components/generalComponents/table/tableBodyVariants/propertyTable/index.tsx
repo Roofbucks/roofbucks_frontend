@@ -1,4 +1,4 @@
-import { EditIcon2, EyeIconOutline, BedIconOutline } from "assets";
+import { EditIcon2, EyeIconOutline, BedIconOutline, SendIcon } from "assets";
 import * as React from "react";
 import { ActionItem, TableAction, TableBody } from "../../components";
 import styles from "./styles.module.css";
@@ -18,6 +18,7 @@ interface TableBodyProps {
   edit: (id) => void;
   view: (id) => void;
   viewStays: (id) => void;
+  promote: (id) => void;
   tableBodyItemClassName: string;
 }
 
@@ -26,6 +27,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
   edit,
   view,
   viewStays,
+  promote,
   tableBodyItemClassName,
 }) => {
   const actions = (id): ActionItem[] => [
@@ -52,6 +54,14 @@ const PropertyTable: React.FC<TableBodyProps> = ({
         </>
       ),
       action: () => viewStays(id),
+    },
+    {
+      text: (
+        <>
+          <SendIcon className={styles.dropdownIcon} /> Promote
+        </>
+      ),
+      action: () => promote(id),
     },
   ];
   return (

@@ -9,6 +9,7 @@ import {
   AgentPropertiesUI,
   Pagination,
   Preloader,
+  PromotePropertyModal,
   PropertyTableItem,
   StayData,
   ViewStayModal,
@@ -33,6 +34,7 @@ const AgentProperties = () => {
   const debouncedSearchTerm = useDebounce(search, 500);
   const [showStays, setShowStays] = React.useState({ show: false, id: "" });
   const [showAddStays, setShowAddStays] = React.useState(false);
+  const [promote, setPromote] = React.useState({ show: false, id: "" });
 
   const {
     run: runProperties,
@@ -230,6 +232,10 @@ const AgentProperties = () => {
     }
   }, [addStayResponse, addStayError]);
 
+  const promoteProperty = (data) => {
+    console.log(data);
+  };
+
   const showLoader =
     propertiesStatus.isPending ||
     fetchStaysStatus.isPending ||
@@ -239,6 +245,11 @@ const AgentProperties = () => {
   return (
     <>
       <Preloader loading={showLoader} />
+      <PromotePropertyModal
+        show={promote.show}
+        close={() => setPromote({ id: "", show: false })}
+        submit={promoteProperty}
+      />
       <AddStayModal
         show={showAddStays}
         close={() => setShowAddStays(false)}
@@ -265,6 +276,7 @@ const AgentProperties = () => {
         editProperty={editProperty}
         viewProperty={viewProperty}
         viewStays={fetchStays}
+        promote={(id) => setPromote({ id, show: true })}
       />
 
       <Pagination
