@@ -53,3 +53,13 @@ export const fetchSimilarPropertiesURL = (id) =>
  */
 
 export const fetchStaysURL = (id) => `/properties/stay-periods/${id}/`;
+
+/**
+ * Delete stay for a property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const deleteStayURL = ({ propertyID, stayIndex }) =>
+  `/properties/stay-periods/${propertyID}/${stayIndex}/`;

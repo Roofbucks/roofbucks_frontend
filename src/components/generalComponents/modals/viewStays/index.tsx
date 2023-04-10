@@ -17,7 +17,7 @@ interface ViewStayModalProps {
   close: () => void;
   stays: StayData[];
   handleAdd: () => void;
-  deleteStay: (x) => void;
+  deleteStay: (x: number) => void;
 }
 
 const ViewStayModal: React.FC<ViewStayModalProps> = ({

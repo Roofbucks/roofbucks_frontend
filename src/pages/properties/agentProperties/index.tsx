@@ -1,4 +1,8 @@
-import { fetchPropertiesService, fetchStaysService } from "api";
+import {
+  deleteStayService,
+  fetchPropertiesService,
+  fetchStaysService,
+} from "api";
 import {
   AddStayModal,
   AgentPropertiesUI,
@@ -26,7 +30,7 @@ const AgentProperties = () => {
     current: 1,
   });
   const debouncedSearchTerm = useDebounce(search, 500);
-  const [showStays, setShowStays] = React.useState(false);
+  const [showStays, setShowStays] = React.useState({ show: false, id: "" });
   const [showAddStays, setShowAddStays] = React.useState(false);
 
   const {
@@ -41,6 +45,13 @@ const AgentProperties = () => {
     data: fetchStaysResponse,
     requestStatus: fetchStaysStatus,
     error: fetchStaysError,
+  } = useApiRequest({});
+
+  const {
+    run: runDeleteStay,
+    data: deleteStayResponse,
+    requestStatus: deleteStayStatus,
+    error: deleteStayError,
   } = useApiRequest({});
 
   const addProperty = () => {
@@ -127,14 +138,14 @@ const AgentProperties = () => {
   };
 
   const fetchStays = (id) => {
+    setShowStays({ ...showStays, id });
     runFetchStays(fetchStaysService(id));
   };
 
   const stays = React.useMemo<StayData[]>(() => {
     if (fetchStaysResponse) {
       if (fetchStaysResponse.status === 200) {
-        console.log(fetchStaysResponse);
-        setShowStays(true);
+        setShowStays({ ...showStays, show: true });
         return fetchStaysResponse.data.map((item) => ({
           start: item[0],
           end: item[1],
@@ -145,7 +156,7 @@ const AgentProperties = () => {
             show: true,
             heading: "Sorry",
             text: getErrorMessage({
-              error: propertiesError ?? fetchStaysResponse,
+              error: fetchStaysError ?? fetchStaysResponse,
               message: "Failed to fetch stays, please try again later",
             }),
             type: false,
@@ -154,9 +165,38 @@ const AgentProperties = () => {
       }
     }
     return [];
-  }, [fetchStaysResponse, propertiesError]);
+  }, [fetchStaysResponse, fetchStaysError]);
 
-  const showLoader = propertiesStatus.isPending || fetchStaysStatus.isPending;
+  const deleteStay = (index) => {
+    runDeleteStay(
+      deleteStayService({ propertyID: showStays.id, stayIndex: index })
+    );
+  };
+
+  React.useMemo(() => {
+    if (deleteStayResponse) {
+      if (deleteStayResponse.status === 200) {
+        fetchStays(showStays.id);
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Sorry",
+            text: getErrorMessage({
+              error: deleteStayError ?? deleteStayResponse,
+              message: "Failed to delete stay, please try again later",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+  }, [deleteStayResponse, deleteStayError]);
+
+  const showLoader =
+    propertiesStatus.isPending ||
+    fetchStaysStatus.isPending ||
+    deleteStayStatus.isPending;
 
   return (
     <>
@@ -167,16 +207,14 @@ const AgentProperties = () => {
         submit={console.log}
       />
       <ViewStayModal
-        show={showStays}
-        close={() => setShowStays(false)}
+        show={showStays.show}
+        close={() => setShowStays({ id: "", show: false })}
         stays={stays}
         handleAdd={() => {
-          setShowStays(false);
+          setShowStays({ id: "", show: false });
           setShowAddStays(true);
         }}
-        deleteStay={function (x: any): void {
-          throw new Error("Function not implemented.");
-        }}
+        deleteStay={deleteStay}
       />
       <AgentPropertiesUI
         tableItems={properties}
