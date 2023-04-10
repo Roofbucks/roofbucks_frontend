@@ -1,10 +1,11 @@
-import { fetchPropertiesService } from "api";
+import { fetchPropertiesService, fetchStaysService } from "api";
 import {
   AddStayModal,
   AgentPropertiesUI,
   Pagination,
   Preloader,
   PropertyTableItem,
+  StayData,
   ViewStayModal,
 } from "components";
 import { getErrorMessage } from "helpers";
@@ -24,14 +25,22 @@ const AgentProperties = () => {
     total: 1,
     current: 1,
   });
-
   const debouncedSearchTerm = useDebounce(search, 500);
+  const [showStays, setShowStays] = React.useState(false);
+  const [showAddStays, setShowAddStays] = React.useState(false);
 
   const {
     run: runProperties,
     data: propertiesResponse,
     requestStatus: propertiesStatus,
     error: propertiesError,
+  } = useApiRequest({});
+
+  const {
+    run: runFetchStays,
+    data: fetchStaysResponse,
+    requestStatus: fetchStaysStatus,
+    error: fetchStaysError,
   } = useApiRequest({});
 
   const addProperty = () => {
@@ -117,10 +126,37 @@ const AgentProperties = () => {
     });
   };
 
-  const showLoader = propertiesStatus.isPending;
+  const fetchStays = (id) => {
+    runFetchStays(fetchStaysService(id));
+  };
 
-  const [showStays, setShowStays] = React.useState(false);
-  const [showAddStays, setShowAddStays] = React.useState(false);
+  const stays = React.useMemo<StayData[]>(() => {
+    if (fetchStaysResponse) {
+      if (fetchStaysResponse.status === 200) {
+        console.log(fetchStaysResponse);
+        setShowStays(true);
+        return fetchStaysResponse.data.map((item) => ({
+          start: item[0],
+          end: item[1],
+        }));
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Sorry",
+            text: getErrorMessage({
+              error: propertiesError ?? fetchStaysResponse,
+              message: "Failed to fetch stays, please try again later",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+    return [];
+  }, [fetchStaysResponse, propertiesError]);
+
+  const showLoader = propertiesStatus.isPending || fetchStaysStatus.isPending;
 
   return (
     <>
@@ -133,7 +169,7 @@ const AgentProperties = () => {
       <ViewStayModal
         show={showStays}
         close={() => setShowStays(false)}
-        stays={[]}
+        stays={stays}
         handleAdd={() => {
           setShowStays(false);
           setShowAddStays(true);
@@ -152,7 +188,7 @@ const AgentProperties = () => {
         hide={showLoader}
         editProperty={editProperty}
         viewProperty={viewProperty}
-        viewStays={() => setShowStays(true)}
+        viewStays={fetchStays}
       />
 
       <Pagination

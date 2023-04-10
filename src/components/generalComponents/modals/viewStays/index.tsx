@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { CloseIcon2, EmptyStreet } from "assets";
 import { Button } from "components";
 
-interface StayData {
+export interface StayData {
   start: string;
   end: string;
 }

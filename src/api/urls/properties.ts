@@ -44,3 +44,12 @@ export const updatePropertyURL = (id) => `/properties/update/${id}/`;
 
 export const fetchSimilarPropertiesURL = (id) =>
   `/properties/similar_properties/${id}/`;
+
+/**
+ * Fetch stays for a property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchStaysURL = (id) => `/properties/stay-periods/${id}/`;

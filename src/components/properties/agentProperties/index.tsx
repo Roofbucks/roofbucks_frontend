@@ -19,7 +19,7 @@ interface AgentPropertiesUIProps {
   hide: boolean;
   editProperty: (id: string) => void;
   viewProperty: (id: string) => void;
-  viewStays: () => void;
+  viewStays: (id: string) => void;
 }
 
 const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
