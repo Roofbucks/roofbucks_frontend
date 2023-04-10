@@ -14,6 +14,7 @@ import {
   fetchProfileURL,
   fetchBusinessURL,
   addBillingURL,
+  updatePasswordURL,
 } from "api";
 
 /**
@@ -118,4 +119,23 @@ export const addBillingService = (data: addBillingServiceRequestData) => {
   };
 
   return patchRequest(requestData);
+};
+
+export interface UpdatePasswordRequestData {
+  current_password: string;
+  new_password: string;
+}
+
+/**
+ * Update password service
+ * @returns axios promise
+ */
+
+export const updatePasswordService = (data: UpdatePasswordRequestData) => {
+  const requestData = {
+    url: updatePasswordURL(),
+    data: data,
+  };
+
+  return postRequest(requestData);
 };

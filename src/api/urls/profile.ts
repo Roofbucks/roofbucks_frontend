@@ -62,3 +62,12 @@ export const fetchBusinessURL = ({ id, orderBy = "" }) =>
  */
 
 export const addBillingURL = () => `/user/add_bank_information/`;
+
+
+/**
+ * Update password url
+ *
+ * @returns url string
+ *
+ */
+export const updatePasswordURL = () => `/auth/change-password/`

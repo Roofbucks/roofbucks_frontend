@@ -62,7 +62,13 @@ const securitySchema = yup
   })
   .required();
 
-const SettingsUI = () => {
+interface SettingsProps {
+  // account: AccountData;
+  submitPassword: (data) => void;
+  reset: boolean;
+}
+
+const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
   const [view, setView] = React.useState(1);
 
   const {
@@ -78,17 +84,25 @@ const SettingsUI = () => {
     register: registerSecurity,
     handleSubmit: handleSubmitSecurity,
     formState: { errors: errorsSecurity },
+    reset: resetSecurity,
   } = useForm<SecurityData>({
     resolver: yupResolver(securitySchema),
     defaultValues: initialSecurityValues,
   });
+
+  React.useEffect(() => {
+    resetSecurity();
+  }, [reset]);
 
   const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
     console.log(data);
   };
 
   const onSubmitSecurity: SubmitHandler<SecurityData> = (data) => {
-    console.log(data);
+    submitPassword({
+      current_password: data.currentPassword,
+      new_password: data.newPassword,
+    });
   };
   return (
     <>
@@ -113,7 +127,7 @@ const SettingsUI = () => {
         {view === 1 ? (
           <form className={styles.accountForm}>
             <Input
-              label="Display Name *"
+              label="Display Name"
               placeholder="e.g. Jane"
               type="text"
               parentClassName={styles.inputWrap}
@@ -123,7 +137,7 @@ const SettingsUI = () => {
               register={registerAccount}
             />
             <Input
-              label="Agency's Name *"
+              label="Company Name"
               placeholder="e.g. Doe Realty"
               type="text"
               parentClassName={styles.inputWrap}
