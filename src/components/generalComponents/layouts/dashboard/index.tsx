@@ -1,5 +1,4 @@
 import {
-  avatar,
   CaretRight,
   FinancesIcon,
   InboxIcon,
@@ -17,6 +16,7 @@ import { Routes } from "router";
 import styles from "./styles.module.css";
 import { useAppSelector } from "redux/hooks";
 import { Logout } from "./logoutPrompt";
+import { AuthMenuDropdown } from "../general/navbar";
 
 interface SidebarType {
   active: dashboardPages;
@@ -72,7 +72,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   active,
   children,
 }) => {
-  const { role: user } = useAppSelector((state) => state.user);
+  const {
+    role: user,
+    avatar,
+    firstName,
+  } = useAppSelector((state) => state.user);
+  const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
 
   const items: SidebarType[] = [
     {
@@ -169,9 +174,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <div className={styles.profileSec}>
             <span className={styles.profile} role={"button"}>
               <img src={avatar} alt="" />
-              <CaretRight />
+              <CaretRight onClick={() => setShowMenuDropdown(!showMenuDropdown)} />
+              <AuthMenuDropdown
+                show={showMenuDropdown}
+                closeMenu={(x) => setShowMenuDropdown(x)}
+                logout={() => {
+                  setShowMenuDropdown(false);
+                  setShowLogout(true);
+                }}
+                links={["Home", "My Cart", "Profile"]}
+                className={styles.menuDropdown}
+              />
             </span>
-            <p>Welcome Back Jane!</p>
+            <p>Welcome Back {firstName}!</p>
           </div>
         </header>
         <div className={styles.content}>{children}</div>

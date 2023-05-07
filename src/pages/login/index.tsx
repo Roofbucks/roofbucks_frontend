@@ -6,7 +6,7 @@ import { loginService } from "api";
 import { updateToast, updateUser } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 import { Routes } from "router";
-import { getErrorMessage } from "helpers";
+import { getErrorMessage, useGetUser } from "helpers";
 import { useNavigate } from "react-router-dom";
 
 interface LoginProps extends ModalProps {
@@ -22,6 +22,7 @@ const LoginModal: React.FC<LoginProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { fetchAgent } = useGetUser();
 
   const {
     run: runLogin,
@@ -35,28 +36,14 @@ const LoginModal: React.FC<LoginProps> = ({
       if (loginResponse?.status === 200) {
         const data = loginResponse.data;
         const role = data.role === "AGENT" ? "agent" : "shareholder";
-        const firstName = data.firstname;
-        const lastName = data.lastname;
-        const email = data.email;
         const id = data.id;
 
         localStorage.setItem("roofbucksAccess", data.tokens.access);
         localStorage.setItem("roofbucksRefresh", data.tokens.refresh);
         localStorage.setItem("role", role);
-        localStorage.setItem("firstName", firstName);
-        localStorage.setItem("lastName", lastName);
-        localStorage.setItem("email", email);
         localStorage.setItem("id", id);
 
-        dispatch(
-          updateUser({
-            role,
-            firstName,
-            lastName,
-            email,
-            id
-          })
-        );
+        fetchAgent();
 
         dispatch(
           updateToast({

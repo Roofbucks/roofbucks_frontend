@@ -23,6 +23,7 @@ export interface UserData {
   firstName: string;
   lastName: string;
   id: string;
+  avatar: string;
 }
 
 export type userActions = "UPDATE_USER";

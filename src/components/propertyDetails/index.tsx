@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  avatar,
   BathRoomIcon,
   BedRoomIcon,
   LocationIcon,
@@ -11,7 +10,6 @@ import {
 } from "assets";
 import {
   Amenity,
-  AmenityProp,
   Button,
   Dropdown,
   DropdownItemType,
@@ -19,7 +17,6 @@ import {
   HeroSection,
   PropertyCard,
   PropertyCardData,
-  PropertyCardProps,
 } from "components/generalComponents";
 import * as React from "react";
 import styles from "./styles.module.css";
@@ -221,11 +218,17 @@ export interface PropertyData {
 interface PropertyDetailsProps {
   property: PropertyData;
   similarProperties: PropertyCardData[];
+  handleViewAgent: (id) => void;
+  handleViewProperty: (id) => void;
+  handleBuyShares: (id) => void;
 }
 
 const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
   property,
   similarProperties,
+  handleViewProperty,
+  handleViewAgent,
+  handleBuyShares,
 }) => {
   const location: any = useLocation();
 
@@ -524,7 +527,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               <Button
                 className={styles.contactBtn}
                 type="tertiary"
-                onClick={() => {}}
+                onClick={() => handleViewAgent(property.agent.id)}
               >
                 View Profile <ArrowRight />
               </Button>
@@ -542,12 +545,12 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                   {...item}
                   key={index}
                   className={styles.property}
-                  moreDetails={() => console.log()}
+                  moreDetails={handleViewProperty}
                   type="column"
                   size="normal"
                   primaryBtn={{
                     text: "Buy shares",
-                    action: (id) => console.log(id),
+                    action: handleBuyShares,
                   }}
                 />
               ))}

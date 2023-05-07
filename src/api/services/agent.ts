@@ -19,7 +19,7 @@ export const fetchAgentsService = ({ search, page }) => {
   return getRequest(requestData);
 };
 
-export const fetchAgentService = ({ id }) => {
+export const fetchAgentService = ({ id }: {id?: string}) => {
   const requestData = {
     url: fetchAgentURL({ id }),
   };

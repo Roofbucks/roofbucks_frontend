@@ -601,6 +601,8 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     setValueStageTwo("stays", [...prevList]);
   };
 
+  console.log(errorsStageOne)
+
   return (
     <section className={styles.addPropertyContainer}>
       <h2 className={styles.ttl}>{stage}. Property Information</h2>
@@ -792,7 +794,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                   parentClassName={styles.input}
                   required
                   validatorMessage={errorsStageOne?.description?.message}
-                  name="completed.description"
+                  name="description"
                   register={registerStageOne}
                 />
               </div>

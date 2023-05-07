@@ -1,5 +1,4 @@
 import {
-  avatar,
   BellIconOutline,
   CaretRight,
   ChevronIcon,
@@ -13,9 +12,10 @@ import {
   useOutsideAlerter,
 } from "components/generalComponents";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Routes } from "router";
 import styles from "./styles.module.css";
+import { useAppSelector } from "redux/hooks";
 
 export interface NavbarProps {
   active?: "home" | "listing" | "marketplace" | "agents" | "about" | "contact";
@@ -36,6 +36,8 @@ const Navbar: React.FC<NavbarProps> = ({
   showNav,
   openNav,
 }) => {
+  const { avatar, firstName } = useAppSelector((state) => state.user);
+
   const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
@@ -170,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     />
                   </div>
                   <img src={avatar} alt="" />
-                  <p>Hi Daniel</p>
+                  <p>Hi {firstName}</p>
                   <div
                     className={`${showMenuDropdown ? styles.disableCaret : ""}`}
                   >
@@ -187,6 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         setShowMenuDropdown(false);
                         setShowLogout(true);
                       }}
+                      links={["My Dashboard", "My Cart", "Profile"]}
                     />
                   </div>
                 </div>
@@ -247,23 +250,56 @@ interface AuthMenuDropdownProps {
   className?: string;
   closeMenu: (x: boolean) => void;
   logout: () => void;
+  links: string[];
 }
 
-const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
+export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
   show,
   className = "",
   closeMenu,
   logout,
+  links,
 }) => {
+  const navigate = useNavigate();
+  const { id } = useAppSelector((state) => state.user);
+
+  const items = [
+    {
+      label: "Home",
+      onClick: () => navigate(Routes.home),
+    },
+    {
+      label: "My Dashboard",
+      onClick: () => navigate(Routes.overview),
+    },
+    {
+      label: "My Cart",
+      onClick: () => {},
+    },
+    {
+      label: "Profile",
+      onClick: () => navigate(Routes.profileID(id)),
+    },
+  ];
+
   return (
     <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
       <ul className={styles.authMenuList}>
-        <li>Home</li>
-        <li>
-          <Link to={Routes.overview}>My Dashboard</Link>
-        </li>
-        <li>My Cart</li>
-        <li className={styles.activeMenuItem}>Profile</li>
+        {items
+          .filter((item) => links.includes(item.label))
+          .map((item, index) => (
+            <li
+              key={`link_${index}`}
+              role="button"
+              onClick={() => {
+                item.onClick();
+                closeMenu(false);
+              }}
+            >
+              {item.label}
+            </li>
+          ))}
+
         <li role="button" onClick={logout}>
           Logout
         </li>

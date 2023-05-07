@@ -6,6 +6,7 @@ const initalState: UserData = {
   lastName: "",
   email: "",
   id: "",
+  avatar: "",
 };
 
 const userReducer = (state = initalState, action: reduxUserAction) => {

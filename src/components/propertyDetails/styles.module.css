@@ -180,7 +180,8 @@
 }
 .additional {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  /* max-width: 900px; */
   gap: 1rem;
 }
 .additional > div {
@@ -215,6 +216,7 @@
 .agentInfoSec {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-top: 3rem;
 }
 .name {
   color: var(--green);

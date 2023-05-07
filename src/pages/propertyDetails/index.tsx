@@ -10,9 +10,10 @@ import {
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
+import { Routes } from "router";
 import { countryOptions, propertyTypeOptions } from "utils";
 
 const initProperty: PropertyData = {
@@ -69,6 +70,7 @@ const initProperty: PropertyData = {
 const PropertyDetails = () => {
   const { id: propertyID } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     run: runFetchProperty,
@@ -196,6 +198,9 @@ const PropertyDetails = () => {
     return [];
   }, [similarPropertiesResponse, similarPropertiesError]);
 
+  const handleViewAgent = (id) => navigate(Routes.profileID(id));
+  const handleViewProperty = (id) => navigate(Routes.propertyID(id));
+
   const showLoader =
     fetchPropertyStatus.isPending || similarPropertiesStatus.isPending;
 
@@ -205,6 +210,9 @@ const PropertyDetails = () => {
       <PropertyDetailsUI
         property={property}
         similarProperties={similarProperties}
+        handleViewAgent={handleViewAgent}
+        handleViewProperty={handleViewProperty}
+        handleBuyShares={console.log}
       />
     </>
   );

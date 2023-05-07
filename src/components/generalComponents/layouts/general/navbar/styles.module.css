@@ -104,9 +104,7 @@
 .authMenuDropdown {
   position: absolute;
   background: #fafafa;
-  box-shadow: 289px 720px 310px rgb(39 181 67 / 1%),
-    163px 405px 262px rgb(39 181 67 / 3%), 72px 180px 194px rgb(39 181 67 / 4%),
-    18px 45px 107px rgb(39 181 67 / 5%), 0px 0px 0px rgb(39 181 67 / 5%);
+  box-shadow: 0px 2px 6px 1px rgb(0 0 0 / 10%);
   border-radius: 16px;
   padding: 1rem;
   right: -30px;
@@ -131,7 +129,7 @@
   color: inherit;
   text-decoration: none;
 }
-.activeMenuItem {
+.authMenuList li:hover {
   background: #efefef;
 }
 .disableCaret {
