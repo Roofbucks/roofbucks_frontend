@@ -1,22 +1,45 @@
-import {
-  CaretRight,
-  FilterIcon,
-  property1,
-  property2,
-  property3,
-  SearchIcon,
-} from "assets";
+import { CaretRight, EmptyStreet, FilterIcon, SearchIcon } from "assets";
 import {
   Button,
   CustomSelect,
   HeroSection,
+  Pagination,
+  PaginationProps,
   PropertyCard,
-  PropertyCardProps,
+  PropertyCardData,
 } from "components";
 import * as React from "react";
 import styles from "./styles.module.css";
+import { countryOptions, initialOptionType, propertyTypeOptions } from "utils";
+import { optionType } from "types";
 
-const MarketplaceUI = () => {
+interface FilterValues {
+  country: optionType;
+  state: optionType;
+  minPrice: string;
+  maxPrice: string;
+  type: optionType[];
+  status: optionType;
+}
+
+interface MarketplaceProps {
+  properties: PropertyCardData[];
+  pagination: PaginationProps;
+  handleView: (id) => void;
+  search: {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+  submitFilter: (data) => void;
+}
+
+const MarketplaceUI: React.FC<MarketplaceProps> = ({
+  pagination,
+  properties,
+  handleView,
+  search,
+  submitFilter,
+}) => {
   const [showFilter, setShowFilter] = React.useState(false);
   const [mobile, setMobile] = React.useState(
     window.innerWidth <= 800 ? true : false
@@ -27,34 +50,15 @@ const MarketplaceUI = () => {
     propertyPrice: false,
     propertyLocation: false,
   });
-  const propertyImages: string[] = [
-    property3,
-    property2,
-    property3,
-    property1,
-    property3,
-    property3,
-  ];
 
-  const property: PropertyCardProps = {
-    address: "256, Bayajida Close. LA. Nigeria",
-    name: "Two Bedroom Apartmentpartmentttt",
-    discount: "20% off",
-    moreDetails: (id) => console.log(id),
-    amount: "$10,000",
-    owner: "By Bear Properties",
-    images: propertyImages,
-    id: "123",
-    amenities: { bedroom: 5, toilet: 5 },
-    type: "row",
-    size: "normal",
-    primaryBtn: {
-      text: "Sell shares",
-      action: (id) => console.log(id),
-    },
-  };
-
-  const properties: PropertyCardProps[] = new Array(6).fill(property);
+  const [filterValues, setFilterValues] = React.useState<FilterValues>({
+    country: initialOptionType,
+    state: initialOptionType,
+    minPrice: "",
+    maxPrice: "",
+    type: [],
+    status: initialOptionType,
+  });
 
   const screenSizeUpdate = () => {
     if (window.innerWidth <= 800) {
@@ -64,6 +68,54 @@ const MarketplaceUI = () => {
     }
   };
   window.onresize = screenSizeUpdate;
+
+  const handleTypeChange = (val: optionType) => {
+    const index = filterValues.type.findIndex((object) => {
+      return object.value === val.value;
+    });
+
+    if (index === -1) {
+      const prevList = [...filterValues.type];
+      setFilterValues({ ...filterValues, type: [val, ...prevList] });
+    } else {
+      handleRemoveType(val);
+    }
+  };
+
+  const handleRemoveType = (val) => {
+    const index = filterValues.type.findIndex((object) => {
+      return object.value === val.value;
+    });
+    const prevList = [...filterValues.type];
+    prevList.splice(index, 1);
+    setFilterValues({ ...filterValues, type: [...prevList] });
+  };
+
+  const resetFilters = () => {
+    setFilterValues({
+      country: initialOptionType,
+      state: initialOptionType,
+      minPrice: "",
+      maxPrice: "",
+      type: [],
+      status: initialOptionType,
+    });
+    submitFilter({});
+  };
+
+  const applyFilters = () => {
+    const budget = `${filterValues.minPrice},${filterValues.maxPrice}`;
+    const status = filterValues.status.value;
+    const data = {
+      country: filterValues.country.value,
+      budget: budget === "," ? "" : budget,
+      status: status === "all" ? "" : status,
+      type: filterValues.type.map((item) => item.value).join(","),
+    };
+
+    submitFilter(data);
+  };
+
   return (
     <>
       <HeroSection title="Marketplace" />
@@ -85,7 +137,12 @@ const MarketplaceUI = () => {
           />
           <div>
             <SearchIcon />
-            <input placeholder="Search by name" type={"text"} />
+            <input
+              value={search.value}
+              onChange={search.onChange}
+              placeholder="Search by name"
+              type={"search"}
+            />
           </div>
         </div>
 
@@ -93,7 +150,7 @@ const MarketplaceUI = () => {
           <div className={styles.filterWrap}>
             <div className={styles.filterItem}>
               <div className={styles.filterHd}>
-                <span>Property Type</span>{" "}
+                <span>Property Type</span>
                 <CaretRight
                   role={"button"}
                   onClick={() =>
@@ -106,48 +163,23 @@ const MarketplaceUI = () => {
               </div>
               {filters.propertyType ? (
                 <>
-                  <div className={styles.filterCheck}>
-                    <span>Residential</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>Single Family House</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>Hotel Apartment</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>Studio Apartment</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>Apart Complex</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>Town House</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
+                  {propertyTypeOptions.map((item, index) => (
+                    <div key={index} className={styles.filterCheck}>
+                      <span>{item.label}</span>
+                      <label>
+                        <input
+                          onChange={() => handleTypeChange(item)}
+                          checked={
+                            filterValues.type.filter(
+                              (item2) => item.value === item2.value
+                            ).length > 0
+                          }
+                          type={"checkbox"}
+                        />
+                        <span className={styles.mark}></span>
+                      </label>
+                    </div>
+                  ))}
                 </>
               ) : (
                 ""
@@ -168,20 +200,21 @@ const MarketplaceUI = () => {
               </div>
               {filters.propertyStatus ? (
                 <>
-                  <div className={styles.filterCheck}>
-                    <span>Completed</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
-                  <div className={styles.filterCheck}>
-                    <span>In-progress</span>
-                    <label>
-                      <input type={"checkbox"} />
-                      <span className={styles.mark}></span>
-                    </label>
-                  </div>
+                  <CustomSelect
+                    onChange={(val) =>
+                      setFilterValues({ ...filterValues, status: val })
+                    }
+                    validatorMessage={""}
+                    name={"status"}
+                    placeholder={"Select status"}
+                    label={""}
+                    options={[
+                      { label: "All", value: "all" },
+                      { label: "Completed", value: "COMPLETED" },
+                      { label: "In-progress", value: "IN-PROGRESS" },
+                    ]}
+                    value={filterValues.status}
+                  />
                 </>
               ) : (
                 ""
@@ -218,8 +251,29 @@ const MarketplaceUI = () => {
                     parentClassName={styles.currencySelectWrap}
                   />
                   <div className={styles.minMax}>
-                    <input placeholder="Min" /> to
-                    <input placeholder="Max" />
+                    <input
+                      onChange={(e) =>
+                        setFilterValues({
+                          ...filterValues,
+                          minPrice: e.target.value,
+                        })
+                      }
+                      value={filterValues.minPrice}
+                      type="number"
+                      placeholder="Min"
+                    />{" "}
+                    to
+                    <input
+                      onChange={(e) =>
+                        setFilterValues({
+                          ...filterValues,
+                          maxPrice: e.target.value,
+                        })
+                      }
+                      value={filterValues.maxPrice}
+                      type="number"
+                      placeholder="Max"
+                    />
                   </div>
                 </div>
               ) : (
@@ -242,20 +296,19 @@ const MarketplaceUI = () => {
               {filters.propertyLocation ? (
                 <div className={styles.locationWrap}>
                   <CustomSelect
-                    onChange={() => {}}
+                    onChange={(val) =>
+                      setFilterValues({ ...filterValues, country: val })
+                    }
                     validatorMessage={""}
                     name={"country"}
-                    placeholder={"Country"}
+                    placeholder={"Select country"}
                     label={""}
-                    options={[
-                      { label: "Nigeria", value: "Nigeria" },
-                      { label: "Ghana", value: "Ghana" },
-                    ]}
-                    value={{ label: "Nigeria", value: "Nigeria" }}
-                    inputClass={styles.countrySelect}
+                    options={countryOptions}
+                    value={filterValues.country}
+                    // inputClass={styles.countrySelect}
                     parentClassName={styles.countrySelectWrap}
                   />
-                  <CustomSelect
+                  {/* <CustomSelect
                     onChange={() => {}}
                     validatorMessage={""}
                     name={"state"}
@@ -265,7 +318,7 @@ const MarketplaceUI = () => {
                     value={{ label: "Lagos", value: "Lagos" }}
                     inputClass={styles.stateSelect}
                     parentClassName={styles.stateSelectWrap}
-                  />
+                  /> */}
                 </div>
               ) : (
                 ""
@@ -273,10 +326,10 @@ const MarketplaceUI = () => {
             </div>
 
             <div className={styles.btnSec}>
-              <Button type={"primary"} onClick={() => {}}>
+              <Button type={"primary"} onClick={applyFilters}>
                 Apply
               </Button>
-              <Button type={"tertiary"} onClick={() => {}}>
+              <Button type={"tertiary"} onClick={resetFilters}>
                 Clear
               </Button>
             </div>
@@ -284,11 +337,30 @@ const MarketplaceUI = () => {
         ) : (
           ""
         )}
-        <div className={styles.propertyList}>
-          {properties.map((item, index) => (
-            <PropertyCard {...item} key={index} className={styles.property} />
-          ))}
-        </div>
+        {properties.length > 0 ? (
+          <div className={styles.propertyList}>
+            {properties.map((item, index) => (
+              <PropertyCard
+                primaryBtn={{
+                  text: "Sell shares",
+                  action: (id) => console.log(id),
+                }}
+                type="row"
+                size="normal"
+                moreDetails={handleView}
+                {...item}
+                key={index}
+                className={styles.property}
+              />
+            ))}
+            <Pagination {...pagination} />
+          </div>
+        ) : (
+          <div className={styles.empty} >
+            <EmptyStreet />
+            <p>There are no properties at this time</p>
+          </div>
+        )}
       </section>
     </>
   );

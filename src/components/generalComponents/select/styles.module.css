@@ -11,6 +11,7 @@
   background: transparent;
   padding: 0;
   color: #808080;
+  margin-bottom: 10px;
 }
 .message {
   font-size: 12px;
@@ -31,7 +32,7 @@
 }
 .select [class*="formSelect__control"] {
   min-height: unset;
-  margin-top: 10px;
+  margin-top: 0;
   border: 1px solid #EFEFEF;
   border-radius: 10px;
   background: #fcfcfc;

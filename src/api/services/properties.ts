@@ -18,6 +18,7 @@ import {
   fetchPropertyURL,
   fetchSimilarPropertiesURL,
   fetchStaysURL,
+  marketplaceURL,
   updatePropertyURL,
 } from "api/urls";
 
@@ -147,4 +148,28 @@ export const addStaysService = ({
   };
 
   return patchRequest(requestData);
+};
+
+interface MarketplaceParams {
+  search: string;
+  page: string;
+  limit: string;
+  country: string;
+  state: string;
+  budget: string;
+  type: string;
+  status: string;
+}
+
+/**
+ * Fetch marketplace properties
+ * @returns axios promise
+ */
+
+export const marketplaceService = (params: MarketplaceParams) => {
+  const requestData = {
+    url: marketplaceURL(params),
+  };
+
+  return getRequest(requestData);
 };

@@ -46,6 +46,7 @@
   max-width: 600px;
   padding-left: 3rem;
   font-size: 15px;
+  padding-right: 1rem;
 }
 
 .filterWrap {
@@ -155,7 +156,7 @@
   margin: 0;
 }
 .countrySelectWrap {
-  width: 80px;
+  width: 100%;
   margin: 0;
 }
 .stateSelectWrap {
@@ -165,6 +166,7 @@
 .priceWrap {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .minMax {
   width: calc(100% - 75px);
@@ -196,9 +198,23 @@
 }
 .propertyList [class*="imgSec"] img {
   max-height: 360px;
+  height: 360px;
 }
 .propertyList > div {
   margin-bottom: 3rem;
+}
+.empty {
+  text-align: center;
+}
+.empty svg {
+  width: 80%;
+  max-width: 400px;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.empty p {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 800px) {

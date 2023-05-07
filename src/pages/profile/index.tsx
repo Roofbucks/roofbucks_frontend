@@ -117,7 +117,7 @@ const Profile = () => {
     if (reviewsResponse) {
       if (reviewsResponse.status === 200) {
         console.log(reviewsResponse);
-        return reviewsResponse.data.results.map((item) => ({
+        return reviewsResponse.data.map((item) => ({
           name: `${item?.reviewer?.firstname} ${item?.reviewer?.firstname}`,
           avatar: item?.reviewer?.display_photo ?? "",
           review: item?.review,

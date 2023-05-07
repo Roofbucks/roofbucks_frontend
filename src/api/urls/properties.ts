@@ -72,3 +72,31 @@ export const deleteStayURL = ({ propertyID, stayIndex }) =>
  */
 
 export const addStaysURL = (id) => `/properties/stay-periods/${id}/`;
+
+/**
+ * Fetch marketplace properties
+ *
+ * @returns url string
+ *
+ */
+
+export const marketplaceURL = ({
+  search,
+  page,
+  limit,
+  country,
+  state,
+  budget,
+  type,
+  status,
+}) =>
+  `/properties/marketplace?${appendParams({
+    search,
+    page,
+    limit,
+    country,
+    state,
+    budget,
+    apartment_type: type,
+    completion_status: status,
+  })}`;

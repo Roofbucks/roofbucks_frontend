@@ -26,6 +26,7 @@
 .row .imgSec {
   width: 53%;
   max-height: 540px;
+  height: 100%;
 }
 .img {
   width: 100%;
@@ -39,6 +40,10 @@
 .info {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 .row .info {
   width: 47%;
@@ -49,10 +54,11 @@
   padding-left: 1.5rem;
 }
 .sec1 {
-  margin-bottom: 12px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 .sec1 p {
   color: var(--green);
@@ -79,13 +85,14 @@
   text-overflow: ellipsis;
   overflow: hidden;
   padding-right: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
+  text-transform: capitalize;
 }
 .normal .name {
   font-size: var(--h5);
 }
 .row.normal .name {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 .address {
   color: #808080;
@@ -204,6 +211,8 @@
   justify-content: space-between;
   border-top: 1px solid #bbfacf;
   padding-top: 1rem;
+  margin-top: auto;
+  width: 100%;
 }
 .normal .amtSec {
   padding-top: 8px;

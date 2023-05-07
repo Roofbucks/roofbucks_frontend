@@ -85,7 +85,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     >
       <div className={styles.imgSec}>
         <img className={styles.img} src={images[activeImg]} alt="property" />
-        {discount ? <div className={styles.tag}>{discount}</div> : ""}
+        {discount ? <div className={styles.tag}>{discount}% off</div> : ""}
       </div>
       <div className={styles.info}>
         <div className={styles.sec1}>
@@ -98,16 +98,20 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <p className={styles.name}>{name}</p>
         <p className={styles.address}>{address}</p>
         <div className={styles.amenityWrap}>
-          <Amenity
-            Icon={BedRoomIcon}
-            name={"Bedrooms"}
-            value={`${amenities.bedroom}`}
-          />
-          <Amenity
-            Icon={BathRoomIcon}
-            name={"Toilets"}
-            value={`${amenities.toilet}`}
-          />
+          {amenities.bedroom && (
+            <Amenity
+              Icon={BedRoomIcon}
+              name={"Bedrooms"}
+              value={`${amenities.bedroom}`}
+            />
+          )}
+          {amenities.toilet && (
+            <Amenity
+              Icon={BathRoomIcon}
+              name={"Toilets"}
+              value={`${amenities.toilet}`}
+            />
+          )}
         </div>
         {description ? <p className={styles.description}>{description}</p> : ""}
         <button className={styles.moreBtn} onClick={() => moreDetails(1234)}>

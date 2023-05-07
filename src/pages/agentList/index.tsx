@@ -37,13 +37,14 @@ const AgentList = () => {
   const agents = React.useMemo<AgentData[]>(() => {
     if (agentsResponse) {
       if (agentsResponse.status === 200) {
+        window.scrollTo(-0, -0)
         console.log(agentsResponse);
         setPages({
           ...pages,
           total: agentsResponse.data.pages,
         });
 
-        return agentsResponse.data.results.map((item) => ({
+        return agentsResponse?.data.results.map((item) => ({
           avatar: item.display_photo ?? "",
           name: `${item.firstname} ${item.lastname}`,
           description: item.summary,

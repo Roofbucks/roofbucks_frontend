@@ -5,7 +5,11 @@ import {
   property3,
   SearchIcon,
 } from "assets";
-import { HeroSection, PropertyCard, PropertyCardProps } from "components";
+import {
+  HeroSection,
+  PropertyCard,
+  PropertyCardData,
+} from "components";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 import styles from "./styles.module.css";
@@ -49,48 +53,34 @@ const ListingsUI = () => {
     property3,
   ];
 
-  const property: PropertyCardProps = {
+  const property: PropertyCardData = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
     description: `Modern two-bedroom apartment in sought-after Ghana marries traditional
     SF charm with contemporary city living. Tall arching columns in the
     front of the roomy living area provide beauty....`,
-    moreDetails: (id) => navigate(Routes.propertyID(id)),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
     id: "123",
     amenities: { bedroom: 5, toilet: 5 },
-    type: "row",
-    size: "large",
-    primaryBtn: {
-      text: "Sell shares",
-      action: (id) => console.log(id),
-    },
   };
 
-  const topDeals: PropertyCardProps[] = new Array(4).fill(property);
+  const topDeals: PropertyCardData[] = new Array(4).fill(property);
 
-  const list: PropertyCardProps = {
+  const list: PropertyCardData = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
-    moreDetails: (id) => navigate(Routes.propertyID(id)),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: [property3],
     id: "123",
     amenities: { bedroom: 5, toilet: 5 },
-    type: "column",
-    size: "normal",
-    primaryBtn: {
-      text: "Sell shares",
-      action: (id) => console.log(id),
-    },
   };
 
-  const listings: PropertyCardProps[] = new Array(12).fill(list);
+  const listings: PropertyCardData[] = new Array(12).fill(list);
   return (
     <>
       <HeroSection
@@ -106,7 +96,17 @@ const ListingsUI = () => {
           <h2 className={styles.ttl}>Top Deals</h2>
           <div className={styles.propertyList}>
             {topDeals.map((item, index) => (
-              <PropertyCard {...item} key={index} />
+              <PropertyCard
+                primaryBtn={{
+                  text: "Sell shares",
+                  action: (id) => console.log(id),
+                }}
+                type="row"
+                size="large"
+                moreDetails={(id) => navigate(Routes.propertyID(id))}
+                {...item}
+                key={index}
+              />
             ))}
           </div>
         </div>
@@ -134,7 +134,17 @@ const ListingsUI = () => {
 
           <div className={styles.propertyListings}>
             {listings.map((item, index) => (
-              <PropertyCard {...item} key={index} />
+              <PropertyCard
+                primaryBtn={{
+                  text: "Sell shares",
+                  action: (id) => console.log(id),
+                }}
+                type="column"
+                size="normal"
+                moreDetails={(id) => navigate(Routes.propertyID(id))}
+                {...item}
+                key={index}
+              />
             ))}
           </div>
         </div>
