@@ -288,6 +288,7 @@ const AgentProperties = () => {
           ...getCount(),
           total: propertiesResponse?.data?.total ?? 0,
         }}
+        name="Properties"
       />
     </>
   );

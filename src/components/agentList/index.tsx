@@ -14,44 +14,69 @@ import {
 import {
   Button,
   HeroSection,
+  Pagination,
+  PaginationProps,
   PropertyCard,
   PropertyCardProps,
 } from "components/generalComponents";
 import * as React from "react";
 import styles from "./styles.module.css";
 
-const AgentCard = () => {
+export interface AgentData {
+  avatar: string;
+  name: string;
+  description: string;
+  email: string;
+  number: string;
+  location: string;
+  id: string;
+}
+
+interface AgentProps extends AgentData {
+  handleView: (id) => void;
+}
+
+const AgentCard: React.FC<AgentProps> = ({
+  handleView,
+  avatar,
+  name,
+  number,
+  email,
+  location,
+  id,
+  description,
+}) => {
   return (
     <div className={styles.agentCard}>
       <div className={styles.personal}>
         <img src={avatar} alt="avatar" />
-        <p className={styles.name}>Jane Doe</p>
+        <p className={styles.name}>{name}</p>
         <p className={styles.role}>Real Estate Agent</p>
       </div>
       <div className={styles.moreInfo}>
-        <p>
-          Lörem ipsum prer nattborgmästare för deskade innan skämsfilter, kvasit
-          i mogt. Synde tide slidkrans spikmatta, jade att vude eskapet. Nyst
-          gigarad, i sasöbelt demotos miljonsvenska till annonsblockerare.
-        </p>
+        <p>{description}</p>
         <div className={styles.contact}>
           <div>
-            <PhoneIconOutline /> <span>+(234) 000 000 0000</span>
+            <PhoneIconOutline /> <span>{number}</span>
           </div>
           <div>
-            <LocationIconOutline /> <span>Lagos, Nigeria.</span>
+            <LocationIconOutline /> <span>{location}</span>
           </div>
           <div>
             <MailIcon />
             <span>
-              <a href="mailto:janedoe@gmail.com">janedoe@mail.com</a>
+              <a href={`mailto:${email}`}>{email}</a>
             </span>
           </div>
           <div>
             <KeyboardIconOutline /> <span>123 4455 6666</span>
           </div>
         </div>
-        <Button type="tertiary" onClick={() => {}} className={styles.btn}>
+        <Button
+          type="tertiary"
+          onClick={() => handleView(id)}
+          className={styles.btn}
+        >
           View Profile <ArrowRight />
         </Button>
       </div>
@@ -59,7 +84,21 @@ const AgentCard = () => {
   );
 };
 
-const AgentListUI = () => {
+interface AgentListProps {
+  agents: AgentData[];
+  handleView: (id) => void;
+  search: {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+  pagination: PaginationProps;
+}
+const AgentListUI: React.FC<AgentListProps> = ({
+  agents,
+  handleView,
+  search,
+  pagination,
+}) => {
   const propertyImages: string[] = [
     property3,
     property2,
@@ -98,17 +137,20 @@ const AgentListUI = () => {
           <FilterIcon role="button" />
           <div>
             <SearchIcon />
-            <input placeholder="Search by name" type={"text"} />
+            <input
+              placeholder="Search by name"
+              type={"search"}
+              value={search.value}
+              onChange={search.onChange}
+            />
           </div>
         </div>
         <div className={styles.agentsWrap}>
           <div className={styles.agentsList}>
-            <AgentCard />
-            <AgentCard />
-            <AgentCard />
-            <AgentCard />
-            <AgentCard />
-            <AgentCard />
+            {agents.map((agent) => (
+              <AgentCard key={agent.id} {...agent} handleView={handleView} />
+            ))}
+            <Pagination {...pagination} />
           </div>
           <aside className={styles.topDealsWrap}>
             <h2>Top Deals</h2>

@@ -70,10 +70,13 @@ export const propertyTypeOptions: optionType[] = [
     label: "Condo hotel",
     value: "condo-hotel",
   },
-
   {
     label: "Split-level home",
     value: "split-level",
+  },
+  {
+    label: "Land",
+    value: "land",
   },
 ];
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./styles.module.css";
 import { ChevronIcon } from "assets";
 
-interface PaginationProps {
+export interface PaginationProps {
   current: number;
   total: number;
   handleChange: (x: number) => void;
@@ -12,6 +12,7 @@ interface PaginationProps {
     total: number;
   };
   hide?: boolean;
+  name: string;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -20,6 +21,7 @@ const Pagination: React.FC<PaginationProps> = ({
   total,
   handleChange,
   hide,
+  name,
 }) => {
   const onChange = (e) => handleChange(e.target.value);
 
@@ -36,7 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <section className={styles.pagination}>
       <p>
-        {count.start} - {count.end} of {count.total} Properties
+        {count.start} - {count.end} of {count.total} {name}
       </p>
       <div className={styles.inputBox}>
         <input

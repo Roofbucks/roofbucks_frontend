@@ -54,13 +54,13 @@ const Footer = () => {
           <div className={styles.socialsNews}>
             <ul className={styles.socials}>
               <li>
-                <a>Instagram</a>
+                <a href="https://www.instagram.com/roofbucks/" target="_blank"  rel="noreferrer" >Instagram</a>
               </li>
               <li>
-                <a>Facebook</a>
+                <a href="https://www.facebook.com/roofbucks/" target="_blank"  rel="noreferrer" >Facebook</a>
               </li>
               <li>
-                <a>Twitter</a>
+                <a href="https://twitter.com/theRoofbucks?s=20&t=CFRHBS11KRw8KZg5ToSIgA" target="_blank"  rel="noreferrer" >Twitter</a>
               </li>
               <li>
                 <a>Youtube</a>
