@@ -17,6 +17,7 @@ function App() {
     const firstName = localStorage.getItem("firstName") ?? "";
     const lastName = localStorage.getItem("lastName") ?? "";
     const email = localStorage.getItem("email") ?? "";
+    const id = localStorage.getItem("id") ?? "";
 
     dispatch(
       updateUser({
@@ -24,6 +25,7 @@ function App() {
         firstName,
         lastName,
         email,
+        id
       })
     );
   }, []);

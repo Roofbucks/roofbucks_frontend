@@ -38,6 +38,7 @@ const LoginModal: React.FC<LoginProps> = ({
         const firstName = data.firstname;
         const lastName = data.lastname;
         const email = data.email;
+        const id = data.id;
 
         localStorage.setItem("roofbucksAccess", data.tokens.access);
         localStorage.setItem("roofbucksRefresh", data.tokens.refresh);
@@ -45,6 +46,7 @@ const LoginModal: React.FC<LoginProps> = ({
         localStorage.setItem("firstName", firstName);
         localStorage.setItem("lastName", lastName);
         localStorage.setItem("email", email);
+        localStorage.setItem("id", id);
 
         dispatch(
           updateUser({
@@ -52,6 +54,7 @@ const LoginModal: React.FC<LoginProps> = ({
             firstName,
             lastName,
             email,
+            id
           })
         );
 

@@ -49,7 +49,7 @@
   border-radius: inherit;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .editImg {
   background: var(--black);
@@ -104,6 +104,8 @@
   font-size: 14px;
   display: flex;
   align-items: center;
+  color: inherit;
+  text-decoration: none;
 }
 .emailBtn svg {
   margin-right: 8px;
@@ -259,7 +261,11 @@
   font-size: 13px;
   line-height: 1.6;
 }
-
+.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 10px;
+}
 @media screen and (max-width: 900px) {
   .aboutSec {
     margin-top: 0;

@@ -19,6 +19,7 @@ import {
   DropdownItemType,
   DropdownListItem,
   PropertyCard,
+  PropertyCardData,
   PropertyCardProps,
   Textarea,
 } from "components";
@@ -27,16 +28,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 
 interface CommentData {
-  comment: string;
+  review: string;
+  rating: number;
 }
 
 const initialComment: CommentData = {
-  comment: "",
+  review: "",
+  rating: 0,
 };
 
 const commentSchema = yup
   .object({
-    comment: yup.string().required("Required"),
+    review: yup.string().required("Required"),
+    rating: yup.number().required().min(1, "Required"),
   })
   .required();
 
@@ -55,12 +59,46 @@ const StatusList: DropdownItemType[] = [
   },
 ];
 
-const ProfileUI = () => {
+export interface AgentProfileData {
+  logo: string;
+  companyName: string;
+  address: string;
+  rating: number;
+  website: string;
+  email: string;
+  properties: {
+    leased: number;
+    sold: number;
+    forSale: number;
+    forRent: number;
+  };
+  about: string;
+  id: string;
+  agentAvatar: string;
+}
+
+interface AgentProfileProps {
+  agent: AgentProfileData;
+  handleEdit: (id) => void;
+  properties: PropertyCardData[];
+  isSelf: boolean;
+  handleAddReview: (data: CommentData) => void;
+  reviews: ReviewData[];
+}
+
+const ProfileUI: React.FC<AgentProfileProps> = ({
+  agent,
+  handleEdit,
+  isSelf,
+  handleAddReview,
+  reviews,
+}) => {
   const {
-    register: register,
-    handleSubmit: handleSubmit,
-    formState: { errors: errors },
-    watch: watchProfile,
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
   } = useForm<CommentData>({
     resolver: yupResolver(commentSchema),
     defaultValues: initialComment,
@@ -77,105 +115,97 @@ const ProfileUI = () => {
     property3,
   ];
 
-  const property: PropertyCardProps = {
+  const property: PropertyCardData = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
-    moreDetails: (id) => console.log(id),
     amount: "$10,000",
     owner: "By Bear Properties",
     images: propertyImages,
     id: "123",
     amenities: { bedroom: 5, toilet: 5 },
-    type: "row",
-    size: "normal",
-    primaryBtn: {
-      text: "Sell shares",
-      action: (id) => console.log(id),
-    },
   };
 
-  const properties: PropertyCardProps[] = new Array(6).fill(property);
+  const properties: PropertyCardData[] = new Array(6).fill(property);
+
+  const onSubmit: SubmitHandler<CommentData> = (data) => {
+    handleAddReview(data);
+  };
+
+  console.log(errors);
   return (
     <>
       <section className={styles.header}>
         <img className={styles.coverImg} src={coverImg} alt="cover photo" />
-        <button className={styles.editCover}>
-          <EditIcon />
-        </button>
+        {isSelf && (
+          <button
+            onClick={() => handleEdit(agent.id)}
+            className={styles.editCover}
+          >
+            <EditIcon />
+          </button>
+        )}
       </section>
       <section className={styles.aboutSec}>
         <div className={styles.aboutSec1}>
           <div className={styles.avatarSec}>
-            <img alt="" />
-            <label className={styles.editImg} htmlFor="logo">
-              <input
-                style={{ display: "none" }}
-                id="logo"
-                type={"file"}
-                accept=".png, .jpg, .jpeg"
-              />
-              <EditIcon />
-            </label>
+            <img src={coverImg} alt="" />
+            {isSelf && (
+              <button
+                onClick={() => handleEdit(agent.id)}
+                className={styles.editImg}
+              >
+                <EditIcon />
+              </button>
+            )}
           </div>
           <div className={styles.info}>
-            <p className={styles.name}>Angry Bear Properties</p>
-            <p className={styles.address}>
-              125, Bayajida Close. Lagos, Nigeria.
-            </p>
+            <p className={styles.name}>{agent.companyName}</p>
+            <p className={styles.address}>{agent.address}</p>
             <div className={styles.ratingLinkGroup}>
               <p className={styles.rating}>
                 <Rating
                   readonly
-                  ratingValue={100}
+                  ratingValue={agent.rating}
                   iconsCount={1}
                   size={18}
                   fillColor="rgba(233, 223, 0, 1)"
                 />
-                <span className={styles.ratingNum}>5</span>/5
+                <span className={styles.ratingNum}>{agent.rating}</span>/5
               </p>
-              <a
-                className={styles.link}
-                target={"_blank"}
-                href="bearproperties.com"
-              >
-                <LinkIcon /> bearproperties.com
+              <a className={styles.link} target={"_blank"} href={agent.website}>
+                <LinkIcon /> {agent.website}
               </a>
             </div>
           </div>
-          <button className={styles.emailBtn}>
+          <a href={`mailto:${agent.email}`} className={styles.emailBtn}>
             <MailIcon /> Email
-          </button>
+          </a>
         </div>
         <div className={styles.aboutSec2}>
           <div>
-            <p>1255</p>
+            <p>{agent.properties.leased}</p>
             <p>Properties leased</p>
           </div>
           <div>
-            <p>24</p>
+            <p>{agent.properties.forSale}</p>
             <p>Properties for sale</p>
           </div>
           <div>
-            <p>30</p>
+            <p>{agent.properties.sold}</p>
             <p>Properties sold</p>
           </div>
           <div>
-            <p>65</p>
+            <p>{agent.properties.forRent}</p>
             <p>Properties for rent</p>
           </div>
         </div>
         <div className={styles.aboutSec3}>
           <div>
             <p className={styles.ttl}>About Us</p>
-            <p className={styles.txt}>
-              Lörem ipsum mobilblottare nins pulverbrev siposa jäl sedan liktig,
-              i rösev. Täkåra jotrerat och iv didade teonomi: åktig sagt.
-              Göpotening prel askänka ement teleng poddtaxi nira. Dingen gäplare
-              jovivis automas, såväl som mamill det vill säga åläsina.
-            </p>
+            <p className={styles.txt}>{agent.about}</p>
           </div>
-          <img className={styles.agentImage} src={avatar} />
+          <img className={styles.agentImage} src={agent.agentAvatar} />
         </div>
       </section>
       <section className={styles.propertiesSec}>
@@ -204,40 +234,56 @@ const ProfileUI = () => {
         </div>
         <div className={styles.propertyList}>
           {properties.map((item, index) => (
-            <PropertyCard {...item} key={index} className={styles.property} />
+            <PropertyCard
+              primaryBtn={{
+                text: "Sell shares",
+                action: (id) => console.log(id),
+              }}
+              type="row"
+              size="normal"
+              moreDetails={() => console.log()}
+              {...item}
+              key={index}
+              className={styles.property}
+            />
           ))}
         </div>
       </section>
       <section className={styles.commentSec}>
         <p className={styles.ttl}>Leave us a comment and give a rating!</p>
         <Rating
-          ratingValue={20}
+          ratingValue={watch("rating")}
           iconsCount={5}
           size={30}
           fillColor="rgba(233, 223, 0, 1)"
           allowHalfIcon
+          onClick={(val) => setValue("rating", val)}
         />
+        {watch("rating") === 0 && (
+          <p className={styles.errorMsg}>{errors.rating?.message}</p>
+        )}
         <form>
           <Textarea
             label="Enter a comment"
             placeholder=""
             parentClassName={styles.txtArea}
             required
-            validatorMessage={""}
-            name="description"
+            validatorMessage={errors.review?.message}
+            name="review"
             register={register}
           />
           <Button
             className={styles.submitBtn}
             type={"primary"}
-            onClick={() => {}}
+            onClick={handleSubmit(onSubmit)}
           >
             Submit
           </Button>
         </form>
         <div className={styles.commentList}>
-          <CommentCard />
-          <CommentCard />
+          {reviews.map((item, index) => (
+            <CommentCard {...item} key={index} />
+          ))}
         </div>
       </section>
     </>
@@ -246,17 +292,18 @@ const ProfileUI = () => {
 
 export { ProfileUI };
 
-const CommentCard = () => {
+export interface ReviewData {
+  avatar: string;
+  name: string;
+  review: string;
+}
+const CommentCard: React.FC<ReviewData> = ({ avatar, name, review }) => {
   return (
     <div className={styles.comment}>
       <img className={styles.commentImg} src={avatar} alt="" />
       <div className={styles.commentInfo}>
-        <p className={styles.commentName}>Jane Doe</p>
-        <p className={styles.commentTxt}>
-          Lörem ipsum mirad agibelt och näthat ontomani dor. Tresa läråpp och
-          din det lask rek.Lörem ipsum mirad agibelt och näthat ontomani dor.
-          Tresa läråpp och din det lask rek.{" "}
-        </p>
+        <p className={styles.commentName}>{name}</p>
+        <p className={styles.commentTxt}>{review}</p>
       </div>
     </div>
   );
