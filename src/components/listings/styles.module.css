@@ -43,6 +43,7 @@
   border-radius: 12px;
   min-width: 280px;
   padding-left: 3rem;
+  padding-right: 1rem;
   font-size: 15px;
 }
 .filterWrap {
@@ -82,6 +83,19 @@
 
 .propertyListings [class*="img"] {
   max-height: 200px;
+}
+.empty {
+  text-align: center;
+}
+.empty svg {
+  width: 80%;
+  max-width: 400px;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.empty p {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 1000px) {

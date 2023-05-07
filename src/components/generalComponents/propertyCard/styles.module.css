@@ -87,6 +87,7 @@
   padding-right: 1rem;
   margin-bottom: 12px;
   text-transform: capitalize;
+  max-width: 100%;
 }
 .normal .name {
   font-size: var(--h5);

@@ -18,6 +18,7 @@ import {
   fetchPropertyURL,
   fetchSimilarPropertiesURL,
   fetchStaysURL,
+  listingsURL,
   marketplaceURL,
   updatePropertyURL,
 } from "api/urls";
@@ -169,6 +170,19 @@ interface MarketplaceParams {
 export const marketplaceService = (params: MarketplaceParams) => {
   const requestData = {
     url: marketplaceURL(params),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Fetch listings properties
+ * @returns axios promise
+ */
+
+ export const listingsService = (params: MarketplaceParams) => {
+  const requestData = {
+    url: listingsURL(params),
   };
 
   return getRequest(requestData);

@@ -100,3 +100,31 @@ export const marketplaceURL = ({
     apartment_type: type,
     completion_status: status,
   })}`;
+
+/**
+ * Fetch listings properties
+ *
+ * @returns url string
+ *
+ */
+
+export const listingsURL = ({
+  search,
+  page,
+  limit,
+  country,
+  state,
+  budget,
+  type,
+  status,
+}) =>
+  `/properties/listings?${appendParams({
+    search,
+    page,
+    limit,
+    country,
+    state,
+    budget,
+    apartment_type: type,
+    completion_status: status,
+  })}`;

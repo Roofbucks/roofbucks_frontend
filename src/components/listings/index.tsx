@@ -1,5 +1,6 @@
 import {
   CaretRight,
+  EmptyStreet,
   property1,
   property2,
   property3,
@@ -7,16 +8,31 @@ import {
 } from "assets";
 import {
   HeroSection,
+  Pagination,
+  PaginationProps,
   PropertyCard,
   PropertyCardData,
 } from "components";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
 import styles from "./styles.module.css";
 
-const ListingsUI = () => {
-  const navigate = useNavigate();
+interface ListingsProps {
+  properties: PropertyCardData[];
+  pagination: PaginationProps;
+  handleView: (id) => void;
+  search: {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+  submitFilter: (data) => void;
+}
 
+const ListingsUI: React.FC<ListingsProps> = ({
+  properties,
+  pagination,
+  search,
+  handleView,
+  submitFilter,
+}) => {
   const filters = [
     {
       name: "Country",
@@ -69,18 +85,6 @@ const ListingsUI = () => {
 
   const topDeals: PropertyCardData[] = new Array(4).fill(property);
 
-  const list: PropertyCardData = {
-    address: "256, Bayajida Close. LA. Nigeria",
-    name: "Two Bedroom Apartmentpartmentttt",
-    discount: "20% off",
-    amount: "$10,000",
-    owner: "By Bear Properties",
-    images: [property3],
-    id: "123",
-    amenities: { bedroom: 5, toilet: 5 },
-  };
-
-  const listings: PropertyCardData[] = new Array(12).fill(list);
   return (
     <>
       <HeroSection
@@ -103,7 +107,7 @@ const ListingsUI = () => {
                 }}
                 type="row"
                 size="large"
-                moreDetails={(id) => navigate(Routes.propertyID(id))}
+                moreDetails={handleView}
                 {...item}
                 key={index}
               />
@@ -116,7 +120,12 @@ const ListingsUI = () => {
           <div className={styles.searchAndFilter}>
             <div className={styles.searchWrap}>
               <SearchIcon />
-              <input placeholder="Search by name" type={"text"} />
+              <input
+                value={search.value}
+                onChange={search.onChange}
+                placeholder="Search by name"
+                type={"search"}
+              />
             </div>
             <div className={styles.filterWrap}>
               {filters.map((item, index) => (
@@ -132,21 +141,29 @@ const ListingsUI = () => {
             </div>
           </div>
 
-          <div className={styles.propertyListings}>
-            {listings.map((item, index) => (
-              <PropertyCard
-                primaryBtn={{
-                  text: "Sell shares",
-                  action: (id) => console.log(id),
-                }}
-                type="column"
-                size="normal"
-                moreDetails={(id) => navigate(Routes.propertyID(id))}
-                {...item}
-                key={index}
-              />
-            ))}
-          </div>
+          {properties.length > 0 ? (
+            <div className={styles.propertyListings}>
+              {properties.map((item, index) => (
+                <PropertyCard
+                  primaryBtn={{
+                    text: "Sell shares",
+                    action: (id) => console.log(id),
+                  }}
+                  type="column"
+                  size="normal"
+                  moreDetails={handleView}
+                  {...item}
+                  key={index}
+                />
+              ))}
+              <Pagination {...pagination} />
+            </div>
+          ) : (
+            <div className={styles.empty}>
+              <EmptyStreet />
+              <p>There are no properties at this time</p>
+            </div>
+          )}
         </div>
       </section>
     </>
