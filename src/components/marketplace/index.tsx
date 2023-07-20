@@ -1,4 +1,4 @@
-import { CaretRight, EmptyStreet, FilterIcon, SearchIcon } from "assets";
+import { CalendarIconOutline, CaretRight, EmptyStreet, FilterIcon, SearchIcon } from "assets";
 import {
   Button,
   CustomSelect,
@@ -342,7 +342,15 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
             {properties.map((item, index) => (
               <PropertyCard
                 primaryBtn={{
-                  text: "Sell shares",
+                  text: "Connect",
+                  action: (id) => console.log(id),
+                }}
+                secondaryBtn={{
+                  text: (
+                    <span className={styles.scheduleCallBtn}>
+                      <CalendarIconOutline /> Schedule Call
+                    </span>
+                  ),
                   action: (id) => console.log(id),
                 }}
                 type="row"
@@ -356,7 +364,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
             <Pagination {...pagination} />
           </div>
         ) : (
-          <div className={styles.empty} >
+          <div className={styles.empty}>
             <EmptyStreet />
             <p>There are no properties at this time</p>
           </div>

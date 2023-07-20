@@ -56,7 +56,7 @@ export interface PropertyCardProps extends PropertyCardData {
     className?: string;
   };
   secondaryBtn?: {
-    text: string;
+    text: string | any;
     action: (id) => void;
     className?: string;
   };
@@ -85,7 +85,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     >
       <div className={styles.imgSec}>
         <img className={styles.img} src={images[activeImg]} alt="property" />
-        {discount ? <div className={styles.tag}>{discount}% off</div> : ""}
+        {discount ? <div className={styles.tag}>{discount}</div> : ""}
       </div>
       <div className={styles.info}>
         <div className={styles.sec1}>
@@ -140,8 +140,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           <div>
             {secondaryBtn && (
               <Button
-                className={secondaryBtn.className}
-                type="secondary"
+                className={`${secondaryBtn.className} ${styles.secBtn}`}
+                type="tertiary"
                 onClick={() => secondaryBtn.action(123)}
               >
                 {secondaryBtn.text}

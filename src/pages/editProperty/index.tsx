@@ -1,10 +1,5 @@
 import { fetchPropertyService, updatePropertyService } from "api";
-import {
-  EditPropertyUI,
-  Preloader,
-  stageOneEditData,
-  stageTwoEditData,
-} from "components";
+import { EditPropertyUI, Preloader, EditData } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import * as React from "react";
@@ -20,7 +15,7 @@ import {
   propertyTypeOptions,
 } from "utils";
 
-const initialValuesStageOne: stageOneEditData = {
+const initialValues: EditData = {
   propertyStatus: "in-progress",
   propertyType: initialOptionType,
   name: "",
@@ -33,6 +28,7 @@ const initialValuesStageOne: stageOneEditData = {
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
+    totalCost: 0,
   },
   description: "",
   address: "",
@@ -61,16 +57,7 @@ const initialValuesStageOne: stageOneEditData = {
   gazette: "",
   deedOfAssignment: "",
   certificateOfOccupancy: "",
-};
-
-const initialValuesStageTwo: stageTwoEditData = {
-  totalCost: 0,
-  noOfShares: 0,
-  costPerShare: 0,
-  annualROI: 0,
-  rentRoll: 0,
-  stays: [{ start: "", end: "" }],
-  otherIncentives: "",
+  otherDocs: [],
 };
 
 const EditProperty = () => {
@@ -108,17 +95,14 @@ const EditProperty = () => {
     propertyID && run(updatePropertyService({ data, id: propertyID }));
   };
 
-  const property = React.useMemo<{
-    initialValuesStageOne: stageOneEditData;
-    initialValuesStageTwo: stageTwoEditData;
-  }>(() => {
+  const property = React.useMemo<EditData>(() => {
     if (fetchPropertyResponse || fetchPropertyError) {
       if (fetchPropertyResponse?.status === 200) {
         console.log(fetchPropertyResponse);
 
         const data = fetchPropertyResponse.data;
 
-        const stageOneData: stageOneEditData = {
+        const property: EditData = {
           propertyStatus: data.completion_status.toLowerCase(),
           propertyType:
             propertyTypeOptions.find(
@@ -134,6 +118,7 @@ const EditProperty = () => {
             yearBuilt: data.date_built,
             noOfBedrooms: data.number_of_bedrooms ?? 0,
             noOfToilets: data.number_of_toilets ?? 0,
+            totalCost: data.total_property_cost ?? 0,
           },
           description: data.description,
           address: data.address,
@@ -176,25 +161,10 @@ const EditProperty = () => {
           gazette: data.gazette_document,
           deedOfAssignment: data.registered_deed_of_assignment,
           certificateOfOccupancy: data.certificate_of_occupancy,
+          otherDocs: [],
         };
 
-        const stageTwoData: stageTwoEditData = {
-          totalCost: data.total_property_cost ?? 0,
-          noOfShares: data.total_number_of_shares ?? 0,
-          costPerShare: data.price_per_share ?? 0,
-          annualROI: data.expected_ROI ?? 0,
-          rentRoll: data.area_rent_rolls ?? 0,
-          stays: data.scheduled_stays.map((item) => ({
-            start: item[0],
-            end: item[1],
-          })),
-          otherIncentives: data.other_incentives,
-        };
-
-        return {
-          initialValuesStageOne: stageOneData,
-          initialValuesStageTwo: stageTwoData,
-        };
+        return property;
       } else {
         dispatch(
           updateToast({
@@ -210,10 +180,7 @@ const EditProperty = () => {
       }
     }
 
-    return {
-      initialValuesStageOne,
-      initialValuesStageTwo,
-    };
+    return initialValues;
   }, [fetchPropertyResponse, fetchPropertyError]);
 
   React.useMemo(() => {

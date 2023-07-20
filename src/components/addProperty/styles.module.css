@@ -315,6 +315,36 @@ p.docNote {
   margin-right: 4px;
 }
 
+.otherDocHd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.otherDocHd p {
+  margin-bottom: 0;
+}
+.addBtn {
+  color: var(--black);
+  display: flex;
+  align-items: center;
+}
+.addBtn svg {
+  width: 14px;
+  margin-right: 8px;
+}
+.other {
+  margin-bottom: 2rem;
+  position: relative;
+}
+.removeOther {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
 @media screen and (max-width: 1000px) {
   .inputSec {
     grid-template-columns: 1fr 3fr;

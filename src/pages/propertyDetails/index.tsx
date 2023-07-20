@@ -4,8 +4,6 @@ import {
   PropertyCardData,
   PropertyData,
   PropertyDetailsUI,
-  stageOneEditData,
-  stageTwoEditData,
 } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
@@ -31,6 +29,7 @@ const initProperty: PropertyData = {
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
+    totalCost: 0,
   },
   description: "",
   amenities: [],
@@ -59,12 +58,6 @@ const initProperty: PropertyData = {
   state: "",
   zipCode: "",
   country: "",
-  totalCost: 0,
-  noOfShares: 0,
-  costPerShare: 0,
-  annualROI: 0,
-  rentRoll: 0,
-  otherIncentives: "",
 };
 
 const PropertyDetails = () => {
@@ -116,6 +109,7 @@ const PropertyDetails = () => {
             yearBuilt: data.date_built,
             noOfBedrooms: data.number_of_bedrooms ?? 0,
             noOfToilets: data.number_of_toilets ?? 0,
+            totalCost: data.total_property_cost ?? 0,
           },
           description: data.description,
           address: data.address,
@@ -147,12 +141,6 @@ const PropertyDetails = () => {
             listings: data.agent.listed_properties,
             phone: data.agent.phone,
           },
-          totalCost: data.total_property_cost ?? 0,
-          noOfShares: data.total_number_of_shares ?? 0,
-          costPerShare: data.price_per_share ?? 0,
-          annualROI: data.expected_ROI ?? 0,
-          rentRoll: data.area_rent_rolls ?? 0,
-          otherIncentives: data.other_incentives,
         };
 
         return property;

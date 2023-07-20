@@ -3,7 +3,7 @@ import { MainRouter } from "./router";
 import { Toast } from "components";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { updateToast } from "redux/actions";
-import { useGetUser } from "helpers";
+import { useGetUser } from "hooks";
 
 function App() {
   const toast = useAppSelector((state) => state.toast);

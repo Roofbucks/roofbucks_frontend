@@ -23,11 +23,11 @@ const property: PropertyCardProps = {
     action: (id) => console.log(id),
     className: styles.pryBtn,
   },
-  secondaryBtn: {
-    text: "More",
-    action: (id) => console.log(id),
-    className: styles.secBtn,
-  },
+  // secondaryBtn: {
+  //   text: "More",
+  //   action: (id) => console.log(id),
+  //   className: styles.secBtn,
+  // },
   id: "",
 };
 

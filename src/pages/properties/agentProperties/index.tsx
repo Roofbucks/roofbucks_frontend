@@ -43,27 +43,6 @@ const AgentProperties = () => {
     error: propertiesError,
   } = useApiRequest({});
 
-  const {
-    run: runFetchStays,
-    data: fetchStaysResponse,
-    requestStatus: fetchStaysStatus,
-    error: fetchStaysError,
-  } = useApiRequest({});
-
-  const {
-    run: runDeleteStay,
-    data: deleteStayResponse,
-    requestStatus: deleteStayStatus,
-    error: deleteStayError,
-  } = useApiRequest({});
-
-  const {
-    run: runAddStay,
-    data: addStayResponse,
-    requestStatus: addStayStatus,
-    error: addStayError,
-  } = useApiRequest({});
-
   const addProperty = () => {
     navigate(Routes.addProperty);
   };
@@ -147,100 +126,11 @@ const AgentProperties = () => {
     });
   };
 
-  const fetchStays = (id) => {
-    setShowStays({ ...showStays, id });
-    runFetchStays(fetchStaysService(id));
-  };
-
-  const stays = React.useMemo<StayData[]>(() => {
-    if (fetchStaysResponse) {
-      if (fetchStaysResponse.status === 200) {
-        setShowStays({ ...showStays, show: true });
-        return fetchStaysResponse.data.map((item) => ({
-          start: item[0],
-          end: item[1],
-        }));
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: fetchStaysError ?? fetchStaysResponse,
-              message: "Failed to fetch stays, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
-    }
-    return [];
-  }, [fetchStaysResponse, fetchStaysError]);
-
-  const deleteStay = (index) => {
-    showStays.id !== "" &&
-      runDeleteStay(
-        deleteStayService({ propertyID: showStays.id, stayIndex: index })
-      );
-  };
-
-  React.useMemo(() => {
-    if (deleteStayResponse) {
-      if (deleteStayResponse.status === 200) {
-        fetchStays(showStays.id);
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: deleteStayError ?? deleteStayResponse,
-              message: "Failed to delete stay, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
-    }
-  }, [deleteStayResponse, deleteStayError]);
-
-  const addStay = (stays) => {
-    const data = stays.map((item) => [item.start, item.end]);
-    runAddStay(
-      addStaysService({ id: showStays.id, data: { stay_periods: data } })
-    );
-  };
-
-  React.useMemo(() => {
-    if (addStayResponse) {
-      if (addStayResponse.status === 200) {
-        setShowAddStays(false);
-        fetchStays(showStays.id);
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: addStayError ?? addStayResponse,
-              message: "Failed to add stay, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
-    }
-  }, [addStayResponse, addStayError]);
-
   const promoteProperty = (data) => {
     console.log(data);
   };
 
-  const showLoader =
-    propertiesStatus.isPending ||
-    fetchStaysStatus.isPending ||
-    deleteStayStatus.isPending ||
-    addStayStatus.isPending;
+  const showLoader = propertiesStatus.isPending;
 
   return (
     <>
@@ -249,21 +139,6 @@ const AgentProperties = () => {
         show={promote.show}
         close={() => setPromote({ id: "", show: false })}
         submit={promoteProperty}
-      />
-      <AddStayModal
-        show={showAddStays}
-        close={() => setShowAddStays(false)}
-        submit={addStay}
-      />
-      <ViewStayModal
-        show={showStays.show}
-        close={() => setShowStays({ id: "", show: false })}
-        stays={stays}
-        handleAdd={() => {
-          setShowStays({ ...showStays, show: false });
-          setShowAddStays(true);
-        }}
-        deleteStay={deleteStay}
       />
       <AgentPropertiesUI
         tableItems={properties}
@@ -275,10 +150,8 @@ const AgentProperties = () => {
         hide={showLoader}
         editProperty={editProperty}
         viewProperty={viewProperty}
-        viewStays={fetchStays}
         promote={(id) => setPromote({ id, show: true })}
       />
-
       <Pagination
         hide={properties.length === 0 || showLoader}
         current={pages.current}

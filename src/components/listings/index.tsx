@@ -1,4 +1,5 @@
 import {
+  CalendarIconOutline,
   CaretRight,
   EmptyStreet,
   property1,
@@ -102,7 +103,15 @@ const ListingsUI: React.FC<ListingsProps> = ({
             {topDeals.map((item, index) => (
               <PropertyCard
                 primaryBtn={{
-                  text: "Sell shares",
+                  text: "Apply",
+                  action: (id) => console.log(id),
+                }}
+                secondaryBtn={{
+                  text: (
+                    <span className={styles.scheduleCallBtn}>
+                      <CalendarIconOutline /> Schedule Call
+                    </span>
+                  ),
                   action: (id) => console.log(id),
                 }}
                 type="row"
@@ -146,7 +155,15 @@ const ListingsUI: React.FC<ListingsProps> = ({
               {properties.map((item, index) => (
                 <PropertyCard
                   primaryBtn={{
-                    text: "Sell shares",
+                    text: "Apply",
+                    action: (id) => console.log(id),
+                  }}
+                  secondaryBtn={{
+                    text: (
+                      <span className={styles.scheduleCallBtn}>
+                        <CalendarIconOutline /> Schedule Call
+                      </span>
+                    ),
                     action: (id) => console.log(id),
                   }}
                   type="column"

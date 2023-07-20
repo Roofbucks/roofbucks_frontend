@@ -235,7 +235,9 @@
   font-size: 13.5px;
   padding: 8px 20px;
 }
-
+.secBtn {
+  /* margin-right: 1rem; */
+}
 @media screen and (max-width: 1000px) {
   .row .imgSec {
     width: 40%;

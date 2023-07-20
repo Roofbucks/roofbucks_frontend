@@ -60,7 +60,7 @@ type dashboardPages =
   | "Overview"
   | "Properties"
   | "Finances"
-  | "Inbox"
+  // | "Inbox"
   | "Settings";
 
 export interface DashboardLayoutProps {
@@ -104,14 +104,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       Icon: FinancesIcon,
       action: () => setShowMenu(false),
     },
-    {
-      active,
-      state: "Inbox",
-      url: Routes.inbox,
-      type: "link",
-      Icon: InboxIcon,
-      action: () => setShowMenu(false),
-    },
+    // {
+    //   active,
+    //   state: "Inbox",
+    //   url: Routes.inbox,
+    //   type: "link",
+    //   Icon: InboxIcon,
+    //   action: () => setShowMenu(false),
+    // },
     {
       active,
       state: "Settings",
@@ -137,10 +137,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     },
   ];
 
-  const SidebarItems: SidebarType[] = items.filter((item) =>
-    user === "agent" ? item.state !== "Inbox" : item
-  );
-
+  const SidebarItems: SidebarType[] = items;
+  
   const [showMenu, setShowMenu] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
 
@@ -182,7 +180,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   setShowMenuDropdown(false);
                   setShowLogout(true);
                 }}
-                links={["Home", "My Cart", "Profile"]}
+                links={["Home", "Profile"]}
                 className={styles.menuDropdown}
               />
             </span>

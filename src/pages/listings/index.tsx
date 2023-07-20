@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 import { Routes } from "router";
+import { propertyList } from "utils";
 
 const Listings = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ const Listings = () => {
   };
 
   React.useEffect(() => {
-    fetchProperties();
+    // fetchProperties();
   }, [debouncedSearchTerm, filter]);
 
   const properties = React.useMemo<PropertyCardData[]>(() => {
@@ -123,7 +124,7 @@ const Listings = () => {
     <>
       <Preloader loading={showLoader} />
       <ListingsUI
-        properties={properties}
+        properties={propertyList}
         pagination={{
           hide: properties.length === 0 || showLoader,
           current: pages.current,

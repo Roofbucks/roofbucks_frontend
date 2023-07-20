@@ -179,6 +179,7 @@ export interface PropertyData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
+    totalCost: number;
   };
   description: string;
   amenities: string[];
@@ -207,12 +208,6 @@ export interface PropertyData {
   state: string;
   zipCode: string;
   country: string;
-  totalCost: number;
-  noOfShares: number;
-  costPerShare: number;
-  annualROI: number;
-  rentRoll: number;
-  otherIncentives: string;
 }
 
 interface PropertyDetailsProps {
@@ -322,7 +317,11 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             />
           </div>
           <div className={styles.priceWrap}>
-            <p>${property.totalCost}</p>
+            <p>
+              $
+              {property?.completed?.totalCost ??
+                property.inProgress?.completionCost}
+            </p>
             <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
               Buy Shares
             </Button>
@@ -380,19 +379,14 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           <p>{property.description}</p>
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
-          <p>${property.totalCost}</p>
+          <p>
+            $
+            {property?.completed?.totalCost ??
+              property.inProgress?.completionCost}
+          </p>
           <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
             Buy Shares
           </Button>
-        </div>
-        <div className={styles.benefitsSec}>
-          <h4 className={styles.subTtl}>Benefits</h4>
-          <ul className={styles.list}>
-            <li>
-              {property.annualROI}% Annual Expected Returns on investment{" "}
-            </li>
-            <li>{property.otherIncentives}</li>
-          </ul>
         </div>
         <div className={styles.featuresSec}>
           <h4 className={styles.subTtl}>Amenities & Features</h4>

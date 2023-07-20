@@ -97,6 +97,13 @@
   font-size: 16px;
   font-weight: 500;
 }
+.scheduleCallBtn svg {
+  margin-right: 4px;
+  width: 16px;
+}
+.scheduleCallBtn svg path {
+  fill: #000;
+}
 
 @media screen and (max-width: 1000px) {
   .searchAndFilter {

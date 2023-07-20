@@ -74,10 +74,10 @@ export const propertyTypeOptions: optionType[] = [
     label: "Split-level home",
     value: "split-level",
   },
-  {
-    label: "Land",
-    value: "land",
-  },
+  // {
+  //   label: "Land",
+  //   value: "land",
+  // },
 ];
 
 export const countryOptions: optionType[] = [

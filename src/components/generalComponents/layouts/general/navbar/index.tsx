@@ -189,7 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         setShowMenuDropdown(false);
                         setShowLogout(true);
                       }}
-                      links={["My Dashboard", "My Cart", "Profile"]}
+                      links={["My Dashboard", "Profile"]}
                     />
                   </div>
                 </div>
@@ -271,10 +271,6 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     {
       label: "My Dashboard",
       onClick: () => navigate(Routes.overview),
-    },
-    {
-      label: "My Cart",
-      onClick: () => {},
     },
     {
       label: "Profile",

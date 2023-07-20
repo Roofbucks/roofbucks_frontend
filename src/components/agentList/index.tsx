@@ -114,7 +114,7 @@ const AgentListUI: React.FC<AgentListProps> = ({
     discount: "20% off",
     moreDetails: (id) => console.log(id),
     primaryBtn: {
-      text: "Sell shares",
+      text: "Apply",
       action: (id) => console.log(id),
     },
     id: "123",

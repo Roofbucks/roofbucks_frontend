@@ -236,7 +236,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           {properties.map((item, index) => (
             <PropertyCard
               primaryBtn={{
-                text: "Sell shares",
+                text: "Apply",
                 action: (id) => console.log(id),
               }}
               type="row"

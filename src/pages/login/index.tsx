@@ -1,12 +1,12 @@
 import * as React from "react";
 import { LoginModalUI, Preloader } from "components";
 import { ModalProps } from "types";
-import { useApiRequest } from "hooks";
+import { useApiRequest, useGetUser } from "hooks";
 import { loginService } from "api";
 import { updateToast, updateUser } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 import { Routes } from "router";
-import { getErrorMessage, useGetUser } from "helpers";
+import { getErrorMessage } from "helpers";
 import { useNavigate } from "react-router-dom";
 
 interface LoginProps extends ModalProps {

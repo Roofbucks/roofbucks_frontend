@@ -14,10 +14,17 @@ import {
   Textarea,
   Document,
 } from "components";
-import { DownloadIcon, TrashIcon, ImageIcon, WarningIcon } from "assets";
+import {
+  DownloadIcon,
+  TrashIcon,
+  ImageIcon,
+  WarningIcon,
+  PlusIcon,
+} from "assets";
 import { getMegaByte } from "helpers";
+import { useIsInViewport } from "hooks";
 
-export interface stageOneEditData {
+export interface EditData {
   propertyStatus: "in-progress" | "completed";
   propertyType: optionType;
   name: string;
@@ -30,6 +37,7 @@ export interface stageOneEditData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
+    totalCost: number;
   };
   description: string;
   address: string;
@@ -58,9 +66,15 @@ export interface stageOneEditData {
   gazette: File | string;
   deedOfAssignment: File | string;
   certificateOfOccupancy: File | string;
+  otherDocs: otherDoc[];
 }
 
-const stageOneSchema = yup
+interface otherDoc {
+  name: string;
+  file: File | string;
+}
+
+const Schema = yup
   .object()
   .shape({
     propertyStatus: yup
@@ -86,6 +100,7 @@ const stageOneSchema = yup
         yearBuilt: yup.string().required("Required"),
         noOfBedrooms: yup.number().required("Required"),
         noOfToilets: yup.number().required("Required"),
+        totalCost: yup.number().required("Required"),
       }),
     }),
     description: yup.string().required("Required"),
@@ -121,40 +136,15 @@ const stageOneSchema = yup
     gazette: yup.mixed().required("Required"),
     deedOfAssignment: yup.mixed().required("Required"),
     certificateOfOccupancy: yup.mixed().required("Required"),
-  })
-  .required();
-
-export interface stageTwoEditData {
-  totalCost: number;
-  noOfShares: number;
-  costPerShare: number;
-  annualROI: number;
-  rentRoll: number;
-  stays: { start: string; end: string }[];
-  otherIncentives: string;
-}
-
-const stageTwoSchema = yup
-  .object({
-    totalCost: yup.number().required("Required"),
-    noOfShares: yup
-      .number()
-      .min(2, "Minimum of 2 shares allowed")
-      .max(10, "Maximum of 10 shares allowed")
-      .required("Required"),
-    costPerShare: yup.number().required("Required"),
-    annualROI: yup.number().required("Required"),
-    rentRoll: yup.number().required("Required"),
-    stays: yup
-      .array(
+    otherDocs: yup
+      .array()
+      .of(
         yup.object({
-          start: yup.string().required("Required"),
-          end: yup.string().required("Required"),
+          name: yup.string().required("Required"),
+          file: yup.mixed().required("Required"),
         })
       )
-      .min(1, "At least one stay is required")
-      .required("Required"),
-    otherIncentives: yup.string(),
+      .min(0),
   })
   .required();
 
@@ -162,11 +152,7 @@ export interface EditPropertyProps {
   closeForm: () => void;
   tooLarge: () => void;
   submit: (data: FormData) => void;
-
-  property: {
-    initialValuesStageOne: stageOneEditData;
-    initialValuesStageTwo: stageTwoEditData;
-  };
+  property: EditData;
 }
 
 const EditPropertyUI: React.FC<EditPropertyProps> = ({
@@ -175,61 +161,45 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
   submit,
   property,
 }) => {
-  const [stage, setStage] = React.useState(1);
   const [scrollPosition, setPosition] = React.useState(0);
   const [scrollDir, setScrollDir] = React.useState("none");
 
-  const { initialValuesStageOne, initialValuesStageTwo } = property;
-
   const {
-    register: registerStageOne,
-    handleSubmit: handleSubmitStageOne,
-    formState: { errors: errorsStageOne },
-    setValue: setValueStageOne,
-    watch: watchStageOne,
-    reset: resetStageOne,
-  } = useForm<stageOneEditData>({
-    resolver: yupResolver(stageOneSchema),
-    defaultValues: initialValuesStageOne,
-  });
-
-  const {
-    register: registerStageTwo,
-    handleSubmit: handleSubmitStageTwo,
-    formState: { errors: errorsStageTwo },
-    setValue: setValueStageTwo,
-    watch: watchStageTwo,
-    reset: resetStageTwo,
-  } = useForm<stageTwoEditData>({
-    resolver: yupResolver(stageTwoSchema),
-    defaultValues: initialValuesStageTwo,
+    register: register,
+    handleSubmit: handleSubmit,
+    formState: { errors: errors },
+    setValue: setValue,
+    watch: watch,
+    reset: reset,
+  } = useForm<EditData>({
+    resolver: yupResolver(Schema),
+    defaultValues: property,
   });
 
   React.useEffect(() => {
-    resetStageOne(initialValuesStageOne);
-    resetStageTwo(initialValuesStageTwo);
+    reset(property);
   }, [property]);
 
   const addIndoorAmenity = (item) => {
-    const index = watchStageOne("indoorAmenities").indexOf(item);
-    const amenityList = watchStageOne("indoorAmenities");
+    const index = watch("indoorAmenities").indexOf(item);
+    const amenityList = watch("indoorAmenities");
     if (index >= 0) {
       amenityList.splice(index, 1);
     } else {
       amenityList.push(item);
     }
-    setValueStageOne("indoorAmenities", amenityList);
+    setValue("indoorAmenities", amenityList);
   };
 
   const addOutdoorAmenity = (item) => {
-    const index = watchStageOne("outdoorAmenities").indexOf(item);
-    const amenityList = watchStageOne("outdoorAmenities");
+    const index = watch("outdoorAmenities").indexOf(item);
+    const amenityList = watch("outdoorAmenities");
     if (index >= 0) {
       amenityList.splice(index, 1);
     } else {
       amenityList.push(item);
     }
-    setValueStageOne("outdoorAmenities", amenityList);
+    setValue("outdoorAmenities", amenityList);
   };
 
   const indoorAmenities = [
@@ -302,8 +272,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
   const ref4 = React.useRef(null);
   const ref5 = React.useRef(null);
   const ref6 = React.useRef(null);
-  const ref7 = React.useRef(null);
-  const ref8 = React.useRef(null);
 
   const scrollToCategory = (id) => {
     const element = document.getElementById(id);
@@ -318,10 +286,8 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
   const isInView4 = useIsInViewport(ref4);
   const isInView5 = useIsInViewport(ref5);
   const isInView6 = useIsInViewport(ref6);
-  const isInView7 = useIsInViewport(ref7);
-  const isInView8 = useIsInViewport(ref8);
 
-  const categories1 = [
+  const categories = [
     {
       name: "Description",
       scrollId: "description",
@@ -354,21 +320,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     },
   ];
 
-  const categories2 = [
-    {
-      name: "Cost",
-      scrollId: "cost",
-      active: isInView7,
-    },
-    {
-      name: "Incentives",
-      scrollId: "incentives",
-      active: isInView8,
-    },
-  ];
-
-  const categories = stage === 1 ? categories1 : categories2;
-
   const checkFileSize = ({
     file,
     onSuccess,
@@ -389,83 +340,79 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     checkFileSize({
       file: file,
       onSuccess: () => {
-        setValueStageOne("media", [...watchStageOne("media"), { file }]);
+        setValue("media", [...watch("media"), { file }]);
       },
     });
   };
 
   const handleRemoveMedia = (index) => {
-    const prevList = [...watchStageOne("media")];
+    const prevList = [...watch("media")];
     prevList.splice(index, 1);
-    setValueStageOne("media", [...prevList]);
+    setValue("media", [...prevList]);
   };
 
   const handleChangeDoc = ({ id, e }) => {
     const file: File = e.target.files[0];
 
-    setValueStageOne(id, file);
+    setValue(id, file);
   };
 
   const handleRemoveDoc = ({ id }) => {
-    setValueStageOne(id, undefined);
+    setValue(id, undefined);
   };
 
   const requiredDocuments: DocumentProps[] = [
     {
       label: "Approved Survey Plan",
-      file: watchStageOne("surveyPlan"),
+      file: watch("surveyPlan"),
       id: "surveyPlan",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.surveyPlan?.message,
+      error: errors.surveyPlan?.message,
     },
     {
       label: "Purchase Receipt",
-      file: watchStageOne("purchaseReceipt"),
+      file: watch("purchaseReceipt"),
       id: "purchaseReceipt",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.purchaseReceipt?.message,
+      error: errors.purchaseReceipt?.message,
     },
     {
       label: "Excision",
-      file: watchStageOne("excision"),
+      file: watch("excision"),
       id: "excision",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.excision?.message,
+      error: errors.excision?.message,
     },
     {
       label: "Gazette",
-      file: watchStageOne("gazette"),
+      file: watch("gazette"),
       id: "gazette",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.gazette?.message,
+      error: errors.gazette?.message,
     },
     {
       label: "Registered Deed of Assignment (Governor's consent)",
-      file: watchStageOne("deedOfAssignment"),
+      file: watch("deedOfAssignment"),
       id: "deedOfAssignment",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.deedOfAssignment?.message,
+      error: errors.deedOfAssignment?.message,
     },
     {
       label: "Certificate of Occupancy",
-      file: watchStageOne("certificateOfOccupancy"),
+      file: watch("certificateOfOccupancy"),
       id: "certificateOfOccupancy",
       handleChangeDoc: handleChangeDoc,
       handleRemoveDoc: handleRemoveDoc,
-      error: errorsStageOne.certificateOfOccupancy?.message,
+      error: errors.certificateOfOccupancy?.message,
     },
   ];
 
-  const [submitFormData, setsubmitFormData] = React.useState<FormData>(
-    new FormData()
-  );
-
-  const onSubmitStageOne: SubmitHandler<stageOneEditData> = (data) => {
+  const onSubmit: SubmitHandler<EditData> = (data) => {
     const indoorAmenities = data.indoorAmenities.join(",");
     const outdoorAmenities = data.outdoorAmenities.join(",");
     const otherAmenities = data.otherAmenities
@@ -484,6 +431,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
       );
       formData.append("number_of_toilets", String(data.completed?.noOfToilets));
       formData.append("date_built", data.completed.yearBuilt);
+      formData.append("total_property_cost", String(data.completed.totalCost));
     }
 
     if (data.propertyStatus === "in-progress" && data.inProgress) {
@@ -538,53 +486,13 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
 
     data.media[0].file && formData.append("default_image", data.media[0].file);
 
-    // data.append("percentage_discount", "5");
-    // data.append("benefits", "benefit1,benefit2,benefit3,benefit4,benefit5");
-
-    setsubmitFormData(formData);
-
-    setStage(2);
-  };
-
-  const onSubmitStageTwo: SubmitHandler<stageTwoEditData> = (data) => {
-    let formData = new FormData();
-    formData.append("price_per_share", String(data.costPerShare));
-    formData.append("total_number_of_shares", String(data.noOfShares));
-    formData.append("total_property_cost", String(data.totalCost));
-    formData.append("expected_ROI", String(data.annualROI));
-    formData.append("area_rent_rolls", String(data.rentRoll));
-    formData.append("other_incentives", data.otherIncentives);
-    let stays = "";
-    data.stays.map(
-      (item, index) =>
-        (stays += `${item.start},${item.end}${
-          data.stays.length - 1 === index ? "" : ",,"
-        }`)
-    );
-
-    formData.append("scheduled_stays", stays);
-
-    formData.forEach((value, key) => submitFormData.append(key, value));
-    submit(submitFormData);
-  };
-
-  const addNewStay = () => {
-    const isComplete = watchStageTwo("stays").every(
-      (item) => item.start !== "" && item.end !== ""
-    );
-    const stay = { start: "", end: "" };
-    isComplete && setValueStageTwo("stays", [...watchStageTwo("stays"), stay]);
-  };
-
-  const removeStay = (index) => {
-    const prevList = [...watchStageTwo("stays")];
-    prevList.splice(index, 1);
-    setValueStageTwo("stays", [...prevList]);
+    // submit(formData);
+    console.log(data);
   };
 
   return (
     <section className={styles.EditPropertyContainer}>
-      <h2 className={styles.ttl}>{stage}. Property Information</h2>
+      <h2 className={styles.ttl}>Property Information</h2>
       <nav
         className={`${styles.nav} ${scrollPosition > 71 ? styles.fixNav : ""} ${
           scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
@@ -600,692 +508,533 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
           </span>
         ))}
       </nav>
-      {stage == 1 ? (
-        <form className={styles.form}>
-          <div ref={ref1} id="description" className={styles.inputSec}>
-            <p className={styles.secTtl}>Description</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <p className={styles.radioTtl}>Property Status</p>
-                <div className={styles.radioSec}>
-                  <label>
-                    <input
-                      value="completed"
-                      type={"radio"}
-                      className={`${styles.radio} ${
-                        watchStageOne("propertyStatus") === "completed"
-                          ? styles.selectedRadio
-                          : ""
-                      }`}
-                      checked={watchStageOne("propertyStatus") === "completed"}
-                      onChange={() =>
-                        setValueStageOne("propertyStatus", "completed")
-                      }
-                    />
-                    Completed
-                  </label>
-                  <label>
-                    <input
-                      value="in-progress"
-                      type={"radio"}
-                      className={`${styles.radio} ${
-                        watchStageOne("propertyStatus") === "in-progress"
-                          ? styles.selectedRadio
-                          : ""
-                      }`}
-                      checked={
-                        watchStageOne("propertyStatus") === "in-progress"
-                      }
-                      onChange={() =>
-                        setValueStageOne("propertyStatus", "in-progress")
-                      }
-                    />
-                    In progress
-                  </label>
-                </div>
-              </div>
-              <div className={styles.halfWidth}>
-                <p className={styles.radioTtl}>Property Type</p>
-                <CustomSelect
-                  onChange={(x) => setValueStageOne("propertyType", x)}
-                  validatorMessage={
-                    watchStageOne("propertyType").value === ""
-                      ? errorsStageOne.propertyType?.value?.message ?? ""
-                      : ""
-                  }
-                  name={"propertyType"}
-                  placeholder={"Please Select"}
-                  label={""}
-                  options={propertyTypeOptions}
-                  value={watchStageOne("propertyType")}
-                  inputClass={styles.select}
-                  parentClassName={styles.selectParent}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="PROPERTY NAME"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne?.name?.message}
-                  name="name"
-                  register={registerStageOne}
-                  value={watchStageOne("name")}
-                />
-              </div>
-              {watchStageOne("propertyStatus") === "in-progress" ? (
-                <>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="PERCENTAGE COMPLETED"
-                      placeholder="10"
-                      type="number"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.inProgress?.completionPercent?.message
-                      }
-                      name="inProgress.completionPercent"
-                      register={registerStageOne}
-                    />
-                  </div>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="EXPECTED DATE OF COMPLETION"
-                      placeholder=""
-                      type="date"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.inProgress?.completionDate?.message
-                      }
-                      name="inProgress.completionDate"
-                      register={registerStageOne}
-                    />
-                  </div>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="COMPLETION COST ($)"
-                      placeholder="1000"
-                      type="number"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.inProgress?.completionCost?.message
-                      }
-                      name="inProgress.completionCost"
-                      register={registerStageOne}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="YEAR BUILT"
-                      placeholder=""
-                      type="date"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.completed?.yearBuilt?.message
-                      }
-                      name="completed.yearBuilt"
-                      register={registerStageOne}
-                    />
-                  </div>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="NO. OF BEDROOMS"
-                      placeholder="1"
-                      type="number"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.completed?.noOfBedrooms?.message
-                      }
-                      name="completed.noOfBedrooms"
-                      register={registerStageOne}
-                    />
-                  </div>
-                  <div className={styles.halfWidth}>
-                    <Input
-                      label="NO. OF TOILETS"
-                      placeholder="1"
-                      type="number"
-                      parentClassName={styles.input}
-                      required
-                      validatorMessage={
-                        errorsStageOne.completed?.noOfToilets?.message
-                      }
-                      name="completed.noOfToilets"
-                      register={registerStageOne}
-                    />
-                  </div>
-                </>
-              )}
-              <div className={styles.fullWidth}>
-                <Textarea
-                  label="DESCRIPTION"
-                  placeholder=""
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne?.description?.message}
-                  name="completed.description"
-                  register={registerStageOne}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref2} id="address" className={styles.inputSec}>
-            <p className={styles.secTtl}>Address</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.fullWidth}>
-                <Input
-                  label="ADDRESS"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.address?.message}
-                  name="address"
-                  register={registerStageOne}
-                  value={watchStageOne("address")}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="CITY"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.city?.message}
-                  name="city"
-                  register={registerStageOne}
-                  value={watchStageOne("city")}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="STATE/PROVINCE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.state?.message}
-                  name="state"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="ZIP CODE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.zipCode?.message}
-                  name="zipCode"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <CustomSelect
-                  onChange={(x) => setValueStageOne("country", x)}
-                  validatorMessage={
-                    watchStageOne("country").value === ""
-                      ? errorsStageOne.country?.value?.message ?? ""
-                      : ""
-                  }
-                  name={"country"}
-                  placeholder={"Please Select"}
-                  label={"COUNTRY"}
-                  options={countryOptions}
-                  value={watchStageOne("country")}
-                  inputClass={styles.select}
-                  parentClassName={styles.selectParent}
-                />
-              </div>
-              <div className={styles.fullWidth}>
-                <Input
-                  label="CROSS ROADS"
-                  placeholder="Address 1"
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={
-                    errorsStageOne.crossRoads?.address1?.message
-                  }
-                  name="crossRoads.address1"
-                  register={registerStageOne}
-                />
-                <Input
-                  label=""
-                  placeholder="Address 2"
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={
-                    errorsStageOne.crossRoads?.address2?.message
-                  }
-                  name="crossRoads.address2"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.fullWidth}>
-                <Input
-                  label="LANDMARKS"
-                  placeholder="Address 1"
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.landmarks?.address1?.message}
-                  name="landmarks.address1"
-                  register={registerStageOne}
-                />
-                <Input
-                  label=""
-                  placeholder="Address 2"
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.landmarks?.address2?.message}
-                  name="landmarks.address2"
-                  register={registerStageOne}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref3} id="amenities" className={styles.inputSec}>
-            <p className={styles.secTtl}>Amenities & Features</p>
-            <div>
-              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
-                <p className={styles.radioTtl}>Indoor</p>
-                <div className={styles.checkGroup}>
-                  {indoorAmenities.map((item, index) => (
-                    <CheckBox
-                      key={index}
-                      label={item}
-                      check={watchStageOne("indoorAmenities").includes(item)}
-                      onChange={() => addIndoorAmenity(item)}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className={`${styles.fullWidth} ${styles.checkSec}`}>
-                <p className={styles.radioTtl}>Outdoor</p>
-                <div className={styles.checkGroup}>
-                  {outdoorAmenities.map((item, index) => (
-                    <CheckBox
-                      key={index}
-                      label={item}
-                      check={watchStageOne("outdoorAmenities").includes(item)}
-                      onChange={() => addOutdoorAmenity(item)}
-                    />
-                  ))}
-                </div>
-                <Textarea
-                  label="OTHER AMENITIES"
-                  placeholder="Separate the different amenities by a comma"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.otherAmenities?.message}
-                  name="otherAmenities"
-                  register={registerStageOne}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref4} id="more" className={styles.inputSec}>
-            <p className={styles.secTtl}>More details</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="ERF SIZE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.erfSize?.message}
-                  name="erfSize"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="DINING AREA"
-                  placeholder="No. of seater"
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.diningArea?.message}
-                  name="diningArea"
-                  register={registerStageOne}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="FLOOR SIZE"
-                  placeholder=""
-                  type="text"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageOne.floorSize?.message}
-                  name="floorSize"
-                  register={registerStageOne}
-                />
-              </div>
-            </div>
-          </div>
-          <div ref={ref5} id="media" className={styles.inputSec}>
-            <p className={styles.secTtl}>Media</p>
-            <div className={styles.docGroup}>
-              <p className={styles.radioTtl}>Pictures & Videos</p>
-              <div>
-                <p className={styles.docTxt}>
-                  Please ensure that all media are clear and meet our acceptance
-                  criteria
-                </p>
-                <label className={styles.docLabel} htmlFor="media-input">
-                  <DownloadIcon />
-                  <p>
-                    Drop your file to upload or <span>Browse</span>
-                  </p>
-                  <p className={styles.docNote}>
-                    Maximum size of image 8MB, JPEG, JPG, PNG
-                  </p>
-                  <input
-                    style={{ display: "none" }}
-                    id="media-input"
-                    type={"file"}
-                    accept=".png, .jpg, .jpeg"
-                    onDrop={(e) => console.log(e, "drop")}
-                    onChange={handleChangeMedia}
-                  />
-                </label>
-                {errorsStageOne.media?.message && (
-                  <p className={styles.errorMsg}>
-                    <WarningIcon /> {errorsStageOne.media?.message}
-                  </p>
-                )}
 
-                <div className={styles.uploadedSec}>
-                  {watchStageOne("media").map((file, index) => (
-                    <div key={index} className={styles.uploadedDoc}>
-                      <ImageIcon className={styles.docIcon} />
-                      <div className={styles.docInfo}>
-                        <p>{file?.file?.name ?? file.url}</p>
-                        <p>
-                          {" "}
-                          {file?.file
-                            ? `${getMegaByte(file?.file?.size)} MB`
-                            : ""}{" "}
-                        </p>
-                      </div>
-                      <TrashIcon
-                        onClick={() => handleRemoveMedia(index)}
-                        role="button"
-                        className={styles.docDelete}
-                      />
-                    </div>
-                  ))}
-                </div>
+      <form className={styles.form}>
+        <div ref={ref1} id="description" className={styles.inputSec}>
+          <p className={styles.secTtl}>Description</p>
+          <div className={styles.inputGroup}>
+            <div className={styles.halfWidth}>
+              <p className={styles.radioTtl}>Property Status</p>
+              <div className={styles.radioSec}>
+                <label>
+                  <input
+                    value="completed"
+                    type={"radio"}
+                    className={`${styles.radio} ${
+                      watch("propertyStatus") === "completed"
+                        ? styles.selectedRadio
+                        : ""
+                    }`}
+                    checked={watch("propertyStatus") === "completed"}
+                    onChange={() => setValue("propertyStatus", "completed")}
+                  />
+                  Completed
+                </label>
+                <label>
+                  <input
+                    value="in-progress"
+                    type={"radio"}
+                    className={`${styles.radio} ${
+                      watch("propertyStatus") === "in-progress"
+                        ? styles.selectedRadio
+                        : ""
+                    }`}
+                    checked={watch("propertyStatus") === "in-progress"}
+                    onChange={() => setValue("propertyStatus", "in-progress")}
+                  />
+                  In progress
+                </label>
               </div>
             </div>
+            <div className={styles.halfWidth}>
+              <p className={styles.radioTtl}>Property Type</p>
+              <CustomSelect
+                onChange={(x) => setValue("propertyType", x)}
+                validatorMessage={
+                  watch("propertyType").value === ""
+                    ? errors.propertyType?.value?.message ?? ""
+                    : ""
+                }
+                name={"propertyType"}
+                placeholder={"Please Select"}
+                label={""}
+                options={propertyTypeOptions}
+                value={watch("propertyType")}
+                inputClass={styles.select}
+                parentClassName={styles.selectParent}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <Input
+                label="PROPERTY NAME"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors?.name?.message}
+                name="name"
+                register={register}
+                value={watch("name")}
+              />
+            </div>
+            {watch("propertyStatus") === "in-progress" ? (
+              <>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="PERCENTAGE COMPLETED"
+                    placeholder="10"
+                    type="number"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={
+                      errors.inProgress?.completionPercent?.message
+                    }
+                    name="inProgress.completionPercent"
+                    register={register}
+                  />
+                </div>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="EXPECTED DATE OF COMPLETION"
+                    placeholder=""
+                    type="date"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={
+                      errors.inProgress?.completionDate?.message
+                    }
+                    name="inProgress.completionDate"
+                    register={register}
+                  />
+                </div>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="COMPLETION COST ($)"
+                    placeholder="1000"
+                    type="number"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={
+                      errors.inProgress?.completionCost?.message
+                    }
+                    name="inProgress.completionCost"
+                    register={register}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="YEAR BUILT"
+                    placeholder=""
+                    type="date"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={errors.completed?.yearBuilt?.message}
+                    name="completed.yearBuilt"
+                    register={register}
+                  />
+                </div>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="NO. OF BEDROOMS"
+                    placeholder="1"
+                    type="number"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={errors.completed?.noOfBedrooms?.message}
+                    name="completed.noOfBedrooms"
+                    register={register}
+                  />
+                </div>
+                <div className={styles.halfWidth}>
+                  <Input
+                    label="NO. OF TOILETS"
+                    placeholder="1"
+                    type="number"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={errors.completed?.noOfToilets?.message}
+                    name="completed.noOfToilets"
+                    register={register}
+                  />
+                </div>
+                <div className={styles.fullWidth}>
+                  <Input
+                    label="TOTAL COST OF PROPERTY ($)"
+                    placeholder=""
+                    type="number"
+                    parentClassName={styles.input}
+                    required
+                    validatorMessage={errors.completed?.totalCost?.message}
+                    name="completed.totalCost"
+                    register={register}
+                  />
+                  <p>
+                    Note: A fee of 2% of the total cost will be deducted upon
+                    sale of the property
+                  </p>
+                </div>
+              </>
+            )}
+            <div className={styles.fullWidth}>
+              <Textarea
+                label="DESCRIPTION"
+                placeholder=""
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors?.description?.message}
+                name="completed.description"
+                register={register}
+              />
+            </div>
           </div>
-          <div ref={ref6} id="documents" className={styles.inputSec}>
-            <p className={styles.secTtl}>Documents</p>
-            <div className={styles.docGroup}>
-              <p className={styles.radioTtl}>Required Documents</p>
-              <div className={styles.docSec}>
-                {requiredDocuments.map((item, index) => (
-                  <>
-                    <Document {...item} key={index} />
-                  </>
+        </div>
+        <div ref={ref2} id="address" className={styles.inputSec}>
+          <p className={styles.secTtl}>Address</p>
+          <div className={styles.inputGroup}>
+            <div className={styles.fullWidth}>
+              <Input
+                label="ADDRESS"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.address?.message}
+                name="address"
+                register={register}
+                value={watch("address")}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <Input
+                label="CITY"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.city?.message}
+                name="city"
+                register={register}
+                value={watch("city")}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <Input
+                label="STATE/PROVINCE"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.state?.message}
+                name="state"
+                register={register}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <Input
+                label="ZIP CODE"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.zipCode?.message}
+                name="zipCode"
+                register={register}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <CustomSelect
+                onChange={(x) => setValue("country", x)}
+                validatorMessage={
+                  watch("country").value === ""
+                    ? errors.country?.value?.message ?? ""
+                    : ""
+                }
+                name={"country"}
+                placeholder={"Please Select"}
+                label={"COUNTRY"}
+                options={countryOptions}
+                value={watch("country")}
+                inputClass={styles.select}
+                parentClassName={styles.selectParent}
+              />
+            </div>
+            <div className={styles.fullWidth}>
+              <Input
+                label="CROSS ROADS"
+                placeholder="Address 1"
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.crossRoads?.address1?.message}
+                name="crossRoads.address1"
+                register={register}
+              />
+              <Input
+                label=""
+                placeholder="Address 2"
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.crossRoads?.address2?.message}
+                name="crossRoads.address2"
+                register={register}
+              />
+            </div>
+            <div className={styles.fullWidth}>
+              <Input
+                label="LANDMARKS"
+                placeholder="Address 1"
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.landmarks?.address1?.message}
+                name="landmarks.address1"
+                register={register}
+              />
+              <Input
+                label=""
+                placeholder="Address 2"
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.landmarks?.address2?.message}
+                name="landmarks.address2"
+                register={register}
+              />
+            </div>
+          </div>
+        </div>
+        <div ref={ref3} id="amenities" className={styles.inputSec}>
+          <p className={styles.secTtl}>Amenities & Features</p>
+          <div>
+            <div className={`${styles.fullWidth} ${styles.checkSec}`}>
+              <p className={styles.radioTtl}>Indoor</p>
+              <div className={styles.checkGroup}>
+                {indoorAmenities.map((item, index) => (
+                  <CheckBox
+                    key={index}
+                    label={item}
+                    check={watch("indoorAmenities").includes(item)}
+                    onChange={() => addIndoorAmenity(item)}
+                  />
                 ))}
               </div>
             </div>
-          </div>
-          <div className={styles.btnSec}>
-            <Button
-              className={styles.backBtn}
-              type="tertiary"
-              onClick={closeForm}
-            >
-              Back
-            </Button>
-            <Button
-              type="primary"
-              onClick={handleSubmitStageOne(onSubmitStageOne)}
-            >
-              Next
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <form className={styles.form}>
-          <div ref={ref7} id="cost" className={styles.inputSec}>
-            <p className={styles.secTtl}>Cost</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="TOTAL COST OF PROPERTY ($)"
-                  placeholder=""
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.totalCost?.message}
-                  name="totalCost"
-                  register={registerStageTwo}
-                />
+            <div className={`${styles.fullWidth} ${styles.checkSec}`}>
+              <p className={styles.radioTtl}>Outdoor</p>
+              <div className={styles.checkGroup}>
+                {outdoorAmenities.map((item, index) => (
+                  <CheckBox
+                    key={index}
+                    label={item}
+                    check={watch("outdoorAmenities").includes(item)}
+                    onChange={() => addOutdoorAmenity(item)}
+                  />
+                ))}
               </div>
-              <div
-                className={`${styles.halfWidth} ${styles.hideOnMobile}`}
-              ></div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="NO. of SHARES"
-                  placeholder="Enter 2 to 10 shares"
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.noOfShares?.message}
-                  name="noOfShares"
-                  register={registerStageTwo}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="COST PER SHARE ($)"
-                  placeholder=""
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.costPerShare?.message}
-                  name="costPerShare"
-                  register={registerStageTwo}
-                />
-              </div>
+              <Textarea
+                label="OTHER AMENITIES"
+                placeholder="Separate the different amenities by a comma"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.otherAmenities?.message}
+                name="otherAmenities"
+                register={register}
+              />
             </div>
           </div>
-          {/* <div ref={ref8}  id="deals" className={styles.inputSec}>
-            <p className={styles.secTtl}>Deals</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <CustomSelect
-                  onChange={(x) => setValueStageTwo("promotionType", x)}
-                  validatorMessage={errorsStageTwo.promotionType?.message ?? ""}
-                  name={"promotionType"}
-                  placeholder={"Please Select"}
-                  label={"PROMOTION TYPE"}
-                  options={promotionTypeOptions}
-                  value={watchStageTwo("promotionType")}
-                  inputClass={styles.select}
-                  parentClassName={styles.selectParent}
-                />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="DEAL CLOSING"
-                  placeholder=""
-                  type="date"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.dealClosing?.message}
-                  name="dealClosing"
-                  register={registerStageTwo}
-                />
-              </div>
-              <div className={styles.fullWidth}>
-                <Textarea
-                  label="OTHER"
-                  placeholder=""
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.otherDeals?.message}
-                  name="otherDeals"
-                  register={registerStageTwo}
-                />
-              </div>
+        </div>
+        <div ref={ref4} id="more" className={styles.inputSec}>
+          <p className={styles.secTtl}>More details</p>
+          <div className={styles.inputGroup}>
+            <div className={styles.halfWidth}>
+              <Input
+                label="ERF SIZE"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.erfSize?.message}
+                name="erfSize"
+                register={register}
+              />
             </div>
-          </div> */}
-          <div ref={ref8} id="incentives" className={styles.inputSec}>
-            <p className={styles.secTtl}>Incentives</p>
-            <div className={styles.inputGroup}>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="EXPECTED ANNUAL ROI (%)"
-                  placeholder=""
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.annualROI?.message}
-                  name="annualROI"
-                  register={registerStageTwo}
-                  value={String(watchStageTwo("annualROI"))}
+            <div className={styles.halfWidth}>
+              <Input
+                label="DINING AREA"
+                placeholder="No. of seater"
+                type="number"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.diningArea?.message}
+                name="diningArea"
+                register={register}
+              />
+            </div>
+            <div className={styles.halfWidth}>
+              <Input
+                label="FLOOR SIZE"
+                placeholder=""
+                type="text"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors.floorSize?.message}
+                name="floorSize"
+                register={register}
+              />
+            </div>
+          </div>
+        </div>
+        <div ref={ref5} id="media" className={styles.inputSec}>
+          <p className={styles.secTtl}>Media</p>
+          <div className={styles.docGroup}>
+            <p className={styles.radioTtl}>Pictures & Videos</p>
+            <div>
+              <p className={styles.docTxt}>
+                Please ensure that all media are clear and meet our acceptance
+                criteria
+              </p>
+              <label className={styles.docLabel} htmlFor="media-input">
+                <DownloadIcon />
+                <p>
+                  Drop your file to upload or <span>Browse</span>
+                </p>
+                <p className={styles.docNote}>
+                  Maximum size of image 8MB, JPEG, JPG, PNG
+                </p>
+                <input
+                  style={{ display: "none" }}
+                  id="media-input"
+                  type={"file"}
+                  accept=".png, .jpg, .jpeg"
+                  onDrop={(e) => console.log(e, "drop")}
+                  onChange={handleChangeMedia}
                 />
-              </div>
-              <div className={styles.halfWidth}>
-                <Input
-                  label="AVERAGE AREA RENT ROLLS ($)"
-                  placeholder=""
-                  type="number"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.rentRoll?.message}
-                  name="rentRoll"
-                  register={registerStageTwo}
-                  value={String(watchStageTwo("rentRoll"))}
-                />
-              </div>
-              <p className={styles.radioTtl}>Scheduled Stays</p>
-              <div className={styles.stayScheduleWrap}>
-                {watchStageTwo("stays").map((item, index) => (
-                  <div key={index}>
-                    <div className={styles.halfWidth}>
-                      <Input
-                        label="Start"
-                        placeholder=""
-                        type="date"
-                        parentClassName={styles.input}
-                        required
-                        validatorMessage={
-                          errorsStageTwo?.stays &&
-                          errorsStageTwo?.stays[index]?.start?.message
-                        }
-                        name={`stays.${index}.start`}
-                        register={registerStageTwo}
-                      />
-                    </div>
-                    <div className={styles.halfWidth}>
-                      <Input
-                        label="End"
-                        placeholder=""
-                        type="date"
-                        parentClassName={styles.input}
-                        required
-                        validatorMessage={
-                          errorsStageTwo?.stays &&
-                          errorsStageTwo?.stays[index]?.end?.message
-                        }
-                        name={`stays.${index}.end`}
-                        register={registerStageTwo}
-                      />
+              </label>
+              {errors.media?.message && (
+                <p className={styles.errorMsg}>
+                  <WarningIcon /> {errors.media?.message}
+                </p>
+              )}
+
+              <div className={styles.uploadedSec}>
+                {watch("media").map((file, index) => (
+                  <div key={index} className={styles.uploadedDoc}>
+                    <ImageIcon className={styles.docIcon} />
+                    <div className={styles.docInfo}>
+                      <p>{file?.file?.name ?? file.url}</p>
+                      <p>
+                        {" "}
+                        {file?.file
+                          ? `${getMegaByte(file?.file?.size)} MB`
+                          : ""}{" "}
+                      </p>
                     </div>
                     <TrashIcon
+                      onClick={() => handleRemoveMedia(index)}
                       role="button"
-                      className={styles.removeStayBtn}
-                      onClick={() => removeStay(index)}
+                      className={styles.docDelete}
                     />
                   </div>
                 ))}
-                <Button
-                  className={styles.addStayBtn}
-                  type="primary"
-                  onClick={addNewStay}
-                >
-                  Add new stay period
-                </Button>
-              </div>
-              <div className={styles.fullWidth}>
-                <Textarea
-                  label="OTHER"
-                  placeholder="Enter other incentives"
-                  parentClassName={styles.input}
-                  required
-                  validatorMessage={errorsStageTwo.otherIncentives?.message}
-                  name="otherIncentives"
-                  register={registerStageTwo}
-                />
               </div>
             </div>
           </div>
-          <div className={styles.btnSec}>
-            <Button
-              className={styles.backBtn}
-              type="tertiary"
-              onClick={() => {
-                setStage(1);
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              type="primary"
-              onClick={handleSubmitStageTwo(onSubmitStageTwo)}
-            >
-              Update property
-            </Button>
+        </div>
+        <div ref={ref6} id="documents" className={styles.inputSec}>
+          <p className={styles.secTtl}>Documents</p>
+          <div className={styles.docGroup}>
+            <p className={styles.radioTtl}>Required Documents</p>
+            <div className={styles.docSec}>
+              {requiredDocuments.map((item, index) => (
+                <>
+                  <Document {...item} key={index} />
+                </>
+              ))}
+            </div>
+            <div className={styles.otherDocHd}>
+              <p className={styles.radioTtl}>Others</p>
+              <Button
+                className={styles.addBtn}
+                type="tertiary"
+                onClick={() => {
+                  const prevList = [...watch("otherDocs")];
+                  setValue("otherDocs", [
+                    ...prevList,
+                    { name: "", file: "" },
+                  ]);
+                }}
+              >
+                <PlusIcon /> Add document
+              </Button>
+            </div>
+            <div>
+              {watch("otherDocs").map((doc, idx) => {
+                const error: any = errors?.otherDocs
+                  ? errors?.otherDocs[idx]
+                  : [];
+                return (
+                  <div
+                    key={`otherdoc_${idx}`}
+                    className={`${styles.fullWidth} ${styles.other}`}
+                  >
+                    <TrashIcon
+                      className={styles.removeOther}
+                      role="button"
+                      onClick={() => {
+                        const prevList = [...watch("otherDocs")];
+                        prevList.splice(idx, 1);
+                        setValue("otherDocs", [...prevList]);
+                      }}
+                    />
+                    <Input
+                      label={`Document title ${idx + 1}`}
+                      placeholder="Enter document title"
+                      type="text"
+                      parentClassName={styles.input}
+                      required
+                      validatorMessage={error?.name?.message}
+                      name={`otherDocs.${idx}.name`}
+                      register={register}
+                      value={watch(`otherDocs.${idx}.name`)}
+                    />
+
+                    <Document
+                      // label={watch(`otherDocs.${idx}.name`)}
+                      id={`otherDocs.${idx}.file`}
+                      file={watch("otherDocs")[idx].file}
+                      handleChangeDoc={handleChangeDoc}
+                      handleRemoveDoc={() => {
+                        const prevList = [...watch("otherDocs")];
+                        prevList.splice(idx, 1);
+                        setValue("otherDocs", [...prevList]);
+                      }}
+                      error={error?.file?.message}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </form>
-      )}
+        </div>
+        <div className={styles.btnSec}>
+          <Button
+            className={styles.backBtn}
+            type="tertiary"
+            onClick={closeForm}
+          >
+            Back
+          </Button>
+          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+            Update property
+          </Button>
+        </div>
+      </form>
     </section>
   );
 };
 
 export { EditPropertyUI };
-
-const useIsInViewport = (ref) => {
-  const [isIntersecting, setIsIntersecting] = React.useState(false);
-
-  const observer = React.useMemo(
-    () =>
-      new IntersectionObserver(([entry]) =>
-        setIsIntersecting(entry.isIntersecting)
-      ),
-    []
-  );
-
-  React.useEffect(() => {
-    ref.current && observer.observe(ref.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [ref, observer]);
-
-  return isIntersecting;
-};

@@ -37,7 +37,8 @@ export const useGetUser = () => {
           })
         );
       } else {
-        navigate(Routes.login);
+        localStorage.getItem("roofbucksAccess") && navigate(Routes.login);
+        localStorage.clear();
       }
     }
   }, [response, error]);
