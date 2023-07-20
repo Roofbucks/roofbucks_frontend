@@ -224,6 +224,13 @@
   fill: #000;
 }
 
+@media screen and (max-width: 1000px) {
+  .listings {
+    grid-template-columns: 200px auto;
+    gap: 2rem 1rem;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .listings {
     grid-template-columns: 1fr;

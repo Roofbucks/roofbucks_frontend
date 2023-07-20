@@ -12,7 +12,7 @@ function App() {
   const { fetchAgent } = useGetUser();
 
   React.useEffect(() => {
-    fetchAgent();
+    localStorage.getItem("roofbucksAccess") && fetchAgent();
   }, []);
 
   return (

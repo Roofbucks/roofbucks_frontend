@@ -110,7 +110,12 @@ const Marketplace = () => {
   };
 
   const handleView = (id) => {
-    navigate(Routes.propertyID(id));
+    navigate(Routes.propertyID(id), {
+      state: {
+        from: "marketplace",
+        url: Routes.marketplace,
+      },
+    });
   };
 
   const handleFilter = (data) => {

@@ -221,6 +221,8 @@
 .amtSec p {
   font-size: var(--h5);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .normal .amtSec p {
   font-size: 18px;
@@ -235,8 +237,13 @@
   font-size: 13.5px;
   padding: 8px 20px;
 }
-.secBtn {
-  /* margin-right: 1rem; */
+.amtSec div {
+  display: flex;
+  white-space: nowrap;
+}
+.amtSec button.secBtn {
+  padding: 8px;
+  margin-right: 8px;
 }
 @media screen and (max-width: 1000px) {
   .row .imgSec {

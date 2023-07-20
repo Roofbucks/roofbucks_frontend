@@ -37,7 +37,7 @@ export const useGetUser = () => {
           })
         );
       } else {
-        localStorage.getItem("roofbucksAccess") && navigate(Routes.login);
+        navigate(Routes.login);
         localStorage.clear();
       }
     }

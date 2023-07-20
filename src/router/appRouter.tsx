@@ -27,15 +27,11 @@ const MainRouter: React.FC = () => {
               item;
             // Checks if a layout exists or not
             const PageComponent = Layout ? (
-              <ErrorBoundary>
-                <Layout {...props}>
-                  <Element />
-                </Layout>
-              </ErrorBoundary>
-            ) : (
-              <ErrorBoundary>
+              <Layout {...props}>
                 <Element />
-              </ErrorBoundary>
+              </Layout>
+            ) : (
+              <Element />
             );
 
             const AccessiblePageComponent =
@@ -49,7 +45,11 @@ const MainRouter: React.FC = () => {
               <Route
                 key={idx}
                 path={path}
-                element={AccessiblePageComponent}
+                element={
+                  <ErrorBoundary key={path}>
+                    {AccessiblePageComponent}
+                  </ErrorBoundary>
+                }
                 caseSensitive={caseSensitive}
               />
             );

@@ -76,6 +76,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   className,
   primaryBtn,
   secondaryBtn,
+  id,
 }) => {
   const [activeImg, setActiveImg] = React.useState(0);
 
@@ -114,7 +115,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           )}
         </div>
         {description ? <p className={styles.description}>{description}</p> : ""}
-        <button className={styles.moreBtn} onClick={() => moreDetails(1234)}>
+        <button className={styles.moreBtn} onClick={() => moreDetails(id)}>
           More Details <ArrowRight />
         </button>
         {images.length > 1 ? (

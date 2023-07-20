@@ -110,7 +110,12 @@ const Listings = () => {
   };
 
   const handleView = (id) => {
-    navigate(Routes.propertyID(id));
+    navigate(Routes.propertyID(id), {
+      state: {
+        from: "listings",
+        url: Routes.listing,
+      },
+    });
   };
 
   const handleFilter = (data) => {
