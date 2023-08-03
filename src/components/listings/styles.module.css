@@ -168,7 +168,8 @@
     max-height: 250px;
   }
   .filterWrap {
-    display: none;
-    /* position absolute */
+    overflow: auto;
+    width: 100%;
+    justify-content: flex-start;
   }
 }

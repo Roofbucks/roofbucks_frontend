@@ -364,15 +364,14 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                 {property.landmarks.address2 ?? ""}
               </span>
             </div>
-            <div>
-              <span>Rent income range:</span>
-              <span>{property.zipCode}</span>
-            </div>
-            <div>
-              <span>ROI:</span>
-              <span>{property.zipCode}</span>
-            </div>
           </div>
+          <p className={styles.note} >
+            Note: The{" "}
+            {location?.state?.from === "marketplace"
+              ? "Rent income"
+              : "Rent to pay"}{" "}
+            range is 0.8% - 1.1% of Total property cost (monthly)
+          </p>
         </div>
         <div className={styles.contactSec}>
           <h4 className={styles.subTtl}>Contact Info</h4>

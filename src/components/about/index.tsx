@@ -10,7 +10,11 @@ import { HeroSection, Dashboard } from "components/generalComponents";
 import * as React from "react";
 import styles from "./styles.module.css";
 
-const AboutUI = () => {
+interface AboutProps {
+  handleSignup: () => void;
+}
+
+const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
   return (
     <>
       <HeroSection title="About Roofbucks" />
@@ -115,7 +119,9 @@ const AboutUI = () => {
           />
         </div>
       </section>
-      <section className={`appContainer ${styles.inspirationSec} ${styles.statSec}`}>
+      <section
+        className={`appContainer ${styles.inspirationSec} ${styles.statSec}`}
+      >
         <div className={`${styles.sec1}`}>
           <img src={aboutStat} alt="" className={styles.inspirationImg} />
         </div>
@@ -150,7 +156,7 @@ const AboutUI = () => {
           </div>
         </div>
       </section>
-      <Dashboard />
+      <Dashboard handleSignup={handleSignup} />
     </>
   );
 };

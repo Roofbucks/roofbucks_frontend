@@ -20,13 +20,23 @@ const Service: React.FC<ServiceProps> = ({ text, title, action, image }) => {
       <div className={styles.txtSec}>
         <h1 className={styles.serviceTtl}>{title}</h1>
         <p className={styles.serviceTxt}>{text}</p>
-        <GetStartedBtn className={styles.btn} />
+        <GetStartedBtn handleClick={action} className={styles.btn} />
       </div>
     </div>
   );
 };
 
-const Services = () => {
+interface ServicesProps {
+  handleSignup: () => void;
+  handleListing: () => void;
+  handleMarketplace: () => void;
+}
+
+const Services: React.FC<ServicesProps> = ({
+  handleListing,
+  handleMarketplace,
+  handleSignup,
+}) => {
   const services: ServiceProps[] = [
     {
       image: marketPlace,
@@ -34,7 +44,7 @@ const Services = () => {
       text: `Discover unlimited available shares from verified home co-owners on
       Roofbucks active marketplace, buy and sell your share holdings on our
       thriving market with our full property management support.`,
-      action: () => {},
+      action: handleMarketplace,
     },
     {
       image: listing,
@@ -42,7 +52,7 @@ const Services = () => {
       text: `Get unrestricted access to our top reviewed properties listed by 
       prestigious Real estate companies/Agents across the continent. Acquire 
       home shares and become a co-owner in few simple steps.`,
-      action: () => {},
+      action: handleListing,
     },
     {
       image: becomeAnAgent,
@@ -50,7 +60,7 @@ const Services = () => {
       text: `Engage with real and active real estate buyers, list and close 
       more deals effectively as an Agent on Roofbucks. Increase sales traffic 
       by listing home shares on our platform.`,
-      action: () => {},
+      action: handleSignup,
     },
   ];
   return (

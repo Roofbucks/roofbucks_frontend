@@ -131,7 +131,7 @@ const ConnectFormUI = ({ submit, show, close }) => {
           />
           <Input
             label="Current location Address"
-            placeholder="e.g. user@email.com"
+            placeholder="Enter your current address"
             type="text"
             parentClassName={styles.input}
             required

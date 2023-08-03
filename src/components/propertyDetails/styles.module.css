@@ -355,6 +355,12 @@
   margin-right: 10px;
   font-weight: 600;
 }
+.note {
+  margin-top: 2rem;
+  font-weight: 600;
+  font-size: 13px;
+  font-style: italic;
+}
 
 /* Line Chart */
 .graphSec {

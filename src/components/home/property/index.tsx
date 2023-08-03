@@ -5,18 +5,22 @@ import {
   property1,
   property2,
 } from "assets";
-import { Button } from "components";
-import * as React from "react";
 import { GetStartedBtn } from "../hero";
 import styles from "./styles.module.css";
 
-const Property = () => {
+interface PropertyProps {
+  handleSignup: () => void;
+}
+
+const Property: React.FC<PropertyProps> = ({ handleSignup }) => {
   return (
     <>
       <section className={styles.propertyBg}>
         <div className={`appContainer ${styles.property}`}>
           <div className={styles.txtSec}>
-            <h3 className={styles.ttl}>Helping Africans Find their Dream Homes</h3>
+            <h3 className={styles.ttl}>
+              Helping Africans Find their Dream Homes
+            </h3>
             <p className={styles.txt}>
               Roofbucks across Africa, focuses on making real estate investing
               and ownership accessible to almost everyone by connecting people
@@ -25,23 +29,29 @@ const Property = () => {
               hands-off on their investments across borders.
             </p>
             <div className={styles.stat}>
-              <span className={styles.statNo} >19K+</span>
-              <span className={styles.statTxt}>Satisfied customers with our services.</span>
+              <span className={styles.statNo}>19K+</span>
+              <span className={styles.statTxt}>
+                Satisfied customers with our services.
+              </span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNo} >200K+</span>
-              <span className={styles.statTxt}>Listed properties by agents and customers.</span>
+              <span className={styles.statNo}>200K+</span>
+              <span className={styles.statTxt}>
+                Listed properties by agents and customers.
+              </span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNo} >50+</span>
-              <span className={styles.statTxt}>Allied real estate and property management agencies</span>
+              <span className={styles.statNo}>50+</span>
+              <span className={styles.statTxt}>
+                Allied real estate and property management agencies
+              </span>
             </div>
-            <GetStartedBtn className={styles.btn} />
+            <GetStartedBtn handleClick={handleSignup} className={styles.btn} />
           </div>
           <div className={styles.imgSec}>
             <img className={styles.property1} src={property1} alt="" />
             <img className={styles.property2} src={property2} alt="" />
-            <div className={styles.watchTour} >
+            <div className={styles.watchTour}>
               <div className={styles.watchTxtSec}>
                 <p className={styles.watchTxt1}>Watch Property Tour</p>
                 <p className={styles.watchTxt2}>

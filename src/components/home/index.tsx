@@ -7,14 +7,28 @@ import { SellAndOwn } from "./sellAndOwn";
 import { Services } from "./services";
 import styles from "./styles.module.css";
 
-const HomeUI = () => {
+interface HomeProps {
+  handleSignup: () => void;
+  handleListing: () => void;
+  handleMarketplace: () => void;
+}
+
+const HomeUI: React.FC<HomeProps> = ({
+  handleListing,
+  handleMarketplace,
+  handleSignup,
+}) => {
   return (
     <>
-      <HeroSection />
-      <Services />
+      <HeroSection handleSignup={handleSignup} />
+      <Services
+        handleListing={handleListing}
+        handleSignup={handleSignup}
+        handleMarketplace={handleMarketplace}
+      />
       <SellAndOwn />
-      <Property />
-      <Dashboard />
+      <Property handleSignup={handleSignup} />
+      <Dashboard handleSignup={handleSignup} />
       <HowItWorks />
     </>
   );
