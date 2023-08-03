@@ -121,6 +121,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                 moreDetails={handleView}
                 {...item}
                 key={index}
+                className={styles.dealCard}
               />
             ))}
           </div>
