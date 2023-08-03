@@ -234,3 +234,36 @@ export const applyOwnershipOptions: optionType[] = [
     value: "no",
   },
 ];
+
+export const connectTimelineOptions: optionType[] = [
+  {
+    label: "I'm okay to go long term",
+    value: "long term",
+  },
+  {
+    label: "I only want to do short term",
+    value: "short term",
+  },
+];
+
+export const connectFocusOptions: optionType[] = [
+  {
+    label: "Cashflow",
+    value: "Cashflow",
+  },
+  {
+    label: "Appreciation",
+    value: "Appreciation",
+  },
+];
+
+export const connectInvestAsOptions: optionType[] = [
+  {
+    label: "I'm investing as an individual",
+    value: "individual",
+  },
+  {
+    label: "I'm investing for an institution",
+    value: "company",
+  },
+];

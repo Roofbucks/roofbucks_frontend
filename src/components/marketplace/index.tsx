@@ -1,4 +1,10 @@
-import { CalendarIconOutline, CaretRight, EmptyStreet, FilterIcon, SearchIcon } from "assets";
+import {
+  CalendarIconOutline,
+  CaretRight,
+  EmptyStreet,
+  FilterIcon,
+  SearchIcon,
+} from "assets";
 import {
   Button,
   CustomSelect,
@@ -26,6 +32,7 @@ interface MarketplaceProps {
   properties: PropertyCardData[];
   pagination: PaginationProps;
   handleView: (id) => void;
+  handleConnect: (id) => void;
   search: {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -39,6 +46,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
   handleView,
   search,
   submitFilter,
+  handleConnect,
 }) => {
   const [showFilter, setShowFilter] = React.useState(false);
   const [mobile, setMobile] = React.useState(
@@ -343,7 +351,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
               <PropertyCard
                 primaryBtn={{
                   text: "Connect",
-                  action: (id) => console.log(id),
+                  action: handleConnect,
                 }}
                 secondaryBtn={{
                   text: (

@@ -2,6 +2,7 @@ import { marketplaceService } from "api";
 import { MarketplaceUI, Preloader, PropertyCardData } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
+import { ConnectForm } from "pages";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
@@ -25,6 +26,7 @@ const Marketplace = () => {
     type: "",
     status: "",
   });
+  const [showConnect, setShowConnect] = React.useState(false);
 
   const { run, data, requestStatus, error } = useApiRequest({});
 
@@ -128,6 +130,7 @@ const Marketplace = () => {
   return (
     <>
       <Preloader loading={showLoader} />
+      <ConnectForm show={showConnect} close={() => setShowConnect(false)} />
       <MarketplaceUI
         properties={properties}
         pagination={{
@@ -147,6 +150,7 @@ const Marketplace = () => {
           onChange: handleSearch,
         }}
         submitFilter={handleFilter}
+        handleConnect={() => setShowConnect(true)}
       />
     </>
   );

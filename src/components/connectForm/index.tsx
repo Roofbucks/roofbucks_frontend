@@ -8,35 +8,38 @@ import {
   applyOwnershipOptions,
   applyPercentOptions,
   applyReasonOptions,
+  connectFocusOptions,
+  connectInvestAsOptions,
+  connectTimelineOptions,
   initialOptionType,
 } from "utils";
 import { Button, CustomSelect, Input } from "components";
 import { CloseIcon2 } from "assets";
 
-interface ApplyFormData {
+interface ConnectFormData {
   firstName: string;
   lastName: string;
   email: string;
   location: string;
   smLink: string;
-  reason: optionType;
-  percent: optionType;
-  amount: string;
-  longTermOwnership: optionType;
-  ownershipDuration: string;
+  timeline: optionType;
+  focus: optionType;
+  roi: string;
+  investingAs: optionType;
+  website: string;
 }
 
-const initData: ApplyFormData = {
+const initData: ConnectFormData = {
   firstName: "",
   lastName: "",
   email: "",
   location: "",
   smLink: "",
-  reason: initialOptionType,
-  percent: initialOptionType,
-  amount: "",
-  longTermOwnership: initialOptionType,
-  ownershipDuration: "",
+  timeline: initialOptionType,
+  focus: initialOptionType,
+  roi: "",
+  investingAs: initialOptionType,
+  website: "",
 };
 
 const optionTypeSchema = yup.object({
@@ -52,33 +55,33 @@ const schema = yup
     lastName: yup.string().required("Required"),
     location: yup.string().required("Required"),
     smLink: yup.string().required("Required").url("Enter a valid url"),
-    reason: optionTypeSchema,
-    percent: optionTypeSchema,
-    longTermOwnership: optionTypeSchema,
+    timeline: optionTypeSchema,
+    focus: optionTypeSchema,
+    investingAs: optionTypeSchema,
     amount: yup
       .string()
       .required("Required")
       .matches(/[0-9]/, "Enter a valid number"),
-    ownershipDuration: yup.string().when("longTermOwnership", {
-      is: (val) => val.value === "yes",
+    website: yup.string().when("investingAs", {
+      is: (val) => val.value === "company",
       then: (schema) => schema.required("Required"),
     }),
   })
   .required();
 
-const ApplyFormUI = ({ submit, show, close }) => {
+const ConnectFormUI = ({ submit, show, close }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
-  } = useForm<ApplyFormData>({
+  } = useForm<ConnectFormData>({
     resolver: yupResolver(schema),
     defaultValues: initData,
   });
 
-  const onSubmit: SubmitHandler<ApplyFormData> = (data) => submit(data);
+  const onSubmit: SubmitHandler<ConnectFormData> = (data) => submit(data);
   return (
     <>
       <Modal
@@ -90,10 +93,10 @@ const ApplyFormUI = ({ submit, show, close }) => {
         onHide={close}
       >
         <CloseIcon2 className={styles.closeBtn} role="button" onClick={close} />
-        <h1 className={styles.ttl}>Apply to Own or Co-own a property</h1>
+        <h1 className={styles.ttl}>Connect With a Property</h1>
         <p className={styles.txt}>
-          Please complete the form below and a roofbucks representative will
-          review your application.
+          Please complete the form below and a roofbucks representative will be
+          in contact with you
         </p>
         <form className={styles.form}>
           <Input
@@ -147,82 +150,74 @@ const ApplyFormUI = ({ submit, show, close }) => {
             register={register}
           />
           <CustomSelect
-            onChange={(x) => setValue("reason", x)}
-            validatorMessage={errors.reason?.value?.message?.toString() ?? ""}
+            onChange={(x) => setValue("timeline", x)}
+            validatorMessage={errors.timeline?.value?.message?.toString() ?? ""}
             name={"reason"}
             placeholder={"Please Select"}
-            label={"Why do you want to buy this home?"}
-            options={applyReasonOptions}
-            value={watch("reason")}
+            label={"What is your expected investment timeline?"}
+            options={connectTimelineOptions}
+            value={watch("timeline")}
             inputClass={styles.select}
             parentClassName={styles.input}
           />
           <CustomSelect
-            onChange={(x) => setValue("percent", x)}
-            validatorMessage={errors.percent?.value?.message?.toString() ?? ""}
-            name={"percent"}
+            onChange={(x) => setValue("focus", x)}
+            validatorMessage={errors.focus?.value?.message?.toString() ?? ""}
+            name={"focus"}
             placeholder={"Please Select"}
-            label={
-              "How many percent ownership of this home do you want to buy now?"
-            }
-            options={applyPercentOptions}
-            value={watch("percent")}
+            label={"What is your main focus?"}
+            options={connectFocusOptions}
+            value={watch("focus")}
             inputClass={styles.select}
             parentClassName={styles.input}
           />
           <Input
-            label="Amount You will Pay"
+            label="What is your expected ROI? (%)"
             placeholder=""
             type="number"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.amount?.message}
-            name="amount"
+            validatorMessage={errors.roi?.message}
+            name="roi"
             register={register}
           />
-          <p className={styles.note}>
-            Note: A service charge which is 2% of the total cost of the property
-            has been included
-          </p>
           <CustomSelect
-            onChange={(x) => setValue("longTermOwnership", x)}
+            onChange={(x) => setValue("investingAs", x)}
             validatorMessage={
-              errors.longTermOwnership?.value?.message?.toString() ?? ""
+              errors.investingAs?.value?.message?.toString() ?? ""
             }
-            name={"longTermOwnership"}
+            name={"investingAs"}
             placeholder={"Please Select"}
-            label={
-              "Do you intend to eventually own 100% ownership of this home?"
-            }
-            options={applyOwnershipOptions}
-            value={watch("longTermOwnership")}
+            label={"What are you investing as?"}
+            options={connectInvestAsOptions}
+            value={watch("investingAs")}
             inputClass={styles.select}
             parentClassName={styles.input}
           />
-          {watch("longTermOwnership").value === "yes" ? (
+          {watch("investingAs").value === "company" ? (
             <Input
-              label="How Long do you plan to take to own 100% of this home? (in months)"
-              placeholder=""
-              type="number"
+              label="Enter your company's website."
+              placeholder="eg. https://roofbucks.com"
+              type="text"
               parentClassName={styles.input}
               required
-              validatorMessage={errors.ownershipDuration?.message}
-              name="ownershipDuration"
+              validatorMessage={errors.website?.message}
+              name="website"
               register={register}
             />
           ) : (
             ""
           )}
           <p className={styles.txt2}>
-            We will review your application shortly and send our contract to
-            your email to complete the process
+            We will review this information shortly to ensure you're a fit and
+            send our contract to your email to complete the process.
           </p>
           <Button
             className={styles.btn}
             type="primary"
             onClick={handleSubmit(onSubmit)}
           >
-            Submit
+            Invest
           </Button>
         </form>
       </Modal>
@@ -230,4 +225,4 @@ const ApplyFormUI = ({ submit, show, close }) => {
   );
 };
 
-export { ApplyFormUI };
+export { ConnectFormUI };
