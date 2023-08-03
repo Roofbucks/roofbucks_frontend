@@ -170,6 +170,7 @@
 }
 .imgList {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 .row.normal .imgList {
   margin-bottom: 0.8rem;
@@ -271,7 +272,8 @@
     padding-right: 0 !important;
   }
   .imgList {
-    display: none;
+    /* display: none; */
+    width: calc(100vw - 2rem);
   }
   .tag {
     font-size: 16px;

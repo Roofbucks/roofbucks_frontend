@@ -2,6 +2,7 @@ import { listingsService } from "api";
 import { ListingsUI, Preloader, PropertyCardData } from "components";
 import { getErrorMessage } from "helpers";
 import { useDebounce, useApiRequest } from "hooks";
+import { ApplyForm } from "pages";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
@@ -10,9 +11,11 @@ import { Routes } from "router";
 import { propertyList } from "utils";
 
 const Listings = () => {
+  // Hooks
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // States
   const [search, setSearch] = React.useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
   const [pages, setPages] = React.useState({
@@ -26,7 +29,9 @@ const Listings = () => {
     type: "",
     status: "",
   });
+  const [showApply, setShowApply] = React.useState(false);
 
+  // API Request Hooks
   const { run, data, requestStatus, error } = useApiRequest({});
 
   const fetchProperties = (page?) => {
@@ -128,6 +133,7 @@ const Listings = () => {
   return (
     <>
       <Preloader loading={showLoader} />
+      <ApplyForm show={showApply} close={() => setShowApply(false)} />
       <ListingsUI
         properties={propertyList}
         pagination={{
@@ -147,6 +153,7 @@ const Listings = () => {
           onChange: handleSearch,
         }}
         submitFilter={handleFilter}
+        handleApply={(id) => setShowApply(true)}
       />
     </>
   );

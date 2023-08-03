@@ -1,0 +1,63 @@
+.modal {
+  padding: 2rem;
+  overflow: auto;
+}
+.ttl {
+  margin-bottom: 1rem;
+}
+
+.txt {
+  margin-bottom: 2rem;
+}
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form label {
+  font-size: 13px;
+}
+.halfInput {
+  width: 48%;
+}
+.input {
+  width: 100%;
+}
+.note {
+  margin-bottom: 1rem;
+  margin-top: -10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.txt2 {
+  width: 100%;
+  margin-top: 10px;
+}
+.btn {
+  height: 40px;
+  width: 100%;
+  font-size: 15px;
+  max-width: 400px;
+  margin: 2.5rem auto 1rem;
+}
+.closeBtn {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .modal {
+    padding: 2rem 1rem;
+  }
+  .closeBtn {
+    top: 12px;
+    right: 12px;
+  }
+  .ttl {
+    font-size: 22px;
+    margin-right: 1rem;
+    margin-bottom: 12px;
+  }
+}

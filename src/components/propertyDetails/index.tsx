@@ -3,9 +3,6 @@ import {
   BathRoomIcon,
   BedRoomIcon,
   LocationIcon,
-  property1,
-  property2,
-  property3,
   ShareIcon,
 } from "assets";
 import {
@@ -31,9 +28,8 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
 } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import { Link, useLocation } from "react-router-dom";
 
 ChartJS.register(
@@ -43,95 +39,8 @@ ChartJS.register(
   Filler,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement
+  PointElement
 );
-
-const propertyImages: string[] = [
-  property3,
-  property2,
-  property3,
-  property1,
-  property3,
-  property3,
-];
-
-// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const labels = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
-const lineData: ChartData<"line"> = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Rent Roll",
-      data: [30, 10, 50, 42, 80, 76, 92],
-      backgroundColor: "rgba(15, 201, 75, 0.2)",
-      borderColor: "rgb(15, 201, 75)",
-      fill: true,
-      tension: 0.3,
-      pointRadius: 8,
-      pointBackgroundColor: "rgb(217, 217, 217)",
-      pointBorderColor: "rgb(31 29 30)",
-      pointBorderWidth: 2,
-    },
-  ],
-};
-
-const lineOptions: ChartOptions<"line"> = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-      title: {
-        text: "Time",
-        display: true,
-        color: "rgb(15, 201, 75)",
-        padding: {
-          top: 20,
-        },
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-      },
-      title: {
-        text: "Rent",
-        display: true,
-        color: "rgb(15, 201, 75)",
-        padding: {
-          bottom: 20,
-        },
-      },
-      ticks: {
-        // Include a dollar sign in the ticks
-        callback: function (value, index, ticks) {
-          return "$" + value;
-        },
-      },
-    },
-  },
-};
-const lineConfig = {
-  type: "line",
-  data: lineData,
-  options: lineOptions,
-};
 
 const StatusList: DropdownItemType[] = [
   {
@@ -385,7 +294,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               property.inProgress?.completionCost}
           </p>
           <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
-            Buy Shares
+            {location.state.from === "marketplace" ? "Connect" : "Apply"}
           </Button>
         </div>
         <div className={styles.featuresSec}>
@@ -455,35 +364,16 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                 {property.landmarks.address2 ?? ""}
               </span>
             </div>
+            <div>
+              <span>Rent income range:</span>
+              <span>{property.zipCode}</span>
+            </div>
+            <div>
+              <span>ROI:</span>
+              <span>{property.zipCode}</span>
+            </div>
           </div>
         </div>
-        {location?.state?.from === "marketplace" && (
-          <div className={styles.graphSec}>
-            <div className={styles.statusTtlSec}>
-              <h3 className={styles.subTtl}>Rent Roll</h3>
-              <Dropdown
-                dropdownListClassName={styles.statusDropdownList}
-                active={period.propertyStatus}
-                type="select"
-              >
-                {StatusList.map((item2, index) => (
-                  <DropdownListItem
-                    onDropdownChange={(x) =>
-                      setPeriod({ ...period, propertyStatus: x })
-                    }
-                    value={item2.value}
-                    key={index}
-                  >
-                    {item2.label}
-                  </DropdownListItem>
-                ))}
-              </Dropdown>
-            </div>
-            <div className={styles.graph}>
-              <Line {...lineConfig} />
-            </div>
-          </div>
-        )}
         <div className={styles.contactSec}>
           <h4 className={styles.subTtl}>Contact Info</h4>
           <div className={styles.contact}>

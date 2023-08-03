@@ -20,6 +20,7 @@ interface ListingsProps {
   properties: PropertyCardData[];
   pagination: PaginationProps;
   handleView: (id) => void;
+  handleApply: (id) => void;
   search: {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -33,6 +34,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
   search,
   handleView,
   submitFilter,
+  handleApply,
 }) => {
   const filters = [
     {
@@ -104,7 +106,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
               <PropertyCard
                 primaryBtn={{
                   text: "Apply",
-                  action: (id) => console.log(id),
+                  action: (id) => handleApply(id),
                 }}
                 secondaryBtn={{
                   text: (
@@ -156,7 +158,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                 <PropertyCard
                   primaryBtn={{
                     text: "Apply",
-                    action: (id) => console.log(id),
+                    action: (id) => handleApply(id),
                   }}
                   secondaryBtn={{
                     text: (

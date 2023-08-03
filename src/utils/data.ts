@@ -2,7 +2,7 @@ import { property1, property2, property3 } from "assets";
 import { PropertyCardData } from "components";
 
 export const property: PropertyCardData = {
-  images: [property1, property2, property3],
+  images: [property1, property2, property3, property3, property3, property3, property3],
   amenities: { bedroom: 2, toilet: 2 },
   discount: "",
   owner: "string;",

@@ -113,6 +113,9 @@
   .filterWrap {
     margin-top: 1rem;
   }
+  .propertyList {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 800px) {
