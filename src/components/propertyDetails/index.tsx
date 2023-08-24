@@ -88,8 +88,8 @@ export interface PropertyData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
-    totalCost: number;
   };
+  totalCost: number;
   description: string;
   amenities: string[];
   erfSize: string;
@@ -125,6 +125,7 @@ interface PropertyDetailsProps {
   handleViewAgent: (id) => void;
   handleViewProperty: (id) => void;
   handleBuyShares: (id) => void;
+  userID: string;
 }
 
 const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
@@ -133,6 +134,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
   handleViewProperty,
   handleViewAgent,
   handleBuyShares,
+  userID,
 }) => {
   const location: any = useLocation();
 
@@ -226,16 +228,20 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             />
           </div>
           <div className={styles.priceWrap}>
-            <p>
-              $
-              {property?.completed?.totalCost ??
-                property.inProgress?.completionCost}
-            </p>
-            <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
-              Buy Shares
-            </Button>
+            <p>${property?.totalCost ?? property.inProgress?.completionCost}</p>
+            {property.agent.id !== userID ? (
+              <Button
+                type="primary"
+                onClick={() => {}}
+                className={styles.buyBtn}
+              >
+                {location?.state?.from === "marketplace" ? "Connect" : "Apply"}
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
-        </div>{" "}
+        </div>
         {property.status === "in-progress" && (
           <div className={styles.statusSec}>
             <div className={styles.statusTtlSec}>
@@ -288,15 +294,32 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           <p>{property.description}</p>
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
-          <p>
-            $
-            {property?.completed?.totalCost ??
-              property.inProgress?.completionCost}
-          </p>
+          <p>${property?.totalCost ?? property.inProgress?.completionCost}</p>
           <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
             {location.state.from === "marketplace" ? "Connect" : "Apply"}
           </Button>
         </div>
+        {location.state.from === "marketplace" ? (
+          <div className={styles.additionalSec}>
+            <h4 className={styles.subTtl}>Cost Breakdown</h4>
+            <div className={styles.costBreakdown}>
+              <div>
+                <span>Total property cost:</span>
+                <span>$ {property?.totalCost}</span>
+              </div>
+              <div>
+                <span>Ownership percentage: </span>
+                <span>70%</span>
+              </div>
+              <div>
+                <span>Price:</span>
+                <span>$ {property?.totalCost}</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className={styles.featuresSec}>
           <h4 className={styles.subTtl}>Amenities & Features</h4>
           <ul className={`${styles.list} ${styles.features}`}>
@@ -365,7 +388,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               </span>
             </div>
           </div>
-          <p className={styles.note} >
+          <p className={styles.note}>
             Note: The{" "}
             {location?.state?.from === "marketplace"
               ? "Rent income"

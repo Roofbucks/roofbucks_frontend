@@ -191,8 +191,7 @@
   font-weight: 600;
   width: 120px;
 }
-.additional > div > span:nth-child(2) {
-}
+
 .contact {
   background: #f4f4f4;
   border-radius: 24px;
@@ -362,17 +361,19 @@
   font-style: italic;
 }
 
-/* Line Chart */
-.graphSec {
-  margin-bottom: 3rem;
+/* Marketplace Breakdown */
+.costBreakdown {
+  display: grid;
+  gap: 1rem;
 }
-.graph {
-  width: 100%;
-  max-width: 850px;
+.costBreakdown > div {
+  display: flex;
 }
-.graphSec .statusTtlSec {
-  max-width: 840px;
+.costBreakdown > div > span:nth-child(1) {
+  font-weight: 600;
+  width: 160px;
 }
+
 @media screen and (max-width: 1000px) {
   .imgSec {
     margin-bottom: 1rem;

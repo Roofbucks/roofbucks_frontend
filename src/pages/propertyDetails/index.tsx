@@ -10,7 +10,7 @@ import { useApiRequest } from "hooks";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateToast } from "redux/actions";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
 import { countryOptions, propertyTypeOptions } from "utils";
 
@@ -29,8 +29,8 @@ const initProperty: PropertyData = {
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
-    totalCost: 0,
   },
+  totalCost: 0,
   description: "",
   amenities: [],
   erfSize: "",
@@ -64,6 +64,7 @@ const PropertyDetails = () => {
   const { id: propertyID } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id } = useAppSelector((state) => state.user);
 
   const {
     run: runFetchProperty,
@@ -109,8 +110,8 @@ const PropertyDetails = () => {
             yearBuilt: data.date_built,
             noOfBedrooms: data.number_of_bedrooms ?? 0,
             noOfToilets: data.number_of_toilets ?? 0,
-            totalCost: data.total_property_cost ?? 0,
           },
+          totalCost: data.total_property_cost ?? 0,
           description: data.description,
           address: data.address,
           city: data.city,
@@ -191,7 +192,7 @@ const PropertyDetails = () => {
 
   const showLoader =
     fetchPropertyStatus.isPending || similarPropertiesStatus.isPending;
-
+console.log(id, property.agent.id)
   return (
     <>
       <Preloader loading={showLoader} />
@@ -201,6 +202,7 @@ const PropertyDetails = () => {
         handleViewAgent={handleViewAgent}
         handleViewProperty={handleViewProperty}
         handleBuyShares={console.log}
+        userID={id}
       />
     </>
   );
