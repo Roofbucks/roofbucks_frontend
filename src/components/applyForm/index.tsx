@@ -179,6 +179,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.amount?.message}
             name="amount"
             register={register}
+            disabled
           />
           <p className={styles.note}>
             Note: A service charge which is 2% of the total cost of the property

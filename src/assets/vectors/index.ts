@@ -74,8 +74,10 @@ import { ReactComponent as SendIcon } from "./sendIcon.svg";
 import { ReactComponent as AttachmentIcon } from "./attachmentIcon.svg";
 import { ReactComponent as CheckIcon } from "./checkIcon.svg";
 import { ReactComponent as LogoutOutlineIcon } from "./logoutIcon.svg";
+import { ReactComponent as SellIcon } from "./sellIcon.svg";
 
 export {
+  SellIcon,
   LogoutOutlineIcon,
   CheckIcon,
   AttachmentIcon,

@@ -60,6 +60,11 @@ svg.blackCaret path {
   border-radius: 50%;
   margin: 0 1.5px;
 }
+.textSelect {
+  color: var(--green);
+  font-weight: 600;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

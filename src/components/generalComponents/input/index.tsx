@@ -24,7 +24,8 @@ interface InputProps {
   readOnly?: boolean;
   value?: string;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  showRequired?: boolean
+  showRequired?: boolean;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -47,11 +48,22 @@ const Input: React.FC<InputProps> = ({
   min,
   readOnly,
   value,
-  onKeyDown,showRequired
+  onKeyDown,
+  showRequired,
+  disabled,
 }) => {
   return (
-    <div className={`${styles.inputWrapper} ${parentClassName} ${validatorMessage ? styles.error : ""}`}>
-      {label && <label className={styles.label}>{label}{showRequired ? <span className={styles.req}>*</span> : ""}</label>}
+    <div
+      className={`${styles.inputWrapper} ${parentClassName} ${
+        validatorMessage ? styles.error : ""
+      }`}
+    >
+      {label && (
+        <label className={styles.label}>
+          {label}
+          {showRequired ? <span className={styles.req}>*</span> : ""}
+        </label>
+      )}
       {Icon ? (
         <Icon
           role={iconFunction ? "button" : "none"}
@@ -78,9 +90,14 @@ const Input: React.FC<InputProps> = ({
         readOnly={readOnly}
         value={value}
         onKeyDown={onKeyDown}
+        disabled={disabled}
       />
 
-      {validatorMessage && <small className={styles.message}><WarningIcon /> {validatorMessage}</small>}
+      {validatorMessage && (
+        <small className={styles.message}>
+          <WarningIcon /> {validatorMessage}
+        </small>
+      )}
     </div>
   );
 };
@@ -106,7 +123,11 @@ const Textarea: React.FC<InputProps> = ({
   value,
 }) => {
   return (
-    <div className={`${styles.inputWrapper} ${parentClassName} ${validatorMessage ? styles.error : ""}`}>
+    <div
+      className={`${styles.inputWrapper} ${parentClassName} ${
+        validatorMessage ? styles.error : ""
+      }`}
+    >
       {label && <label className={styles.label}>{label}</label>}
       {Icon ? (
         <Icon
@@ -133,7 +154,11 @@ const Textarea: React.FC<InputProps> = ({
         value={value}
       />
 
-      {validatorMessage && <small className={styles.message}><WarningIcon /> {validatorMessage}</small>}
+      {validatorMessage && (
+        <small className={styles.message}>
+          <WarningIcon /> {validatorMessage}
+        </small>
+      )}
     </div>
   );
 };

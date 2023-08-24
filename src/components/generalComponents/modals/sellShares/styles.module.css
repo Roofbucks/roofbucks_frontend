@@ -1,0 +1,58 @@
+div.modal {
+  padding: 1.5rem;
+  background: #fafafa;
+  max-width: 450px;
+}
+.ttl {
+  font-size: var(--h4);
+  margin-bottom: 1.2rem;
+}
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f4f4f4;
+  padding: 1rem 0;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+.info div {
+  padding: 0 1rem;
+}
+.info div:last-of-type {
+  border-left: 1px solid #bfbfbf;
+}
+.info div p:first-of-type {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.info div p:last-of-type {
+  color: #808080;
+}
+.form {
+}
+.form label {
+  text-transform: capitalize;
+  font-size: 14px;
+}
+.note {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2rem;
+}
+.btn {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+.btn svg {
+  margin-right: 6px;
+  width: 18px;
+}
+.closeBtn {
+  width: 24px;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}

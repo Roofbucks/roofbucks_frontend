@@ -65,3 +65,6 @@
   color: var(--red);
   font-weight: 600;
 }
+.input:disabled {
+  cursor: not-allowed;
+}

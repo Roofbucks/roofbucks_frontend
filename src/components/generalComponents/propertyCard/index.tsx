@@ -60,6 +60,7 @@ export interface PropertyCardProps extends PropertyCardData {
     action: (id) => void;
     className?: string;
   };
+  secondaryAction?: JSX.Element;
 }
 const PropertyCard: React.FC<PropertyCardProps> = ({
   type,
@@ -77,6 +78,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   primaryBtn,
   secondaryBtn,
   id,
+  secondaryAction,
 }) => {
   const [activeImg, setActiveImg] = React.useState(0);
 
@@ -139,6 +141,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <div className={styles.amtSec}>
           <p>{amount}</p>
           <div>
+            {secondaryAction}
             {secondaryBtn && (
               <Button
                 className={`${secondaryBtn.className} ${styles.secBtn}`}

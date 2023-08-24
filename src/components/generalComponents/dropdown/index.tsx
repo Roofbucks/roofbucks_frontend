@@ -67,7 +67,7 @@ const DropdownListItem = ({
 interface DropdownProps extends Props {
   dropdownClassName?: string;
   dropdownListClassName?: string;
-  type: "action" | "select";
+  type: "action" | "select" | "text";
   caretColor?: "green" | "black";
   active?: string;
   Icon?: {
@@ -123,7 +123,9 @@ const Dropdown = ({
         aria-label="dropdown"
         tabIndex={0}
       >
-        {type === "select" ? (
+        {type === "text" ? (
+          <span className={styles.textSelect} >{active}</span>
+        ) : type === "select" ? (
           <>
             {active === "" ? "Select..." : active}{" "}
             <CaretRight

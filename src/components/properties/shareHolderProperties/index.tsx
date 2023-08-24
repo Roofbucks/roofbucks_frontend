@@ -3,37 +3,40 @@ import styles from "./styles.module.css";
 import {
   ActivityList,
   AmenityProp,
+  Dropdown,
+  DropdownListItem,
   PropertyCard,
+  PropertyCardData,
   PropertyCardProps,
 } from "components/generalComponents";
 import { property3, EmptyStreet } from "assets";
 
-const property: PropertyCardProps = {
-  address: "256, Bayajida Close. LA. Nigeria",
-  name: "Two Bedroom Apartmentpartmentttt",
-  moreDetails: (id) => console.log(id),
-  amount: "$10,000",
-  owner: "By Bear Properties",
-  images: [property3],
-  amenities: { bedroom: 15, toilet: 21 },
-  type: "row",
-  size: "normal",
-  primaryBtn: {
-    text: "Sell shares",
-    action: (id) => console.log(id),
-    className: styles.pryBtn,
-  },
-  // secondaryBtn: {
-  //   text: "More",
-  //   action: (id) => console.log(id),
-  //   className: styles.secBtn,
-  // },
-  id: "",
-};
+interface ShareHolderPropertiesProps {
+  handleSellShares: (id) => void;
+  handleView: (id) => void;
+  handleBuyBack: (id) => void;
+  handlePayRent: (id) => void;
+}
 
-const properties: PropertyCardProps[] = new Array(6).fill(property);
+const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
+  handleSellShares,
+  handleView,
+  handleBuyBack,
+  handlePayRent,
+}) => {
+  const property: PropertyCardData = {
+    address: "256, Bayajida Close. LA. Nigeria",
+    name: "Two Bedroom Apartmentpartmentttt",
+    amount: "$10,000",
+    owner: "By Bear Properties",
+    images: [property3],
+    amenities: { bedroom: 15, toilet: 21 },
 
-const ShareHolderPropertiesUI = () => {
+    id: "",
+  };
+
+  const properties: PropertyCardProps[] = new Array(6).fill(property);
+
   return (
     <>
       <h1 className={styles.ttl}>Properties</h1>
@@ -45,6 +48,34 @@ const ShareHolderPropertiesUI = () => {
                 {...item}
                 key={index}
                 className={styles.propertyCard}
+                primaryBtn={{
+                  text: "Sell shares",
+                  action: handleSellShares,
+                  className: styles.pryBtn,
+                }}
+                moreDetails={handleView}
+                type="row"
+                size="normal"
+                secondaryAction={
+                  <Dropdown
+                    dropdownListClassName={styles.dropdown}
+                    type={"text"}
+                    active="More"
+                  >
+                    <DropdownListItem
+                      onDropdownChange={() => handleBuyBack(item.id)}
+                      className={styles.dropdownListItem}
+                    >
+                      Buy back
+                    </DropdownListItem>
+                    <DropdownListItem
+                      onDropdownChange={() => handlePayRent(item.id)}
+                      className={styles.dropdownListItem}
+                    >
+                      Pay rent
+                    </DropdownListItem>
+                  </Dropdown>
+                }
               />
             ))
           ) : (

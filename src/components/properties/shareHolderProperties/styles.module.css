@@ -78,6 +78,10 @@ button.secBtn {
   font-size: 22px;
   font-weight: 600;
 }
+div.dropdown {
+  display: block;
+  right: 0;
+}
 
 @media screen and (max-width: 1000px) {
   .container {
