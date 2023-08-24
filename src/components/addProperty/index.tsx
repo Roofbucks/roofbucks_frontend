@@ -26,10 +26,9 @@ import {
   ImageIcon,
   WarningIcon,
   PlusIcon,
-  DocumentIcon,
+  ArrowRight,
 } from "assets";
 import { getMegaByte } from "helpers";
-import { useIsInViewport } from "hooks";
 
 interface PropertyFormData {
   propertyStatus: "in-progress" | "completed";
@@ -44,8 +43,8 @@ interface PropertyFormData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
-    totalCost: number;
   };
+  totalCost: number;
   description: string;
   address: string;
   city: string;
@@ -94,8 +93,8 @@ const initialValues: PropertyFormData = {
     yearBuilt: "",
     noOfBedrooms: 0,
     noOfToilets: 0,
-    totalCost: 0,
   },
+  totalCost: 0,
   description: "",
   address: "",
   city: "",
@@ -123,7 +122,7 @@ const initialValues: PropertyFormData = {
   gazette: undefined,
   deedOfAssignment: undefined,
   certificateOfOccupancy: undefined,
-  otherDocs: [{ name: "", file: undefined }],
+  otherDocs: [],
 };
 
 const Schema = yup
@@ -152,9 +151,9 @@ const Schema = yup
         yearBuilt: yup.string().required("Required"),
         noOfBedrooms: yup.number().required("Required"),
         noOfToilets: yup.number().required("Required"),
-        totalCost: yup.number().required("Required"),
       }),
     }),
+    totalCost: yup.number().required("Required"),
     description: yup.string().required("Required"),
     address: yup.string().required("Required"),
     city: yup.string().required("Required"),
@@ -211,9 +210,6 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
   tooLarge,
   submit,
 }) => {
-  const [scrollPosition, setPosition] = React.useState(0);
-  const [scrollDir, setScrollDir] = React.useState("none");
-
   const {
     register,
     handleSubmit,
@@ -246,100 +242,6 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     }
     setValue("outdoorAmenities", amenityList);
   };
-
-  window.addEventListener("scroll", () => setPosition(window.pageYOffset));
-
-  // Detect scroll direction
-  React.useEffect(() => {
-    const threshold = 0;
-    let lastScrollY = window.pageYOffset;
-    let ticking = false;
-
-    const updateScrollDir = () => {
-      const scrollY = window.pageYOffset;
-      if (Math.abs(scrollY - lastScrollY) < threshold) {
-        ticking = false;
-        return;
-      }
-      setTimeout(() => {
-        const scroll =
-          scrollY > lastScrollY
-            ? "down"
-            : scrollY < lastScrollY
-            ? "up"
-            : "none";
-        setScrollDir(scroll);
-      }, 1000);
-
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollDir);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollDir]);
-
-  const ref1 = React.useRef(null);
-  const ref2 = React.useRef(null);
-  const ref3 = React.useRef(null);
-  const ref4 = React.useRef(null);
-  const ref5 = React.useRef(null);
-  const ref6 = React.useRef(null);
-
-  const scrollToCategory = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView();
-    }
-  };
-
-  const isInView1 = useIsInViewport(ref1);
-  const isInView2 = useIsInViewport(ref2);
-  const isInView3 = useIsInViewport(ref3);
-  const isInView4 = useIsInViewport(ref4);
-  const isInView5 = useIsInViewport(ref5);
-  const isInView6 = useIsInViewport(ref6);
-
-  const categories = [
-    {
-      name: "Description",
-      scrollId: "description",
-      active: isInView1,
-    },
-    {
-      name: "Address",
-      scrollId: "address",
-      active: isInView2,
-    },
-    {
-      name: "Amenities & Features",
-      scrollId: "amenities",
-      active: isInView3,
-    },
-    {
-      name: "More details",
-      scrollId: "more",
-      active: isInView4,
-    },
-    {
-      name: "Media",
-      scrollId: "media",
-      active: isInView5,
-    },
-    {
-      name: "Documents",
-      scrollId: "documents",
-      active: isInView6,
-    },
-  ];
 
   const checkFileSize = ({
     file,
@@ -451,7 +353,6 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
       );
       formData.append("number_of_toilets", String(data.completed?.noOfToilets));
       formData.append("date_built", data.completed.yearBuilt);
-      formData.append("total_property_cost", String(data.completed.totalCost));
     }
 
     if (data.propertyStatus === "in-progress" && data.inProgress) {
@@ -472,6 +373,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     formData.append("state", data.state);
     formData.append("country", String(data.country.value));
     formData.append("zip_code", data.zipCode);
+    formData.append("total_property_cost", String(data.totalCost));
 
     if (data.crossRoads.address1 !== "" || data.crossRoads.address2 !== "") {
       formData.append(
@@ -500,34 +402,20 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     data.purchaseReceipt &&
       formData.append("purchase_receipt", data.purchaseReceipt);
     data.surveyPlan && formData.append("approved_survey_plan", data.surveyPlan);
-    data.surveyPlan && formData.append("default_image", data.media[0]);
+    data.media && formData.append("default_image", data.media[0]);
 
-    // submit(formData);
-    console.log(data)
+    submit(formData);
   };
-
-  console.log(errors);
 
   return (
     <section className={styles.addPropertyContainer}>
-      <h2 className={styles.ttl}>Property Information</h2>
-      <nav
-        className={`${styles.nav} ${scrollPosition > 71 ? styles.fixNav : ""} ${
-          scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
-        }`}
-      >
-        {categories.map((item, index) => (
-          <span
-            onClick={() => scrollToCategory(item.scrollId)}
-            key={index}
-            className={item.active ? styles.activeNav : ""}
-          >
-            {item.name}
-          </span>
-        ))}
-      </nav>
+      <Button className={styles.backBtn1} type="tertiary" onClick={closeForm}>
+        <ArrowRight />
+        Back
+      </Button>
+      <h2 className={styles.ttl}>New Property </h2>
       <form className={styles.form}>
-        <div ref={ref1} id="description" className={styles.inputSec}>
+        <div id="description" className={styles.inputSec}>
           <p className={styles.secTtl}>Description</p>
           <div className={styles.inputGroup}>
             <div className={styles.halfWidth}>
@@ -677,24 +565,24 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                     register={register}
                   />
                 </div>
-                <div className={styles.fullWidth}>
-                  <Input
-                    label="TOTAL COST OF PROPERTY ($)"
-                    placeholder=""
-                    type="number"
-                    parentClassName={styles.input}
-                    required
-                    validatorMessage={errors.completed?.totalCost?.message}
-                    name="completed.totalCost"
-                    register={register}
-                  />
-                  <p>
-                    Note: A fee of 2% of the total cost will be deducted upon
-                    sale of the property
-                  </p>
-                </div>
               </>
             )}
+            <div className={styles.fullWidth}>
+              <Input
+                label="TOTAL COST OF PROPERTY ($)"
+                placeholder=""
+                type="number"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors?.totalCost?.message}
+                name="totalCost"
+                register={register}
+              />
+              <p>
+                Note: A fee of 2% of the total cost will be deducted upon sale
+                of the property
+              </p>
+            </div>
             <div className={styles.fullWidth}>
               <Textarea
                 label="DESCRIPTION"
@@ -708,7 +596,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref2} id="address" className={styles.inputSec}>
+        <div id="address" className={styles.inputSec}>
           <p className={styles.secTtl}>Address</p>
           <div className={styles.inputGroup}>
             <div className={styles.fullWidth}>
@@ -824,7 +712,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref3} id="amenities" className={styles.inputSec}>
+        <div id="amenities" className={styles.inputSec}>
           <p className={styles.secTtl}>Amenities & Features</p>
           <div>
             <div className={`${styles.fullWidth} ${styles.checkSec}`}>
@@ -864,7 +752,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref4} id="more" className={styles.inputSec}>
+        <div id="more" className={styles.inputSec}>
           <p className={styles.secTtl}>More details</p>
           <div className={styles.inputGroup}>
             <div className={styles.halfWidth}>
@@ -905,7 +793,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref5} id="media" className={styles.inputSec}>
+        <div id="media" className={styles.inputSec}>
           <p className={styles.secTtl}>Media</p>
           <div className={styles.docGroup}>
             <p className={styles.radioTtl}>Pictures & Videos</p>
@@ -956,7 +844,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref6} id="documents" className={styles.inputSec}>
+        <div id="documents" className={styles.inputSec}>
           <p className={styles.secTtl}>Documents</p>
           <div className={styles.docGroup}>
             <p className={styles.radioTtl}>Recommended Documents</p>

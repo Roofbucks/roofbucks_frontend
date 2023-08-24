@@ -1,5 +1,16 @@
 .addPropertyContainer {
 }
+.backBtn1 {
+  margin-bottom: 1rem;
+}
+.backBtn1 svg {
+  transform: rotate(180deg);
+  width: 12px;
+  margin-right: 10px;
+}
+.backBtn1 svg path {
+  fill: var(--black);
+}
 .ttl {
   font-weight: 600;
   margin-bottom: 2rem;

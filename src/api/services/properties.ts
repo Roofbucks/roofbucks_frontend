@@ -85,7 +85,7 @@ export const updatePropertyService = ({
     },
   };
 
-  return postRequest(requestData);
+  return patchRequest(requestData);
 };
 
 /**

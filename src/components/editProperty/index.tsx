@@ -20,9 +20,9 @@ import {
   ImageIcon,
   WarningIcon,
   PlusIcon,
+  ArrowRight,
 } from "assets";
 import { getMegaByte } from "helpers";
-import { useIsInViewport } from "hooks";
 
 export interface EditData {
   propertyStatus: "in-progress" | "completed";
@@ -37,8 +37,8 @@ export interface EditData {
     yearBuilt: string;
     noOfBedrooms: number;
     noOfToilets: number;
-    totalCost: number;
   };
+  totalCost: number;
   description: string;
   address: string;
   city: string;
@@ -100,9 +100,9 @@ const Schema = yup
         yearBuilt: yup.string().required("Required"),
         noOfBedrooms: yup.number().required("Required"),
         noOfToilets: yup.number().required("Required"),
-        totalCost: yup.number().required("Required"),
       }),
     }),
+    totalCost: yup.number().required("Required"),
     description: yup.string().required("Required"),
     address: yup.string().required("Required"),
     city: yup.string().required("Required"),
@@ -130,12 +130,12 @@ const Schema = yup
       .array()
       .min(1, "Please add at least one media")
       .required("Required"),
-    surveyPlan: yup.mixed().required("Required"),
-    purchaseReceipt: yup.mixed().required("Required"),
-    excision: yup.mixed().required("Required"),
-    gazette: yup.mixed().required("Required"),
-    deedOfAssignment: yup.mixed().required("Required"),
-    certificateOfOccupancy: yup.mixed().required("Required"),
+    surveyPlan: yup.mixed(),
+    purchaseReceipt: yup.mixed(),
+    excision: yup.mixed(),
+    gazette: yup.mixed(),
+    deedOfAssignment: yup.mixed(),
+    certificateOfOccupancy: yup.mixed(),
     otherDocs: yup
       .array()
       .of(
@@ -161,9 +161,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
   submit,
   property,
 }) => {
-  const [scrollPosition, setPosition] = React.useState(0);
-  const [scrollDir, setScrollDir] = React.useState("none");
-
   const {
     register: register,
     handleSubmit: handleSubmit,
@@ -224,100 +221,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     "Grand views",
     "Club house & bar",
     "Secured parking garage",
-  ];
-
-  window.addEventListener("scroll", () => setPosition(window.pageYOffset));
-
-  // Detect scroll direction
-  React.useEffect(() => {
-    const threshold = 0;
-    let lastScrollY = window.pageYOffset;
-    let ticking = false;
-
-    const updateScrollDir = () => {
-      const scrollY = window.pageYOffset;
-      if (Math.abs(scrollY - lastScrollY) < threshold) {
-        ticking = false;
-        return;
-      }
-      setTimeout(() => {
-        const scroll =
-          scrollY > lastScrollY
-            ? "down"
-            : scrollY < lastScrollY
-            ? "up"
-            : "none";
-        setScrollDir(scroll);
-      }, 1000);
-
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollDir);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollDir]);
-
-  const ref1 = React.useRef(null);
-  const ref2 = React.useRef(null);
-  const ref3 = React.useRef(null);
-  const ref4 = React.useRef(null);
-  const ref5 = React.useRef(null);
-  const ref6 = React.useRef(null);
-
-  const scrollToCategory = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView();
-    }
-  };
-
-  const isInView1 = useIsInViewport(ref1);
-  const isInView2 = useIsInViewport(ref2);
-  const isInView3 = useIsInViewport(ref3);
-  const isInView4 = useIsInViewport(ref4);
-  const isInView5 = useIsInViewport(ref5);
-  const isInView6 = useIsInViewport(ref6);
-
-  const categories = [
-    {
-      name: "Description",
-      scrollId: "description",
-      active: isInView1,
-    },
-    {
-      name: "Address",
-      scrollId: "address",
-      active: isInView2,
-    },
-    {
-      name: "Amenities & Features",
-      scrollId: "amenities",
-      active: isInView3,
-    },
-    {
-      name: "More details",
-      scrollId: "more",
-      active: isInView4,
-    },
-    {
-      name: "Media",
-      scrollId: "media",
-      active: isInView5,
-    },
-    {
-      name: "Documents",
-      scrollId: "documents",
-      active: isInView6,
-    },
   ];
 
   const checkFileSize = ({
@@ -431,7 +334,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
       );
       formData.append("number_of_toilets", String(data.completed?.noOfToilets));
       formData.append("date_built", data.completed.yearBuilt);
-      formData.append("total_property_cost", String(data.completed.totalCost));
     }
 
     if (data.propertyStatus === "in-progress" && data.inProgress) {
@@ -444,6 +346,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     }
 
     formData.append("name", data.name);
+    formData.append("total_property_cost", String(data.totalCost));
     formData.append("description", data.description);
     formData.append("completion_status", data.propertyStatus.toUpperCase());
     formData.append("apartment_type", String(data.propertyType.value));
@@ -471,46 +374,39 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     formData.append("dining_area", String(data.diningArea));
     formData.append("floor_size", String(data.floorSize));
     data.media.map((item) => item.file && formData.append("images", item.file));
-    typeof data.deedOfAssignment !== "string" &&
+    data.deedOfAssignment &&
+      typeof data.deedOfAssignment !== "string" &&
       formData.append("registered_deed_of_assignment", data.deedOfAssignment);
-    typeof data.certificateOfOccupancy !== "string" &&
+    data.certificateOfOccupancy &&
+      typeof data.certificateOfOccupancy !== "string" &&
       formData.append("certificate_of_occupancy", data.certificateOfOccupancy);
-    typeof data.gazette !== "string" &&
+    data.gazette &&
+      typeof data.gazette !== "string" &&
       formData.append("gazette_document", data.gazette);
-    typeof data.excision !== "string" &&
+    data.excision &&
+      typeof data.excision !== "string" &&
       formData.append("excision_document", data.excision);
-    typeof data.deedOfAssignment !== "string" &&
+    data.purchaseReceipt &&
+      typeof data.purchaseReceipt !== "string" &&
       formData.append("purchase_receipt", data.purchaseReceipt);
-    typeof data.surveyPlan !== "string" &&
+    data.surveyPlan &&
+      typeof data.surveyPlan !== "string" &&
       formData.append("approved_survey_plan", data.surveyPlan);
 
     data.media[0].file && formData.append("default_image", data.media[0].file);
 
-    // submit(formData);
-    console.log(data);
+    submit(formData);
   };
 
   return (
     <section className={styles.EditPropertyContainer}>
-      <h2 className={styles.ttl}>Property Information</h2>
-      <nav
-        className={`${styles.nav} ${scrollPosition > 71 ? styles.fixNav : ""} ${
-          scrollDir === "up" && scrollPosition > 71 ? styles.hideNav : ""
-        }`}
-      >
-        {categories.map((item, index) => (
-          <span
-            onClick={() => scrollToCategory(item.scrollId)}
-            key={index}
-            className={item.active ? styles.activeNav : ""}
-          >
-            {item.name}
-          </span>
-        ))}
-      </nav>
-
+      <Button className={styles.backBtn1} type="tertiary" onClick={closeForm}>
+        <ArrowRight />
+        Back
+      </Button>
+      <h2 className={styles.ttl}>Edit Property Information</h2>
       <form className={styles.form}>
-        <div ref={ref1} id="description" className={styles.inputSec}>
+        <div id="description" className={styles.inputSec}>
           <p className={styles.secTtl}>Description</p>
           <div className={styles.inputGroup}>
             <div className={styles.halfWidth}>
@@ -660,24 +556,24 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                     register={register}
                   />
                 </div>
-                <div className={styles.fullWidth}>
-                  <Input
-                    label="TOTAL COST OF PROPERTY ($)"
-                    placeholder=""
-                    type="number"
-                    parentClassName={styles.input}
-                    required
-                    validatorMessage={errors.completed?.totalCost?.message}
-                    name="completed.totalCost"
-                    register={register}
-                  />
-                  <p>
-                    Note: A fee of 2% of the total cost will be deducted upon
-                    sale of the property
-                  </p>
-                </div>
               </>
             )}
+            <div className={styles.fullWidth}>
+              <Input
+                label="TOTAL COST OF PROPERTY ($)"
+                placeholder=""
+                type="number"
+                parentClassName={styles.input}
+                required
+                validatorMessage={errors?.totalCost?.message}
+                name="totalCost"
+                register={register}
+              />
+              <p>
+                Note: A fee of 2% of the total cost will be deducted upon sale
+                of the property
+              </p>
+            </div>
             <div className={styles.fullWidth}>
               <Textarea
                 label="DESCRIPTION"
@@ -691,7 +587,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref2} id="address" className={styles.inputSec}>
+        <div id="address" className={styles.inputSec}>
           <p className={styles.secTtl}>Address</p>
           <div className={styles.inputGroup}>
             <div className={styles.fullWidth}>
@@ -807,7 +703,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref3} id="amenities" className={styles.inputSec}>
+        <div id="amenities" className={styles.inputSec}>
           <p className={styles.secTtl}>Amenities & Features</p>
           <div>
             <div className={`${styles.fullWidth} ${styles.checkSec}`}>
@@ -847,7 +743,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref4} id="more" className={styles.inputSec}>
+        <div id="more" className={styles.inputSec}>
           <p className={styles.secTtl}>More details</p>
           <div className={styles.inputGroup}>
             <div className={styles.halfWidth}>
@@ -888,7 +784,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref5} id="media" className={styles.inputSec}>
+        <div id="media" className={styles.inputSec}>
           <p className={styles.secTtl}>Media</p>
           <div className={styles.docGroup}>
             <p className={styles.radioTtl}>Pictures & Videos</p>
@@ -944,7 +840,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
             </div>
           </div>
         </div>
-        <div ref={ref6} id="documents" className={styles.inputSec}>
+        <div id="documents" className={styles.inputSec}>
           <p className={styles.secTtl}>Documents</p>
           <div className={styles.docGroup}>
             <p className={styles.radioTtl}>Required Documents</p>
@@ -962,10 +858,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                 type="tertiary"
                 onClick={() => {
                   const prevList = [...watch("otherDocs")];
-                  setValue("otherDocs", [
-                    ...prevList,
-                    { name: "", file: "" },
-                  ]);
+                  setValue("otherDocs", [...prevList, { name: "", file: "" }]);
                 }}
               >
                 <PlusIcon /> Add document

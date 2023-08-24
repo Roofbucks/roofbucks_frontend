@@ -138,7 +138,7 @@ const VerificationModalUI: React.FC<VerificationModalProps> = ({
 
   const showSubmit = Object.keys(otp).every((key) => otp[key] !== "");
   return (
-    <Modal className={styles.login} show={show} onHide={close} centered>
+    <Modal className={styles.login} show={show} centered>
       <Button
         onClick={() => {
           // close();
