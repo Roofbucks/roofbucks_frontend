@@ -1,13 +1,12 @@
 import * as React from "react";
 import { Preloader, VerificationModalUI } from "components";
 import { ModalProps } from "types";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { getErrorMessage, queryObject } from "helpers";
 import { useApiRequest } from "hooks";
 import { resendVerificationService, signupVerificationService } from "api";
 import { useAppDispatch } from "redux/hooks";
 import { updateToast } from "redux/actions";
-import { Routes } from "router";
 
 interface VerificationProps extends ModalProps {
   signup: () => void;
@@ -24,7 +23,6 @@ const VerificationModal: React.FC<VerificationProps> = ({
   const { search } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = queryObject(search);
-  const navigate = useNavigate()
 
   const {
     run: runVerification,
@@ -39,6 +37,14 @@ const VerificationModal: React.FC<VerificationProps> = ({
     requestStatus: resendStatus,
     error: resendError,
   } = useApiRequest({});
+
+  React.useEffect(() => {
+    if (params.otp && params.otp.length === 6) {
+      runVerification(
+        signupVerificationService({ email: params.email, token: params.otp })
+      );
+    }
+  }, [params.otp]);
 
   const verify = (data) => {
     runVerification(
@@ -129,7 +135,7 @@ const VerificationModal: React.FC<VerificationProps> = ({
         show={show}
         closeModal={closeModal}
         submit={verify}
-        signup={() => navigate(Routes.signup)}
+        signup={signup}
         resendEmail={resendMail}
         email={params.email}
       />
