@@ -32,9 +32,9 @@ const AgentProperties = () => {
     current: 1,
   });
   const debouncedSearchTerm = useDebounce(search, 500);
-  const [showStays, setShowStays] = React.useState({ show: false, id: "" });
-  const [showAddStays, setShowAddStays] = React.useState(false);
-  const [promote, setPromote] = React.useState({ show: false, id: "" });
+  // const [showStays, setShowStays] = React.useState({ show: false, id: "" });
+  // const [showAddStays, setShowAddStays] = React.useState(false);
+  // const [promote, setPromote] = React.useState({ show: false, id: "" });
 
   const {
     run: runProperties,
@@ -126,20 +126,20 @@ const AgentProperties = () => {
     });
   };
 
-  const promoteProperty = (data) => {
-    console.log(data);
-  };
+  // const promoteProperty = (data) => {
+  //   console.log(data);
+  // };
 
   const showLoader = propertiesStatus.isPending;
 
   return (
     <>
       <Preloader loading={showLoader} />
-      <PromotePropertyModal
+      {/* <PromotePropertyModal
         show={promote.show}
         close={() => setPromote({ id: "", show: false })}
         submit={promoteProperty}
-      />
+      /> */}
       <AgentPropertiesUI
         tableItems={properties}
         addProperty={addProperty}
@@ -150,7 +150,6 @@ const AgentProperties = () => {
         hide={showLoader}
         editProperty={editProperty}
         viewProperty={viewProperty}
-        promote={(id) => setPromote({ id, show: true })}
       />
       <Pagination
         hide={properties.length === 0 || showLoader}

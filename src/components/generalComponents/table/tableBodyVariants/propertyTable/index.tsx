@@ -17,7 +17,6 @@ interface TableBodyProps {
   tableBodyItems: PropertyTableItem[];
   edit: (id) => void;
   view: (id) => void;
-  promote: (id) => void;
   tableBodyItemClassName: string;
 }
 
@@ -25,7 +24,6 @@ const PropertyTable: React.FC<TableBodyProps> = ({
   tableBodyItems,
   edit,
   view,
-  promote,
   tableBodyItemClassName,
 }) => {
   const actions = (id): ActionItem[] => [
@@ -44,14 +42,6 @@ const PropertyTable: React.FC<TableBodyProps> = ({
         </>
       ),
       action: () => view(id),
-    },
-    {
-      text: (
-        <>
-          <SendIcon className={styles.dropdownIcon} /> Promote
-        </>
-      ),
-      action: () => promote(id),
     },
   ];
   return (

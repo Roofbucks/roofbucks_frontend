@@ -152,12 +152,12 @@ const AgentListUI: React.FC<AgentListProps> = ({
             ))}
             <Pagination {...pagination} />
           </div>
-          <aside className={styles.topDealsWrap}>
+          {/* <aside className={styles.topDealsWrap}>
             <h2>Top Deals</h2>
             {properties.map((item, index) => (
               <PropertyCard {...item} key={index} className={styles.property} />
             ))}
-          </aside>
+          </aside> */}
         </div>
       </section>
     </>

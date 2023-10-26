@@ -19,7 +19,6 @@ interface AgentPropertiesUIProps {
   hide: boolean;
   editProperty: (id: string) => void;
   viewProperty: (id: string) => void;
-  promote: (id: string) => void;
 }
 
 const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
@@ -29,7 +28,6 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
   hide,
   editProperty,
   viewProperty,
-  promote,
 }) => {
   const tableHeaderTitles: TableHeaderItemProps[] = [
     { title: "Property ID" },
@@ -72,7 +70,6 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
               view={viewProperty}
               tableBodyItems={tableItems}
               tableBodyItemClassName={styles.tableBodyItem}
-              promote={promote}
             />
           }
           customTableClasses={{

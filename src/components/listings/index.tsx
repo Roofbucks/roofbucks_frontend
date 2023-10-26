@@ -98,7 +98,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
           robotjournalistik danseoke.`}
         title="Property Listing"
       />
-      <section>
+      {/* <section>
         <div className={`appContainer ${styles.topDeals}`}>
           <h2 className={styles.ttl}>Top Deals</h2>
           <div className={styles.propertyList}>
@@ -126,7 +126,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       <section>
         <div className={`appContainer ${styles.listings}`}>
           <div className={styles.searchAndFilter}>

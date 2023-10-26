@@ -328,7 +328,7 @@ const OverviewUI = () => {
           </div>
         </div>
         <aside className={styles.extra}>
-          <div className={styles.scheduleSec}>
+          {/* <div className={styles.scheduleSec}>
             <div className={styles.scheduleTtlSec}>
               <p className={styles.scheduleTtl}>Schedule</p>
               <button
@@ -369,7 +369,7 @@ const OverviewUI = () => {
                 <CaretRight role="button" className={styles.visitCaret} />
               </div>
             </div>
-          </div>
+          </div> */}
           <ActivityList />
         </aside>
       </div>
