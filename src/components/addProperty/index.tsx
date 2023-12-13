@@ -579,7 +579,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                 register={register}
               />
               <p>
-                Note: A fee of 2% of the total cost will be deducted upon sale
+                Note: A fee of 2.5% of the total cost will be deducted upon sale
                 of the property
               </p>
             </div>

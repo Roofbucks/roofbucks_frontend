@@ -39,27 +39,21 @@ const Services: React.FC<ServicesProps> = ({
 }) => {
   const services: ServiceProps[] = [
     {
-      image: marketPlace,
-      title: `The Market Place`,
-      text: `Discover unlimited available shares from verified home co-owners on
-      Roofbucks active marketplace, buy and sell your share holdings on our
-      thriving market with our full property management support.`,
-      action: handleMarketplace,
-    },
-    {
       image: listing,
       title: `Property Listing`,
-      text: `Get unrestricted access to our top reviewed properties listed by 
-      prestigious Real estate companies/Agents across the continent. Acquire 
-      home shares and become a co-owner in few simple steps.`,
+      text: `As a homebuyer, you can find your perfect home to buy from our reviewed property Listings from verified real estate businesses and simply apply to start`,
       action: handleListing,
+    },
+    {
+      image: marketPlace,
+      title: `The Market Place`,
+      text: `Invest and connect with homes with ready buyers from our marketplace.  Find amazing deals with good return on investment to partner with and start earning from rents income and appreciation value. `,
+      action: handleMarketplace,
     },
     {
       image: becomeAnAgent,
       title: `Become an Agent`,
-      text: `Engage with real and active real estate buyers, list and close 
-      more deals effectively as an Agent on Roofbucks. Increase sales traffic 
-      by listing home shares on our platform.`,
+      text: `Partner your company with Roofbucks as a verified business to start selling properties on our platform. Provide your customers with access to funding opportunities with Roofbucks. `,
       action: handleSignup,
     },
   ];

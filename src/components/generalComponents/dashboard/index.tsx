@@ -15,7 +15,7 @@ const Dashboard: React.FC<DashboardProps> = ({ handleSignup }) => {
         <div className={`appContainer ${styles.dashboard}`}>
           <div className={styles.txtSec}>
             <h4 className={styles.ttl}>
-              Manage and organize your assets and properties
+              Manage and organise your home and assets
             </h4>
             <img
               className={styles.imgMobile}
@@ -23,9 +23,9 @@ const Dashboard: React.FC<DashboardProps> = ({ handleSignup }) => {
               alt="dashbord preview on mac book"
             />
             <p className={styles.txt}>
-              Get full control and manage your assets like a pro from your
-              Roofbucks dashboard. View your assets real-time performance,book
-              stays and list your assets' shares for sell from your dashboard.
+              Get full control and manage your home and assets from our user
+              friendly dashboard. Track your activities and view your
+              performance from your interactive dashboard.
             </p>
             <GetStartedBtn handleClick={handleSignup} className={styles.btn} />
           </div>

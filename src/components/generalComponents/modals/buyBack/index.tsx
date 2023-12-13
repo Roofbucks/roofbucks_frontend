@@ -86,13 +86,16 @@ const BuyBackModal: React.FC<BuyBackProps> = ({ show, closeModal }) => {
             register={register}
             disabled
           />
-          <p className={styles.note}>Transaction charges may apply</p>
+          <p className={styles.note}>
+            Transaction charges may apply, read{" "}
+            <a target="_blank">terms of use</a>
+          </p>
 
           <Button
             onClick={handleSubmit(onSubmit)}
             type="primary"
             className={styles.btn}
-          >            
+          >
             Checkout
           </Button>
         </form>

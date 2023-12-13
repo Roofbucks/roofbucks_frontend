@@ -25,25 +25,24 @@ const Card: React.FC<CardProps> = ({ Icon, text, title }) => {
 const HowItWorks = () => {
   const cardItems: CardProps[] = [
     {
-      Icon: UsersIcon,
-      title: "Become a co-owner",
-      text: `Buy properties shares listed by agents or on the marketplace from home co-owners`,
-    },
-    {
       Icon: MoneyIcon,
-      title: "Earn Rental Income",
-      text: `As a co-owner with shares on a property, you own some percentage of the rental income cashflow.`,
+      title: "Buy or Invest",
+      text: `Find a home to buy or invest in from our property listings and marketplace as a homebuyer or an investor`,
     },
     {
-      Icon: HomeIcon,
-      title: "Book stays",
-      text: `By becoming a co-owner, you will get a periodic access of 14 days per year to the property for a share owned.
-      These can increase with an increase on shares owned.`,
+      Icon: UsersIcon,
+      title: "Become a Co-owner ",
+      text: `Co-own a home either as the homebuyer or the investor. And yes, because you’re being funded doesn’t mean we’re moving in with you, it’s all yours to live in and the more ownership you buy back as the homebuyer the lesser rent you will pay.`,
     },
     {
       Icon: MoneyBagIcon,
-      title: "Sell your shares on the Marketplace",
-      text: `This is an exit way for an investor to cash out from an investment property by selling his/her shares on the marketplace at the market price.`,
+      title: "Pay rents or earn rental income ",
+      text: `Pay rents as a homebuyer proportionally to the percentage you were funded on. Earn as an investor from rental income and the appreciated value in any property. `,
+    },
+    {
+      Icon: HomeIcon,
+      title: "Buy back and own it 100% ",
+      text: `Buy back and own 100% of your home within the period of 5 years. You can decide on the percentage to buy at a moment and at your convenient time.`,
     },
   ];
   return (

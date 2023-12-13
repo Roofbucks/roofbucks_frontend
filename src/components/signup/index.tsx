@@ -13,11 +13,11 @@ import { initialOptionType } from "utils";
 
 const accountTypeOptions: optionType[] = [
   {
-    label: "I want to sell property shares",
+    label: "Agent",
     value: "agent",
   },
   {
-    label: "I want to buy property shares",
+    label: "Homebuyer/Investor",
     value: "shareholder",
   },
 ];

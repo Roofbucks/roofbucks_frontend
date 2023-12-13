@@ -23,9 +23,9 @@ const MainRouter: React.FC = () => {
       <Routes>
         {RouteBuilder?.length > 0 &&
           RouteBuilder.map((item, idx) => {
-            const { Element, path, caseSensitive, Layout, props,  } =
+            const { Element, path, caseSensitive, Layout, props, isProtected } =
               item;
-              const isProtected = false
+
             // Checks if a layout exists or not
             const PageComponent = Layout ? (
               <Layout {...props}>

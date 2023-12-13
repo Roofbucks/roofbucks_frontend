@@ -5,7 +5,7 @@
 }
 .login [class*="modal-body"] {
   padding: 1.8rem;
-  height: 350px;
+  /* min-height: 350px; */
 }
 .ttl {
   text-align: center;
@@ -106,6 +106,6 @@
     font-size: 30px;
   }
   .login [class*="modal-body"] {
-    height: 300px;
+    /* height: 300px; */
   }
 }

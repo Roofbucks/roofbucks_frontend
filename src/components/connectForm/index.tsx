@@ -5,9 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import {
-  applyOwnershipOptions,
-  applyPercentOptions,
-  applyReasonOptions,
   connectFocusOptions,
   connectInvestAsOptions,
   connectTimelineOptions,

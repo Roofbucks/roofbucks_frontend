@@ -6,68 +6,60 @@ import styles from "./styles.module.css";
 const ContactUI = () => {
   const faqs: FAQITemProps[] = [
     {
-      question: "How can I open a Roofbucks account?",
-      answer: `You can do this by clicking on the sign up and entering your informations accurately to submit before verification. You can also login if you Already have an account.`,
+      question: `How does Roofbucks work for homebuyers?`,
+      answer: `Roofbucks connects homebuyers with investors, allowing them to share the cost of purchasing a home. Investors provide financial support, and the ownership is shared, creating a unique partnership.`,
     },
     {
-      question: "What can i do with my Roofbucks account?",
-      answer:
-        "As a registered customer, you can buy listed shares, buy and sell home shares in the marketplace and also become an agent.",
+      question: `What benefits do investors gain from partnering with Roofbucks?`,
+      answer: `Investors benefit from shared profits, diversification of their investment portfolio, and the opportunity to support individuals in achieving homeownership.`,
     },
     {
-      question: "How do I co-own a property?",
-      answer:
-        "You can co-own a property by buying home shares listed by agents on the platform or you can buy from shareholders in the marketplace. ",
+      question: `Can I choose the property I want to buy with Roofbucks?`,
+      answer: `Yes, homebuyers have the flexibility to choose their desired property, and Roofbucks facilitates the collaboration with investors based on the chosen property.`,
     },
     {
-      question:
-        "How do i determine the property standard and perform due diligence?",
-      answer:
-        "Roofbucks provides full available details on every listed properties in the platform. You can also schedule a visit with an agent to analyse the property and perform due diligence. ",
+      question: `How is transparency maintained in the Roofbucks process?`,
+      answer: `Roofbucks prioritizes transparency by providing clear information about the financial agreements, property details, and profit-sharing mechanisms to all involved parties.`,
     },
     {
-      question: "How will the property be managed?",
-      answer:
-        "Roofbucks commits to providing life-long property management services for our customers acquired assets. And with our experienced team, we ensure to scale up your property value in so many ways.",
+      question: `What happens if there are changes in my financial situation during the partnership?`,
+      answer: `Roofbucks understands that circumstances may change. We work with individuals to find solutions, ensuring a collaborative and supportive approach during unforeseen situations.`,
     },
     {
-      question: "How will the property be profitable to me?",
-      answer:
-        "On Roofbucks, shareholders acquired properties are rented out at all time except that the shareholders needs to make use of it. Shareholders can also sell their shares in the marketplace thereby profiting off the increase in the property value.",
+      question: `Are there hidden fees or costs associated with Roofbucks?`,
+      answer: `Roofbucks is committed to transparency. We clearly outline any associated fees or costs, ensuring that both homebuyers and investors are aware of the financial aspects of the partnership.`,
     },
     {
-      question: "Can I get to use the property when I need to?",
-      answer:
-        "Yes. Roofbucks gives every shareholder the benefits of 14 days per year free occupancy access to the property for each share bought. You can increase it by buying more shares.",
+      question: `How does Roofbucks ensure responsible and ethical investments?`,
+      answer: `Roofbucks adheres to ethical investment practices, carefully selecting partners and properties to ensure responsible and sustainable investment opportunities. `,
     },
     {
-      question: "How do i sell my shares in a property?",
-      answer:
-        "As a shareholder in an asset, you can sell your shares by listing it in the marketplace where it will bought by another interested buyer.",
+      question: `What support does Roofbucks provide throughout the home-buying process?`,
+      answer: `Roofbucks offers guidance and support, helping both homebuyers and investors navigate the process smoothly. Our team is dedicated to ensuring a positive and collaborative experience.`,
     },
     {
-      question: "How do I become an agent on Roofbucks?",
-      answer:
-        "You can become an agent by creating a verified business profile, in order to list properties after being reviewed. ",
+      question: `Can I become an investor with Roofbucks if I have specific preferences or locations in mind?`,
+      answer: `Absolutely. Roofbucks allows investors to align their preferences with specific properties or locations, providing a personalized investment experience. `,
     },
     {
-      question: "Is Roofbucks Licensed?",
-      answer:
-        "Roofbucks is a Nigerian legally registered company operating and providing services across Africa. ",
+      question: `How is the profit-sharing structured for investors?`,
+      answer: `Profit-sharing is based on the agreed-upon terms, typically reflecting the proportional investment made by the involved parties. Roofbucks ensures a fair and transparent distribution of profits.`,
     },
     {
-      question: "How does Roofbucks protect my Asset?",
-      answer:
-        "Roofbucks in partnership with third party insurance service providers protects your assets from any sort damage or disaster. ",
+      question: ``,
+      answer: ``,
     },
     {
-      question: "Are there any fees for using Roofbucks?",
-      answer:
-        "Yes, there are applicable fees in transactions and management activities within the Roofbucks platform.",
+      question: ``,
+      answer: ``,
     },
     {
-      question: "Is Roofbucks available on Android and Apple store?",
-      answer: "Is Roofbucks available on Android and Apple store?",
+      question: ``,
+      answer: ``,
+    },
+    {
+      question: ``,
+      answer: ``,
     },
   ];
   return (

@@ -76,7 +76,8 @@ const RecoveryModalUI: React.FC<RecoveryModalProps> = ({
             register={register}
           />
           <p className={styles.info}>
-            Enter your recovery email address with which you will recieve an OTP
+            Enter your recovery email address to receive instructions on how to
+            reset your password
           </p>
           <Button
             className={styles.continue}

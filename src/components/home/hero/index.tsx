@@ -28,13 +28,13 @@ const HeroSection: React.FC<HomeProps> = ({ handleSignup }) => {
     <>
       <section className={styles.heroBg}>
         <div className={`appContainer ${styles.hero}`}>
-          <p className={styles.label}>Create your wealth</p>
+          <p className={styles.label}>Own your Home</p>
           <h1 className={styles.ttl}>
-            Buy shares and co-own residential real estates.
+            Split and Share the cost of buying your home with an investor.
           </h1>
           <p className={styles.txt}>
-            Roofbucks, gives you access to shares of homes across Africa. Best
-            way to own a second home.
+            Apply to get funded up to 50% on any property and then gradually
+            save up to own 100% while you pay partial rent.
           </p>
           <GetStartedBtn handleClick={handleSignup} />
         </div>

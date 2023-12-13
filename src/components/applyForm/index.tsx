@@ -182,7 +182,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             disabled
           />
           <p className={styles.note}>
-            Note: A service charge which is 2% of the total cost of the property
+            Note: A service charge which is 2.5% of the total cost of the property
             has been included
           </p>
           <CustomSelect
@@ -193,7 +193,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             name={"longTermOwnership"}
             placeholder={"Please Select"}
             label={
-              "Do you intend to eventually own 100% ownership of this home?"
+              "Do you agree to buy up and own 100% ownership of this home within 5 years?"
             }
             options={applyOwnershipOptions}
             value={watch("longTermOwnership")}
@@ -216,7 +216,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
           )}
           <p className={styles.txt2}>
             We will review your application shortly and send our contract to
-            your email to complete the process
+            your email to complete the process. Read <a>terms of use</a>
           </p>
           <Button
             className={styles.btn}

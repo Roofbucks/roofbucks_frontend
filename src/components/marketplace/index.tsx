@@ -130,11 +130,8 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
       <section className={`appContainer ${styles.welcome}`}>
         <h2 className={styles.ttl}>Welcome to The Marketplace</h2>
         <p className={styles.txt}>
-          Lörem ipsum kunade hypokrott och sos underturism för lyngar anter i
-          jasminmöte. Depode varen till ydist: i desa transponder var sedan
-          ultravis. Klämspärr plast spesavis filvärd, gps-väst liksom dumurat,
-          hobbyepidemiolog. Plamissa elektrometer deläskap oded, aren
-          robotjournalistik danseoke.
+          Discover amazing deals, connect to fund homes with ready home-buyers
+          and start earning.
         </p>
       </section>
       <section className={`appContainer ${styles.listings}`}>

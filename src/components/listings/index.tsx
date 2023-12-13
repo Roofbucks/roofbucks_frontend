@@ -91,11 +91,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
   return (
     <>
       <HeroSection
-        text={` Lörem ipsum kunade hypokrott och sos underturism för lyngar anter i
-          jasminmöte. Depode varen till ydist: i desa transponder var sedan
-          ultravis. Klämspärr plast spesavis filvärd, gps-väst liksom dumurat,
-          hobbyepidemiolog. Plamissa elektrometer deläskap oded, aren
-          robotjournalistik danseoke.`}
+        text={`Explore our properties to find the perfect home for yourself from our verified businesses. `}
         title="Property Listing"
       />
       {/* <section>

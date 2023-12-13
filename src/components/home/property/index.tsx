@@ -19,14 +19,12 @@ const Property: React.FC<PropertyProps> = ({ handleSignup }) => {
         <div className={`appContainer ${styles.property}`}>
           <div className={styles.txtSec}>
             <h3 className={styles.ttl}>
-              Helping Africans Find their Dream Homes
+              Helping Africans find their perfect home on the spot
             </h3>
             <p className={styles.txt}>
-              Roofbucks across Africa, focuses on making real estate investing
-              and ownership accessible to almost everyone by connecting people
-              of same interests to their dream homes. And with our top-notch
-              property management services, we provide our customers with
-              hands-off on their investments across borders.
+              Roofbucks aims towards helping home-buyers to buy their dream
+              homes when spotted in the market by providing them with easy
+              access to funds through strategic partnerships.
             </p>
             <div className={styles.stat}>
               <span className={styles.statNo}>19K+</span>

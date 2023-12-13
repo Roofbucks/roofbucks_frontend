@@ -61,12 +61,13 @@ const HeroSection = () => {
     <section className={`appContainer ${styles.contact}`}>
       <div className={styles.hero}>
         <h1 className={styles.ttl}>
-          Reach out to <span>Our Team</span>
+          Reach out to <span>our team</span>
         </h1>
         <p className={styles.txt}>
-          If you need our help, have questions about how to use the platform or
-          are experiencing technical difficulties, please do not hesitate to
-          contact us.
+          We always love to help, have questions about how to use the platform
+          or experiencing any technical difficulties.
+          <br />
+          Please do not hesitate to contact us.
         </p>
       </div>
       <div className={styles.contactWrap}>

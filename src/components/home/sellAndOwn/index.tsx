@@ -26,27 +26,25 @@ const SellAndOwn = () => {
   const cardItems: CardProps[] = [
     {
       Icon: DateIcon,
-      title: "Schedule a visit",
-      text: `Take a site visit to view and and analyse the property of your choice to
-    aid in your decision making.`,
+      title: "Sign up",
+      text: `Create an account to get unrestricted access to the Roofbucks platform and enjoy the benefits.`,
     },
     {
       Icon: HeadphoneIcon,
-      title: "Find an agent",
-      text: `Roofbucks features lists of reputable agents listing properties on the platform. You can search through, to find the property of your interest and the listing agent.
-      `,
+      title: "Apply and deposit",
+      text: `Find a property of your interest and fill out the application form accurately and make a deposit payment on the percentage ownership you intend to buy at the moment.`,
     },
     {
       Icon: KeyIcon,
-      title: "Get ownership",
-      text: `Buy shares of the property on Roofbucks and become a co-owner to get access to the property while getting rental cashflow.`,
+      title: "Get Funded and Ownership",
+      text: `Roofbucks takes your application through the process of raising funds to buy your home and then you can move in as a home owner.`,
     },
   ];
   return (
     <>
       <section className={styles.sellBg}>
         <div className={`appContainer ${styles.sell}`}>
-          <h2 className={styles.ttl}>Simple way to sell and own property</h2>
+          <h2 className={styles.ttl}>Simple ways to buy and own a Home</h2>
           <div className={styles.cardWrap}>
             {cardItems.map((item, index) => (
               <Card {...item} key={index} />
