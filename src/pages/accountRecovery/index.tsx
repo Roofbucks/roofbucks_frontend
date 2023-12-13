@@ -58,6 +58,15 @@ const RecoveryModal: React.FC<RecoveryProps> = ({
     }
   }, [resetResponse, error]);
 
+  const handleForgotPassword = (email) => {
+    runReset(
+      resetPasswordService({
+        email,
+        redirect_url: `${window.location.origin}${Routes.recovery}`,
+      })
+    );
+  };
+
   const showLoader = requestStatus.isPending;
 
   return (
@@ -66,7 +75,7 @@ const RecoveryModal: React.FC<RecoveryProps> = ({
       <RecoveryModalUI
         show={show}
         closeModal={closeModal}
-        recovery={(data) => runReset(resetPasswordService(data))}
+        recovery={(data) => handleForgotPassword(data.email)}
         login={login}
         clear={clear}
       />
