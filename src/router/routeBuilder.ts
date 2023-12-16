@@ -141,6 +141,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "",
     },
+    isProtected: true,
   },
   {
     path: Routes.overview,

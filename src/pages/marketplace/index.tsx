@@ -58,7 +58,7 @@ const Marketplace = () => {
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
-          amount: `$${item.total_property_cost}`,
+          amount: `NGN${item.total_property_cost}`,
           owner: item.company_name,
           images: item.image_album
             ? item.image_album.media.map((item) => item.image)

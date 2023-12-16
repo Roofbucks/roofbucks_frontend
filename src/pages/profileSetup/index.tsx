@@ -5,6 +5,7 @@ import { BillingForm } from "./billing";
 import { BusinessForm } from "./business";
 import { PersonalForm } from "./personal";
 import { Routes } from "router";
+import { useAppSelector } from "redux/hooks";
 
 const ProfileSetup = () => {
   const [view, setView] = React.useState<number>(1);
@@ -12,6 +13,7 @@ const ProfileSetup = () => {
   const isBusiness = searchParams.get("business") !== null;
   const isBilling = searchParams.get("billing") !== null;
   const navigate = useNavigate();
+  const { role } = useAppSelector((state) => state.user);
 
   const viewMyProfile = () => {
     setSearchParams({ profile: "true" });
@@ -35,9 +37,11 @@ const ProfileSetup = () => {
 
   return (
     <>
-      <ProfileSetupUI activeView={view}>
+      <ProfileSetupUI role={role} activeView={view}>
         {view === 1 ? (
-          <PersonalForm onSuccess={viewMyBusiness} />
+          <PersonalForm
+            onSuccess={role === "agent" ? viewMyBusiness : viewBillings}
+          />
         ) : view === 2 ? (
           <BusinessForm onSuccess={viewBillings} />
         ) : view === 3 ? (

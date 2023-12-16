@@ -1,4 +1,4 @@
-import { fetchAgentService } from "api";
+import { fetchAgentService, fetchProfileService } from "api";
 import { useApiRequest } from "hooks";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,19 +12,19 @@ export const useGetUser = () => {
 
   const { run, data: response, requestStatus, error } = useApiRequest({});
 
-  const fetchAgent = () => {
-    run(fetchAgentService({}));
+  const fetchUser = () => {
+    run(fetchProfileService());
   };
 
   useMemo(() => {
     if (response) {
       if (response.status === 200) {
-        const role = localStorage.getItem("role") ?? "";
         const id = localStorage.getItem("id") ?? "";
         const firstName = response.data.firstname;
         const lastName = response.data.lastname;
         const email = response.data.email;
         const avatar = response.data.display_photo;
+        const role = response.data.role.toLowerCase();
 
         dispatch(
           updateUser({
@@ -44,6 +44,7 @@ export const useGetUser = () => {
   }, [response, error]);
 
   return {
-    fetchAgent,
+    fetchUser,
+    loading: requestStatus.isPending,
   };
 };

@@ -3,8 +3,9 @@ import styles from "./styles.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input } from "components";
+import { Button, CustomSelect, Input } from "components";
 import { addBillingServiceRequestData } from "api";
+import { optionType } from "types";
 
 interface BillingData {
   bank: string;
@@ -31,14 +32,16 @@ const billingSchema = yup
 
 interface BillingFormUIProps {
   submit: (data: addBillingServiceRequestData) => void;
+  banks: optionType[];
 }
 
-const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit }) => {
+const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit, banks }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<BillingData>({
     resolver: yupResolver(billingSchema),
     defaultValues: initialBillingValues,
@@ -77,16 +80,15 @@ const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit }) => {
               name="country"
               register={register}
             />
-            <Input
+            <CustomSelect
               label="Bank"
-              showRequired={true}
               placeholder="Bank Name"
-              type="text"
-              parentClassName={`${styles.input} ${styles.sideMargin}`}
-              required
-              validatorMessage={errors.bank?.message}
-              name="bank"
-              register={register}
+              validatorMessage={errors.bank?.message ?? ""}
+              value={{ label: watch("bank"), value: watch("bank") }}
+              onChange={(val) => setValue("bank", val.value)}
+              options={banks}
+              name={"bank"}
+              parentClassName={`${styles.input} ${styles.select} ${styles.sideMargin}`}
             />
             <Input
               label="Account Number"

@@ -22,7 +22,7 @@ const LoginModal: React.FC<LoginProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { fetchAgent } = useGetUser();
+  // const { fetchUser } = useGetUser();
 
   const {
     run: runLogin,
@@ -35,15 +35,15 @@ const LoginModal: React.FC<LoginProps> = ({
     if (loginResponse || error) {
       if (loginResponse?.status === 200) {
         const data = loginResponse.data;
-        const role = data.role === "AGENT" ? "agent" : "shareholder";
+        const role = data.role.toLowerCase();
         const id = data.id;
 
         localStorage.setItem("roofbucksAccess", data.tokens.access);
         localStorage.setItem("roofbucksRefresh", data.tokens.refresh);
-        localStorage.setItem("role", role);
+
         localStorage.setItem("id", id);
 
-        fetchAgent();
+        // fetchUser();
 
         dispatch(
           updateToast({
@@ -64,7 +64,7 @@ const LoginModal: React.FC<LoginProps> = ({
             })
           );
 
-          if (loginResponse.data.role === "AGENT") {
+          if (role === "agent") {
             const profileCompletion =
               loginResponse.data.stages_of_profile_completion;
 
@@ -72,6 +72,15 @@ const LoginModal: React.FC<LoginProps> = ({
               return navigate(Routes.profileSetup("?profile=true"));
             } else if (!profileCompletion.business) {
               return navigate(Routes.profileSetup("?business=true"));
+            } else if (!profileCompletion.billing) {
+              return navigate(Routes.profileSetup("?billing=true"));
+            }
+          } else if (role === "shareholder") {
+            const profileCompletion =
+              loginResponse.data.stages_of_profile_completion;
+
+            if (!profileCompletion.profile) {
+              return navigate(Routes.profileSetup("?profile=true"));
             } else if (!profileCompletion.billing) {
               return navigate(Routes.profileSetup("?billing=true"));
             }

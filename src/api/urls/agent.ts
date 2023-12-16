@@ -24,7 +24,7 @@ export const fetchAgentsURL = ({ search, page }) =>
  */
 
 export const fetchAgentURL = ({ id }: {id?: string}) =>
-  `/user/profile?${appendParams({ user_id: id })}`;
+  `/user/profile/?${appendParams({ user_id: id })}`;
 
 /**
  * Fetch agent reviews url

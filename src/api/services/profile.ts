@@ -15,6 +15,7 @@ import {
   fetchBusinessURL,
   addBillingURL,
   updatePasswordURL,
+  fetchBanksURL,
 } from "api";
 
 /**
@@ -138,4 +139,17 @@ export const updatePasswordService = (data: UpdatePasswordRequestData) => {
   };
 
   return postRequest(requestData);
+};
+
+/**
+ * Fetch banks service
+ * @returns axios promise
+ */
+
+export const fetchBanksService = () => {
+  const requestData = {
+    url: fetchBanksURL(),
+  };
+
+  return getRequest(requestData);
 };

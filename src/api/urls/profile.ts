@@ -13,7 +13,7 @@ import { appendParams } from "helpers";
  *
  */
 
-export const fetchProfileURL = () => `/user/profile`;
+export const fetchProfileURL = () => `/user/profile/`;
 
 /**
  * Create agent profile url
@@ -71,3 +71,12 @@ export const addBillingURL = () => `/user/add_bank_information/`;
  *
  */
 export const updatePasswordURL = () => `/auth/change-password/`
+
+
+/**
+ * Fetch banks url
+ *
+ * @returns url string
+ *
+ */
+export const fetchBanksURL = () => `/properties/get_banks`

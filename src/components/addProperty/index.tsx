@@ -569,7 +569,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             )}
             <div className={styles.fullWidth}>
               <Input
-                label="TOTAL COST OF PROPERTY ($)"
+                label="TOTAL COST OF PROPERTY (NGN)"
                 placeholder=""
                 type="number"
                 parentClassName={styles.input}

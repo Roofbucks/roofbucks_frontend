@@ -20,6 +20,7 @@ export interface BusinessFormData {
   country: string;
   certOfInc: File | undefined;
   description: string;
+  calendlyLink: string;
 }
 
 const initialBusinessValues: BusinessFormData = {
@@ -33,6 +34,7 @@ const initialBusinessValues: BusinessFormData = {
   country: "",
   certOfInc: undefined,
   description: "",
+  calendlyLink: "https://",
 };
 
 const businessSchema = yup
@@ -50,6 +52,7 @@ const businessSchema = yup
     country: yup.string().required("Required"),
     certOfInc: yup.mixed().required("Required"),
     description: yup.string().required("Required"),
+    calendlyLink: yup.string().url("Enter a valid url").required("Required"),
   })
   .required();
 
@@ -95,6 +98,9 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({
     const formData = new FormData();
 
     formData.append("display_name", data.companyName);
+    formData.append("registered_name", data.companyName);
+    formData.append("registration_number", data.regNo);
+    formData.append("schedule_link", data.calendlyLink);
     formData.append("website", data.website);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
@@ -228,6 +234,17 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({
                   required
                   validatorMessage={errors.website?.message}
                   name="website"
+                  register={register}
+                />
+                 <Input
+                  label="Calendly link"
+                  showRequired={true}
+                  placeholder="www.calendly.co"
+                  type="url"
+                  parentClassName={styles.input}
+                  required
+                  validatorMessage={errors.calendlyLink?.message}
+                  name="calendlyLink"
                   register={register}
                 />
               </section>

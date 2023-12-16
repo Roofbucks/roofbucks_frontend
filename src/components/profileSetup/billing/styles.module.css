@@ -30,6 +30,10 @@ div.input {
 .input input {
   border-color: #808080;
 }
+.select [class*="formSelect__control"] {
+  border-color: #808080;
+
+}
 .input input[type="date"] {
   padding-right: 1rem;
 }

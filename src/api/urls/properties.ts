@@ -90,7 +90,7 @@ export const marketplaceURL = ({
   type,
   status,
 }) =>
-  `/properties/marketplace?${appendParams({
+  `/properties/marketplace/?${appendParams({
     search,
     page,
     limit,

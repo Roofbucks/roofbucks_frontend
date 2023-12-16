@@ -5,11 +5,13 @@ import styles from "./styles.module.css";
 interface ProfileSetupUIProps {
   children: any;
   activeView: number;
+  role: string;
 }
 
 const ProfileSetupUI: React.FC<ProfileSetupUIProps> = ({
   children,
   activeView,
+  role,
 }) => {
   return (
     <>
@@ -25,14 +27,18 @@ const ProfileSetupUI: React.FC<ProfileSetupUIProps> = ({
               <ProfileIcon />
               <p>My Profile</p>
             </li>
-            <li
-              className={`${styles.navItem} ${
-                activeView === 2 ? styles.activeItem : ""
-              }`}
-            >
-              <BarChartIcon />
-              <p>My Business</p>
-            </li>
+            {role === "agent" ? (
+              <li
+                className={`${styles.navItem} ${
+                  activeView === 2 ? styles.activeItem : ""
+                }`}
+              >
+                <BarChartIcon />
+                <p>My Business</p>
+              </li>
+            ) : (
+              ""
+            )}
             <li
               className={`${styles.navItem} ${
                 activeView === 3 ? styles.activeItem : ""

@@ -32,14 +32,15 @@ const resetSchema = yup
       .matches(/[A-Z]/, "Password should contain an uppercase character")
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
+      .matches(
+        /@#&\$]/,
+        "Password should contain at least special character (e.g. @, #, &, $)"
+      )
       .equals([yup.ref("confirmPassword")], "Passwords do not match"),
     confirmPassword: yup
       .string()
       .required("Required")
-      .min(8, "Password should be at least 8 characters long")
-      .matches(/[A-Z]/, "Password should contain an uppercase character")
-      .matches(/[a-z]/, "Password should contain an lowercase character")
-      .matches(/[0-9]/, "Password should contain at least one number")
+
       .equals([yup.ref("password")], "Passwords do not match"),
   })
   .required();
@@ -101,6 +102,7 @@ const ResetPasswordModalUI: React.FC<ResetModalProps> = ({
             Password must:
             <li>Have atleast one lower case character</li>
             <li>Have atleast one upper case character</li>
+            <li>Have atleast one special character (e.g. @, #, &, $)</li>
             <li>Have atleast one number</li>
             <li>Be atleast 8 characters</li>
           </ul>

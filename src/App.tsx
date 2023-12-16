@@ -9,10 +9,10 @@ function App() {
   const toast = useAppSelector((state) => state.toast);
   const dispatch = useAppDispatch();
   const closeModal = () => dispatch(updateToast({ ...toast, show: false }));
-  const { fetchAgent } = useGetUser();
+  const { fetchUser } = useGetUser();
 
   React.useEffect(() => {
-    localStorage.getItem("roofbucksAccess") && fetchAgent();
+    localStorage.getItem("roofbucksAccess") && fetchUser();
   }, []);
 
   return (

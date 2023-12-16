@@ -3,7 +3,7 @@ import { PersonalFormUI, Preloader, ProfileFormData } from "components";
 import { useApiRequest } from "hooks";
 import { createAgentProfileService, fetchProfileService } from "api";
 import { updateToast } from "redux/actions";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { getErrorMessage } from "helpers";
 
 const initialProfileValues: ProfileFormData = {
@@ -35,7 +35,8 @@ interface PersonalFormProps {
 
 const PersonalForm: React.FC<PersonalFormProps> = ({ onSuccess }) => {
   const dispatch = useAppDispatch();
-
+  const { role } = useAppSelector((state) => state.user);
+  
   const {
     run: runFetch,
     data: fetchResponse,

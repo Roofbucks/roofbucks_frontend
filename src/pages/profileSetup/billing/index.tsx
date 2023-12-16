@@ -1,10 +1,11 @@
-import { addBillingService } from "api";
+import { addBillingService, fetchBanksService } from "api";
 import { BillingFormUI, Preloader } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import * as React from "react";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
+import { optionType } from "types";
 
 interface BusinessFormProps {
   onSuccess: () => void;
@@ -19,6 +20,18 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
     requestStatus: createStatus,
     error: createError,
   } = useApiRequest({});
+  const {
+    run: runBanks,
+    data: banksResponse,
+    requestStatus: banksStatus,
+    error: banksError,
+  } = useApiRequest({});
+
+  const fetchBanks = () => runBanks(fetchBanksService());
+
+  React.useEffect(() => {
+    fetchBanks();
+  }, []);
 
   const submit = (data) => {
     runCreate(addBillingService(data));
@@ -55,8 +68,7 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
             heading: "Error",
             text: getErrorMessage({
               error: createError ?? createResponse,
-              message:
-                "Unable to add billing information. Please try again",
+              message: "Unable to add billing information. Please try again",
             }),
             type: false,
           })
@@ -65,12 +77,37 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
     }
   }, [createResponse, createError]);
 
-  const showLoader = createStatus.isPending;
+  const banks = React.useMemo<optionType[]>(() => {
+    if (banksResponse || createError) {
+      if (banksResponse?.status === 200) {
+        return banksResponse.data.map((item) => ({
+          label: item.name,
+          value: item.name
+        }))
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Error",
+            text: getErrorMessage({
+              error: createError ?? createResponse,
+              message: "Unable to fetch banks, please contact support",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+    return []
+  }, [createResponse, createError]);
+
+
+  const showLoader = createStatus.isPending || banksStatus.isPending;
 
   return (
     <>
       <Preloader loading={showLoader} />
-      <BillingFormUI submit={submit} />
+      <BillingFormUI submit={submit} banks={banks} />
     </>
   );
 };
