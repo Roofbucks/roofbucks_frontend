@@ -38,7 +38,7 @@
   border-bottom: 1px solid var(--green);
 }
 .formWrap {
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 .accountForm {
   max-width: 800px;
@@ -75,6 +75,81 @@
   height: 44px;
   font-family: "Source Sans Pro";
   font-weight: 500;
+}
+
+.accountInfo {
+  margin-bottom: 4rem;
+}
+
+.accountInfoTtl {
+  margin-bottom: 1.5rem;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.personalForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0 1rem;
+  max-width: 700px;
+}
+
+.imageSec {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.imageWrap {
+  border: 1px solid #808080;
+  background: var(--black);
+  border-radius: 50%;
+  width: 100px;
+  min-width: 100px;
+  height: 100px;
+  position: relative;
+  margin-right: 1.2rem;
+}
+.imageWrap img {
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.image {
+  background: var(--black);
+  border-radius: 50%;
+  padding: 4px;
+  border: 1px solid #fcfcfc;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+.image svg {
+}
+.logoTtl {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.btnSec {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.btnSec button {
+  font-size: 14px;
+  width: 100px;
+  height: 40px;
+}
+.btnSec button:first-of-type {
+  color: var(--red);
+  border-color: var(--red);
+}
+.txtArea {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 @media screen and (max-width: 800px) {
@@ -126,5 +201,25 @@
     width: 100%;
     justify-content: center;
     font-size: 16px;
+  }
+  .accountInfoTtl {
+    font-size: 20px;
+  }
+  .imageWrap {
+    min-width: 80px;
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+  }
+  .logoTtl {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .logoTxt {
+    font-size: 13px;
+  }
+  .txtArea {
+    grid-column-start: 1;
+    grid-column-end: 2;
   }
 }

@@ -1,31 +1,11 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { SecurityIcon, UserIcon } from "assets";
+import { EditIcon, SecurityIcon, UserIcon, WarningIcon } from "assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input } from "components";
-
-// Account
-interface AccountData {
-  displayName: string;
-  agencyName: string;
-  website: string;
-}
-
-const initialAccountValues: AccountData = {
-  displayName: "",
-  agencyName: "",
-  website: "",
-};
-
-const accountSchema = yup
-  .object({
-    displayName: yup.string().required("Required"),
-    agencyName: yup.string().required("Required"),
-    website: yup.string(),
-  })
-  .required();
+import { Button, Input, Textarea } from "components";
+import { optionType } from "types";
 
 // Security
 interface SecurityData {
@@ -72,15 +52,6 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
   const [view, setView] = React.useState(1);
 
   const {
-    register: registerAccount,
-    handleSubmit: handleSubmitAccount,
-    formState: { errors: errorsAccount },
-  } = useForm<AccountData>({
-    resolver: yupResolver(accountSchema),
-    defaultValues: initialAccountValues,
-  });
-
-  const {
     register: registerSecurity,
     handleSubmit: handleSubmitSecurity,
     formState: { errors: errorsSecurity },
@@ -93,10 +64,6 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
   React.useEffect(() => {
     resetSecurity();
   }, [reset]);
-
-  const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
-    console.log(data);
-  };
 
   const onSubmitSecurity: SubmitHandler<SecurityData> = (data) => {
     submitPassword({
@@ -125,47 +92,10 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
       </nav>
       <section className={styles.formWrap}>
         {view === 1 ? (
-          <form className={styles.accountForm}>
-            <Input
-              label="Display Name"
-              placeholder="e.g. Jane"
-              type="text"
-              parentClassName={styles.inputWrap}
-              required
-              validatorMessage={errorsAccount.displayName?.message}
-              name="displayName"
-              register={registerAccount}
-            />
-            <Input
-              label="Company Name"
-              placeholder="e.g. Doe Realty"
-              type="text"
-              parentClassName={styles.inputWrap}
-              required
-              validatorMessage={errorsAccount.agencyName?.message}
-              name="agencyName"
-              register={registerAccount}
-            />
-            <Input
-              label="Business website"
-              placeholder="e.g. www.roofbucks.com"
-              type="text"
-              parentClassName={styles.inputWrap}
-              required
-              validatorMessage={errorsAccount.website?.message}
-              name="website"
-              register={registerAccount}
-            />
-            <div className={styles.btnWrap}>
-              <Button
-                className={styles.btn}
-                onClick={handleSubmitAccount(onSubmitAccount)}
-                type="primary"
-              >
-                Save
-              </Button>
-            </div>
-          </form>
+          <>
+            <PersonalForm />
+            <BusinessForm />
+          </>
         ) : (
           <form className={styles.securityForm}>
             <Input
@@ -198,17 +128,351 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
               name="confirmPassword"
               register={registerSecurity}
             />
-            <div className={styles.btnWrap}>
+
+            <div className={styles.btnSec}>
+              <Button type="secondary" onClick={resetSecurity}>
+                Cancel
+              </Button>
               <Button
-                className={styles.btn}
-                onClick={handleSubmitSecurity(onSubmitSecurity)}
                 type="primary"
+                onClick={handleSubmitSecurity(onSubmitSecurity)}
               >
                 Save
               </Button>
             </div>
           </form>
         )}
+      </section>
+    </>
+  );
+};
+
+interface PersonalFormData {
+  avatar: File | undefined;
+  firstName: string;
+  lastName: string;
+  email: string;
+  number: string;
+  country: string;
+  city: string;
+  street: string;
+}
+
+const personalFormSchema = yup
+  .object({
+    avatar: yup.mixed().required("Required"),
+    firstName: yup.string().required("Required"),
+    lastName: yup.string().required("Required"),
+    email: yup.string().required("Required"),
+    number: yup.string().required("Required"),
+    city: yup.string().required("Required"),
+    street: yup.string().required("Required"),
+    country: yup.string().required("Required"),
+  })
+  .required();
+
+const PersonalForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    reset,
+  } = useForm<PersonalFormData>({
+    resolver: yupResolver(personalFormSchema),
+    // defaultValues: initialProfileValues,
+  });
+
+  const handleChangeImage = (e) => {
+    const file: File = e.target.files[0];
+    file && setValue("avatar", file);
+  };
+
+  const image = watch("avatar");
+
+  const onSubmit: SubmitHandler<PersonalFormData> = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <>
+      <section className={styles.accountInfo}>
+        <p className={styles.accountInfoTtl}>Personal Info</p>
+        <div className={styles.imageSec}>
+          <div className={styles.imageWrap}>
+            {image && <img alt="" src={URL?.createObjectURL(image)} />}
+            <label className={styles.image} htmlFor="avatar">
+              <input
+                style={{ display: "none" }}
+                id="avatar"
+                type={"file"}
+                accept=".png, .jpg, .jpeg"
+                onChange={handleChangeImage}
+              />
+              <EditIcon />
+            </label>
+          </div>
+          <span>
+            <p className={styles.logoTtl}>Display picture</p>
+            <p className={styles.logoTxt}>
+              Finanssmälta. Instegsjobb mide i mobilmobbning.{" "}
+            </p>
+            {errors.avatar?.message && !watch("avatar") && (
+              <p className={styles.errorMsg}>
+                <WarningIcon /> {errors.avatar?.message}
+              </p>
+            )}
+          </span>
+        </div>
+        <form className={styles.personalForm}>
+          <Input
+            label="First name"
+            showRequired={true}
+            placeholder="E.g. Jane"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.firstName?.message}
+            name="firstName"
+            register={register}
+          />
+          <Input
+            label="Last name"
+            showRequired={true}
+            placeholder="E.g. Doe"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.lastName?.message}
+            name="lastName"
+            register={register}
+          />
+          <Input
+            label="Email"
+            showRequired={true}
+            placeholder="Your email address"
+            type="email"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.email?.message}
+            name="email"
+            register={register}
+          />
+          <Input
+            label="Phone Number"
+            showRequired={true}
+            placeholder="E.g. 0814 000 0000"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.number?.message}
+            name="number"
+            register={register}
+          />
+          <Input
+            label="Country"
+            showRequired={true}
+            placeholder="E.g. Nigeria"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.country?.message}
+            name="country"
+            register={register}
+          />
+          <Input
+            label="City"
+            showRequired={true}
+            placeholder="Your City"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.city?.message}
+            name="city"
+            register={register}
+          />
+          <Input
+            label="Street"
+            showRequired={true}
+            placeholder="Your street’s name"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.lastName?.message}
+            name="lastName"
+            register={register}
+          />
+        </form>
+        <div className={styles.btnSec}>
+          <Button type="secondary" onClick={reset}>
+            Cancel
+          </Button>
+          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+            Save
+          </Button>
+        </div>
+      </section>
+    </>
+  );
+};
+
+interface BusinessFormData {
+  logo: File | undefined;
+  country: string;
+  city: string;
+  email: string;
+  number: string;
+  website: string;
+  description: string;
+}
+
+const businessFormSchema = yup
+  .object({
+    logo: yup.mixed().required("Required"),
+    website: yup.string().url("Enter a valid url").required("Required"),
+    description: yup.string().required("Required"),
+    email: yup.string().required("Required"),
+    number: yup.string().required("Required"),
+    city: yup.string().required("Required"),
+    country: yup.string().required("Required"),
+  })
+  .required();
+
+interface BusinessFormProps {
+  initData: BusinessFormData;
+  submit: (data) => void;
+}
+
+const BusinessForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    reset,
+  } = useForm<BusinessFormData>({
+    resolver: yupResolver(businessFormSchema),
+    // defaultValues: initialProfileValues,
+  });
+
+  const handleChangeImage = (e) => {
+    const file: File = e.target.files[0];
+    file && setValue("logo", file);
+  };
+
+  const image = watch("logo");
+
+  const onSubmit: SubmitHandler<BusinessFormData> = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <>
+      <section className={styles.accountInfo}>
+        <p className={styles.accountInfoTtl}>Business Info</p>
+        <div className={styles.imageSec}>
+          <div className={styles.imageWrap}>
+            {image && <img alt="" src={URL?.createObjectURL(image)} />}
+            <label className={styles.image} htmlFor="logo">
+              <input
+                style={{ display: "none" }}
+                id="logo"
+                type={"file"}
+                accept=".png, .jpg, .jpeg"
+                onChange={handleChangeImage}
+              />
+              <EditIcon />
+            </label>
+          </div>
+          <span>
+            <p className={styles.logoTtl}>Business Logo</p>
+            <p className={styles.logoTxt}>
+              Finanssmälta. Instegsjobb mide i mobilmobbning.{" "}
+            </p>
+            {errors.logo?.message && !watch("logo") && (
+              <p className={styles.errorMsg}>
+                <WarningIcon /> {errors.logo?.message}
+              </p>
+            )}
+          </span>
+        </div>
+        <form className={styles.personalForm}>
+          <Input
+            label="Country of Operation"
+            showRequired={true}
+            placeholder="E.g. Nigeria"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.country?.message}
+            name="country"
+            register={register}
+          />
+          <Input
+            label="City of Operation"
+            showRequired={true}
+            placeholder="Your City"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.city?.message}
+            name="city"
+            register={register}
+          />
+          <Input
+            label="Email"
+            showRequired={true}
+            placeholder="Your email address"
+            type="email"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.email?.message}
+            name="email"
+            register={register}
+          />
+          <Input
+            label="Phone Number"
+            showRequired={true}
+            placeholder="E.g. 0814 000 0000"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.number?.message}
+            name="number"
+            register={register}
+          />
+
+          <Input
+            label="Business Website"
+            showRequired={true}
+            placeholder="Your street’s name"
+            type="text"
+            parentClassName={styles.input}
+            required
+            validatorMessage={errors.website?.message}
+            name="url"
+            register={register}
+          />
+          <Textarea
+            label="Enter a suitable description to convert your leads"
+            placeholder=""
+            parentClassName={styles.txtArea}
+            required
+            validatorMessage={errors.description?.message}
+            name="description"
+            register={register}
+          />
+        </form>
+        <div className={styles.btnSec}>
+          <Button type="secondary" onClick={reset}>
+            Cancel
+          </Button>
+          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+            Save
+          </Button>
+        </div>
       </section>
     </>
   );

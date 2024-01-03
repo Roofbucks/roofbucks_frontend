@@ -82,15 +82,15 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
       if (banksResponse?.status === 200) {
         return banksResponse.data.map((item) => ({
           label: item.name,
-          value: item.name
-        }))
+          value: item.name,
+        }));
       } else {
         dispatch(
           updateToast({
             show: true,
             heading: "Error",
             text: getErrorMessage({
-              error: createError ?? createResponse,
+              error: banksError ?? banksResponse,
               message: "Unable to fetch banks, please contact support",
             }),
             type: false,
@@ -98,9 +98,8 @@ const BillingForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
         );
       }
     }
-    return []
-  }, [createResponse, createError]);
-
+    return [];
+  }, [banksResponse, banksError]);
 
   const showLoader = createStatus.isPending || banksStatus.isPending;
 
