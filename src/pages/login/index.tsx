@@ -22,7 +22,6 @@ const LoginModal: React.FC<LoginProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const { fetchUser } = useGetUser();
 
   const {
     run: runLogin,
@@ -40,10 +39,11 @@ const LoginModal: React.FC<LoginProps> = ({
 
         localStorage.setItem("roofbucksAccess", data.tokens.access);
         localStorage.setItem("roofbucksRefresh", data.tokens.refresh);
-
         localStorage.setItem("id", id);
-
-        // fetchUser();
+        localStorage.setItem(
+          "profileCompletion",
+          JSON.stringify(loginResponse.data.stages_of_profile_completion)
+        );
 
         dispatch(
           updateToast({

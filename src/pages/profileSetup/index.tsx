@@ -37,7 +37,7 @@ const ProfileSetup = () => {
 
   return (
     <>
-      <ProfileSetupUI role={role} activeView={view}>
+      <ProfileSetupUI handleSkip={goToDashBoard} role={role} activeView={view}>
         {view === 1 ? (
           <PersonalForm
             onSuccess={role === "agent" ? viewMyBusiness : viewBillings}

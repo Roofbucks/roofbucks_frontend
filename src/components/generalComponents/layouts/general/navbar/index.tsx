@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({
   showNav,
   openNav,
 }) => {
-  const { avatar, firstName } = useAppSelector((state) => state.user);
+  const { avatar, firstName, role } = useAppSelector((state) => state.user);
 
   const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
@@ -190,6 +190,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         setShowLogout(true);
                       }}
                       links={["My Dashboard", "Profile"]}
+                      role={role}
                     />
                   </div>
                 </div>
@@ -251,6 +252,7 @@ interface AuthMenuDropdownProps {
   closeMenu: (x: boolean) => void;
   logout: () => void;
   links: string[];
+  role: string;
 }
 
 export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
@@ -259,6 +261,7 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
   closeMenu,
   logout,
   links,
+  role,
 }) => {
   const navigate = useNavigate();
   const { id } = useAppSelector((state) => state.user);
@@ -272,11 +275,14 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
       label: "My Dashboard",
       onClick: () => navigate(Routes.overview),
     },
-    {
+  ];
+
+  if (role === "agent") {
+    items.push({
       label: "Profile",
       onClick: () => navigate(Routes.profileID(id)),
-    },
-  ];
+    });
+  }
 
   return (
     <MenuDropdown show={show} className={className} closeMenu={closeMenu}>

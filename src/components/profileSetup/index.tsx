@@ -1,22 +1,34 @@
 import { BarChartIcon, DollarIcon, ProfileIcon } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
+import { Button } from "components";
 
 interface ProfileSetupUIProps {
   children: any;
   activeView: number;
   role: string;
+  handleSkip: () => void;
 }
 
 const ProfileSetupUI: React.FC<ProfileSetupUIProps> = ({
   children,
   activeView,
   role,
+  handleSkip,
 }) => {
   return (
     <>
       <section className={`appContainer ${styles.header}`}>
-        <h1 className={styles.ttl}>Profile</h1>
+        <h1 className={styles.ttl}>
+          Profile{" "}
+          {role === "agent" ? (
+            ""
+          ) : (
+            <Button type="secondary" onClick={handleSkip}>
+              Skip
+            </Button>
+          )}
+        </h1>
         <nav className={styles.nav} aria-label="Profile">
           <ul className={styles.navList}>
             <li

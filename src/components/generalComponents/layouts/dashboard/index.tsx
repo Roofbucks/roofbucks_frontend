@@ -8,6 +8,8 @@ import {
   PropertiesIcon,
   SettingsIcon,
   SupportIcon,
+  UserIcon,
+  UserIcon2,
 } from "assets";
 import { LogoWithText, useOutsideAlerter } from "components";
 import * as React from "react";
@@ -20,7 +22,7 @@ import { AuthMenuDropdown } from "../general/navbar";
 
 interface SidebarType {
   active: dashboardPages;
-  state: dashboardPages | "Logout" | "Support";
+  state: dashboardPages | "Logout" | "Support" | "Create profile";
   url?: string;
   type: "link" | "button";
   action?: () => void;
@@ -72,11 +74,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   active,
   children,
 }) => {
-  const {
-    role: user,
-    avatar,
-    firstName,
-  } = useAppSelector((state) => state.user);
+  const { role, avatar, firstName } = useAppSelector((state) => state.user);
   const [showMenuDropdown, setShowMenuDropdown] = React.useState(false);
 
   const items: SidebarType[] = [
@@ -122,6 +120,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     },
     {
       active,
+      state: "Create profile",
+      url: Routes.profileSetup(""),
+      type: "link",
+      Icon: UserIcon2,
+      action: () => setShowMenu(false),
+    },
+    {
+      active,
       state: "Logout",
       type: "button",
       action: () => setShowLogout(true),
@@ -137,8 +143,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     },
   ];
 
-  const SidebarItems: SidebarType[] = items;
-  
+  let SidebarItems: SidebarType[] = items;
+
+  let completion = localStorage.getItem("profileCompletion");
+  if (completion) {
+    const completionObj = JSON.parse(completion);
+
+    if (
+      role === "agent" ||
+      (role === "shareholder" && completionObj.profile && completionObj.billing)
+    )
+      SidebarItems = SidebarItems.filter(
+        (item) => item.state !== "Create profile"
+      );
+  }
+
   const [showMenu, setShowMenu] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
 
@@ -172,7 +191,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <div className={styles.profileSec}>
             <span className={styles.profile} role={"button"}>
               <img src={avatar} alt="" />
-              <CaretRight onClick={() => setShowMenuDropdown(!showMenuDropdown)} />
+              <CaretRight
+                onClick={() => setShowMenuDropdown(!showMenuDropdown)}
+              />
               <AuthMenuDropdown
                 show={showMenuDropdown}
                 closeMenu={(x) => setShowMenuDropdown(x)}
@@ -182,6 +203,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 }}
                 links={["Home", "Profile"]}
                 className={styles.menuDropdown}
+                role={role}
               />
             </span>
             <p>Welcome Back {firstName}!</p>

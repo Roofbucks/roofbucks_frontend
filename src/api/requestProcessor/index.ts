@@ -42,6 +42,13 @@ axiosInstance.interceptors.response.use(
         localStorage.clear();
         window.location.assign("/?login=true");
       }
+    } else if (
+      error?.response?.status === 401 &&
+      originalRequest._retry &&
+      window.location.pathname !== "/"
+    ) {
+      localStorage.clear();
+      window.location.assign("/?login=true");
     }
     return Promise.reject(error);
   }
