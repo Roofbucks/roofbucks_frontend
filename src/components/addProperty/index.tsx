@@ -404,6 +404,13 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     data.surveyPlan && formData.append("approved_survey_plan", data.surveyPlan);
     data.media && formData.append("default_image", data.media[0]);
 
+    if (data.otherDocs.length > 0) {
+      data.otherDocs.map((item, index) => {
+        item.file && formData.append(`others_${index}_name`, item.file);
+        formData.append(`others_${index}_image`, item.name);
+      });
+    }
+
     submit(formData);
   };
 
@@ -514,7 +521,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                 </div>
                 <div className={styles.halfWidth}>
                   <Input
-                    label="COMPLETION COST ($)"
+                    label="COMPLETION COST (NGN)"
                     placeholder="1000"
                     type="number"
                     parentClassName={styles.input}
@@ -757,7 +764,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
           <div className={styles.inputGroup}>
             <div className={styles.halfWidth}>
               <Input
-                label="ERF SIZE"
+                label="PLOT SIZE (SQMs)"
                 placeholder=""
                 type="text"
                 parentClassName={styles.input}
@@ -781,7 +788,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
             </div>
             <div className={styles.halfWidth}>
               <Input
-                label="FLOOR SIZE"
+                label="FLOOR SIZE (SQMs)"
                 placeholder=""
                 type="text"
                 parentClassName={styles.input}

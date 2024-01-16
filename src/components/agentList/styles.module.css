@@ -35,6 +35,9 @@
   margin-top: 2.5rem;
 }
 .agentsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
 }
 .topDealsWrap {
 }
@@ -61,22 +64,24 @@
   grid-template-columns: 140px auto;
   gap: 1rem;
   padding: 1rem 1.2rem;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
 }
 .agentCard > div {
   background: #fafafa;
   border-radius: inherit;
   padding: 14px;
-  height: fit-content;
+  /* height: fit-content; */
 }
 .personal {
   text-align: center;
 }
 .personal img {
   width: 100px;
+  min-width: 100px;
   height: 100px;
   object-fit: cover;
   margin-bottom: 1rem;
+  border-radius: 50%;
 }
 .name {
   color: var(--green);
@@ -89,14 +94,16 @@
   color: #808080;
 }
 .moreInfo {
+  display: grid;
+  gap: 1rem;
 }
 .moreInfo p {
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
 }
 .contact {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   max-width: 450px;
   color: #808080;
@@ -116,10 +123,10 @@
 }
 .btn {
   font-weight: 400;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 .btn svg {
@@ -168,6 +175,9 @@
 }
 
 @media screen and (max-width: 600px) {
+  .agentsList {
+    grid-template-columns: 1fr;
+  }
   .agentCard {
     grid-template-columns: 1fr;
   }
