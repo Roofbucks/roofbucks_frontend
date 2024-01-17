@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   avatar,
+  EmptyStreet,
   FilterIcon,
   KeyboardIconOutline,
   LocationIconOutline,
@@ -116,12 +117,25 @@ const AgentListUI: React.FC<AgentListProps> = ({
           </div>
         </div>
         <div className={styles.agentsWrap}>
-          <div className={styles.agentsList}>
-            {agents.map((agent) => (
-              <AgentCard key={agent.id} {...agent} handleView={handleView} />
-            ))}
-          </div>
-          <Pagination {...pagination} />
+          {agents.length > 0 ? (
+            <>
+              <div className={styles.agentsList}>
+                {agents.map((agent) => (
+                  <AgentCard
+                    key={agent.id}
+                    {...agent}
+                    handleView={handleView}
+                  />
+                ))}
+              </div>
+              <Pagination {...pagination} />
+            </>
+          ) : (
+            <div className={styles.empty}>
+              <EmptyStreet />
+              <p>There are no agents</p>
+            </div>
+          )}
         </div>
       </section>
     </>

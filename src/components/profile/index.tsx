@@ -124,6 +124,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     images: propertyImages,
     id: "123",
     amenities: { bedroom: 5, toilet: 5 },
+    calendlyURL: ""
   };
 
   const properties: PropertyCardData[] = new Array(6).fill(property);

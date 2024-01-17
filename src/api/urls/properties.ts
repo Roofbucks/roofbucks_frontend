@@ -118,7 +118,7 @@ export const listingsURL = ({
   type,
   status,
 }) =>
-  `/properties/listings?${appendParams({
+  `/properties/listings/?${appendParams({
     search,
     page,
     limit,

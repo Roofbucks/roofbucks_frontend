@@ -464,7 +464,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                 onChange={(x) => setValue("propertyType", x)}
                 validatorMessage={
                   watch("propertyType").value === ""
-                    ? errors.propertyType?.value?.message ?? ""
+                    ? errors.propertyType?.value?.message?.toString() ?? ""
                     : ""
                 }
                 name={"propertyType"}
@@ -661,7 +661,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                 onChange={(x) => setValue("country", x)}
                 validatorMessage={
                   watch("country").value === ""
-                    ? errors.country?.value?.message ?? ""
+                    ? errors.country?.value?.message?.toString() ?? ""
                     : ""
                 }
                 name={"country"}

@@ -26,6 +26,10 @@ interface ListingsProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   };
   submitFilter: (data) => void;
+  handleApartmentFilter: () => void;
+  handleBudgetFilter: () => void;
+  handleCountryFilter: () => void;
+  handleStatusFilter: () => void;
 }
 
 const ListingsUI: React.FC<ListingsProps> = ({
@@ -35,58 +39,29 @@ const ListingsUI: React.FC<ListingsProps> = ({
   handleView,
   submitFilter,
   handleApply,
+  handleApartmentFilter,
+  handleBudgetFilter,
+  handleCountryFilter,
+  handleStatusFilter,
 }) => {
   const filters = [
     {
       name: "Country",
-      onClick: () => {},
+      onClick: handleCountryFilter,
     },
     {
       name: "Budget",
-      onClick: () => {},
-    },
-    {
-      name: "Training",
-      onClick: () => {},
+      onClick: handleBudgetFilter,
     },
     {
       name: "Apartment",
-      onClick: () => {},
-    },
-    {
-      name: "Bedroom",
-      onClick: () => {},
+      onClick: handleApartmentFilter,
     },
     {
       name: "Status",
-      onClick: () => {},
+      onClick: handleStatusFilter,
     },
   ];
-
-  const propertyImages: string[] = [
-    property3,
-    property2,
-    property3,
-    property1,
-    property3,
-    property3,
-  ];
-
-  const property: PropertyCardData = {
-    address: "256, Bayajida Close. LA. Nigeria",
-    name: "Two Bedroom Apartmentpartmentttt",
-    discount: "20% off",
-    description: `Modern two-bedroom apartment in sought-after Ghana marries traditional
-    SF charm with contemporary city living. Tall arching columns in the
-    front of the roomy living area provide beauty....`,
-    amount: "$10,000",
-    owner: "By Bear Properties",
-    images: propertyImages,
-    id: "123",
-    amenities: { bedroom: 5, toilet: 5 },
-  };
-
-  const topDeals: PropertyCardData[] = new Array(4).fill(property);
 
   return (
     <>
@@ -94,35 +69,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
         text={`Explore our properties to find the perfect home for yourself from our verified businesses. `}
         title="Property Listing"
       />
-      {/* <section>
-        <div className={`appContainer ${styles.topDeals}`}>
-          <h2 className={styles.ttl}>Top Deals</h2>
-          <div className={styles.propertyList}>
-            {topDeals.map((item, index) => (
-              <PropertyCard
-                primaryBtn={{
-                  text: "Apply",
-                  action: (id) => handleApply(id),
-                }}
-                secondaryBtn={{
-                  text: (
-                    <span className={styles.scheduleCallBtn}>
-                      <CalendarIconOutline /> Schedule Call
-                    </span>
-                  ),
-                  action: (id) => console.log(id),
-                }}
-                type="row"
-                size="large"
-                moreDetails={handleView}
-                {...item}
-                key={index}
-                className={styles.dealCard}
-              />
-            ))}
-          </div>
-        </div>
-      </section> */}
+
       <section>
         <div className={`appContainer ${styles.listings}`}>
           <div className={styles.searchAndFilter}>
@@ -150,30 +97,36 @@ const ListingsUI: React.FC<ListingsProps> = ({
           </div>
 
           {properties.length > 0 ? (
-            <div className={styles.propertyListings}>
-              {properties.map((item, index) => (
-                <PropertyCard
-                  primaryBtn={{
-                    text: "Apply",
-                    action: (id) => handleApply(id),
-                  }}
-                  secondaryBtn={{
-                    text: (
-                      <span className={styles.scheduleCallBtn}>
-                        <CalendarIconOutline /> Schedule Call
-                      </span>
-                    ),
-                    action: (id) => console.log(id),
-                  }}
-                  type="column"
-                  size="normal"
-                  moreDetails={handleView}
-                  {...item}
-                  key={index}
-                />
-              ))}
+            <>
+              <div className={styles.propertyListings}>
+                {properties.map((item, index) => (
+                  <PropertyCard
+                    primaryBtn={{
+                      text: "Apply",
+                      action: (id) => handleApply(id),
+                    }}
+                    secondaryBtn={{
+                      text: (
+                        <a
+                          target="_blank"
+                          href={item.calendlyURL}
+                          className={styles.scheduleCallBtn}
+                        >
+                          <CalendarIconOutline /> Schedule Call
+                        </a>
+                      ),
+                      action: (id) => console.log(id),
+                    }}
+                    type="column"
+                    size="normal"
+                    moreDetails={handleView}
+                    {...item}
+                    key={index}
+                  />
+                ))}
+              </div>
               <Pagination {...pagination} />
-            </div>
+            </>
           ) : (
             <div className={styles.empty}>
               <EmptyStreet />

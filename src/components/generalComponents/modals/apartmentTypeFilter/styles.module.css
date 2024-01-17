@@ -1,0 +1,27 @@
+.content {
+  padding: 1.5rem;
+}
+.heading {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ttl {
+  font-size: 24px;
+}
+.checkList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.btns {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+.btns button {
+  font-size: 14px;
+}

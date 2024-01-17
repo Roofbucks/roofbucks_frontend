@@ -11,6 +11,7 @@ export const property: PropertyCardData = {
   description: "description",
   amount: "$2500",
   id: "1234",
+  calendlyURL: ""
 };
 
 export const propertyList: PropertyCardData[] = new Array(10).fill(property);

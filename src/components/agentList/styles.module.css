@@ -137,6 +137,20 @@
   fill: var(--green);
 }
 
+.empty {
+  text-align: center;
+}
+.empty svg {
+  width: 80%;
+  max-width: 400px;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.empty p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 @media screen and (max-width: 1100px) {
   .agentsWrap {
     gap: 2rem;

@@ -1,5 +1,13 @@
 import { listingsService } from "api";
-import { ListingsUI, Preloader, PropertyCardData } from "components";
+import {
+  ApartmentTypeFilterModal,
+  BudgetFilterModal,
+  CountryFilterModal,
+  ListingsUI,
+  Preloader,
+  PropertyCardData,
+  StatusFilterModal,
+} from "components";
 import { getErrorMessage } from "helpers";
 import { useDebounce, useApiRequest } from "hooks";
 import { ApplyForm } from "pages";
@@ -46,7 +54,7 @@ const Listings = () => {
   };
 
   React.useEffect(() => {
-    // fetchProperties();
+    fetchProperties();
   }, [debouncedSearchTerm, filter]);
 
   const properties = React.useMemo<PropertyCardData[]>(() => {
@@ -62,16 +70,15 @@ const Listings = () => {
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
-          amount: `$${item.total_property_cost}`,
-          owner: item.company_name,
-          images: item.image_album
-            ? item.image_album.media.map((item) => item.image)
-            : [],
+          amount: `NGN ${item.total_property_cost}`,
+          owner: "",
+          images: item.images,
           id: item.id,
           amenities: {
             bedroom: item.number_of_bedrooms,
             toilet: item.number_of_toilets,
           },
+          calendlyURL: "",
         }));
       } else {
         dispatch(
@@ -130,12 +137,25 @@ const Listings = () => {
     setPages({ ...pages, current: 1 });
   };
   const showLoader = requestStatus.isPending;
+
+  const [apartment, setApartment] = React.useState(false);
+  const [budget, setBudget] = React.useState(false);
+  const [country, setCountry] = React.useState(false);
+  const [status, setStatus] = React.useState(false);
+
   return (
     <>
       <Preloader loading={showLoader} />
+      <ApartmentTypeFilterModal
+        show={apartment}
+        close={() => setApartment(false)}
+      />
+      <BudgetFilterModal show={budget} close={() => setBudget(false)} />
+      <CountryFilterModal show={country} close={() => setCountry(false)} />
+      <StatusFilterModal show={status} close={() => setStatus(false)} />
       <ApplyForm show={showApply} close={() => setShowApply(false)} />
       <ListingsUI
-        properties={propertyList}
+        properties={properties}
         pagination={{
           hide: properties.length === 0 || showLoader,
           current: pages.current,
@@ -154,6 +174,10 @@ const Listings = () => {
         }}
         submitFilter={handleFilter}
         handleApply={(id) => setShowApply(true)}
+        handleApartmentFilter={() => setApartment(true)}
+        handleBudgetFilter={() => setBudget(true)}
+        handleCountryFilter={() => setCountry(true)}
+        handleStatusFilter={() => setStatus(true)}
       />
     </>
   );

@@ -43,6 +43,7 @@ export interface PropertyCardData {
   description?: string;
   amount: string;
   id: string;
+  calendlyURL: string
 }
 
 export interface PropertyCardProps extends PropertyCardData {

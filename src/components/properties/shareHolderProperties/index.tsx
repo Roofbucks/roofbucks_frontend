@@ -31,7 +31,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
     owner: "By Bear Properties",
     images: [property3],
     amenities: { bedroom: 15, toilet: 21 },
-
+    calendlyURL: "",
     id: "",
   };
 
