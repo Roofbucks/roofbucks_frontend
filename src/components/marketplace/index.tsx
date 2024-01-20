@@ -227,7 +227,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
             </div>
             <div className={styles.filterItem}>
               <div className={styles.filterHd}>
-                <span>Price</span>{" "}
+                <span>Price (NGN)</span>{" "}
                 <CaretRight
                   role={"button"}
                   onClick={() =>
@@ -240,21 +240,6 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
               </div>
               {filters.propertyPrice ? (
                 <div className={styles.priceWrap}>
-                  <CustomSelect
-                    onChange={() => {}}
-                    validatorMessage={""}
-                    name={"currency"}
-                    placeholder={"Currency"}
-                    label={""}
-                    options={[
-                      { label: "USD", value: "USD" },
-                      { label: "GHC", value: "GHC" },
-                      { label: "NGN", value: "NGN" },
-                    ]}
-                    value={{ label: "USD", value: "USD" }}
-                    inputClass={styles.currencySelect}
-                    parentClassName={styles.currencySelectWrap}
-                  />
                   <div className={styles.minMax}>
                     <input
                       onChange={(e) =>
@@ -266,8 +251,8 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                       value={filterValues.minPrice}
                       type="number"
                       placeholder="Min"
-                    />{" "}
-                    to
+                    />
+                    <span>to</span>
                     <input
                       onChange={(e) =>
                         setFilterValues({
@@ -347,7 +332,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
             {properties.map((item, index) => (
               <PropertyCard
                 primaryBtn={{
-                  text: "Connect",
+                  text: "Invest",
                   action: handleConnect,
                 }}
                 secondaryBtn={{

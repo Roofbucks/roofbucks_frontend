@@ -169,9 +169,10 @@
   width: 100%;
 }
 .minMax {
-  width: calc(100% - 75px);
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 16px 1fr;
+  gap: 12px;
   align-items: center;
 }
 .minMax input {
@@ -180,10 +181,11 @@
   border-width: 1px;
   border-style: solid;
   height: 36px;
-  text-align: center;
-  width: 70px;
+  /* text-align: center; */
+  width: 100%;
   background: transparent;
   font-size: 15px;
+  padding-left: 10px;
 }
 .btnSec button {
   width: 50%;

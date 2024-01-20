@@ -98,8 +98,10 @@
   font-weight: 500;
 }
 .scheduleCallBtn {
-  color: var(--green);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: black;
 }
 .scheduleCallBtn svg {
   margin-right: 4px;

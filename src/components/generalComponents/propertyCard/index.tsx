@@ -41,9 +41,9 @@ export interface PropertyCardData {
   name: string;
   address: string;
   description?: string;
-  amount: string;
+  amount: number;
   id: string;
-  calendlyURL: string
+  calendlyURL: string;
 }
 
 export interface PropertyCardProps extends PropertyCardData {
@@ -55,11 +55,13 @@ export interface PropertyCardProps extends PropertyCardData {
     text: string;
     action: (id) => void;
     className?: string;
+    disabled?: boolean;
   };
   secondaryBtn?: {
     text: string | any;
     action: (id) => void;
     className?: string;
+    disabled?: boolean;
   };
   secondaryAction?: JSX.Element;
 }
@@ -140,11 +142,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           ""
         )}
         <div className={styles.amtSec}>
-          <p>{amount}</p>
+          <p>NGN {amount}</p>
           <div>
             {secondaryAction}
             {secondaryBtn && (
               <Button
+                disabled={secondaryBtn.disabled}
                 className={`${secondaryBtn.className} ${styles.secBtn}`}
                 type="tertiary"
                 onClick={() => secondaryBtn.action(123)}
@@ -153,6 +156,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               </Button>
             )}
             <Button
+              disabled={primaryBtn.disabled}
               className={primaryBtn.className}
               type="primary"
               onClick={() => primaryBtn.action(123)}

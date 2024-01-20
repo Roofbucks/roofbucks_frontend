@@ -119,7 +119,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
     discount: "20% off",
-    amount: "$10,000",
+    amount: 10000,
     owner: "By Bear Properties",
     images: propertyImages,
     id: "123",

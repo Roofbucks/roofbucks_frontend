@@ -2,8 +2,10 @@ import { listingsService } from "api";
 import {
   ApartmentTypeFilterModal,
   BudgetFilterModal,
+  CompleteProfilePrompt,
   CountryFilterModal,
   ListingsUI,
+  LoginPrompt,
   Preloader,
   PropertyCardData,
   StatusFilterModal,
@@ -14,9 +16,8 @@ import { ApplyForm } from "pages";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
-import { propertyList } from "utils";
 
 const Listings = () => {
   // Hooks
@@ -37,7 +38,18 @@ const Listings = () => {
     type: "",
     status: "",
   });
-  const [showApply, setShowApply] = React.useState(false);
+  const [showApply, setShowApply] = React.useState({
+    show: false,
+    id: "",
+    totalCost: 0,
+  });
+  const [apartment, setApartment] = React.useState(false);
+  const [budget, setBudget] = React.useState(false);
+  const [country, setCountry] = React.useState(false);
+  const [status, setStatus] = React.useState(false);
+  const [login, setLogin] = React.useState(false);
+  const [completeProfile, setCompleteProfile] = React.useState(false);
+  const { role } = useAppSelector((state) => state.user);
 
   // API Request Hooks
   const { run, data, requestStatus, error } = useApiRequest({});
@@ -70,7 +82,7 @@ const Listings = () => {
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
-          amount: `NGN ${item.total_property_cost}`,
+          amount: item.total_property_cost,
           owner: "",
           images: item.images,
           id: item.id,
@@ -136,16 +148,39 @@ const Listings = () => {
     });
     setPages({ ...pages, current: 1 });
   };
-  const showLoader = requestStatus.isPending;
 
-  const [apartment, setApartment] = React.useState(false);
-  const [budget, setBudget] = React.useState(false);
-  const [country, setCountry] = React.useState(false);
-  const [status, setStatus] = React.useState(false);
+
+  const handleBuy = ({ id, totalCost }) => {
+    const hasToken =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion");
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!hasToken) {
+      setLogin(true);
+    } else if (incompleteProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowApply({ show: true, id, totalCost });
+    }
+  };
+
+  const showLoader = requestStatus.isPending;
 
   return (
     <>
       <Preloader loading={showLoader} />
+      <LoginPrompt show={login} close={() => setLogin(false)} />
+      <CompleteProfilePrompt
+        show={completeProfile}
+        close={() => setCompleteProfile(false)}
+      />
       <ApartmentTypeFilterModal
         show={apartment}
         close={() => setApartment(false)}
@@ -153,7 +188,10 @@ const Listings = () => {
       <BudgetFilterModal show={budget} close={() => setBudget(false)} />
       <CountryFilterModal show={country} close={() => setCountry(false)} />
       <StatusFilterModal show={status} close={() => setStatus(false)} />
-      <ApplyForm show={showApply} close={() => setShowApply(false)} />
+      <ApplyForm
+        {...showApply}
+        close={() => setShowApply({ show: false, id: "", totalCost: 0 })}
+      />
       <ListingsUI
         properties={properties}
         pagination={{
@@ -173,11 +211,12 @@ const Listings = () => {
           onChange: handleSearch,
         }}
         submitFilter={handleFilter}
-        handleApply={(id) => setShowApply(true)}
+        handleApply={handleBuy}
         handleApartmentFilter={() => setApartment(true)}
         handleBudgetFilter={() => setBudget(true)}
         handleCountryFilter={() => setCountry(true)}
         handleStatusFilter={() => setStatus(true)}
+        isAgent={role === "agent"}
       />
     </>
   );

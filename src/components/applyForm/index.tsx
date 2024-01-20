@@ -10,8 +10,12 @@ import {
   applyReasonOptions,
   initialOptionType,
 } from "utils";
-import { Button, CustomSelect, Input } from "components";
+import { Button, CheckBox, CustomSelect, Input } from "components";
 import { CloseIcon2 } from "assets";
+import { Routes } from "router";
+import { Link } from "react-router-dom";
+import { listingApplicationRequestData } from "api";
+import { useEffect } from "react";
 
 interface ApplyFormData {
   firstName: string;
@@ -22,8 +26,7 @@ interface ApplyFormData {
   reason: optionType;
   percent: optionType;
   amount: string;
-  longTermOwnership: optionType;
-  ownershipDuration: string;
+  longTermOwnership: boolean;
 }
 
 const initData: ApplyFormData = {
@@ -35,8 +38,7 @@ const initData: ApplyFormData = {
   reason: initialOptionType,
   percent: initialOptionType,
   amount: "",
-  longTermOwnership: initialOptionType,
-  ownershipDuration: "",
+  longTermOwnership: false,
 };
 
 const optionTypeSchema = yup.object({
@@ -54,31 +56,72 @@ const schema = yup
     smLink: yup.string().required("Required").url("Enter a valid url"),
     reason: optionTypeSchema,
     percent: optionTypeSchema,
-    longTermOwnership: optionTypeSchema,
+    longTermOwnership: yup
+      .boolean()
+      .required("You must agree with this to conitnue"),
     amount: yup
       .string()
       .required("Required")
       .matches(/[0-9]/, "Enter a valid number"),
-    ownershipDuration: yup.string().when("longTermOwnership", {
-      is: (val) => val.value === "yes",
-      then: (schema) => schema.required("Required"),
-    }),
   })
   .required();
 
-const ApplyFormUI = ({ submit, show, close }) => {
+interface ApplyFormUIProps {
+  show: boolean;
+  close: () => void;
+  submit: (data: listingApplicationRequestData) => void;
+  userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  totalCost: number;
+  property: string;
+}
+
+const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
+  submit,
+  show,
+  close,
+  userData,
+  totalCost,
+  property,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<ApplyFormData>({
     resolver: yupResolver(schema),
-    defaultValues: initData,
+    defaultValues: { ...initData, ...userData },
   });
 
-  const onSubmit: SubmitHandler<ApplyFormData> = (data) => submit(data);
+  useEffect(() => {
+    reset({ ...initData, ...userData });
+  }, [userData]);
+
+  const onSubmit: SubmitHandler<ApplyFormData> = (data) => {
+    const submitData: listingApplicationRequestData = {
+      property_id: property,
+      current_location: data.location,
+      social_link: data.smLink,
+      reason_for_purchase: data.reason.value,
+      intent_for_full_ownership: data.longTermOwnership,
+      percentage_ownership: parseInt(data.percent.value),
+      user_type: "agent",
+    };
+
+    submit(submitData);
+  };
+
+  const amountToPay =
+    watch("percent.value") === ""
+      ? 0
+      : parseInt(watch("percent.value")) * totalCost;
+
   return (
     <>
       <Modal
@@ -105,6 +148,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.firstName?.message}
             name="firstName"
             register={register}
+            disabled
           />
           <Input
             label="Last name"
@@ -115,6 +159,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.lastName?.message}
             name="lastName"
             register={register}
+            disabled
           />
           <Input
             label="Email"
@@ -125,6 +170,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.email?.message}
             name="email"
             register={register}
+            disabled
           />
           <Input
             label="Current location Address"
@@ -171,7 +217,7 @@ const ApplyFormUI = ({ submit, show, close }) => {
             parentClassName={styles.input}
           />
           <Input
-            label="Amount You will Pay"
+            label="Amount You will Pay (NGN)"
             placeholder=""
             type="number"
             parentClassName={styles.input}
@@ -180,50 +226,35 @@ const ApplyFormUI = ({ submit, show, close }) => {
             name="amount"
             register={register}
             disabled
+            value={amountToPay.toString()}
           />
           <p className={styles.note}>
-            Note: A service charge which is 2.5% of the total cost of the property
-            has been included
+            Note: A service charge which is 2.5% of the total cost of the
+            property has been included
           </p>
-          <CustomSelect
-            onChange={(x) => setValue("longTermOwnership", x)}
-            validatorMessage={
-              errors.longTermOwnership?.value?.message?.toString() ?? ""
+
+          <CheckBox
+            className={styles.check}
+            check={watch("longTermOwnership")}
+            onChange={() =>
+              setValue("longTermOwnership", !watch("longTermOwnership"))
             }
-            name={"longTermOwnership"}
-            placeholder={"Please Select"}
-            label={
-              "Do you agree to buy up and own 100% ownership of this home within 5 years?"
-            }
-            options={applyOwnershipOptions}
-            value={watch("longTermOwnership")}
-            inputClass={styles.select}
-            parentClassName={styles.input}
+            label="Do you agree to buy up and own 100% ownership of this home within 5 years?"
           />
-          {watch("longTermOwnership").value === "yes" ? (
-            <Input
-              label="How Long do you plan to take to own 100% of this home? (in months)"
-              placeholder=""
-              type="number"
-              parentClassName={styles.input}
-              required
-              validatorMessage={errors.ownershipDuration?.message}
-              name="ownershipDuration"
-              register={register}
-            />
-          ) : (
-            ""
-          )}
+
           <p className={styles.txt2}>
-            We will review your application shortly and send our contract to
-            your email to complete the process. Read <a>terms of use</a>
+            Please read the{" "}
+            <Link target="_blank" to={Routes.terms}>
+              terms of use
+            </Link>{" "}
+            before completing your purchase
           </p>
           <Button
             className={styles.btn}
             type="primary"
             onClick={handleSubmit(onSubmit)}
           >
-            Submit
+            Proceed to payment
           </Button>
         </form>
       </Modal>

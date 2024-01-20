@@ -20,7 +20,7 @@ interface ListingsProps {
   properties: PropertyCardData[];
   pagination: PaginationProps;
   handleView: (id) => void;
-  handleApply: (id) => void;
+  handleApply: ({ id, totalCost }) => void;
   search: {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -30,6 +30,7 @@ interface ListingsProps {
   handleBudgetFilter: () => void;
   handleCountryFilter: () => void;
   handleStatusFilter: () => void;
+  isAgent: boolean;
 }
 
 const ListingsUI: React.FC<ListingsProps> = ({
@@ -43,6 +44,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
   handleBudgetFilter,
   handleCountryFilter,
   handleStatusFilter,
+  isAgent,
 }) => {
   const filters = [
     {
@@ -102,11 +104,17 @@ const ListingsUI: React.FC<ListingsProps> = ({
                 {properties.map((item, index) => (
                   <PropertyCard
                     primaryBtn={{
-                      text: "Apply",
-                      action: (id) => handleApply(id),
+                      text: "Buy",
+                      action: (id) =>
+                        handleApply({ id, totalCost: item.amount }),
+                      disabled: isAgent,
                     }}
                     secondaryBtn={{
-                      text: (
+                      text: isAgent ? (
+                        <span className={styles.scheduleCallBtn}>
+                          <CalendarIconOutline /> Schedule Call
+                        </span>
+                      ) : (
                         <a
                           target="_blank"
                           href={item.calendlyURL}
@@ -116,6 +124,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                         </a>
                       ),
                       action: (id) => console.log(id),
+                      disabled: isAgent,
                     }}
                     type="column"
                     size="normal"

@@ -9,7 +9,7 @@ export const property: PropertyCardData = {
   name: "Adebowale House",
   address: "255 Hervert Macaulay road",
   description: "description",
-  amount: "$2500",
+  amount: 2500,
   id: "1234",
   calendlyURL: ""
 };

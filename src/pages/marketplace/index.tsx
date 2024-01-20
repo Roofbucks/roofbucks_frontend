@@ -1,5 +1,11 @@
 import { marketplaceService } from "api";
-import { MarketplaceUI, Preloader, PropertyCardData } from "components";
+import {
+  CompleteProfilePrompt,
+  LoginPrompt,
+  MarketplaceUI,
+  Preloader,
+  PropertyCardData,
+} from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
 import { ConnectForm } from "pages";
@@ -8,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 import { Routes } from "router";
+import { propertyList } from "utils";
 
 const Marketplace = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +33,9 @@ const Marketplace = () => {
     type: "",
     status: "",
   });
-  const [showConnect, setShowConnect] = React.useState(false);
+  const [showConnect, setShowConnect] = React.useState({ show: false, id: "" });
+  const [login, setLogin] = React.useState(false);
+  const [completeProfile, setCompleteProfile] = React.useState(false);
 
   const { run, data, requestStatus, error } = useApiRequest({});
 
@@ -126,13 +135,44 @@ const Marketplace = () => {
     });
     setPages({ ...pages, current: 1 });
   };
+
+  const handleInvest = (id) => {
+    const hasToken =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion");
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!hasToken) {
+      setLogin(true);
+    } else if (incompleteProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowConnect({ show: true, id });
+    }
+  };
+
   const showLoader = requestStatus.isPending;
+
   return (
     <>
       <Preloader loading={showLoader} />
-      <ConnectForm show={showConnect} close={() => setShowConnect(false)} />
+      <LoginPrompt show={login} close={() => setLogin(false)} />
+      <CompleteProfilePrompt
+        show={completeProfile}
+        close={() => setCompleteProfile(false)}
+      />
+      <ConnectForm
+        {...showConnect}
+        close={() => setShowConnect({ show: false, id: "" })}
+      />
       <MarketplaceUI
-        properties={properties}
+        properties={propertyList}
         pagination={{
           hide: properties.length === 0 || showLoader,
           current: pages.current,
@@ -150,7 +190,7 @@ const Marketplace = () => {
           onChange: handleSearch,
         }}
         submitFilter={handleFilter}
-        handleConnect={() => setShowConnect(true)}
+        handleConnect={handleInvest}
       />
     </>
   );

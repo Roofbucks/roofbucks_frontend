@@ -28,6 +28,9 @@
   width: 100%;
   margin-top: 10px;
 }
+.txt2 a {
+  color: var(--green);
+}
 .btn {
   height: 40px;
   width: 100%;

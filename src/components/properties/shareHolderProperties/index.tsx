@@ -27,7 +27,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   const property: PropertyCardData = {
     address: "256, Bayajida Close. LA. Nigeria",
     name: "Two Bedroom Apartmentpartmentttt",
-    amount: "$10,000",
+    amount: 10000,
     owner: "By Bear Properties",
     images: [property3],
     amenities: { bedroom: 15, toilet: 21 },

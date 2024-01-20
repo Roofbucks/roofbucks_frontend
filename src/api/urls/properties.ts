@@ -128,3 +128,22 @@ export const listingsURL = ({
     apartment_type: type,
     completion_status: status,
   })}`;
+
+/**
+ * Apply for a property listing url
+ *
+ * @returns url string
+ *
+ */
+
+export const listingApplicationURL = () => `/properties/ownership_request/`;
+
+/**
+ * Invest in a marketplace property url
+ *
+ * @returns url string
+ *
+ */
+
+export const marketplaceInvestmentURL = () =>
+  `/properties/marketplace_buy_order/`;

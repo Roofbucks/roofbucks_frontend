@@ -12,6 +12,9 @@ import {
 } from "utils";
 import { Button, CustomSelect, Input } from "components";
 import { CloseIcon2 } from "assets";
+import { Link } from "react-router-dom";
+import { Routes } from "router";
+import { useEffect } from "react";
 
 interface ConnectFormData {
   firstName: string;
@@ -23,7 +26,6 @@ interface ConnectFormData {
   focus: optionType;
   roi: string;
   investingAs: optionType;
-  website: string;
 }
 
 const initData: ConnectFormData = {
@@ -36,7 +38,6 @@ const initData: ConnectFormData = {
   focus: initialOptionType,
   roi: "",
   investingAs: initialOptionType,
-  website: "",
 };
 
 const optionTypeSchema = yup.object({
@@ -59,24 +60,43 @@ const schema = yup
       .string()
       .required("Required")
       .matches(/[0-9]/, "Enter a valid number"),
-    website: yup.string().when("investingAs", {
-      is: (val) => val.value === "company",
-      then: (schema) => schema.required("Required"),
-    }),
   })
   .required();
 
-const ConnectFormUI = ({ submit, show, close }) => {
+interface ConnectFormUIProps {
+  show: boolean;
+  close: () => void;
+  submit: (data) => void;
+  userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  // totalCost: number;
+  // property: string;
+}
+
+const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
+  submit,
+  show,
+  close,
+  userData,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<ConnectFormData>({
     resolver: yupResolver(schema),
-    defaultValues: initData,
+    defaultValues: { ...initData, ...userData },
   });
+
+  useEffect(() => {
+    reset({ ...initData, ...userData });
+  }, [userData]);
 
   const onSubmit: SubmitHandler<ConnectFormData> = (data) => submit(data);
   return (
@@ -90,7 +110,7 @@ const ConnectFormUI = ({ submit, show, close }) => {
         onHide={close}
       >
         <CloseIcon2 className={styles.closeBtn} role="button" onClick={close} />
-        <h1 className={styles.ttl}>Connect With a Property</h1>
+        <h1 className={styles.ttl}>Invest In a Property</h1>
         <p className={styles.txt}>
           Please complete the form below and a roofbucks representative will be
           in contact with you
@@ -105,6 +125,7 @@ const ConnectFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.firstName?.message}
             name="firstName"
             register={register}
+            disabled
           />
           <Input
             label="Last name"
@@ -115,6 +136,7 @@ const ConnectFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.lastName?.message}
             name="lastName"
             register={register}
+            disabled
           />
           <Input
             label="Email"
@@ -125,6 +147,7 @@ const ConnectFormUI = ({ submit, show, close }) => {
             validatorMessage={errors.email?.message}
             name="email"
             register={register}
+            disabled
           />
           <Input
             label="Current location Address"
@@ -191,30 +214,19 @@ const ConnectFormUI = ({ submit, show, close }) => {
             inputClass={styles.select}
             parentClassName={styles.input}
           />
-          {watch("investingAs").value === "company" ? (
-            <Input
-              label="Enter your company's website."
-              placeholder="eg. https://roofbucks.com"
-              type="text"
-              parentClassName={styles.input}
-              required
-              validatorMessage={errors.website?.message}
-              name="website"
-              register={register}
-            />
-          ) : (
-            ""
-          )}
           <p className={styles.txt2}>
-            We will review this information shortly to ensure you're a fit and
-            send our contract to your email to complete the process.
+            Please read the{" "}
+            <Link target="_blank" to={Routes.terms}>
+              terms of use
+            </Link>{" "}
+            before completing your purchase
           </p>
           <Button
             className={styles.btn}
             type="primary"
             onClick={handleSubmit(onSubmit)}
           >
-            Invest
+            Proceed to pay for investment
           </Button>
         </form>
       </Modal>

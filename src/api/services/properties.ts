@@ -18,7 +18,9 @@ import {
   fetchPropertyURL,
   fetchSimilarPropertiesURL,
   fetchStaysURL,
+  listingApplicationURL,
   listingsURL,
+  marketplaceInvestmentURL,
   marketplaceURL,
   updatePropertyURL,
 } from "api/urls";
@@ -180,10 +182,62 @@ export const marketplaceService = (params: MarketplaceParams) => {
  * @returns axios promise
  */
 
- export const listingsService = (params: MarketplaceParams) => {
+export const listingsService = (params: MarketplaceParams) => {
   const requestData = {
     url: listingsURL(params),
   };
 
   return getRequest(requestData);
+};
+
+export interface listingApplicationRequestData {
+  property_id: string;
+  current_location: string;
+  social_link: string;
+  reason_for_purchase: string;
+  percentage_ownership: number;
+  intent_for_full_ownership: boolean;
+  user_type: string;
+}
+
+/**
+ * Apply for a property listing properties service
+ * @returns axios promise
+ */
+
+export const listingApplicationService = (
+  data: listingApplicationRequestData
+) => {
+  const requestData = {
+    url: listingApplicationURL(),
+    data,
+  };
+
+  return postRequest(requestData);
+};
+
+export interface marketplaceInvestmentRequestData {
+  property_id: string;
+  current_location: string;
+  social_link: string;
+  investment_timeline: string;
+  investment_focus: number;
+  expected_ROI: number;
+  investor_type: string;
+}
+
+/**
+ * Invest in a marketplace property service
+ * @returns axios promise
+ */
+
+export const marketplaceInvestmentService = (
+  data: listingApplicationRequestData
+) => {
+  const requestData = {
+    url: marketplaceInvestmentURL(),
+    data,
+  };
+
+  return postRequest(requestData);
 };
