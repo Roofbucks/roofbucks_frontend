@@ -106,7 +106,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                     primaryBtn={{
                       text: "Buy",
                       action: (id) =>
-                        handleApply({ id, totalCost: item.amount }),
+                        handleApply({ id: item.id, totalCost: item.amount }),
                       disabled: isAgent,
                     }}
                     secondaryBtn={{

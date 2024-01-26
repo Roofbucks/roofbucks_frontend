@@ -25,7 +25,6 @@ interface ApplyFormData {
   smLink: string;
   reason: optionType;
   percent: optionType;
-  amount: string;
   longTermOwnership: boolean;
 }
 
@@ -37,7 +36,6 @@ const initData: ApplyFormData = {
   smLink: "",
   reason: initialOptionType,
   percent: initialOptionType,
-  amount: "",
   longTermOwnership: false,
 };
 
@@ -58,11 +56,8 @@ const schema = yup
     percent: optionTypeSchema,
     longTermOwnership: yup
       .boolean()
+      .equals([true], "You must agree with this to conitnue")
       .required("You must agree with this to conitnue"),
-    amount: yup
-      .string()
-      .required("Required")
-      .matches(/[0-9]/, "Enter a valid number"),
   })
   .required();
 
@@ -111,7 +106,6 @@ const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
       reason_for_purchase: data.reason.value,
       intent_for_full_ownership: data.longTermOwnership,
       percentage_ownership: parseInt(data.percent.value),
-      user_type: "agent",
     };
 
     submit(submitData);
@@ -120,7 +114,8 @@ const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
   const amountToPay =
     watch("percent.value") === ""
       ? 0
-      : parseInt(watch("percent.value")) * totalCost;
+      : (parseInt(watch("percent.value")) * totalCost) / 100 +
+        (2.5 / 100) * totalCost;
 
   return (
     <>
@@ -222,7 +217,7 @@ const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
             type="number"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.amount?.message}
+            validatorMessage={""}
             name="amount"
             register={register}
             disabled
@@ -250,6 +245,7 @@ const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
             before completing your purchase
           </p>
           <Button
+            disabled={!watch("longTermOwnership")}
             className={styles.btn}
             type="primary"
             onClick={handleSubmit(onSubmit)}

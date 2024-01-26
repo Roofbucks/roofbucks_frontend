@@ -136,7 +136,7 @@ export const listingsURL = ({
  *
  */
 
-export const listingApplicationURL = () => `/properties/ownership_request/`;
+export const listingApplicationURL = () => `/properties/listing_application_request/`;
 
 /**
  * Invest in a marketplace property url
@@ -146,4 +146,4 @@ export const listingApplicationURL = () => `/properties/ownership_request/`;
  */
 
 export const marketplaceInvestmentURL = () =>
-  `/properties/marketplace_buy_order/`;
+  `/properties/listing_application_request/`;

@@ -12,7 +12,7 @@ import { ConnectForm } from "pages";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
 import { propertyList } from "utils";
 
@@ -36,6 +36,7 @@ const Marketplace = () => {
   const [showConnect, setShowConnect] = React.useState({ show: false, id: "" });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
+  const { role } = useAppSelector((state) => state.user);
 
   const { run, data, requestStatus, error } = useApiRequest({});
 
@@ -137,10 +138,11 @@ const Marketplace = () => {
   };
 
   const handleInvest = (id) => {
-    const hasToken =
+    const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
       localStorage.getItem("roofbucksRefresh") &&
-      localStorage.getItem("profileCompletion");
+      localStorage.getItem("profileCompletion") &&
+      role;
 
     const stages = JSON.parse(
       localStorage.getItem("profileCompletion") ?? "{}"
@@ -148,7 +150,7 @@ const Marketplace = () => {
 
     const incompleteProfile = !(stages.profile && stages.billing);
 
-    if (!hasToken) {
+    if (!isLoggedIn) {
       setLogin(true);
     } else if (incompleteProfile) {
       setCompleteProfile(true);

@@ -149,12 +149,12 @@ const Listings = () => {
     setPages({ ...pages, current: 1 });
   };
 
-
   const handleBuy = ({ id, totalCost }) => {
-    const hasToken =
+    const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
       localStorage.getItem("roofbucksRefresh") &&
-      localStorage.getItem("profileCompletion");
+      localStorage.getItem("profileCompletion") &&
+      role;
 
     const stages = JSON.parse(
       localStorage.getItem("profileCompletion") ?? "{}"
@@ -162,7 +162,7 @@ const Listings = () => {
 
     const incompleteProfile = !(stages.profile && stages.billing);
 
-    if (!hasToken) {
+    if (!isLoggedIn) {
       setLogin(true);
     } else if (incompleteProfile) {
       setCompleteProfile(true);

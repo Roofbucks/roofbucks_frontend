@@ -197,7 +197,6 @@ export interface listingApplicationRequestData {
   reason_for_purchase: string;
   percentage_ownership: number;
   intent_for_full_ownership: boolean;
-  user_type: string;
 }
 
 /**

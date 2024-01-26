@@ -56,7 +56,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
               <p className={styles.name}>{item.propertyName}</p>
             </td>
             <td className={tableBodyItemClassName}>{item.date}</td>
-            <td className={tableBodyItemClassName}>$ {item.amount}</td>
+            <td className={tableBodyItemClassName}>NGN {item.amount}</td>
             <td className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>
                 {item.status}
