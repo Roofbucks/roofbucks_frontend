@@ -406,8 +406,8 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
 
     if (data.otherDocs.length > 0) {
       data.otherDocs.map((item, index) => {
-        item.file && formData.append(`others_${index}_name`, item.file);
-        formData.append(`others_${index}_image`, item.name);
+        formData.append(`others_${index}_name`, item.name);
+        item.file && formData.append(`others_${index}_image`, item.file);
       });
     }
 
