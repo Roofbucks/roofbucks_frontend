@@ -80,26 +80,8 @@ export const addStaysURL = (id) => `/properties/stay-periods/${id}/`;
  *
  */
 
-export const marketplaceURL = ({
-  search,
-  page,
-  limit,
-  country,
-  state,
-  budget,
-  type,
-  status,
-}) =>
-  `/properties/marketplace/?${appendParams({
-    search,
-    page,
-    limit,
-    country,
-    state,
-    budget,
-    apartment_type: type,
-    completion_status: status,
-  })}`;
+export const marketplaceURL = (params) =>
+  `/properties/marketplace/?${appendParams(params)}`;
 
 /**
  * Fetch listings properties
@@ -108,26 +90,8 @@ export const marketplaceURL = ({
  *
  */
 
-export const listingsURL = ({
-  search,
-  page,
-  limit,
-  country,
-  state,
-  budget,
-  type,
-  status,
-}) =>
-  `/properties/listings/?${appendParams({
-    search,
-    page,
-    limit,
-    country,
-    state,
-    budget,
-    apartment_type: type,
-    completion_status: status,
-  })}`;
+export const listingsURL = (params) =>
+  `/properties/listings/?${appendParams(params)}`;
 
 /**
  * Apply for a property listing url
@@ -136,7 +100,8 @@ export const listingsURL = ({
  *
  */
 
-export const listingApplicationURL = () => `/properties/listing_application_request/`;
+export const listingApplicationURL = () =>
+  `/properties/listing_application_request/`;
 
 /**
  * Invest in a marketplace property url

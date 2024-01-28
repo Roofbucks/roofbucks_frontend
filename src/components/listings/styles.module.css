@@ -60,6 +60,17 @@
   display: inline-flex;
   align-items: center;
   margin-right: 1.5rem;
+  position: relative;
+}
+.filterItem--active {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 0;
 }
 .filterItem svg {
   width: 8px;

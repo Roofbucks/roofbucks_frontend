@@ -25,12 +25,18 @@ interface ListingsProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   };
-  submitFilter: (data) => void;
   handleApartmentFilter: () => void;
   handleBudgetFilter: () => void;
   handleCountryFilter: () => void;
   handleStatusFilter: () => void;
   isAgent: boolean;
+  filters: {
+    country: boolean;
+    apartment: boolean;
+    status: boolean;
+    budget: boolean;
+    reset: () => void;
+  };
 }
 
 const ListingsUI: React.FC<ListingsProps> = ({
@@ -38,15 +44,15 @@ const ListingsUI: React.FC<ListingsProps> = ({
   pagination,
   search,
   handleView,
-  submitFilter,
   handleApply,
   handleApartmentFilter,
   handleBudgetFilter,
   handleCountryFilter,
   handleStatusFilter,
   isAgent,
+  filters,
 }) => {
-  const filters = [
+  const filterOptions = [
     {
       name: "Country",
       onClick: handleCountryFilter,
@@ -85,16 +91,23 @@ const ListingsUI: React.FC<ListingsProps> = ({
               />
             </div>
             <div className={styles.filterWrap}>
-              {filters.map((item, index) => (
+              {filterOptions.map((item, index) => (
                 <button
                   key={index}
                   onClick={item.onClick}
-                  className={styles.filterItem}
+                  className={`${styles.filterItem} `}
                 >
                   {item.name} <CaretRight />
+                  {filters[item.name.toLowerCase()] ? (
+                    <span className={styles["filterItem--active"]}></span>
+                  ) : (
+                    ""
+                  )}
                 </button>
               ))}
-              <button className={styles.resetBtn}>Reset</button>
+              <button onClick={filters.reset} className={styles.resetBtn}>
+                Reset
+              </button>
             </div>
           </div>
 

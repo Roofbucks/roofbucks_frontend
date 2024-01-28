@@ -21,7 +21,6 @@ import { optionType } from "types";
 
 interface FilterValues {
   country: optionType;
-  state: optionType;
   minPrice: string;
   maxPrice: string;
   type: optionType[];
@@ -37,7 +36,13 @@ interface MarketplaceProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   };
-  submitFilter: (data) => void;
+  submitFilter: ({ country, apartment, budget, status }) => void;
+  filter: {
+    country: optionType;
+    budget: { min: string; max: string };
+    apartment: optionType[];
+    status: optionType;
+  };
 }
 
 const MarketplaceUI: React.FC<MarketplaceProps> = ({
@@ -47,6 +52,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
   search,
   submitFilter,
   handleConnect,
+  filter,
 }) => {
   const [showFilter, setShowFilter] = React.useState(false);
   const [mobile, setMobile] = React.useState(
@@ -61,12 +67,21 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
 
   const [filterValues, setFilterValues] = React.useState<FilterValues>({
     country: initialOptionType,
-    state: initialOptionType,
     minPrice: "",
     maxPrice: "",
     type: [],
     status: initialOptionType,
   });
+
+  React.useEffect(() => {
+    setFilterValues({
+      country: filter.country,
+      type: filter.apartment,
+      status: filter.status,
+      maxPrice: filter.budget.max,
+      minPrice: filter.budget.min,
+    });
+  }, [filter]);
 
   const screenSizeUpdate = () => {
     if (window.innerWidth <= 800) {
@@ -102,26 +117,32 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
   const resetFilters = () => {
     setFilterValues({
       country: initialOptionType,
-      state: initialOptionType,
       minPrice: "",
       maxPrice: "",
       type: [],
       status: initialOptionType,
     });
-    submitFilter({});
+    submitFilter({
+      country: initialOptionType,
+      apartment: [],
+      status: initialOptionType,
+      budget: {
+        min: "",
+        max: "",
+      },
+    });
   };
 
   const applyFilters = () => {
-    const budget = `${filterValues.minPrice},${filterValues.maxPrice}`;
-    const status = filterValues.status.value;
-    const data = {
-      country: filterValues.country.value,
-      budget: budget === "," ? "" : budget,
-      status: status === "all" ? "" : status,
-      type: filterValues.type.map((item) => item.value).join(","),
-    };
-
-    submitFilter(data);
+    submitFilter({
+      country: filterValues.country,
+      apartment: filterValues.type,
+      status: filterValues.status,
+      budget: {
+        min: filterValues.minPrice,
+        max: filterValues.maxPrice,
+      },
+    });
   };
 
   return (
@@ -214,9 +235,8 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                     placeholder={"Select status"}
                     label={""}
                     options={[
-                      { label: "All", value: "all" },
-                      { label: "Completed", value: "COMPLETED" },
-                      { label: "In-progress", value: "IN-PROGRESS" },
+                      { label: "Completed", value: "Completed" },
+                      { label: "In-progress", value: "In-progress" },
                     ]}
                     value={filterValues.status}
                   />

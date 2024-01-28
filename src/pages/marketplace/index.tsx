@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
-import { propertyList } from "utils";
+import { optionType } from "types";
+import { initialOptionType, propertyList } from "utils";
 
 const Marketplace = () => {
   const dispatch = useAppDispatch();
@@ -23,52 +24,55 @@ const Marketplace = () => {
   const [search, setSearch] = React.useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
   const [pages, setPages] = React.useState({
-    total: 1,
+    count: 0,
     current: 1,
-  });
-  const [filter, setFilter] = React.useState({
-    country: "",
-    state: "",
-    budget: "",
-    type: "",
-    status: "",
+    totalPages: 1,
   });
   const [showConnect, setShowConnect] = React.useState({ show: false, id: "" });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
-  const { role } = useAppSelector((state) => state.user);
+  const [apartment, setApartment] = React.useState<optionType[]>([]);
+  const [budget, setBudget] = React.useState({ min: "", max: "" });
+  const [country, setCountry] = React.useState<optionType>(initialOptionType);
+  const [status, setStatus] = React.useState<optionType>(initialOptionType);
 
+  const { role } = useAppSelector((state) => state.user);
   const { run, data, requestStatus, error } = useApiRequest({});
 
   const fetchProperties = (page?) => {
     run(
       marketplaceService({
-        ...filter,
         page: page ?? pages.current,
         limit: "10",
         search,
+        completion_status: status.value,
+        country: country.value,
+        apartment_type: apartment.map((item) => item.value).join(),
+        budget_range:
+          budget.min && budget.max ? `${budget.min},${budget.max}` : "",
       })
     );
   };
 
   React.useEffect(() => {
     fetchProperties();
-  }, [debouncedSearchTerm, filter]);
+    setPages({ ...pages, current: 1 });
+  }, [debouncedSearchTerm, country, status, apartment, budget]);
 
   const properties = React.useMemo<PropertyCardData[]>(() => {
     if (data) {
       if (data.status === 200) {
         window.scrollTo(-0, -0);
-        console.log(data);
         setPages({
           ...pages,
-          total: data.data.total,
+          totalPages: data.data.pages,
+          count: data.data.total,
         });
 
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
-          amount: `NGN${item.total_property_cost}`,
+          amount: item.total_property_cost,
           owner: item.company_name,
           images: item.image_album
             ? item.image_album.media.map((item) => item.image)
@@ -130,10 +134,11 @@ const Marketplace = () => {
     });
   };
 
-  const handleFilter = (data) => {
-    setFilter({
-      ...data,
-    });
+  const handleFilter = ({ country, apartment, budget, status }) => {
+    setApartment(apartment);
+    setStatus(status);
+    setCountry(country);
+    setBudget(budget);
     setPages({ ...pages, current: 1 });
   };
 
@@ -174,15 +179,15 @@ const Marketplace = () => {
         close={() => setShowConnect({ show: false, id: "" })}
       />
       <MarketplaceUI
-        properties={propertyList}
+        properties={properties}
         pagination={{
           hide: properties.length === 0 || showLoader,
           current: pages.current,
-          total: pages.total,
+          total: pages.totalPages,
           handleChange: handlePageChange,
           count: {
             ...getCount(),
-            total: pages.total,
+            total: pages.count,
           },
           name: "Properties",
         }}
@@ -192,6 +197,7 @@ const Marketplace = () => {
           onChange: handleSearch,
         }}
         submitFilter={handleFilter}
+        filter={{ country, apartment, status, budget }}
         handleConnect={handleInvest}
       />
     </>

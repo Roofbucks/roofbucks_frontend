@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
+import { optionType } from "types";
+import { initialOptionType } from "utils";
 
 const Listings = () => {
   // Hooks
@@ -28,25 +30,31 @@ const Listings = () => {
   const [search, setSearch] = React.useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
   const [pages, setPages] = React.useState({
-    total: 1,
+    count: 0,
     current: 1,
-  });
-  const [filter, setFilter] = React.useState({
-    country: "",
-    state: "",
-    budget: "",
-    type: "",
-    status: "",
+    totalPages: 1,
   });
   const [showApply, setShowApply] = React.useState({
     show: false,
     id: "",
     totalCost: 0,
   });
-  const [apartment, setApartment] = React.useState(false);
-  const [budget, setBudget] = React.useState(false);
-  const [country, setCountry] = React.useState(false);
-  const [status, setStatus] = React.useState(false);
+  const [apartment, setApartment] = React.useState<{
+    show: boolean;
+    data: optionType[];
+  }>({
+    show: false,
+    data: [],
+  });
+  const [budget, setBudget] = React.useState({ show: false, min: "", max: "" });
+  const [country, setCountry] = React.useState({
+    show: false,
+    data: initialOptionType,
+  });
+  const [status, setStatus] = React.useState({
+    show: false,
+    data: initialOptionType,
+  });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
   const { role } = useAppSelector((state) => state.user);
@@ -57,33 +65,45 @@ const Listings = () => {
   const fetchProperties = (page?) => {
     run(
       listingsService({
-        ...filter,
         page: page ?? pages.current,
         limit: "12",
         search,
+        completion_status: status.data.value,
+        country: country.data.value,
+        apartment_type: apartment.data.map((item) => item.value).join(),
+        budget_range:
+          budget.min && budget.max ? `${budget.min},${budget.max}` : "",
       })
     );
   };
 
   React.useEffect(() => {
-    fetchProperties();
-  }, [debouncedSearchTerm, filter]);
+    fetchProperties(1);
+    setPages({ ...pages, current: 1 });
+  }, [
+    debouncedSearchTerm,
+    country.data,
+    status.data,
+    apartment.data,
+    budget.min,
+    budget.max,
+  ]);
 
   const properties = React.useMemo<PropertyCardData[]>(() => {
     if (data) {
       if (data.status === 200) {
         window.scrollTo(-0, -0);
-        console.log(data);
         setPages({
           ...pages,
-          total: data.data.total,
+          totalPages: data.data.pages,
+          count: data.data.total,
         });
 
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
           amount: item.total_property_cost,
-          owner: "",
+          owner: `${item.agent.firstname} ${item.agent.lastname}`,
           images: item.images,
           id: item.id,
           amenities: {
@@ -119,7 +139,7 @@ const Listings = () => {
     setPages({ ...pages, current: 1 });
   };
 
-  const getCount = () => {
+  const getCount = (): { start: number; end: number } => {
     let start = 0;
     let end = 0;
 
@@ -140,13 +160,6 @@ const Listings = () => {
         url: Routes.listing,
       },
     });
-  };
-
-  const handleFilter = (data) => {
-    setFilter({
-      ...data,
-    });
-    setPages({ ...pages, current: 1 });
   };
 
   const handleBuy = ({ id, totalCost }) => {
@@ -171,6 +184,13 @@ const Listings = () => {
     }
   };
 
+  const handleReset = () => {
+    setCountry((prev) => ({ ...prev, data: initialOptionType }));
+    setApartment((prev) => ({ ...prev, data: [] }));
+    setBudget((prev) => ({ ...prev, min: "", max: "" }));
+    setStatus((prev) => ({ ...prev, data: initialOptionType }));
+  };
+
   const showLoader = requestStatus.isPending;
 
   return (
@@ -182,12 +202,29 @@ const Listings = () => {
         close={() => setCompleteProfile(false)}
       />
       <ApartmentTypeFilterModal
-        show={apartment}
-        close={() => setApartment(false)}
+        show={apartment.show}
+        close={() => setApartment({ show: false, data: [] })}
+        submit={(data) => setApartment({ show: false, data })}
+        value={apartment.data}
       />
-      <BudgetFilterModal show={budget} close={() => setBudget(false)} />
-      <CountryFilterModal show={country} close={() => setCountry(false)} />
-      <StatusFilterModal show={status} close={() => setStatus(false)} />
+      <BudgetFilterModal
+        show={budget.show}
+        close={() => setBudget((prev) => ({ ...prev, show: true }))}
+        value={{ min: budget.min, max: budget.max }}
+        submit={(data) => setBudget({ ...data, show: false })}
+      />
+      <CountryFilterModal
+        show={country.show}
+        country={country.data}
+        close={() => setCountry({ show: false, data: initialOptionType })}
+        submit={(data) => setCountry({ show: false, data })}
+      />
+      <StatusFilterModal
+        show={status.show}
+        status={status.data}
+        close={() => setStatus({ show: false, data: initialOptionType })}
+        submit={(data) => setStatus({ show: false, data })}
+      />
       <ApplyForm
         {...showApply}
         close={() => setShowApply({ show: false, id: "", totalCost: 0 })}
@@ -197,11 +234,11 @@ const Listings = () => {
         pagination={{
           hide: properties.length === 0 || showLoader,
           current: pages.current,
-          total: pages.total,
+          total: pages.totalPages,
           handleChange: handlePageChange,
           count: {
             ...getCount(),
-            total: pages.total,
+            total: pages.count,
           },
           name: "Properties",
         }}
@@ -210,13 +247,27 @@ const Listings = () => {
           value: search,
           onChange: handleSearch,
         }}
-        submitFilter={handleFilter}
         handleApply={handleBuy}
-        handleApartmentFilter={() => setApartment(true)}
-        handleBudgetFilter={() => setBudget(true)}
-        handleCountryFilter={() => setCountry(true)}
-        handleStatusFilter={() => setStatus(true)}
+        handleApartmentFilter={() =>
+          setApartment((prev) => ({ ...prev, show: true }))
+        }
+        handleBudgetFilter={() =>
+          setBudget((prev) => ({ ...prev, show: true }))
+        }
+        handleCountryFilter={() =>
+          setCountry((prev) => ({ ...prev, show: true }))
+        }
+        handleStatusFilter={() =>
+          setStatus((prev) => ({ ...prev, show: true }))
+        }
         isAgent={role === "agent"}
+        filters={{
+          country: country.data.value !== "",
+          apartment: apartment.data.length > 0,
+          status: status.data.value !== "",
+          budget: budget.max !== "" && budget.min !== "",
+          reset: handleReset,
+        }}
       />
     </>
   );

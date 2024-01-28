@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { CustomSelect, Input } from "components";
 import { optionType } from "types";
 import { countryOptions, initialOptionType } from "utils";
+import { useEffect } from "react";
 
 interface StatusData {
   status: optionType;
@@ -32,28 +33,47 @@ const schema = yup
 interface Props {
   show: boolean;
   close: () => void;
+  submit: (data: optionType) => void;
+  status: optionType;
 }
 
-const StatusFilterModal: React.FC<Props> = ({ show, close }) => {
+const StatusFilterModal: React.FC<Props> = ({
+  show,
+  close,
+  submit,
+  status,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<StatusData>({
     resolver: yupResolver(schema),
     defaultValues: initData,
   });
 
-  const onSubmit: SubmitHandler<StatusData> = (data) => console.log(data);
+  useEffect(() => {
+    reset({ status });
+  }, [status]);
+
+  const onSubmit: SubmitHandler<StatusData> = (data) => submit(data.status);
+
+  const onReset = () => {
+    reset(initData);
+    submit(initialOptionType);
+  };
+
   const statusOptions: optionType[] = [
     {
       label: "Completed",
       value: "Completed",
     },
-    { label: "In progress", value: "in-progress" },
+    { label: "In progress", value: "In-progress" },
   ];
+
   return (
     <Modal show={show} onHide={close} contentClassName={styles.content}>
       <div className={styles.heading}>
@@ -74,10 +94,10 @@ const StatusFilterModal: React.FC<Props> = ({ show, close }) => {
         />
       </form>
       <div className={styles.btns}>
-        <Button type="secondary" onClick={console.log}>
+        <Button type="secondary" onClick={onReset}>
           Reset
         </Button>
-        <Button type="primary" onClick={console.log}>
+        <Button type="primary" onClick={handleSubmit(onSubmit)}>
           Submit
         </Button>
       </div>

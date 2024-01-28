@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Input } from "components";
+import { useEffect } from "react";
 
 interface BudgetData {
   min: string;
@@ -34,21 +35,33 @@ const schema = yup
 interface Props {
   show: boolean;
   close: () => void;
+  value: BudgetData;
+  submit: (data: BudgetData) => void;
 }
 
-const BudgetFilterModal: React.FC<Props> = ({ show, close }) => {
+const BudgetFilterModal: React.FC<Props> = ({ show, close, value, submit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<BudgetData>({
     resolver: yupResolver(schema),
     defaultValues: initData,
   });
 
-  const onSubmit: SubmitHandler<BudgetData> = (data) => console.log(data);
+  useEffect(() => {
+    reset(value);
+  }, [value]);
+
+  const onSubmit: SubmitHandler<BudgetData> = (data) => submit(data);
+
+  const onReset = () => {
+    reset(initData);
+    submit(initData);
+  };
 
   return (
     <Modal show={show} onHide={close} contentClassName={styles.content}>
@@ -56,7 +69,7 @@ const BudgetFilterModal: React.FC<Props> = ({ show, close }) => {
         <h1 className={styles.ttl}>Filter by Budget:</h1>
         <CloseIcon2 role="button" onClick={close} />
       </div>
-      <form className={styles.form} >
+      <form className={styles.form}>
         <Input
           label="From (NGN)"
           placeholder="Enter a minimum value"
@@ -79,10 +92,10 @@ const BudgetFilterModal: React.FC<Props> = ({ show, close }) => {
         />
       </form>
       <div className={styles.btns}>
-        <Button type="secondary" onClick={console.log}>
+        <Button type="secondary" onClick={onReset}>
           Reset
         </Button>
-        <Button type="primary" onClick={console.log}>
+        <Button type="primary" onClick={handleSubmit(onSubmit)}>
           Submit
         </Button>
       </div>

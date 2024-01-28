@@ -158,10 +158,9 @@ interface MarketplaceParams {
   page: string;
   limit: string;
   country: string;
-  state: string;
-  budget: string;
-  type: string;
-  status: string;
+  apartment_type: string;
+  budget_range: string;
+  completion_status: "Completed" | "In-progress" | string;
 }
 
 /**
@@ -177,12 +176,22 @@ export const marketplaceService = (params: MarketplaceParams) => {
   return getRequest(requestData);
 };
 
+interface ListingsParams {
+  search: string;
+  page: string;
+  limit: string;
+  country: string;
+  apartment_type: string;
+  budget_range: string;
+  completion_status: "Completed" | "In-progress" | string;
+}
+
 /**
  * Fetch listings properties
  * @returns axios promise
  */
 
-export const listingsService = (params: MarketplaceParams) => {
+export const listingsService = (params: ListingsParams) => {
   const requestData = {
     url: listingsURL(params),
   };

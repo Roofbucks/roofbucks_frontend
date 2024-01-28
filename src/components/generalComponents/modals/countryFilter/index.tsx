@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { CustomSelect, Input } from "components";
 import { optionType } from "types";
 import { countryOptions, initialOptionType } from "utils";
+import { useEffect } from "react";
 
 interface CountryData {
   country: optionType;
@@ -32,22 +33,37 @@ const schema = yup
 interface Props {
   show: boolean;
   close: () => void;
+  submit: (data: optionType) => void;
+  country: optionType;
 }
 
-const CountryFilterModal: React.FC<Props> = ({ show, close }) => {
+const CountryFilterModal: React.FC<Props> = ({
+  show,
+  close,
+  submit,
+  country,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<CountryData>({
     resolver: yupResolver(schema),
     defaultValues: initData,
   });
 
-  const onSubmit: SubmitHandler<CountryData> = (data) => console.log(data);
+  useEffect(() => {
+    reset({ country });
+  }, [country]);
 
+  const onSubmit: SubmitHandler<CountryData> = (data) => submit(data.country);
+  const onReset = () => {
+    reset(initData);
+    submit(initialOptionType);
+  };
   return (
     <Modal show={show} onHide={close} contentClassName={styles.content}>
       <div className={styles.heading}>
@@ -68,10 +84,10 @@ const CountryFilterModal: React.FC<Props> = ({ show, close }) => {
         />
       </form>
       <div className={styles.btns}>
-        <Button type="secondary" onClick={console.log}>
+        <Button type="secondary" onClick={onReset}>
           Reset
         </Button>
-        <Button type="primary" onClick={console.log}>
+        <Button type="primary" onClick={handleSubmit(onSubmit)}>
           Submit
         </Button>
       </div>
