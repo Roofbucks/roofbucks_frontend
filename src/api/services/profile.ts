@@ -16,6 +16,8 @@ import {
   addBillingURL,
   updatePasswordURL,
   fetchBanksURL,
+  updateProfileURL,
+  updateBusinessURL,
 } from "api";
 
 /**
@@ -152,4 +154,32 @@ export const fetchBanksService = () => {
   };
 
   return getRequest(requestData);
+};
+
+/**
+ * Update personal profile service
+ * @returns axios promise
+ */
+
+export const updateProfileService = (data: FormData) => {
+  const requestData = {
+    url: updateProfileURL(),
+    data,
+  };
+
+  return patchRequest(requestData);
+};
+
+/**
+ * Update business profile service
+ * @returns axios promise
+ */
+
+export const updateBusinessService = (data: FormData) => {
+  const requestData = {
+    url: updateBusinessURL(),
+    data,
+  };
+
+  return patchRequest(requestData);
 };

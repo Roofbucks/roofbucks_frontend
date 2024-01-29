@@ -80,3 +80,20 @@ export const updatePasswordURL = () => `/auth/change-password/`
  *
  */
 export const fetchBanksURL = () => `/properties/get_banks`
+
+
+/**
+ * Update personal profile url
+ *
+ * @returns url string
+ *
+ */
+export const updateProfileURL = () => `/user/user_profile/`
+
+/**
+ * Update business profile url
+ *
+ * @returns url string
+ *
+ */
+export const updateBusinessURL = () => `/user/user_profile/`

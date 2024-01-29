@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, Textarea } from "components";
 import { optionType } from "types";
+import { error } from "console";
 
 // Security
 interface SecurityData {
@@ -43,12 +44,20 @@ const securitySchema = yup
   .required();
 
 interface SettingsProps {
-  // account: AccountData;
+  personal: PersonalFormProps;
   submitPassword: (data) => void;
   reset: boolean;
+  business: BusinessFormProps;
+  isAgent: boolean;
 }
 
-const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
+const SettingsUI: React.FC<SettingsProps> = ({
+  submitPassword,
+  reset,
+  personal,
+  business,
+  isAgent,
+}) => {
   const [view, setView] = React.useState(1);
 
   const {
@@ -93,8 +102,8 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
       <section className={styles.formWrap}>
         {view === 1 ? (
           <>
-            <PersonalForm />
-            <BusinessForm />
+            <PersonalForm {...personal} />
+            {isAgent ? <BusinessForm {...business} /> : ""}
           </>
         ) : (
           <form className={styles.securityForm}>
@@ -155,23 +164,33 @@ interface PersonalFormData {
   number: string;
   country: string;
   city: string;
-  street: string;
+  address: string;
 }
 
 const personalFormSchema = yup
   .object({
-    avatar: yup.mixed().required("Required"),
+    avatar: yup.mixed(),
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),
     email: yup.string().required("Required"),
     number: yup.string().required("Required"),
     city: yup.string().required("Required"),
-    street: yup.string().required("Required"),
+    address: yup.string().required("Required"),
     country: yup.string().required("Required"),
   })
   .required();
 
-const PersonalForm = () => {
+interface PersonalFormProps {
+  personalProfile: PersonalFormData;
+  submit: (data: FormData) => void;
+  avatar: string;
+}
+
+const PersonalForm: React.FC<PersonalFormProps> = ({
+  personalProfile,
+  submit,
+  avatar,
+}) => {
   const {
     register,
     handleSubmit,
@@ -181,8 +200,11 @@ const PersonalForm = () => {
     reset,
   } = useForm<PersonalFormData>({
     resolver: yupResolver(personalFormSchema),
-    // defaultValues: initialProfileValues,
   });
+
+  React.useEffect(() => {
+    reset(personalProfile);
+  }, [personalProfile]);
 
   const handleChangeImage = (e) => {
     const file: File = e.target.files[0];
@@ -192,7 +214,17 @@ const PersonalForm = () => {
   const image = watch("avatar");
 
   const onSubmit: SubmitHandler<PersonalFormData> = (data) => {
-    console.log(data);
+    const formData: FormData = new FormData();
+
+    formData.append("firstname", data.firstName);
+    formData.append("lastname", data.lastName);
+    formData.append("country", data.country);
+    formData.append("phone", data.number);
+    formData.append("city", data.city);
+    formData.append("street", data.address);
+    data.avatar && formData.append("display_photo", data.avatar);
+
+    submit(formData);
   };
 
   return (
@@ -201,7 +233,9 @@ const PersonalForm = () => {
         <p className={styles.accountInfoTtl}>Personal Info</p>
         <div className={styles.imageSec}>
           <div className={styles.imageWrap}>
-            {image && <img alt="" src={URL?.createObjectURL(image)} />}
+            {(image || avatar !== "") && (
+              <img alt="" src={image ? URL?.createObjectURL(image) : avatar} />
+            )}
             <label className={styles.image} htmlFor="avatar">
               <input
                 style={{ display: "none" }}
@@ -293,14 +327,14 @@ const PersonalForm = () => {
             register={register}
           />
           <Input
-            label="Street"
+            label="Address"
             showRequired={true}
-            placeholder="Your street’s name"
+            placeholder="Your address"
             type="text"
             parentClassName={styles.input}
             required
-            validatorMessage={errors.lastName?.message}
-            name="lastName"
+            validatorMessage={errors.address?.message}
+            name="address"
             register={register}
           />
         </form>
@@ -329,7 +363,7 @@ interface BusinessFormData {
 
 const businessFormSchema = yup
   .object({
-    logo: yup.mixed().required("Required"),
+    logo: yup.mixed(),
     website: yup.string().url("Enter a valid url").required("Required"),
     description: yup.string().required("Required"),
     email: yup.string().required("Required"),
@@ -340,11 +374,16 @@ const businessFormSchema = yup
   .required();
 
 interface BusinessFormProps {
-  initData: BusinessFormData;
-  submit: (data) => void;
+  business: BusinessFormData;
+  submit: (data: FormData) => void;
+  logo: string;
 }
 
-const BusinessForm = () => {
+const BusinessForm: React.FC<BusinessFormProps> = ({
+  submit,
+  business,
+  logo,
+}) => {
   const {
     register,
     handleSubmit,
@@ -357,6 +396,10 @@ const BusinessForm = () => {
     // defaultValues: initialProfileValues,
   });
 
+  React.useEffect(() => {
+    reset(business);
+  }, [business]);
+
   const handleChangeImage = (e) => {
     const file: File = e.target.files[0];
     file && setValue("logo", file);
@@ -365,7 +408,17 @@ const BusinessForm = () => {
   const image = watch("logo");
 
   const onSubmit: SubmitHandler<BusinessFormData> = (data) => {
-    console.log(data);
+    const formData: FormData = new FormData();
+
+    formData.append("email", data.email);
+    formData.append("description", data.description);
+    formData.append("country", data.country);
+    formData.append("phone", data.number);
+    formData.append("city", data.city);
+    formData.append("website", data.website);
+    data.logo && formData.append("company_logo", data.logo);
+
+    submit(formData);
   };
 
   return (
@@ -374,7 +427,9 @@ const BusinessForm = () => {
         <p className={styles.accountInfoTtl}>Business Info</p>
         <div className={styles.imageSec}>
           <div className={styles.imageWrap}>
-            {image && <img alt="" src={URL?.createObjectURL(image)} />}
+            {(image || logo !== "") && (
+              <img alt="" src={image ? URL?.createObjectURL(image) : logo} />
+            )}
             <label className={styles.image} htmlFor="logo">
               <input
                 style={{ display: "none" }}
