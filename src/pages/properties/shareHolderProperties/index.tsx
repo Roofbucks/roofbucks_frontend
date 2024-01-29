@@ -11,9 +11,22 @@ const ShareHolderProperties = () => {
   const [sellShares, setSellShares] = React.useState(false);
   const [buyBack, setBuyBack] = React.useState(false);
   const [payRent, setPayRent] = React.useState(false);
+  const [tab, setTab] = React.useState("properties");
 
   const handleView = (id) => {
     navigate(Routes.propertyID(id));
+  };
+
+  const handleTab = (tab) => {
+    setTab(tab);
+    // setDate({ start: "", end: "" });
+    // setPages((prev) => ({
+    //   ...prev,
+    //   currentPage: 1,
+    // }));
+    // tab === "properties"
+    //   ? fetchProperties(1, { start: "", end: "" })
+    //   : fetchApplications(1, { start: "", end: "" });
   };
 
   return (
@@ -26,6 +39,14 @@ const ShareHolderProperties = () => {
         handleSellShares={() => setSellShares(true)}
         handleBuyBack={() => setBuyBack(true)}
         handlePayRent={() => setPayRent(true)}
+        tab={{
+          value: tab,
+          handleChange: handleTab,
+        }}
+        count={{
+          all: 0,
+          applications: 0,
+        }}
       />
     </>
   );
