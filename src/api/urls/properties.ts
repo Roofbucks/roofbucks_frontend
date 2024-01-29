@@ -111,4 +111,4 @@ export const listingApplicationURL = () =>
  */
 
 export const marketplaceInvestmentURL = () =>
-  `/properties/listing_application_request/`;
+  `/properties/marketplace_application_request/`;

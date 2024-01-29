@@ -238,7 +238,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
             <PropertyCard
               primaryBtn={{
                 text: "Apply",
-                action: (id) => console.log(id),
+                action:  console.log,
               }}
               type="row"
               size="normal"

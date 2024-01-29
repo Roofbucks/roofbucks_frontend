@@ -118,7 +118,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                   <PropertyCard
                     primaryBtn={{
                       text: "Buy",
-                      action: (id) =>
+                      action: () =>
                         handleApply({ id: item.id, totalCost: item.amount }),
                       disabled: isAgent,
                     }}
@@ -136,7 +136,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                           <CalendarIconOutline /> Schedule Call
                         </a>
                       ),
-                      action: (id) => console.log(id),
+                      action: console.log,
                       disabled: isAgent,
                     }}
                     type="column"

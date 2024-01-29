@@ -29,6 +29,12 @@ const BusinessForm: React.FC<BusinessFormProps> = ({ onSuccess }) => {
     if (createResponse || createError) {
       if (createResponse?.status === 200) {
         //   success
+        const account = JSON.parse(
+          localStorage.getItem("profileCompletion") ?? "{}"
+        );
+        account.business = true;
+        localStorage.setItem("profileCompletion", JSON.stringify(account));
+        
         dispatch(
           updateToast({
             show: true,

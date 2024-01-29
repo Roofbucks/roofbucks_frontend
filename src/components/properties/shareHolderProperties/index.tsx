@@ -50,7 +50,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
                 className={styles.propertyCard}
                 primaryBtn={{
                   text: "Sell shares",
-                  action: handleSellShares,
+                  action: () => handleSellShares(item.id),
                   className: styles.pryBtn,
                 }}
                 moreDetails={handleView}

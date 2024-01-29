@@ -36,7 +36,7 @@ interface PersonalFormProps {
 const PersonalForm: React.FC<PersonalFormProps> = ({ onSuccess }) => {
   const dispatch = useAppDispatch();
   const { role } = useAppSelector((state) => state.user);
-  
+
   const {
     run: runFetch,
     data: fetchResponse,
@@ -94,6 +94,11 @@ const PersonalForm: React.FC<PersonalFormProps> = ({ onSuccess }) => {
     if (profileResponse || profileError) {
       if (profileResponse.status === 200) {
         //   success
+        const account = JSON.parse(
+          localStorage.getItem("profileCompletion") ?? "{}"
+        );
+        account.profile = true;
+        localStorage.setItem("profileCompletion", JSON.stringify(account));
 
         dispatch(
           updateToast({

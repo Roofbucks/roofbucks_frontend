@@ -456,7 +456,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                   size="normal"
                   primaryBtn={{
                     text: "Buy shares",
-                    action: handleBuyShares,
+                    action: () => handleBuyShares(item.id),
                   }}
                 />
               ))}

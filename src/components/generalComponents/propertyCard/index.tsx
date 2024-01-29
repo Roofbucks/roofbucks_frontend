@@ -53,13 +53,13 @@ export interface PropertyCardProps extends PropertyCardData {
   className?: string;
   primaryBtn: {
     text: string;
-    action: (id) => void;
+    action: () => void;
     className?: string;
     disabled?: boolean;
   };
   secondaryBtn?: {
     text: string | any;
-    action: (id) => void;
+    action: () => void;
     className?: string;
     disabled?: boolean;
   };
@@ -150,7 +150,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 disabled={secondaryBtn.disabled}
                 className={`${secondaryBtn.className} ${styles.secBtn}`}
                 type="tertiary"
-                onClick={() => secondaryBtn.action(123)}
+                onClick={() => secondaryBtn.action()}
               >
                 {secondaryBtn.text}
               </Button>
@@ -159,7 +159,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               disabled={primaryBtn.disabled}
               className={primaryBtn.className}
               type="primary"
-              onClick={() => primaryBtn.action(123)}
+              onClick={() => primaryBtn.action()}
             >
               {primaryBtn.text}
             </Button>

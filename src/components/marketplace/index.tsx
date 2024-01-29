@@ -31,7 +31,7 @@ interface MarketplaceProps {
   properties: PropertyCardData[];
   pagination: PaginationProps;
   handleView: (id) => void;
-  handleConnect: (id) => void;
+  handleConnect: ({ id, percentage }) => void;
   search: {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -43,6 +43,7 @@ interface MarketplaceProps {
     apartment: optionType[];
     status: optionType;
   };
+  isAgent: boolean;
 }
 
 const MarketplaceUI: React.FC<MarketplaceProps> = ({
@@ -53,6 +54,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
   submitFilter,
   handleConnect,
   filter,
+  isAgent,
 }) => {
   const [showFilter, setShowFilter] = React.useState(false);
   const [mobile, setMobile] = React.useState(
@@ -315,20 +317,8 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                     label={""}
                     options={countryOptions}
                     value={filterValues.country}
-                    // inputClass={styles.countrySelect}
                     parentClassName={styles.countrySelectWrap}
                   />
-                  {/* <CustomSelect
-                    onChange={() => {}}
-                    validatorMessage={""}
-                    name={"state"}
-                    placeholder={"State"}
-                    label={""}
-                    options={[{ label: "Lagos", value: "Lagos" }]}
-                    value={{ label: "Lagos", value: "Lagos" }}
-                    inputClass={styles.stateSelect}
-                    parentClassName={styles.stateSelectWrap}
-                  /> */}
                 </div>
               ) : (
                 ""
@@ -353,20 +343,34 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
               <PropertyCard
                 primaryBtn={{
                   text: "Invest",
-                  action: handleConnect,
+                  action: () =>
+                    handleConnect({
+                      id: item.id,
+                      percentage: parseInt(item.discount ?? ""),
+                    }),
                 }}
                 secondaryBtn={{
-                  text: (
+                  text: isAgent ? (
                     <span className={styles.scheduleCallBtn}>
                       <CalendarIconOutline /> Schedule Call
                     </span>
+                  ) : (
+                    <a
+                      target="_blank"
+                      href={item.calendlyURL}
+                      className={styles.scheduleCallBtn}
+                    >
+                      <CalendarIconOutline /> Schedule Call
+                    </a>
                   ),
-                  action: (id) => console.log(id),
+                  action: console.log,
+                  disabled: isAgent,
                 }}
                 type="row"
                 size="normal"
                 moreDetails={handleView}
                 {...item}
+                discount={`${item.discount}% left`}
                 key={index}
                 className={styles.property}
               />

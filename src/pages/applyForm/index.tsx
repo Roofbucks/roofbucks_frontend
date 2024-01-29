@@ -29,8 +29,6 @@ const ApplyForm: React.FC<ApplyFormProps> = ({
 
   useMemo(() => {
     if (response?.status === 200) {
-      console.log(response);
-
       dispatch(
         updateToast({
           show: true,

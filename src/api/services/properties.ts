@@ -240,7 +240,7 @@ export interface marketplaceInvestmentRequestData {
  */
 
 export const marketplaceInvestmentService = (
-  data: listingApplicationRequestData
+  data: marketplaceInvestmentRequestData
 ) => {
   const requestData = {
     url: marketplaceInvestmentURL(),

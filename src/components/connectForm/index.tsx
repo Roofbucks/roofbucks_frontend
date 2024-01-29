@@ -15,6 +15,7 @@ import { CloseIcon2 } from "assets";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
 import { useEffect } from "react";
+import { marketplaceInvestmentRequestData } from "api";
 
 interface ConnectFormData {
   firstName: string;
@@ -56,24 +57,19 @@ const schema = yup
     timeline: optionTypeSchema,
     focus: optionTypeSchema,
     investingAs: optionTypeSchema,
-    amount: yup
-      .string()
-      .required("Required")
-      .matches(/[0-9]/, "Enter a valid number"),
   })
   .required();
 
 interface ConnectFormUIProps {
   show: boolean;
   close: () => void;
-  submit: (data) => void;
+  submit: (data: marketplaceInvestmentRequestData) => void;
   userData: {
     firstName: string;
     lastName: string;
     email: string;
   };
-  // totalCost: number;
-  // property: string;
+  property: string;
 }
 
 const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
@@ -81,6 +77,7 @@ const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
   show,
   close,
   userData,
+  property,
 }) => {
   const {
     register,
@@ -98,7 +95,20 @@ const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
     reset({ ...initData, ...userData });
   }, [userData]);
 
-  const onSubmit: SubmitHandler<ConnectFormData> = (data) => submit(data);
+  const onSubmit: SubmitHandler<ConnectFormData> = (data) => {
+    const submitData: marketplaceInvestmentRequestData = {
+      property_id: property,
+      current_location: data.location,
+      social_link: data.smLink,
+      investment_timeline: data.timeline.value,
+      investment_focus: data.focus.value,
+      expected_ROI: parseInt(data.roi),
+      investor_type: data.investingAs.value,
+    };
+
+    submit(submitData);
+  };
+  console.log(errors);
   return (
     <>
       <Modal

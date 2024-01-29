@@ -28,7 +28,11 @@ const Marketplace = () => {
     current: 1,
     totalPages: 1,
   });
-  const [showConnect, setShowConnect] = React.useState({ show: false, id: "" });
+  const [showConnect, setShowConnect] = React.useState({
+    show: false,
+    id: "",
+    percentage: 0,
+  });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
   const [apartment, setApartment] = React.useState<optionType[]>([]);
@@ -71,8 +75,8 @@ const Marketplace = () => {
 
         return data?.data.results.map((item) => ({
           name: item.name,
-          discount: item.percentage_discount,
-          amount: item.total_property_cost,
+          discount: item.percentage_available,
+          amount: (item.total_property_cost * item.percentage_available) / 100,
           owner: item.company_name,
           images: item.image_album
             ? item.image_album.media.map((item) => item.image)
@@ -82,6 +86,7 @@ const Marketplace = () => {
             bedroom: item.number_of_bedrooms,
             toilet: item.number_of_toilets,
           },
+          calendlyURL: item.agent.calendry_link,
         }));
       } else {
         dispatch(
@@ -142,7 +147,7 @@ const Marketplace = () => {
     setPages({ ...pages, current: 1 });
   };
 
-  const handleInvest = (id) => {
+  const handleInvest = ({ id, percentage }) => {
     const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
       localStorage.getItem("roofbucksRefresh") &&
@@ -160,7 +165,7 @@ const Marketplace = () => {
     } else if (incompleteProfile) {
       setCompleteProfile(true);
     } else {
-      setShowConnect({ show: true, id });
+      setShowConnect({ show: true, id, percentage });
     }
   };
 
@@ -176,7 +181,7 @@ const Marketplace = () => {
       />
       <ConnectForm
         {...showConnect}
-        close={() => setShowConnect({ show: false, id: "" })}
+        close={() => setShowConnect({ show: false, id: "", percentage: 0 })}
       />
       <MarketplaceUI
         properties={properties}
@@ -199,6 +204,7 @@ const Marketplace = () => {
         submitFilter={handleFilter}
         filter={{ country, apartment, status, budget }}
         handleConnect={handleInvest}
+        isAgent={role === "agent"}
       />
     </>
   );
