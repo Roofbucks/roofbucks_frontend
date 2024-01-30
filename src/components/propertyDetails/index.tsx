@@ -186,9 +186,13 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
     <>
       <HeroSection title="Property Details" />
       <section className={`appContainer ${styles.propertyWrap}`}>
-        <Link to={location.state.url ?? ""} className={styles.backBtn}>
-          <ArrowRight /> Back to {location?.state?.from ?? ""}
-        </Link>
+        {location.state ? (
+          <Link to={location.state.url ?? ""} className={styles.backBtn}>
+            <ArrowRight /> Back to {location?.state?.from ?? ""}
+          </Link>
+        ) : (
+          ""
+        )}
         <div className={styles.imgSec}>
           <img src={property.image} />
         </div>
@@ -463,9 +467,13 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             </div>
           </>
         )}
-        <Link to={location.state.url ?? ""} className={styles.backBtn2}>
-          <ArrowRight /> Back to {location?.state?.from ?? ""}
-        </Link>
+        {location.state ? (
+          <Link to={location.state.url ?? ""} className={styles.backBtn2}>
+            <ArrowRight /> Back to {location?.state?.from ?? ""}
+          </Link>
+        ) : (
+          ""
+        )}
       </section>
     </>
   );

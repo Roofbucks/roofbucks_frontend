@@ -3,13 +3,31 @@ import styles from "./styles.module.css";
 import { EmptyFinances, PlusIconFill } from "assets";
 import {
   Button,
+  Pagination,
   Table,
   TableHeaderItemProps,
   TransactionTable,
   TransactionTableItem,
 } from "components";
 
-const FinancesUI = () => {
+const tableHeaderTitles: TableHeaderItemProps[] = [
+  { title: "Property ID" },
+  { title: "Property Name" },
+  { title: "Invoice ID" },
+  { title: "Amount" },
+  { title: "Date" },
+  { title: "" },
+];
+
+interface FinancesUIProps {
+  tableBodyItems: TransactionTableItem[];
+  viewProperty: (id) => void;
+}
+
+const FinancesUI: React.FC<FinancesUIProps> = ({
+  tableBodyItems,
+  viewProperty,
+}) => {
   const [account, setAccount] = React.useState("00887774444");
 
   const accounts = [
@@ -26,25 +44,6 @@ const FinancesUI = () => {
       active: false,
     },
   ];
-
-  const tableHeaderTitles: TableHeaderItemProps[] = [
-    { title: "Property ID" },
-    { title: "Property Name" },
-    { title: "Invoice ID" },
-    { title: "Amount" },
-    { title: "Date" },
-    { title: "" },
-  ];
-
-  const tableItem: TransactionTableItem = {
-    propertyID: "#C123456",
-    propertyName: "Mathia’s Family Ho..",
-    invoiceID: "#C123456",
-    amount: "$1,200.00",
-    date: "14/12/2022",
-  };
-
-  const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
 
   return (
     <>
@@ -76,7 +75,7 @@ const FinancesUI = () => {
         tableBody={
           <TransactionTable
             viewInvoice={() => {}}
-            viewProperty={() => {}}
+            viewProperty={viewProperty}
             printInvoice={() => {}}
             tableBodyItems={tableBodyItems}
           />
