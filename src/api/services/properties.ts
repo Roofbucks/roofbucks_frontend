@@ -14,8 +14,10 @@ import {
   addPropertyURL,
   addStaysURL,
   deleteStayURL,
+  fetchAgentPropertiesURL,
   fetchPropertiesURL,
   fetchPropertyURL,
+  fetchShareholderPropertiesURL,
   fetchSimilarPropertiesURL,
   fetchStaysURL,
   listingApplicationURL,
@@ -248,4 +250,30 @@ export const marketplaceInvestmentService = (
   };
 
   return postRequest(requestData);
+};
+
+/**
+ * Fetch agent properties service
+ * @returns axios promise
+ */
+
+export const fetchAgentPropertiesService = ({ search, page }) => {
+  const requestData = {
+    url: fetchAgentPropertiesURL({ search, page }),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Fetch shareholder properties service
+ * @returns axios promise
+ */
+
+export const fetchShareholderPropertiesService = ({ search, page }) => {
+  const requestData = {
+    url: fetchShareholderPropertiesURL({ search, page }),
+  };
+
+  return getRequest(requestData);
 };

@@ -7,7 +7,15 @@ const Properties = () => {
   const { role: user } = useAppSelector((state) => state.user);
 
   return (
-    <>{user === "agent" ? <AgentProperties /> : <ShareHolderProperties />}</>
+    <> 
+      {user === "agent" ? (
+        <AgentProperties />
+      ) : user === "shareholder" ? (
+        <ShareHolderProperties />
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 

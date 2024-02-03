@@ -1,9 +1,4 @@
-import {
-  addStaysService,
-  deleteStayService,
-  fetchPropertiesService,
-  fetchStaysService,
-} from "api";
+import { fetchAgentPropertiesService } from "api";
 import {
   AddStayModal,
   AgentPropertiesUI,
@@ -49,7 +44,7 @@ const AgentProperties = () => {
 
   const fetchProperties = (page?) => {
     runProperties(
-      fetchPropertiesService({ search, page: page ?? pages.current })
+      fetchAgentPropertiesService({ search, page: page ?? pages.current })
     );
   };
 

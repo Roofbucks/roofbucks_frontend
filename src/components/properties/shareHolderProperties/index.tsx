@@ -38,6 +38,7 @@ interface ShareHolderPropertiesProps {
     all: number;
     applications: number;
   };
+  properties: PropertyCardData[];
 }
 
 const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
@@ -47,20 +48,8 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   handlePayRent,
   tab,
   count,
+  properties,
 }) => {
-  const property: PropertyCardData = {
-    address: "256, Bayajida Close. LA. Nigeria",
-    name: "Two Bedroom Apartmentpartmentttt",
-    amount: 10000,
-    owner: "By Bear Properties",
-    images: [property3],
-    amenities: { bedroom: 15, toilet: 21 },
-    calendlyURL: "",
-    id: "",
-  };
-
-  const properties: PropertyCardProps[] = new Array(6).fill(property);
-
   const application: PropertyApplicationTableItem = {
     id: "123",
     propertyID: "123",
@@ -77,7 +66,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
     ...new Array(5).fill(application),
     ...new Array(5).fill({ ...application, type: "investor" }),
   ];
-console.log(applications)
+
   return (
     <>
       <h1 className={styles.ttl}>Properties</h1>

@@ -112,3 +112,25 @@ export const listingApplicationURL = () =>
 
 export const marketplaceInvestmentURL = () =>
   `/properties/marketplace_application_request/`;
+
+/**
+ * Fetch agent properties url
+ *
+ * @returns url string
+ *
+ */
+export const fetchAgentPropertiesURL = ({ search, page }) =>
+  `/properties/agent_properties/?${appendParams({ search, page, limit: 15 })}`;
+
+/**
+ * Fetch shareholder properties url
+ *
+ * @returns url string
+ *
+ */
+export const fetchShareholderPropertiesURL = ({ search, page }) =>
+  `/properties/shareholder_properties/?${appendParams({
+    search,
+    page,
+    limit: 10,
+  })}`;
