@@ -10,3 +10,5 @@ export * from "./countryFilter";
 export * from "./statusFilter";
 export * from "./loginPrompt";
 export * from "./completeProfilePrompt";
+export * from "./addBankAccount";
+export * from "./confirmationPrompt"

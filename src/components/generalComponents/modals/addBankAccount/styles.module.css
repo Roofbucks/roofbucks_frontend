@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  padding: 1.5rem;
+  padding-bottom: 0;
+}
+.header h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+.txt {
+  color: #8d8d8d;
+  max-width: 350px;
+  line-height: 1.4;
+}
+.closeBtn {
+  background: #000;
+  border-radius: 50%;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+}
+.closeBtn path {
+  fill: #fff;
+}
+
+/* Form Wrapper */
+.form {
+  padding: 1rem 1.5rem 2rem;
+}
+div.input {
+  display: inline-flex;
+  width: 48%;
+  margin-bottom: 1.7rem;
+}
+.input:nth-of-type(odd) {
+  margin-right: 4%;
+}
+.input input {
+  border-color: #808080;
+}
+.select [class*="formSelect__control"] {
+  border-color: #808080;
+}
+.input input[type="date"] {
+  padding-right: 1rem;
+}

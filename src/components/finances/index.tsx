@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { EmptyFinances, PlusIconFill } from "assets";
+import { EmptyFinances, PlusIconFill, TrashIcon } from "assets";
 import {
   Button,
   Pagination,
@@ -19,42 +19,40 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
+export interface BankAccountData {
+  name: string;
+  bank: string;
+  number: string;
+  active: boolean;
+}
+
 interface FinancesUIProps {
   tableBodyItems: TransactionTableItem[];
   viewProperty: (id) => void;
+  accounts: BankAccountData[];
+  handleAddBank: () => void;
+  handlePrimaryBank: (index: number) => void;
+  handleDeleteBank: (index: number) => void;
 }
 
 const FinancesUI: React.FC<FinancesUIProps> = ({
   tableBodyItems,
   viewProperty,
+  accounts,
+  handleAddBank,
+  handleDeleteBank,
+  handlePrimaryBank,
 }) => {
-  const [account, setAccount] = React.useState("00887774444");
-
-  const accounts = [
-    {
-      name: "Jane Doe",
-      bank: "Access Bank",
-      number: "00887774444",
-      active: true,
-    },
-    {
-      name: "Jane Doe",
-      bank: "Access Bank",
-      number: "00887774464",
-      active: false,
-    },
-  ];
-
   return (
     <>
       <h1 className={styles.ttl}>Finances</h1>
       <section className={styles.accountList}>
-        {accounts.map((item) => (
+        {accounts.map((item, index) => (
           <div className={styles.accountCard}>
             <input
-              className={account === item.number ? styles.selectedRadio : ""}
-              onClick={() => setAccount(item.number)}
-              checked={account === item.number}
+              className={item.active ? styles.selectedRadio : ""}
+              onClick={() => handlePrimaryBank(index)}
+              checked={item.active}
               type="radio"
             />
             <div className={styles.accountInfo}>
@@ -62,12 +60,30 @@ const FinancesUI: React.FC<FinancesUIProps> = ({
               <p className={styles.bank}>{item.bank}</p>
               <p className={styles.number}>{item.number}</p>
             </div>
+            {!item.active ? (
+              <TrashIcon
+                className={styles.delete}
+                role="button"
+                onClick={() => handleDeleteBank(index)}
+              />
+            ) : (
+              ""
+            )}
           </div>
         ))}
       </section>
-      <Button className={styles.addBtn} type={"primary"} onClick={() => {}}>
+      <i className={styles.note}>
+        Note: You can only add up to 6 bank accounts and you cannot delete the
+        primary bank account
+      </i>
+      <Button
+        disabled={accounts.length >= 6}
+        className={styles.addBtn}
+        type={"primary"}
+        onClick={handleAddBank}
+      >
         <PlusIconFill />
-        Add new
+        Add new bank account
       </Button>
       <p className={styles.tableTtl}>Transactions</p>
       <Table
