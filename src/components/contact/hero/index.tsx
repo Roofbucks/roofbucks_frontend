@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, CustomSelect, Input, Textarea } from "components";
 import { LocationIconOutline, MailIcon, PhoneIconOutline } from "assets";
+import { contactUsRequestData } from "api/services/general";
 
 interface ContactData {
   name: string;
@@ -31,22 +32,29 @@ const contactSchema = yup
     phone: yup
       .string()
       .required("Required")
-      .min(12, "Enter a valid phone number"),
+      .min(10, "Enter a valid phone number"),
   })
   .required();
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  clear: boolean;
+  submit: (data: contactUsRequestData) => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-    watch,
-    control,
+    reset,
   } = useForm<ContactData>({
     resolver: yupResolver(contactSchema),
     defaultValues: initialValues,
   });
+
+  React.useEffect(() => {
+    reset();
+  }, [clear]);
 
   const handleEnter = (event) => {
     if (event.key.toLowerCase() === "enter") {
@@ -55,6 +63,17 @@ const HeroSection = () => {
       form.elements[index + 1].focus();
       event.preventDefault();
     }
+  };
+
+  const onSubmit: SubmitHandler<ContactData> = (data) => {
+    const submitData: contactUsRequestData = {
+      email: data.email,
+      phone: data.phone,
+      name: data.name,
+      country: data.country,
+      body: data.message,
+    };
+    submit(submitData);
   };
 
   return (
@@ -105,15 +124,16 @@ const HeroSection = () => {
             register={register}
             onKeyDown={handleEnter}
           />
-          <CustomSelect
-            onChange={(x) => setValue("country", x.value)}
-            validatorMessage={errors.country?.message ?? ""}
+          <Input
             name={"country"}
             placeholder={"E.g. Nigeria"}
             label={"Country *"}
-            options={[{ label: "Nigeria", value: "NGA" }]}
-            value={{ label: "", value: "" }}
+            type="text"
             parentClassName={styles.input}
+            required
+            validatorMessage={errors.country?.message}
+            register={register}
+            onKeyDown={handleEnter}
           />
           <Textarea
             label="How can we help?"
@@ -125,7 +145,7 @@ const HeroSection = () => {
             register={register}
             parentClassName={styles.textarea}
           />
-          <Button type="primary" onClick={() => {}}>
+          <Button type="primary" onClick={handleSubmit(onSubmit)}>
             Submit
           </Button>
         </form>

@@ -22,7 +22,7 @@ const LoginModal: React.FC<LoginProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {fetchUser} = useGetUser()
+  const { fetchUser } = useGetUser();
 
   const {
     run: runLogin,
@@ -34,7 +34,7 @@ const LoginModal: React.FC<LoginProps> = ({
   React.useMemo(() => {
     if (loginResponse || error) {
       if (loginResponse?.status === 200) {
-        fetchUser()
+        fetchUser();
         const data = loginResponse.data;
         const role = data.role.toLowerCase();
         const id = data.id;

@@ -2,8 +2,14 @@ import * as React from "react";
 import { Faq, FAQITemProps } from "./faqs";
 import { HeroSection } from "./hero";
 import styles from "./styles.module.css";
+import { contactUsRequestData } from "api";
 
-const ContactUI = () => {
+interface ContactUIProps {
+  clear: boolean;
+  submit: (data: contactUsRequestData) => void;
+}
+
+const ContactUI: React.FC<ContactUIProps> = ({ submit, clear }) => {
   const faqs: FAQITemProps[] = [
     {
       question: `How does Roofbucks work for homebuyers?`,
@@ -64,7 +70,7 @@ const ContactUI = () => {
   ];
   return (
     <>
-      <HeroSection />
+      <HeroSection submit={submit} clear={clear} />
       <Faq faqs={faqs} />
     </>
   );
