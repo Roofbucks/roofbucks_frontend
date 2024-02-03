@@ -88,7 +88,7 @@ export const fetchBanksURL = () => `/properties/get_banks`
  * @returns url string
  *
  */
-export const updateProfileURL = () => `/user/user_profile/`
+export const updateProfileURL = () => `/user/profile/`
 
 /**
  * Update business profile url
@@ -96,4 +96,4 @@ export const updateProfileURL = () => `/user/user_profile/`
  * @returns url string
  *
  */
-export const updateBusinessURL = () => `/user/user_profile/`
+export const updateBusinessURL = () => `/user/add_business/`

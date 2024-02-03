@@ -194,7 +194,7 @@ const PersonalForm: React.FC<PersonalFormProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     setValue,
     reset,
@@ -216,16 +216,25 @@ const PersonalForm: React.FC<PersonalFormProps> = ({
   const onSubmit: SubmitHandler<PersonalFormData> = (data) => {
     const formData: FormData = new FormData();
 
-    formData.append("firstname", data.firstName);
-    formData.append("lastname", data.lastName);
-    formData.append("country", data.country);
-    formData.append("phone", data.number);
-    formData.append("city", data.city);
-    formData.append("street", data.address);
+    if (data.firstName !== personalProfile.firstName)
+      formData.append("firstname", data.firstName);
+    if (data.lastName !== personalProfile.lastName)
+      formData.append("lastname", data.lastName);
+    if (data.email !== personalProfile.email)
+      formData.append("email", data.email);
+    if (data.country !== personalProfile.country)
+      formData.append("country", data.country);
+    if (data.number !== personalProfile.number)
+      formData.append("phone", data.number);
+    if (data.city !== personalProfile.city) formData.append("city", data.city);
+    if (data.address !== personalProfile.address)
+      formData.append("address", data.address);
     data.avatar && formData.append("display_photo", data.avatar);
 
     submit(formData);
   };
+
+  const hasEdit = isDirty || watch("avatar") !== undefined;
 
   return (
     <>
@@ -339,10 +348,14 @@ const PersonalForm: React.FC<PersonalFormProps> = ({
           />
         </form>
         <div className={styles.btnSec}>
-          <Button type="secondary" onClick={reset}>
+          <Button disabled={!hasEdit} type="secondary" onClick={reset}>
             Cancel
           </Button>
-          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+          <Button
+            disabled={!hasEdit}
+            type="primary"
+            onClick={handleSubmit(onSubmit)}
+          >
             Save
           </Button>
         </div>
@@ -387,7 +400,7 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     setValue,
     reset,
@@ -410,16 +423,21 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
   const onSubmit: SubmitHandler<BusinessFormData> = (data) => {
     const formData: FormData = new FormData();
 
-    formData.append("email", data.email);
-    formData.append("description", data.description);
-    formData.append("country", data.country);
-    formData.append("phone", data.number);
-    formData.append("city", data.city);
-    formData.append("website", data.website);
+    if (data.email !== business.email) formData.append("email", data.email);
+    if (data.description !== business.description)
+      formData.append("description", data.description);
+    if (data.country !== business.country)
+      formData.append("country", data.country);
+    if (data.number !== business.number) formData.append("phone", data.number);
+    if (data.city !== business.city) formData.append("city", data.city);
+    if (data.website !== business.website)
+      formData.append("website", data.website);
     data.logo && formData.append("company_logo", data.logo);
 
     submit(formData);
   };
+
+  const hasEdit = isDirty || watch("logo") !== undefined;
 
   return (
     <>
@@ -502,12 +520,12 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
           <Input
             label="Business Website"
             showRequired={true}
-            placeholder="Your street’s name"
-            type="text"
+            placeholder="Your website link"
+            type="url"
             parentClassName={styles.input}
             required
             validatorMessage={errors.website?.message}
-            name="url"
+            name="website"
             register={register}
           />
           <Textarea
@@ -521,10 +539,14 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
           />
         </form>
         <div className={styles.btnSec}>
-          <Button type="secondary" onClick={reset}>
+          <Button disabled={!hasEdit} type="secondary" onClick={reset}>
             Cancel
           </Button>
-          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+          <Button
+            disabled={!hasEdit}
+            type="primary"
+            onClick={handleSubmit(onSubmit)}
+          >
             Save
           </Button>
         </div>

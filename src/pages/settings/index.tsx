@@ -14,9 +14,18 @@ const Settings = () => {
   const [reset, setReset] = React.useState(false);
 
   const dispatch = useAppDispatch();
-  const { firstName, lastName, email, avatar, role } = useAppSelector(
-    (state) => state.user
-  );
+  const {
+    firstName,
+    lastName,
+    email,
+    avatar,
+    role,
+    business,
+    city,
+    country,
+    number,
+    address,
+  } = useAppSelector((state) => state.user);
 
   const { fetchUser } = useGetUser();
 
@@ -140,6 +149,7 @@ const Settings = () => {
     updatePasswordStatus.isPending ||
     updateProfileStatus.isPending ||
     updateBusinessStatus.isPending;
+
   return (
     <>
       <Preloader loading={showLoader} />
@@ -151,11 +161,11 @@ const Settings = () => {
           personalProfile: {
             firstName,
             lastName,
-            city: "",
-            country: "",
-            address: "",
+            city,
+            country,
+            address,
             email,
-            number: "",
+            number,
             avatar: undefined,
           },
           avatar,
@@ -163,15 +173,15 @@ const Settings = () => {
         business={{
           submit: updateBusiness,
           business: {
-            email: "",
-            website: "",
-            city: "",
-            country: "",
-            description: "",
-            number: "",
+            email: business?.email ?? "",
+            website: business?.website ?? "",
+            city: business?.city ?? "",
+            country: business?.country ?? "",
+            description: business?.description ?? "",
+            number: business?.number ?? "",
             logo: undefined,
           },
-          logo: "",
+          logo: business?.logo ?? "",
         }}
         isAgent={role === "agent"}
       />

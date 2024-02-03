@@ -20,20 +20,32 @@ export const useGetUser = () => {
     if (response) {
       if (response.status === 200) {
         const id = localStorage.getItem("id") ?? "";
-        const firstName = response.data.firstname;
-        const lastName = response.data.lastname;
-        const email = response.data.email;
-        const avatar = response.data.display_photo;
-        const role = response.data.role.toLowerCase();
+        const data = response.data;
+        const business = data.business_details;
 
         dispatch(
           updateUser({
-            role,
-            firstName,
-            lastName,
-            email,
             id,
-            avatar,
+            role: data.role.toLowerCase(),
+            firstName: data.firstname,
+            lastName: data.lastname,
+            email: data.email,
+            avatar: data.display_photo,
+            city: data.city,
+            country: data.country,
+            address: data.address,
+            number: data.phone,
+            business: data.business_details
+              ? {
+                  city: business.city,
+                  country: business.country,
+                  number: business.phone,
+                  email: business.email,
+                  description: business.description,
+                  website: business.website,
+                  logo: "",
+                }
+              : undefined,
           })
         );
       } else {

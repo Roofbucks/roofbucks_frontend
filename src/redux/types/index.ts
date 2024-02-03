@@ -24,6 +24,21 @@ export interface UserData {
   lastName: string;
   id: string;
   avatar: string;
+  city: string;
+  country: string;
+  address: string;
+  number: string;
+  business:
+    | {
+        email: string;
+        website: string;
+        city: string;
+        country: string;
+        description: string;
+        number: string;
+        logo: string;
+      }
+    | undefined;
 }
 
 export type userActions = "UPDATE_USER";

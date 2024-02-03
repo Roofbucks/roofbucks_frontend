@@ -7,6 +7,11 @@ const initalState: UserData = {
   email: "",
   id: "",
   avatar: "",
+  city: "",
+  country: "",
+  number: "",
+  address: "",
+  business: undefined,
 };
 
 const userReducer = (state = initalState, action: reduxUserAction) => {
