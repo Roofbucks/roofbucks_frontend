@@ -134,3 +134,19 @@ export const fetchShareholderPropertiesURL = ({ search, page }) =>
     page,
     limit: 10,
   })}`;
+
+/**
+ * Buy back url
+ *
+ * @returns url string
+ *
+ */
+export const buyBackURL = (property) => `/properties/buy_back/${property}/`;
+
+/**
+ * Pay rent url
+ *
+ * @returns url string
+ *
+ */
+export const payRentURL = (property) => `/properties/pay_rent/${property}/`;

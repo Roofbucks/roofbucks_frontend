@@ -25,11 +25,18 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
+export interface ShareholderPropertyData extends PropertyCardData {
+  investorType: "home_owner" | "investor";
+  rent: number;
+  marketValue: number;
+  percentageOwned: number;
+}
+
 interface ShareHolderPropertiesProps {
   handleSellShares: (id) => void;
   handleView: (id) => void;
-  handleBuyBack: (id) => void;
-  handlePayRent: (id) => void;
+  handleBuyBack: ({ id, name, marketValue, percentageOwned }) => void;
+  handlePayRent: ({ id, name, rent }) => void;
   tab: {
     value: string;
     handleChange: (tab: string) => void;
@@ -38,7 +45,7 @@ interface ShareHolderPropertiesProps {
     all: number;
     applications: number;
   };
-  properties: PropertyCardData[];
+  properties: ShareholderPropertyData[];
   pagination: {
     current: number;
     total: number;
@@ -104,32 +111,37 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
                   key={index}
                   className={styles.propertyCard}
                   primaryBtn={{
-                    text: "Sell shares",
-                    action: () => handleSellShares(item.id),
+                    text:
+                      item.investorType === "home_owner"
+                        ? "Pay rent"
+                        : "Sell shares",
+                    action: () =>
+                      item.investorType
+                        ? handlePayRent({
+                            id: item.id,
+                            name: item.name,
+                            rent: item.rent,
+                          })
+                        : handleSellShares(item.id),
                     className: styles.pryBtn,
                   }}
                   moreDetails={handleView}
                   type="row"
                   size="normal"
-                  secondaryAction={
-                    <Dropdown
-                      dropdownListClassName={styles.dropdown}
-                      type={"text"}
-                      active="More"
-                    >
-                      <DropdownListItem
-                        onDropdownChange={() => handleBuyBack(item.id)}
-                        className={styles.dropdownListItem}
-                      >
-                        Buy back
-                      </DropdownListItem>
-                      <DropdownListItem
-                        onDropdownChange={() => handlePayRent(item.id)}
-                        className={styles.dropdownListItem}
-                      >
-                        Pay rent
-                      </DropdownListItem>
-                    </Dropdown>
+                  secondaryBtn={
+                    item.investorType === "home_owner"
+                      ? {
+                          text: "Buy back",
+                          action: () =>
+                            handleBuyBack({
+                              id: item.id,
+                              name: item.name,
+                              marketValue: item.marketValue,
+                              percentageOwned: item.percentageOwned,
+                            }),
+                          className: styles.secBtn,
+                        }
+                      : undefined
                   }
                 />
               ))

@@ -6,9 +6,17 @@ import { ModalProps, optionType } from "types";
 
 interface PayRentProps extends ModalProps {
   submit: () => void;
+  propertyName: string;
+  rent: number;
 }
 
-const PayRentModal: React.FC<PayRentProps> = ({ show, closeModal, submit }) => {
+const PayRentModal: React.FC<PayRentProps> = ({
+  show,
+  closeModal,
+  submit,
+  propertyName,
+  rent,
+}) => {
   return (
     <>
       <Modal
@@ -23,9 +31,8 @@ const PayRentModal: React.FC<PayRentProps> = ({ show, closeModal, submit }) => {
           role="button"
         />
         <p>Pay Annual Rent</p>
-        <h1 className={styles.ttl}>Two Bedroom Apartment ..</h1>
-        {/* SHow amount and checkout */}
-        <h2>NGN 2,000,000 per annum</h2>
+        <h1 className={styles.ttl}>{propertyName}</h1>
+        <p className={styles.txt}>Your rent costs: <b>NGN {rent} per annum</b></p>
         <p className={styles.note}>
           Transaction charges may apply, read{" "}
           <a target="_blank">terms of use</a>

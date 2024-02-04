@@ -13,6 +13,7 @@ import {
 import {
   addPropertyURL,
   addStaysURL,
+  buyBackURL,
   deleteStayURL,
   fetchAgentPropertiesURL,
   fetchPropertiesURL,
@@ -24,6 +25,7 @@ import {
   listingsURL,
   marketplaceInvestmentURL,
   marketplaceURL,
+  payRentURL,
   updatePropertyURL,
 } from "api/urls";
 
@@ -273,6 +275,32 @@ export const fetchAgentPropertiesService = ({ search, page }) => {
 export const fetchShareholderPropertiesService = ({ search, page }) => {
   const requestData = {
     url: fetchShareholderPropertiesURL({ search, page }),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Buy back service
+ * @returns axios promise
+ */
+
+export const buyBackService = (property: string) => {
+  const requestData = {
+    url: buyBackURL(property),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Pay rent service
+ * @returns axios promise
+ */
+
+export const payRentService = (property: string) => {
+  const requestData = {
+    url: payRentURL(property),
   };
 
   return getRequest(requestData);

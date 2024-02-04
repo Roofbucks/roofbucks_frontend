@@ -2,6 +2,7 @@ import {
   Preloader,
   PropertyCardData,
   ShareHolderPropertiesUI,
+  ShareholderPropertyData,
 } from "components";
 import * as React from "react";
 import { SellShares } from "../sellShares";
@@ -9,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 import { BuyBack } from "../buyBack";
 import { PayRent } from "../payRent";
-import { fetchShareholderPropertiesService } from "api";
+import { buyBackService, fetchShareholderPropertiesService } from "api";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import { updateToast } from "redux/actions";
@@ -19,9 +20,20 @@ const ShareHolderProperties = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [sellShares, setSellShares] = React.useState(false);
-  const [buyBack, setBuyBack] = React.useState(false);
-  const [payRent, setPayRent] = React.useState(false);
+  const [sellShares, setSellShares] = React.useState({ show: false, id: "" });
+  const [buyBack, setBuyBack] = React.useState({
+    show: false,
+    id: "",
+    name: "",
+    marketValue: 0,
+    percentageOwned: 0,
+  });
+  const [payRent, setPayRent] = React.useState({
+    show: false,
+    id: "",
+    name: "",
+    rent: 0,
+  });
   const [tab, setTab] = React.useState("properties");
 
   const [search, setSearch] = React.useState("");
@@ -49,7 +61,7 @@ const ShareHolderProperties = () => {
     tab === "properties" ? fetchProperties(1) : fetchApplications(1);
   }, [tab]);
 
-  const properties = React.useMemo<PropertyCardData[]>(() => {
+  const properties = React.useMemo<ShareholderPropertyData[]>(() => {
     if (propertiesResponse) {
       if (propertiesResponse.status === 200) {
         setPages({
@@ -68,6 +80,10 @@ const ShareHolderProperties = () => {
           amount: item.amount,
           id: item.id,
           calendlyURL: item.agent_link,
+          investorType: "home_owner",
+          rent: 0,
+          marketValue: 0,
+          percentageOwned: item.percentage_ownership,
         }));
       } else {
         dispatch(
@@ -119,15 +135,51 @@ const ShareHolderProperties = () => {
   return (
     <>
       <Preloader loading={showLoader} />
-      <SellShares show={sellShares} closeModal={() => setSellShares(false)} />
-      <BuyBack show={buyBack} closeModal={() => setBuyBack(false)} />
-      <PayRent show={payRent} closeModal={() => setPayRent(false)} />
+      <SellShares
+        show={sellShares.show}
+        closeModal={() => setSellShares({ show: false, id: "" })}
+      />
+      <BuyBack
+        show={buyBack.show}
+        percentageOwned={buyBack.percentageOwned}
+        propertyId={buyBack.id}
+        propertyName={buyBack.name}
+        marketValue={buyBack.marketValue}
+        closeModal={() =>
+          setBuyBack({
+            show: false,
+            id: "",
+            name: "",
+            marketValue: 0,
+            percentageOwned: 0,
+          })
+        }
+      />
+      <PayRent
+        show={payRent.show}
+        propertyId={payRent.id}
+        propertyName={payRent.name}
+        rent={payRent.rent}
+        closeModal={() =>
+          setPayRent({ show: false, id: "", name: "", rent: 0 })
+        }
+      />
       <ShareHolderPropertiesUI
         properties={properties}
         handleView={handleView}
-        handleSellShares={() => setSellShares(true)}
-        handleBuyBack={() => setBuyBack(true)}
-        handlePayRent={() => setPayRent(true)}
+        handleSellShares={(id) => setSellShares({ show: true, id })}
+        handleBuyBack={({ id, name, marketValue, percentageOwned }) =>
+          setBuyBack({
+            show: true,
+            id,
+            name,
+            marketValue,
+            percentageOwned,
+          })
+        }
+        handlePayRent={({ id, name, rent }) =>
+          setPayRent({ show: true, id, name, rent })
+        }
         tab={{
           value: tab,
           handleChange: setTab,
