@@ -43,7 +43,7 @@ export const useGetUser = () => {
                   email: business.email,
                   description: business.description,
                   website: business.website,
-                  logo: "",
+                  logo: business.logo,
                 }
               : undefined,
           })

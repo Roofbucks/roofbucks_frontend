@@ -39,6 +39,12 @@ interface ShareHolderPropertiesProps {
     applications: number;
   };
   properties: PropertyCardData[];
+  pagination: {
+    current: number;
+    total: number;
+    handleChange: (page: number) => void;
+    count: { start: number; end: number; total: number };
+  };
 }
 
 const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
@@ -49,6 +55,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   tab,
   count,
   properties,
+  pagination,
 }) => {
   const application: PropertyApplicationTableItem = {
     id: "123",
@@ -129,17 +136,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
             ) : (
               <EmptyProperties />
             )}
-            <Pagination
-              current={0}
-              total={0}
-              handleChange={console.log}
-              count={{
-                start: 0,
-                end: 0,
-                total: 0,
-              }}
-              name={"Properties"}
-            />
+            <Pagination {...pagination} name={"Properties"} />
           </div>
           <ActivityList className={styles.activity} />
         </section>
@@ -164,17 +161,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
               element: <EmptyProperties />,
             }}
           />
-          <Pagination
-            current={0}
-            total={0}
-            handleChange={console.log}
-            count={{
-              start: 0,
-              end: 0,
-              total: 0,
-            }}
-            name={"Properties"}
-          />
+          <Pagination {...pagination} name={"Properties"} />
         </section>
       )}
     </>

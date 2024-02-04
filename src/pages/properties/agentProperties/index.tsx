@@ -98,8 +98,8 @@ const AgentProperties = () => {
     let start = 0;
     let end = 0;
 
-    start = pages.current * 10 - 9;
-    end = pages.current * 10;
+    start = pages.current * 15 - 9;
+    end = pages.current * 15;
 
     if (propertiesResponse?.data?.total < end) {
       end = propertiesResponse?.data?.total;

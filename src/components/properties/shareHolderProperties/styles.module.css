@@ -30,7 +30,7 @@
   border-bottom: 1px solid #efefef;
 }
 .propertyCard [class*="imgSec"] {
-  max-width: 240px;
+  /* max-width: 240px; */
   height: 100%;
 }
 .propertyCard [class*="imgSec"] img {

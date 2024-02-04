@@ -1,4 +1,8 @@
-import { PropertyCardData, ShareHolderPropertiesUI } from "components";
+import {
+  Preloader,
+  PropertyCardData,
+  ShareHolderPropertiesUI,
+} from "components";
 import * as React from "react";
 import { SellShares } from "../sellShares";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +11,7 @@ import { BuyBack } from "../buyBack";
 import { PayRent } from "../payRent";
 import { fetchShareholderPropertiesService } from "api";
 import { getErrorMessage } from "helpers";
-import { useDebounce, useApiRequest } from "hooks";
+import { useApiRequest } from "hooks";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
 
@@ -25,7 +29,6 @@ const ShareHolderProperties = () => {
     total: 1,
     current: 1,
   });
-  const debouncedSearchTerm = useDebounce(search, 500);
 
   const {
     run: runProperties,
@@ -34,21 +37,17 @@ const ShareHolderProperties = () => {
     error: propertiesError,
   } = useApiRequest({});
 
-  const addProperty = () => {
-    navigate(Routes.addProperty);
-  };
-
   const fetchProperties = (page?) => {
     runProperties(
       fetchShareholderPropertiesService({ search, page: page ?? pages.current })
     );
   };
 
-  const fetchApplications =(page?) => console.log()
+  const fetchApplications = (page?) => console.log();
 
   React.useEffect(() => {
     tab === "properties" ? fetchProperties(1) : fetchApplications(1);
-  }, [debouncedSearchTerm, tab]);
+  }, [tab]);
 
   const properties = React.useMemo<PropertyCardData[]>(() => {
     if (propertiesResponse) {
@@ -59,11 +58,16 @@ const ShareHolderProperties = () => {
         });
 
         return propertiesResponse.data.results.map((item) => ({
-          propertyID: item.id,
-          propertyName: item.name,
-          status: "", //item.moderation_status.toLowerCase(),
-          amount: item.total_property_cost,
-          date: "", // new Date(item.created_at).toLocaleDateString(),
+          images: item.images,
+          amenities: { bedroom: item.bedrooms, toilet: item.toilets },
+          discount: `${item.percentage_ownership}% owned`,
+          owner: item.agent_name,
+          name: item.name,
+          address: item.address,
+          description: item.description,
+          amount: item.amount,
+          id: item.id,
+          calendlyURL: item.agent_link,
         }));
       } else {
         dispatch(
@@ -83,13 +87,8 @@ const ShareHolderProperties = () => {
   }, [propertiesResponse, propertiesError]);
 
   const handlePageChange = (x: number) => {
-    fetchProperties(x);
+    tab === "properties" ? fetchProperties(x) : fetchApplications(x);
     setPages({ ...pages, current: x });
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPages({ ...pages, current: 1 });
   };
 
   const getCount = () => {
@@ -107,23 +106,19 @@ const ShareHolderProperties = () => {
   };
 
   const handleView = (id) => {
-    navigate(Routes.propertyID(id));
+    navigate(Routes.propertyID(id), {
+      state: {
+        from: "properties",
+        url: Routes.properties,
+      },
+    });
   };
 
-  const handleTab = (tab) => {
-    setTab(tab);
-    // setDate({ start: "", end: "" });
-    // setPages((prev) => ({
-    //   ...prev,
-    //   currentPage: 1,
-    // }));
-    // tab === "properties"
-    //   ? fetchProperties(1, { start: "", end: "" })
-    //   : fetchApplications(1, { start: "", end: "" });
-  };
+  const showLoader = propertiesStatus.isPending;
 
   return (
     <>
+      <Preloader loading={showLoader} />
       <SellShares show={sellShares} closeModal={() => setSellShares(false)} />
       <BuyBack show={buyBack} closeModal={() => setBuyBack(false)} />
       <PayRent show={payRent} closeModal={() => setPayRent(false)} />
@@ -135,11 +130,20 @@ const ShareHolderProperties = () => {
         handlePayRent={() => setPayRent(true)}
         tab={{
           value: tab,
-          handleChange: handleTab,
+          handleChange: setTab,
         }}
         count={{
-          all: 0,
+          all: propertiesResponse?.data?.total ?? 0,
           applications: 0,
+        }}
+        pagination={{
+          ...pages,
+          handleChange: handlePageChange,
+          count: {
+            ...getCount(),
+            total:
+              tab === "properties" ? propertiesResponse?.data?.total ?? 0 : 0,
+          },
         }}
       />
     </>
