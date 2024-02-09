@@ -62,7 +62,7 @@ const RecoveryModal: React.FC<RecoveryProps> = ({
     runReset(
       resetPasswordService({
         email,
-        redirect_url: `${window.location.origin}${Routes.recovery}`,
+        redirect_url: `${window.location.origin}${Routes.reset}`,
       })
     );
   };

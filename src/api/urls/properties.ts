@@ -150,3 +150,12 @@ export const buyBackURL = (property) => `/properties/buy_back/${property}/`;
  *
  */
 export const payRentURL = (property) => `/properties/pay_rent/${property}/`;
+
+/**
+ * Fetch shareholder applications url
+ *
+ * @returns url string
+ *
+ */
+export const fetchApplicationsURL = (page) =>
+  `/user/shareholder_applications/?${appendParams({ page, limit: 10 })}`;

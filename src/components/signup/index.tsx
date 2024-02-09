@@ -61,7 +61,11 @@ const signupSchema = yup
       .min(8, "Password should be at least 8 characters long")
       .matches(/[A-Z]/, "Password should contain an uppercase character")
       .matches(/[a-z]/, "Password should contain an lowercase character")
-      .matches(/[0-9]/, "Password should contain at least one number"),
+      .matches(/[0-9]/, "Password should contain at least one number")
+      .matches(
+        /@|#|&|\$]/,
+        "Password should contain at least special character (e.g. @, #, &, $)"
+      ),
     email: yup.string().email("Enter valid email").required("Required"),
     agreement: yup
       .boolean()

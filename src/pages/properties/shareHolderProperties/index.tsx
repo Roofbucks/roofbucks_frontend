@@ -1,5 +1,6 @@
 import {
   Preloader,
+  PropertyApplicationTableItem,
   PropertyCardData,
   ShareHolderPropertiesUI,
   ShareholderPropertyData,
@@ -10,7 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 import { BuyBack } from "../buyBack";
 import { PayRent } from "../payRent";
-import { buyBackService, fetchShareholderPropertiesService } from "api";
+import {
+  buyBackService,
+  fetchApplicationsService,
+  fetchShareholderPropertiesService,
+} from "api";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import { updateToast } from "redux/actions";
@@ -48,6 +53,12 @@ const ShareHolderProperties = () => {
     requestStatus: propertiesStatus,
     error: propertiesError,
   } = useApiRequest({});
+  const {
+    run: runApplications,
+    data: applicationsResponse,
+    requestStatus: applicationsStatus,
+    error: applicationsError,
+  } = useApiRequest({});
 
   const fetchProperties = (page?) => {
     runProperties(
@@ -55,7 +66,8 @@ const ShareHolderProperties = () => {
     );
   };
 
-  const fetchApplications = (page?) => console.log();
+  const fetchApplications = (page?) =>
+    runApplications(fetchApplicationsService(page ?? pages.current));
 
   React.useEffect(() => {
     tab === "properties" ? fetchProperties(1) : fetchApplications(1);
@@ -80,9 +92,9 @@ const ShareHolderProperties = () => {
           amount: item.amount,
           id: item.id,
           calendlyURL: item.agent_link,
-          investorType: "home_owner",
-          rent: 0,
-          marketValue: 0,
+          investorType: item.user_type.toLowerCase(),
+          rent: item.rent_amount,
+          marketValue: item.market_value,
           percentageOwned: item.percentage_ownership,
         }));
       } else {
@@ -102,20 +114,57 @@ const ShareHolderProperties = () => {
     return [];
   }, [propertiesResponse, propertiesError]);
 
+  const applications = React.useMemo<PropertyApplicationTableItem[]>(() => {
+    if (applicationsResponse) {
+      if (applicationsResponse?.status === 200) {
+        setPages({
+          ...pages,
+          total: applicationsResponse.data.pages,
+        });
+
+        return applicationsResponse.data.results.map((item) => ({
+          id: item.transaction_id,
+          propertyID: "123",
+          percentage: item.percentage,
+          property: item.property_name,
+          agent: item.property_owner,
+          checkoutURL: "",
+          type: "home_owner",
+          date:  new Date(item.created_at).toLocaleDateString(),
+          amount: item.amount,
+        }));
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Sorry",
+            text: getErrorMessage({
+              error: applicationsError ?? applicationsResponse,
+              message:
+                "Failed to fetch property applications, please try again later",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+    return [];
+  }, [applicationsResponse, applicationsError]);
+
   const handlePageChange = (x: number) => {
     tab === "properties" ? fetchProperties(x) : fetchApplications(x);
     setPages({ ...pages, current: x });
   };
 
-  const getCount = () => {
+  const getCount = (total) => {
     let start = 0;
     let end = 0;
 
     start = pages.current * 10 - 9;
     end = pages.current * 10;
 
-    if (propertiesResponse?.data?.total < end) {
-      end = propertiesResponse?.data?.total;
+    if (total < end) {
+      end = total;
     }
 
     return { start, end };
@@ -130,7 +179,7 @@ const ShareHolderProperties = () => {
     });
   };
 
-  const showLoader = propertiesStatus.isPending;
+  const showLoader = propertiesStatus.isPending || applicationsStatus.isPending;
 
   return (
     <>
@@ -186,17 +235,22 @@ const ShareHolderProperties = () => {
         }}
         count={{
           all: propertiesResponse?.data?.total ?? 0,
-          applications: 0,
+          applications: applicationsResponse?.data?.total ?? 0,
         }}
         pagination={{
           ...pages,
           handleChange: handlePageChange,
           count: {
-            ...getCount(),
+            ...getCount(tab === "properties"
+            ? propertiesResponse?.data?.total ?? 0
+            : applicationsResponse?.data?.total ?? 0),
             total:
-              tab === "properties" ? propertiesResponse?.data?.total ?? 0 : 0,
+              tab === "properties"
+                ? propertiesResponse?.data?.total ?? 0
+                : applicationsResponse?.data?.total ?? 0,
           },
         }}
+        applications={applications}
       />
     </>
   );

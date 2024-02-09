@@ -16,6 +16,7 @@ import {
   buyBackURL,
   deleteStayURL,
   fetchAgentPropertiesURL,
+  fetchApplicationsURL,
   fetchPropertiesURL,
   fetchPropertyURL,
   fetchShareholderPropertiesURL,
@@ -301,6 +302,19 @@ export const buyBackService = (property: string) => {
 export const payRentService = (property: string) => {
   const requestData = {
     url: payRentURL(property),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Fetch shareholder applications service
+ * @returns axios promise
+ */
+
+export const fetchApplicationsService = (page: number) => {
+  const requestData = {
+    url: fetchApplicationsURL(page),
   };
 
   return getRequest(requestData);

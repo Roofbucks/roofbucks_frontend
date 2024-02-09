@@ -52,6 +52,7 @@ interface ShareHolderPropertiesProps {
     handleChange: (page: number) => void;
     count: { start: number; end: number; total: number };
   };
+  applications: PropertyApplicationTableItem[];
 }
 
 const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
@@ -63,24 +64,8 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   count,
   properties,
   pagination,
+  applications,
 }) => {
-  const application: PropertyApplicationTableItem = {
-    id: "123",
-    propertyID: "123",
-    percentage: 50,
-    property: "Property Name",
-    agent: "Musa Abdullahi",
-    checkoutURL: "",
-    type: "home_owner",
-    date: "12/12/2023",
-    amount: 250000,
-  };
-
-  const applications: PropertyApplicationTableItem[] = [
-    ...new Array(5).fill(application),
-    ...new Array(5).fill({ ...application, type: "investor" }),
-  ];
-
   return (
     <>
       <h1 className={styles.ttl}>Properties</h1>
@@ -158,7 +143,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
             tableHeaderTitles={tableHeaderTitles}
             tableBody={
               <PropertyApplicationTable
-                handleViewProperty={console.log}
+                handleViewProperty={handleView}
                 tableBodyItems={applications}
                 tableBodyItemClassName={styles.tableBodyItem}
               />
@@ -173,7 +158,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
               element: <EmptyProperties />,
             }}
           />
-          <Pagination {...pagination} name={"Properties"} />
+          <Pagination {...pagination} name={"Application(s)"} />
         </section>
       )}
     </>
