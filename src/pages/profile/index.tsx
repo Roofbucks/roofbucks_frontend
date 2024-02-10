@@ -34,7 +34,7 @@ const initAgent: AgentProfileData = {
 const Profile = () => {
   const { id: agentID } = useParams();
   const dispatch = useAppDispatch();
-  const myID = useAppSelector((state) => state.user.id);
+  const { id: myID, role } = useAppSelector((state) => state.user);
 
   const {
     run: runAgent,
@@ -71,7 +71,7 @@ const Profile = () => {
 
   React.useEffect(() => {
     fetchAgent();
-    fetchReviews()
+    fetchReviews();
   }, [agentID]);
 
   const agent = React.useMemo<AgentProfileData>(() => {
@@ -114,60 +114,55 @@ const Profile = () => {
   }, [agentResponse, agentError]);
 
   const reviews = React.useMemo<ReviewData[]>(() => {
-    if (reviewsResponse) {
-      if (reviewsResponse.status === 200) {
-        console.log(reviewsResponse);
-        return reviewsResponse.data.map((item) => ({
-          name: `${item?.reviewer?.firstname} ${item?.reviewer?.firstname}`,
-          avatar: item?.reviewer?.display_photo ?? "",
-          review: item?.review,
-        }));
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: agentError ?? reviewsResponse,
-              message: "Failed to fetch reviews, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
+    if (reviewsResponse?.status === 200) {
+      return reviewsResponse.data.map((item) => ({
+        name: `${item?.reviewer?.firstname} ${item?.reviewer?.firstname}`,
+        avatar: item?.reviewer?.display_photo ?? "",
+        review: item?.review,
+      }));
+    } else if (reviewsError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: reviewsError ?? reviewsResponse,
+            message: "Failed to fetch reviews, please try again later",
+          }),
+          type: false,
+        })
+      );
     }
+
     return [];
   }, [reviewsResponse, reviewsError]);
 
   React.useMemo(() => {
-    if (addReviewResponse) {
-      if (addReviewResponse.status === 200) {
-        console.log(addReviewResponse);
+    if (addReviewResponse?.status === 200) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Succcess",
+          text: "Your review has been added",
+          type: false,
+        })
+      );
 
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Succcess",
-            text: "Your review has been added",
-            type: false,
-          })
-        );
-
-        fetchReviews();
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: addReviewError ?? addReviewResponse,
-              message: "Failed to add review, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
+      fetchReviews();
+    } else if (addReviewError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: addReviewError ?? addReviewResponse,
+            message: "Failed to add review, please try again later",
+          }),
+          type: false,
+        })
+      );
     }
+
     return initAgent;
   }, [addReviewResponse, addReviewError]);
 
@@ -187,6 +182,7 @@ const Profile = () => {
         isSelf={myID === agentID}
         handleAddReview={handleAddReview}
         reviews={reviews}
+        role={role}
       />
     </>
   );

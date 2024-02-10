@@ -84,6 +84,7 @@ interface AgentProfileProps {
   isSelf: boolean;
   handleAddReview: (data: CommentData) => void;
   reviews: ReviewData[];
+  role: string;
 }
 
 const ProfileUI: React.FC<AgentProfileProps> = ({
@@ -92,6 +93,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
   isSelf,
   handleAddReview,
   reviews,
+  role,
 }) => {
   const {
     register,
@@ -124,7 +126,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     images: propertyImages,
     id: "123",
     amenities: { bedroom: 5, toilet: 5 },
-    calendlyURL: ""
+    calendlyURL: "",
   };
 
   const properties: PropertyCardData[] = new Array(6).fill(property);
@@ -212,7 +214,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
       <section className={styles.propertiesSec}>
         <div className={styles.propHeading}>
           <h2>Properties</h2>
-          <Dropdown
+          {/* <Dropdown
             dropdownListClassName={styles.statusDropdownList}
             active={filterProp}
             type="select"
@@ -226,19 +228,19 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
                 {item2.label}
               </DropdownListItem>
             ))}
-          </Dropdown>
+          </Dropdown> */}
         </div>
-        <div className={styles.notif}>
+        {/* <div className={styles.notif}>
           <BellIcon />
           <p>6 new properties since your last visit</p>
           <CloseIcon />
-        </div>
+        </div> */}
         <div className={styles.propertyList}>
           {properties.map((item, index) => (
             <PropertyCard
               primaryBtn={{
                 text: "Apply",
-                action:  console.log,
+                action: console.log,
               }}
               type="row"
               size="normal"
@@ -250,43 +252,47 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           ))}
         </div>
       </section>
-      <section className={styles.commentSec}>
-        <p className={styles.ttl}>Leave us a comment and give a rating!</p>
-        <Rating
-          ratingValue={watch("rating")}
-          iconsCount={5}
-          size={30}
-          fillColor="rgba(233, 223, 0, 1)"
-          allowHalfIcon
-          onClick={(val) => setValue("rating", val)}
-        />
-        {watch("rating") === 0 && (
-          <p className={styles.errorMsg}>{errors.rating?.message}</p>
-        )}
-        <form>
-          <Textarea
-            label="Enter a comment"
-            placeholder=""
-            parentClassName={styles.txtArea}
-            required
-            validatorMessage={errors.review?.message}
-            name="review"
-            register={register}
+      {!role && role !== "agent" ? (
+        <section className={styles.commentSec}>
+          <p className={styles.ttl}>Leave us a comment and give a rating!</p>
+          <Rating
+            ratingValue={watch("rating")}
+            iconsCount={5}
+            size={30}
+            fillColor="rgba(233, 223, 0, 1)"
+            allowHalfIcon
+            onClick={(val) => setValue("rating", val)}
           />
-          <Button
-            className={styles.submitBtn}
-            type={"primary"}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Submit
-          </Button>
-        </form>
-        <div className={styles.commentList}>
-          {reviews.map((item, index) => (
-            <CommentCard {...item} key={index} />
-          ))}
-        </div>
-      </section>
+          {watch("rating") === 0 && (
+            <p className={styles.errorMsg}>{errors.rating?.message}</p>
+          )}
+          <form>
+            <Textarea
+              label="Enter a comment"
+              placeholder=""
+              parentClassName={styles.txtArea}
+              required
+              validatorMessage={errors.review?.message}
+              name="review"
+              register={register}
+            />
+            <Button
+              className={styles.submitBtn}
+              type={"primary"}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Submit
+            </Button>
+          </form>
+          <div className={styles.commentList}>
+            {reviews.map((item, index) => (
+              <CommentCard {...item} key={index} />
+            ))}
+          </div>
+        </section>
+      ) : (
+        ""
+      )}
     </>
   );
 };

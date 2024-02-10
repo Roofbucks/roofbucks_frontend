@@ -1,4 +1,4 @@
-import { fetchTransactionsService } from "api";
+import { fetchOverviewService, fetchTransactionsService } from "api";
 import { OverviewUI, Preloader, TransactionTableItem } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
@@ -19,12 +19,23 @@ const Overview = () => {
     requestStatus: fetchTransactionsStatus,
     error: fetchTransactionsError,
   } = useApiRequest({});
+  const {
+    run: runFetchStats,
+    data: fetchStatsResponse,
+    requestStatus: fetchStatsStatus,
+    error: fetchStatsError,
+  } = useApiRequest({});
 
   const fetchTransactions = () =>
     runFetchTransactions(fetchTransactionsService({ page: 1, limit: 10 }));
 
+    const fetchStats = () => {
+      runFetchStats(fetchOverviewService())
+    }
+
   React.useEffect(() => {
     fetchTransactions();
+    fetchStats()
   }, []);
 
   const transactions = React.useMemo<TransactionTableItem[]>(() => {
@@ -56,7 +67,7 @@ const Overview = () => {
 
   const handleViewProperty = (id) => navigate(Routes.propertyID(id));
 
-  const showLoader = fetchTransactionsStatus.isPending;
+  const showLoader = fetchTransactionsStatus.isPending || fetchStatsStatus.isPending;
   return (
     <>
       <Preloader loading={showLoader} />

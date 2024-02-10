@@ -18,6 +18,7 @@ import {
   fetchBanksURL,
   updateProfileURL,
   updateBusinessURL,
+  fetchOverviewURL,
 } from "api";
 
 /**
@@ -182,4 +183,17 @@ export const updateBusinessService = (data: FormData) => {
   };
 
   return patchRequest(requestData);
+};
+
+/**
+ * Fetch overview data service
+ * @returns axios promise
+ */
+
+export const fetchOverviewService = () => {
+  const requestData = {
+    url: fetchOverviewURL(),
+  };
+
+  return getRequest(requestData);
 };

@@ -63,15 +63,13 @@ export const fetchBusinessURL = ({ id, orderBy = "" }) =>
 
 export const addBillingURL = () => `/user/add_bank_information/`;
 
-
 /**
  * Update password url
  *
  * @returns url string
  *
  */
-export const updatePasswordURL = () => `/auth/change-password/`
-
+export const updatePasswordURL = () => `/auth/change-password/`;
 
 /**
  * Fetch banks url
@@ -79,8 +77,7 @@ export const updatePasswordURL = () => `/auth/change-password/`
  * @returns url string
  *
  */
-export const fetchBanksURL = () => `/properties/get_banks`
-
+export const fetchBanksURL = () => `/properties/get_banks`;
 
 /**
  * Update personal profile url
@@ -88,7 +85,7 @@ export const fetchBanksURL = () => `/properties/get_banks`
  * @returns url string
  *
  */
-export const updateProfileURL = () => `/user/profile/`
+export const updateProfileURL = () => `/user/profile/`;
 
 /**
  * Update business profile url
@@ -96,4 +93,12 @@ export const updateProfileURL = () => `/user/profile/`
  * @returns url string
  *
  */
-export const updateBusinessURL = () => `/user/add_business/`
+export const updateBusinessURL = () => `/user/add_business/`;
+
+/**
+ * Fetch overview data url
+ *
+ * @returns url string
+ *
+ */
+export const fetchOverviewURL = () => `/user/overview/`;
