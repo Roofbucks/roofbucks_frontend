@@ -5,12 +5,13 @@ import { useApiRequest } from "hooks";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
 
 const Overview = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { role, firstName, avatar } = useAppSelector((state) => state.user);
 
   // API Hooks
   const {
@@ -29,13 +30,13 @@ const Overview = () => {
   const fetchTransactions = () =>
     runFetchTransactions(fetchTransactionsService({ page: 1, limit: 10 }));
 
-    const fetchStats = () => {
-      runFetchStats(fetchOverviewService())
-    }
+  const fetchStats = () => {
+    runFetchStats(fetchOverviewService());
+  };
 
   React.useEffect(() => {
     fetchTransactions();
-    fetchStats()
+    fetchStats();
   }, []);
 
   const transactions = React.useMemo<TransactionTableItem[]>(() => {
@@ -67,13 +68,17 @@ const Overview = () => {
 
   const handleViewProperty = (id) => navigate(Routes.propertyID(id));
 
-  const showLoader = fetchTransactionsStatus.isPending || fetchStatsStatus.isPending;
+  const showLoader =
+    fetchTransactionsStatus.isPending || fetchStatsStatus.isPending;
   return (
     <>
       <Preloader loading={showLoader} />
       <OverviewUI
         transactions={transactions}
         handleViewProperty={handleViewProperty}
+        isAgent={role === "agent"}
+        name={firstName}
+        avatar={avatar}
       />
     </>
   );

@@ -137,11 +137,17 @@ const StatCard: React.FC<StatInfo> = ({
 interface OverviewUIProps {
   transactions: TransactionTableItem[];
   handleViewProperty: (id) => void;
+  isAgent: boolean;
+  name: string;
+  avatar: string;
 }
 
 const OverviewUI: React.FC<OverviewUIProps> = ({
   transactions,
   handleViewProperty,
+  isAgent,
+  name,
+  avatar,
 }) => {
   const [showMobileCalendar, setShowMobileCalendar] = React.useState(false);
   const [earningsFilter, setEarningsFilter] = React.useState({
@@ -205,17 +211,21 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
         <div className={styles.main}>
           <div className={styles.profileSec}>
             <img src={avatar} alt="" />
-            <p>Welcome Back Jane!</p>
+            <p>Welcome Back {name}!</p>
           </div>
-          <div>
-            <MyDateRangePicker className={styles.statRange} />
+          {isAgent ? (
+            <div>
+              <MyDateRangePicker className={styles.statRange} />
 
-            <div className={`${styles.statList} ${styles.secWrap}`}>
-              {statList.map((item, index) => (
-                <StatCard {...item} key={index} />
-              ))}
+              <div className={`${styles.statList} ${styles.secWrap}`}>
+                {statList.map((item, index) => (
+                  <StatCard {...item} key={index} />
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
           <div className={`${styles.secWrap} ${styles.trendsWrap}`}>
             <div>
               <div className={styles.trendsHeading}>
