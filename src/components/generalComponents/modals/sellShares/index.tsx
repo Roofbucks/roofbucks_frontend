@@ -3,42 +3,84 @@ import styles from "./styles.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input } from "components";
+import { Button, CustomSelect, Input } from "components";
 import { CloseIcon2, SellIcon } from "assets";
-import { ModalProps } from "types";
+import { ModalProps, optionType } from "types";
+import { initialOptionType } from "utils";
 
 interface SellSharesData {
-  percentage: number;
+  percent: optionType;
   price: number;
 }
 
 const initialValues: SellSharesData = {
-  percentage: 0,
+  percent: initialOptionType,
   price: 0,
 };
 
+const optionTypeSchema = yup.object({
+  label: yup.string().required("Required"),
+  value: yup.string().required("Required"),
+});
+
 const schema = yup
   .object({
-    percentage: yup.number().required("Required"),
+    percent: optionTypeSchema,
     price: yup.number().required("Required"),
   })
   .required();
 
 interface SellSharesProps extends ModalProps {
-  submit: (data: SellSharesData) => void;
+  submit: (percent: number) => void;
+  propertyName: string;
+  percentageOwned: number;
+  marketValue: number;
 }
 
-const SellSharesModal: React.FC<SellSharesProps> = ({ show, closeModal }) => {
+const SellSharesModal: React.FC<SellSharesProps> = ({
+  show,
+  closeModal,
+  propertyName,
+  percentageOwned,
+  marketValue,
+  submit,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
+    setError,
   } = useForm<SellSharesData>({
     resolver: yupResolver(schema),
     defaultValues: initialValues,
   });
 
-  const onSubmit: SubmitHandler<SellSharesData> = (data) => console.log(data);
+  const percentCost = marketValue / 100;
+
+  const onSubmit: SubmitHandler<SellSharesData> = (data) => {
+    if (data.price > data.percent.value * percentCost) {
+      setError("price", {
+        message: "Selling price cannot be above the market value",
+      });
+      return;
+    }
+
+    submit(data.percent.value);
+  };
+
+  const generateOptions = (multipleOf5): optionType[] => {
+    const result: optionType[] = [];
+    let currentNumber = 5;
+
+    while (currentNumber <= multipleOf5) {
+      result.push({ label: currentNumber, value: currentNumber });
+      currentNumber += 5;
+    }
+
+    return result;
+  };
 
   return (
     <>
@@ -53,30 +95,34 @@ const SellSharesModal: React.FC<SellSharesProps> = ({ show, closeModal }) => {
           className={styles.closeBtn}
           role="button"
         />
-        <h1 className={styles.ttl}>Two Bedroom Apartment ..</h1>
+        <h1 className={styles.ttl}>{propertyName}</h1>
         <div className={styles.info}>
           <div>
-            <p>6%</p>
+            <p>{percentageOwned}%</p>
             <p>Percentage owned</p>
           </div>
           <div>
-            <p>$1000.00</p>
+            <p>NGN {percentCost}</p>
             <p>Price per percentage</p>
           </div>
         </div>
         <form className={styles.form}>
-          <Input
+          <CustomSelect
+            onChange={(x) => {
+              setValue("percent", x);
+              setValue("price", x.value * percentCost);
+            }}
+            validatorMessage={errors.percent?.value?.message?.toString() ?? ""}
+            name={"percent"}
+            placeholder={"Please Select"}
             label="No of percentages to sell"
-            placeholder=""
-            type="number"
+            options={generateOptions(percentageOwned)}
+            value={watch("percent")}
+            inputClass={styles.select}
             parentClassName={styles.input}
-            required
-            validatorMessage={errors.percentage?.message}
-            name={`percentage`}
-            register={register}
           />
           <Input
-            label="Price ($)"
+            label="Price (NGN)"
             placeholder=""
             type="number"
             parentClassName={styles.input}

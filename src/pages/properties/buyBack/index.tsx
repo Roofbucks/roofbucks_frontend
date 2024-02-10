@@ -20,13 +20,12 @@ const BuyBack: React.FC<Props> = (props) => {
 
   const { run: run, data: response, requestStatus, error } = useApiRequest({});
 
-  const handleBuyBack = () => {
-    run(buyBackService(propertyId));
+  const handleBuyBack = (percentage) => {
+    run(buyBackService({property: propertyId, percentage}));
   };
 
   React.useMemo(() => {
     if (response?.status === 200) {
-      console.log(response);
       dispatch(
         updateToast({
           show: true,
@@ -36,10 +35,9 @@ const BuyBack: React.FC<Props> = (props) => {
         })
       );
 
-      // setTimeout(() => {
-      //   window.location.replace(response.data.url);
-      // closeModal()
-      // }, 2000);
+      setTimeout(() => {
+        window.location.replace(response.data.url);
+      }, 2000);
     } else if (error) {
       dispatch(
         updateToast({
@@ -60,7 +58,7 @@ const BuyBack: React.FC<Props> = (props) => {
   return (
     <>
       <Preloader loading={showLoader} />
-      <BuyBackModal {...props} submit={console.log} />
+      <BuyBackModal {...props} submit={handleBuyBack} />
     </>
   );
 };

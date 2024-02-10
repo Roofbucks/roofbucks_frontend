@@ -28,7 +28,7 @@ const schema = yup
   .required();
 
 interface BuyBackProps extends ModalProps {
-  submit: (data: BuyBackData) => void;
+  submit: (percent: number) => void;
   propertyName: string;
   percentageOwned: number;
   marketValue: number;
@@ -40,6 +40,7 @@ const BuyBackModal: React.FC<BuyBackProps> = ({
   propertyName,
   percentageOwned,
   marketValue,
+  submit,
 }) => {
   const {
     handleSubmit,
@@ -51,7 +52,8 @@ const BuyBackModal: React.FC<BuyBackProps> = ({
     defaultValues: initialValues,
   });
 
-  const onSubmit: SubmitHandler<BuyBackData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<BuyBackData> = (data) =>
+    submit(data.percent.value);
 
   const generateOptions = (multipleOf5): optionType[] => {
     const result: optionType[] = [];

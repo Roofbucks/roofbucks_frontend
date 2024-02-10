@@ -33,7 +33,7 @@ export interface ShareholderPropertyData extends PropertyCardData {
 }
 
 interface ShareHolderPropertiesProps {
-  handleSellShares: (id) => void;
+  handleSellShares: ({ id, name, marketValue, percentageOwned }) => void;
   handleView: (id) => void;
   handleBuyBack: ({ id, name, marketValue, percentageOwned }) => void;
   handlePayRent: ({ id, name, rent }) => void;
@@ -110,7 +110,12 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
                             rent:
                               (item.rent * (100 - item.percentageOwned)) / 100,
                           })
-                        : handleSellShares({id: item.id}),
+                        : handleSellShares({
+                            id: item.id,
+                            name: item.name,
+                            marketValue: item.marketValue,
+                            percentageOwned: item.percentageOwned,
+                          }),
                     className: styles.pryBtn,
                   }}
                   moreDetails={handleView}

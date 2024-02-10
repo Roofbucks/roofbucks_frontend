@@ -141,7 +141,7 @@ export const fetchShareholderPropertiesURL = ({ search, page }) =>
  * @returns url string
  *
  */
-export const buyBackURL = (property) => `/properties/buy_back/${property}/`;
+export const buyBackURL = () => `/properties/buy_back/`;
 
 /**
  * Pay rent url
@@ -150,6 +150,15 @@ export const buyBackURL = (property) => `/properties/buy_back/${property}/`;
  *
  */
 export const payRentURL = (property) => `/properties/pay_rent/${property}/`;
+
+/**
+ * Sell shares url
+ *
+ * @returns url string
+ *
+ */
+export const sellSharesURL = (property) => `/properties/sell_shares/${property}/`;
+
 
 /**
  * Fetch shareholder applications url

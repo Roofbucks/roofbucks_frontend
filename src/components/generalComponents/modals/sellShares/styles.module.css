@@ -41,10 +41,11 @@ div.modal {
   margin-bottom: 2rem;
 }
 .btn {
-  font-size: 14px;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 16px;
+  width: 100%;
 }
 .btn svg {
   margin-right: 6px;

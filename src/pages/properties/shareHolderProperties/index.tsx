@@ -26,7 +26,13 @@ const ShareHolderProperties = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [sellShares, setSellShares] = React.useState({ show: false, id: "" });
+  const [sellShares, setSellShares] = React.useState({
+    show: false,
+    id: "",
+    name: "",
+    marketValue: 0,
+    percentageOwned: 0,
+  });
   const [buyBack, setBuyBack] = React.useState({
     show: false,
     id: "",
@@ -232,7 +238,19 @@ const ShareHolderProperties = () => {
       <Preloader loading={showLoader} />
       <SellShares
         show={sellShares.show}
-        closeModal={() => setSellShares({ show: false, id: "" })}
+        percentageOwned={sellShares.percentageOwned}
+        propertyId={sellShares.id}
+        propertyName={sellShares.name}
+        marketValue={sellShares.marketValue}
+        closeModal={() =>
+          setSellShares({
+            show: false,
+            id: "",
+            name: "",
+            marketValue: 0,
+            percentageOwned: 0,
+          })
+        }
       />
       <BuyBack
         show={buyBack.show}
@@ -262,7 +280,9 @@ const ShareHolderProperties = () => {
       <ShareHolderPropertiesUI
         properties={properties}
         handleView={handleView}
-        handleSellShares={(id) => setSellShares({ show: true, id })}
+        handleSellShares={({ id, name, marketValue, percentageOwned }) =>
+          setSellShares({ show: true, id, name, marketValue, percentageOwned })
+        }
         handleBuyBack={({ id, name, marketValue, percentageOwned }) =>
           setBuyBack({
             show: true,

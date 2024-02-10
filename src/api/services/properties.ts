@@ -28,6 +28,7 @@ import {
   marketplaceURL,
   payRentURL,
   propertyPaymentURL,
+  sellSharesURL,
   updatePropertyURL,
 } from "api/urls";
 
@@ -282,17 +283,22 @@ export const fetchShareholderPropertiesService = ({ search, page }) => {
   return getRequest(requestData);
 };
 
+export interface buyBackRequestData {
+  percentage: number;
+  property: string;
+}
 /**
  * Buy back service
  * @returns axios promise
  */
 
-export const buyBackService = (property: string) => {
+export const buyBackService = (data: buyBackRequestData) => {
   const requestData = {
-    url: buyBackURL(property),
+    url: buyBackURL(),
+    data,
   };
 
-  return getRequest(requestData);
+  return postRequest(requestData);
 };
 
 /**
@@ -306,6 +312,27 @@ export const payRentService = (property: string) => {
   };
 
   return getRequest(requestData);
+};
+
+export interface sellSharesRequestData {
+  percentage: number;
+  property_id: string;
+}
+/**
+ * Sell shares service
+ * @returns axios promise
+ */
+
+export const sellSharesService = (
+  property: string,
+  data: sellSharesRequestData
+) => {
+  const requestData = {
+    url: sellSharesURL(property),
+    data,
+  };
+
+  return postRequest(requestData);
 };
 
 /**
