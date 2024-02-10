@@ -26,7 +26,6 @@ const PayRent: React.FC<Props> = (props) => {
 
   React.useMemo(() => {
     if (response?.status === 200) {
-      console.log(response);
       dispatch(
         updateToast({
           show: true,
@@ -36,10 +35,10 @@ const PayRent: React.FC<Props> = (props) => {
         })
       );
      
-      // setTimeout(() => {
-      //   window.location.replace(response.data.url);
-      // closeModal()
-      // }, 2000);
+      setTimeout(() => {
+        window.location.replace(response.data.url);
+      closeModal()
+      }, 2000);
     } else if (error) {
       dispatch(
         updateToast({

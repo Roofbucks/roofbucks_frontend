@@ -134,7 +134,15 @@ const StatCard: React.FC<StatInfo> = ({
   );
 };
 
-const OverviewUI = () => {
+interface OverviewUIProps {
+  transactions: TransactionTableItem[];
+  handleViewProperty: (id) => void;
+}
+
+const OverviewUI: React.FC<OverviewUIProps> = ({
+  transactions,
+  handleViewProperty,
+}) => {
   const [showMobileCalendar, setShowMobileCalendar] = React.useState(false);
   const [earningsFilter, setEarningsFilter] = React.useState({
     period: "Monthly",
@@ -159,16 +167,6 @@ const OverviewUI = () => {
     { title: "Date" },
     { title: "" },
   ];
-
-  const tableItem: TransactionTableItem = {
-    propertyID: "#C123456",
-    propertyName: "Mathia’s Family Ho..",
-    invoiceID: "#C123456",
-    amount: "$1,200.00",
-    date: "14/12/2022",
-  };
-
-  const tableBodyItems: TransactionTableItem[] = new Array(10).fill(tableItem);
 
   const statList: StatInfo[] = [
     {
@@ -314,62 +312,20 @@ const OverviewUI = () => {
               tableBody={
                 <TransactionTable
                   viewInvoice={() => {}}
-                  viewProperty={() => {}}
+                  viewProperty={handleViewProperty}
                   printInvoice={() => {}}
-                  tableBodyItems={tableBodyItems}
+                  tableBodyItems={transactions}
                 />
               }
               customTableClasses={{ tableWrapperClass: styles.table }}
               emptyTable={{
-                show: tableBodyItems.length <= 0,
+                show: transactions.length <= 0,
                 element: <EmptyTransactions />,
               }}
             />
           </div>
         </div>
         <aside className={styles.extra}>
-          {/* <div className={styles.scheduleSec}>
-            <div className={styles.scheduleTtlSec}>
-              <p className={styles.scheduleTtl}>Schedule</p>
-              <button
-                onClick={() => setShowMobileCalendar(!showMobileCalendar)}
-              >
-                <CalendarIconOutline /> Jan 1, 2022
-              </button>
-            </div>
-            <Calendar
-              className={`${styles.calendarWrap} ${
-                showMobileCalendar ? styles.showMobileCalendar : ""
-              }`}
-              showMonthAndYearPickers={false}
-            />
-            <div className={styles.visitList}>
-              <div className={styles.visit}>
-                <ClockIconOutline className={styles.visitClock} />
-                <div className={styles.visitTxtSec}>
-                  <p className={styles.visitTtl}>Site visit with client</p>
-                  <p className={styles.visitTime}>09:30pm</p>
-                </div>
-                <CaretRight role="button" className={styles.visitCaret} />
-              </div>
-              <div className={styles.visit}>
-                <ClockIconOutline className={styles.visitClock} />
-                <div className={styles.visitTxtSec}>
-                  <p className={styles.visitTtl}>Site visit with client</p>
-                  <p className={styles.visitTime}>09:30pm</p>
-                </div>
-                <CaretRight role="button" className={styles.visitCaret} />
-              </div>
-              <div className={styles.visit}>
-                <ClockIconOutline className={styles.visitClock} />
-                <div className={styles.visitTxtSec}>
-                  <p className={styles.visitTtl}>Site visit with client</p>
-                  <p className={styles.visitTime}>09:30pm</p>
-                </div>
-                <CaretRight role="button" className={styles.visitCaret} />
-              </div>
-            </div>
-          </div> */}
           <ActivityList />
         </aside>
       </div>

@@ -53,6 +53,7 @@ interface ShareHolderPropertiesProps {
     count: { start: number; end: number; total: number };
   };
   applications: PropertyApplicationTableItem[];
+  handlePay: (id) => void;
 }
 
 const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
@@ -65,6 +66,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   properties,
   pagination,
   applications,
+  handlePay,
 }) => {
   return (
     <>
@@ -101,13 +103,14 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
                         ? "Pay rent"
                         : "Sell shares",
                     action: () =>
-                      item.investorType
+                      item.investorType === "home_owner"
                         ? handlePayRent({
                             id: item.id,
                             name: item.name,
-                            rent: item.rent,
+                            rent:
+                              (item.rent * (100 - item.percentageOwned)) / 100,
                           })
-                        : handleSellShares(item.id),
+                        : handleSellShares({id: item.id}),
                     className: styles.pryBtn,
                   }}
                   moreDetails={handleView}
@@ -143,6 +146,7 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
             tableHeaderTitles={tableHeaderTitles}
             tableBody={
               <PropertyApplicationTable
+                handlePay={handlePay}
                 handleViewProperty={handleView}
                 tableBodyItems={applications}
                 tableBodyItemClassName={styles.tableBodyItem}

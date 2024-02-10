@@ -15,6 +15,7 @@ import {
   buyBackService,
   fetchApplicationsService,
   fetchShareholderPropertiesService,
+  propertyPaymentService,
 } from "api";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
@@ -59,6 +60,12 @@ const ShareHolderProperties = () => {
     requestStatus: applicationsStatus,
     error: applicationsError,
   } = useApiRequest({});
+  const {
+    run: runPayment,
+    data: paymentResponse,
+    requestStatus: paymentStatus,
+    error: paymentError,
+  } = useApiRequest({});
 
   const fetchProperties = (page?) => {
     runProperties(
@@ -68,6 +75,10 @@ const ShareHolderProperties = () => {
 
   const fetchApplications = (page?) =>
     runApplications(fetchApplicationsService(page ?? pages.current));
+
+  const handlePayment = (id) => {
+    runPayment(propertyPaymentService(id));
+  };
 
   React.useEffect(() => {
     tab === "properties" ? fetchProperties(1) : fetchApplications(1);
@@ -128,10 +139,10 @@ const ShareHolderProperties = () => {
           percentage: item.percentage,
           property: item.property_name,
           agent: item.property_owner,
-          checkoutURL: "",
-          type: "home_owner",
-          date:  new Date(item.created_at).toLocaleDateString(),
+          type: item.user_type.toLowerCase().replaceAll("_", " "),
+          date: new Date(item.created_at).toLocaleDateString(),
           amount: item.amount,
+          txnId: item.transaction_id,
         }));
       } else {
         dispatch(
@@ -150,6 +161,38 @@ const ShareHolderProperties = () => {
     }
     return [];
   }, [applicationsResponse, applicationsError]);
+
+  React.useMemo(() => {
+    if (paymentResponse) {
+      if (paymentResponse?.status === 200) {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Great!",
+            text: "Redirecting you to payment in 3...2...1",
+            type: true,
+          })
+        );
+        console.log(paymentResponse);
+        setTimeout(() => {
+          window.location.replace(paymentResponse.data.url);
+        }, 2000);
+      } else {
+        dispatch(
+          updateToast({
+            show: true,
+            heading: "Sorry",
+            text: getErrorMessage({
+              error: paymentError ?? paymentResponse,
+              message: "Failed to initiate payment, please try again later",
+            }),
+            type: false,
+          })
+        );
+      }
+    }
+    return [];
+  }, [paymentResponse, paymentError]);
 
   const handlePageChange = (x: number) => {
     tab === "properties" ? fetchProperties(x) : fetchApplications(x);
@@ -179,7 +222,10 @@ const ShareHolderProperties = () => {
     });
   };
 
-  const showLoader = propertiesStatus.isPending || applicationsStatus.isPending;
+  const showLoader =
+    propertiesStatus.isPending ||
+    applicationsStatus.isPending ||
+    paymentStatus.isPending;
 
   return (
     <>
@@ -241,9 +287,11 @@ const ShareHolderProperties = () => {
           ...pages,
           handleChange: handlePageChange,
           count: {
-            ...getCount(tab === "properties"
-            ? propertiesResponse?.data?.total ?? 0
-            : applicationsResponse?.data?.total ?? 0),
+            ...getCount(
+              tab === "properties"
+                ? propertiesResponse?.data?.total ?? 0
+                : applicationsResponse?.data?.total ?? 0
+            ),
             total:
               tab === "properties"
                 ? propertiesResponse?.data?.total ?? 0
@@ -251,6 +299,7 @@ const ShareHolderProperties = () => {
           },
         }}
         applications={applications}
+        handlePay={handlePayment}
       />
     </>
   );

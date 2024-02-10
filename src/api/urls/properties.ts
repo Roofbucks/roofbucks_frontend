@@ -159,3 +159,12 @@ export const payRentURL = (property) => `/properties/pay_rent/${property}/`;
  */
 export const fetchApplicationsURL = (page) =>
   `/user/shareholder_applications/?${appendParams({ page, limit: 10 })}`;
+
+/**
+ * Property payment url
+ *
+ * @returns url string
+ *
+ */
+export const propertyPaymentURL = (txnId) =>
+  `/properties/complete_payment/${txnId}`;

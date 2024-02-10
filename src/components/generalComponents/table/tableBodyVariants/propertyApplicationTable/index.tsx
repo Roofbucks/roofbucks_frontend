@@ -13,7 +13,7 @@ export interface PropertyApplicationTableItem {
   amount: number;
   type: "home_owner" | "investor";
   date: string;
-  checkoutURL: string;
+  txnId: string;
 }
 
 // Property Application Table Body Props
@@ -22,6 +22,7 @@ interface TableBodyProps {
   tableBodyItemClassName?: string;
   tableBodyRowClassName?: string;
   handleViewProperty: (id) => void;
+  handlePay: (id) => void;
 }
 
 const PropertyApplicationTable: React.FC<TableBodyProps> = ({
@@ -29,6 +30,7 @@ const PropertyApplicationTable: React.FC<TableBodyProps> = ({
   tableBodyItemClassName,
   tableBodyRowClassName,
   handleViewProperty,
+  handlePay,
 }) => {
   return (
     <>
@@ -55,7 +57,12 @@ const PropertyApplicationTable: React.FC<TableBodyProps> = ({
             <td className={tableBodyItemClassName}>{item.amount}</td>
             <td className={tableBodyItemClassName}>{item.date}</td>
             <td className={tableBodyItemClassName}>
-              <a  className={styles.payLink} href={item.checkoutURL}>Pay</a>
+              <button
+                onClick={() => handlePay(item.txnId)}
+                className={styles.payBtn}
+              >
+                Pay
+              </button>
             </td>
           </tr>
         ))}

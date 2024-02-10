@@ -27,6 +27,7 @@ import {
   marketplaceInvestmentURL,
   marketplaceURL,
   payRentURL,
+  propertyPaymentURL,
   updatePropertyURL,
 } from "api/urls";
 
@@ -315,6 +316,19 @@ export const payRentService = (property: string) => {
 export const fetchApplicationsService = (page: number) => {
   const requestData = {
     url: fetchApplicationsURL(page),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Property payment service
+ * @returns axios promise
+ */
+
+export const propertyPaymentService = (id: string) => {
+  const requestData = {
+    url: propertyPaymentURL(id),
   };
 
   return getRequest(requestData);
