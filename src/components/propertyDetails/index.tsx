@@ -124,8 +124,9 @@ interface PropertyDetailsProps {
   similarProperties: PropertyCardData[];
   handleViewAgent: (id) => void;
   handleViewProperty: (id) => void;
-  handleBuyShares: (id) => void;
+  handleBuyShares: ({ id, totalCost, percentage }) => void;
   userID: string;
+  role: string;
 }
 
 const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
@@ -135,6 +136,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
   handleViewAgent,
   handleBuyShares,
   userID,
+  role,
 }) => {
   const location: any = useLocation();
 
@@ -209,7 +211,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               Status: <span>{property.status}</span>
             </div>
           </div>
-          <ShareIcon className={styles.shareIcon} role="button" />
+          {/* <ShareIcon className={styles.shareIcon} role="button" /> */}
         </div>
         <div className={styles.ttlWrap}>
           <h2 className={styles.ttl}>{property.name}</h2>
@@ -232,14 +234,22 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             />
           </div>
           <div className={styles.priceWrap}>
-            <p>${property?.totalCost ?? property.inProgress?.completionCost}</p>
-            {property.agent.id !== userID ? (
+            <p>
+              NGN {property?.totalCost ?? property.inProgress?.completionCost}
+            </p>
+            {property.agent.id !== userID && role && role !== "agent" ? (
               <Button
                 type="primary"
-                onClick={() => {}}
+                onClick={() =>
+                  handleBuyShares({
+                    id: property.id,
+                    totalCost: property.totalCost,
+                    percentage: 0,
+                  })
+                }
                 className={styles.buyBtn}
               >
-                {location?.state?.from === "marketplace" ? "Connect" : "Apply"}
+                {location?.state?.from === "marketplace" ? "Invest" : "Buy"}
               </Button>
             ) : (
               ""
@@ -392,13 +402,13 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               </span>
             </div>
           </div>
-          <p className={styles.note}>
+          {/* <p className={styles.note}>
             Note: The{" "}
             {location?.state?.from === "marketplace"
               ? "Rent income"
               : "Rent to pay"}{" "}
             range is 0.8% - 1.1% of Total property cost (monthly)
-          </p>
+          </p> */}
         </div>
         <div className={styles.contactSec}>
           <h4 className={styles.subTtl}>Contact Info</h4>
@@ -460,7 +470,12 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                   size="normal"
                   primaryBtn={{
                     text: "Buy shares",
-                    action: () => handleBuyShares(item.id),
+                    action: () =>
+                      handleBuyShares({
+                        id: item.id,
+                        totalCost: item.amount,
+                        percentage: 0,
+                      }),
                   }}
                 />
               ))}

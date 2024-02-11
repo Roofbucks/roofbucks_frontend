@@ -1,5 +1,7 @@
 import { fetchPropertyService, fetchSimilarPropertiesService } from "api";
 import {
+  CompleteProfilePrompt,
+  LoginPrompt,
   Preloader,
   PropertyCardData,
   PropertyData,
@@ -7,8 +9,10 @@ import {
 } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
+import { ApplyForm } from "pages/applyForm";
+import { ConnectForm } from "pages/connectForm";
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
@@ -64,7 +68,20 @@ const PropertyDetails = () => {
   const { id: propertyID } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id } = useAppSelector((state) => state.user);
+  const { id, role } = useAppSelector((state) => state.user);
+  const location: any = useLocation();
+  const [completeProfile, setCompleteProfile] = React.useState(false);
+  const [login, setLogin] = React.useState(false);
+  const [showApply, setShowApply] = React.useState({
+    show: false,
+    id: "",
+    totalCost: 0,
+  });
+  const [showConnect, setShowConnect] = React.useState({
+    show: false,
+    id: "",
+    percentage: 0,
+  });
 
   const {
     run: runFetchProperty,
@@ -192,17 +209,85 @@ const PropertyDetails = () => {
 
   const showLoader =
     fetchPropertyStatus.isPending || similarPropertiesStatus.isPending;
-console.log(id, property.agent.id)
+  console.log(id, property.agent.id);
+  // location?.state?.from
+
+  const handleBuy = ({ id, totalCost }) => {
+    const isLoggedIn =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion") &&
+      role;
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!isLoggedIn) {
+      setLogin(true);
+    } else if (incompleteProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowApply({ show: true, id, totalCost });
+    }
+  };
+
+  const handleInvest = ({ id, percentage }) => {
+    const isLoggedIn =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion") &&
+      role;
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!isLoggedIn) {
+      setLogin(true);
+    } else if (incompleteProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowConnect({ show: true, id, percentage });
+    }
+  };
+
+  const handleApply = ({ id, totalCost, percentage }) => {
+    if (location?.state?.from === "listing") {
+      handleBuy({ id, totalCost });
+    } else if (location?.state?.from === "marketplace") {
+      handleInvest({ id, percentage });
+    }
+  };
+
   return (
     <>
       <Preloader loading={showLoader} />
+      <LoginPrompt show={login} close={() => setLogin(false)} />
+      <CompleteProfilePrompt
+        show={completeProfile}
+        close={() => setCompleteProfile(false)}
+      />
+      <ConnectForm
+        {...showConnect}
+        close={() => setShowConnect({ show: false, id: "", percentage: 0 })}
+      />
+      <ApplyForm
+        {...showApply}
+        close={() => setShowApply({ show: false, id: "", totalCost: 0 })}
+      />
       <PropertyDetailsUI
         property={property}
         similarProperties={similarProperties}
         handleViewAgent={handleViewAgent}
         handleViewProperty={handleViewProperty}
-        handleBuyShares={console.log}
+        handleBuyShares={handleApply}
         userID={id}
+        role={role}
       />
     </>
   );
