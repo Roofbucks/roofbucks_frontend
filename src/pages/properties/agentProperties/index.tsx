@@ -64,7 +64,7 @@ const AgentProperties = () => {
           propertyID: item.id,
           propertyName: item.name,
           status: item.moderation_status.toLowerCase(),
-          amount: item.total_property_cost,
+          amount: item.amount,
           date: new Date(item.created_at).toLocaleDateString(),
         }));
       } else {

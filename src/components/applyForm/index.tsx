@@ -221,7 +221,7 @@ const ApplyFormUI: React.FC<ApplyFormUIProps> = ({
             name="amount"
             register={register}
             disabled
-            value={amountToPay.toString()}
+            value={amountToPay.toFixed(2)}
           />
           <p className={styles.note}>
             Note: A service charge which is 2.5% of the total cost of the

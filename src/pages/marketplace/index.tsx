@@ -76,12 +76,10 @@ const Marketplace = () => {
 
         return data?.data.results.map((item) => ({
           name: item.name,
-          discount: item.percentage_available,
+          percentageAvailable: item.percentage_available,
           amount: (item.total_property_cost * item.percentage_available) / 100,
           owner: item.company_name,
-          images: item.image_album
-            ? item.image_album.media.map((item) => item.image)
-            : [],
+          images: item.images,
           id: item.id,
           amenities: {
             bedroom: item.number_of_bedrooms,
@@ -107,7 +105,7 @@ const Marketplace = () => {
     }
     return [];
   }, [data, error]);
-
+console.log(properties)
   const handlePageChange = (x: number) => {
     fetchProperties(x);
     setPages({ ...pages, current: x });
@@ -132,7 +130,7 @@ const Marketplace = () => {
     return { start, end };
   };
 
-  const handleView = ({ id, percentAvailable,resellId }) => {
+  const handleView = ({ id, percentAvailable, resellId }) => {
     navigate(Routes.propertyID(id), {
       state: {
         from: "marketplace",

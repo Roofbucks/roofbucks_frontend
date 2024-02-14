@@ -32,7 +32,7 @@ const PayRentModal: React.FC<PayRentProps> = ({
         />
         <p>Pay Annual Rent</p>
         <h1 className={styles.ttl}>{propertyName}</h1>
-        <p className={styles.txt}>Your rent costs: <b>NGN {rent} per annum</b></p>
+        <p className={styles.txt}>Your rent costs: <b>NGN {rent.toLocaleString()} per annum</b></p>
         <p className={styles.note}>
           Transaction charges may apply, read{" "}
           <a target="_blank">terms of use</a>

@@ -106,8 +106,9 @@ const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
       investment_focus: data.focus.value,
       expected_ROI: parseInt(data.roi),
       investor_type: data.investingAs.value,
-      resell_id: resellId,
     };
+
+    if (resellId) submitData.resell_id = resellId;
 
     submit(submitData);
   };

@@ -239,7 +239,7 @@ export interface marketplaceInvestmentRequestData {
   investment_focus: number;
   expected_ROI: number;
   investor_type: string;
-  resell_id: string;
+  resell_id?: string;
 }
 
 /**

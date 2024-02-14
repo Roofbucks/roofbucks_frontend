@@ -69,7 +69,7 @@ const SellSharesModal: React.FC<SellSharesProps> = ({
     }
     const submitData: sellSharesRequestData = {
       percentage: data.percent.value,
-      price: data.price
+      price: Math.ceil(data.price)
     };
     submit(submitData);
   };
@@ -134,6 +134,7 @@ const SellSharesModal: React.FC<SellSharesProps> = ({
             validatorMessage={errors.price?.message}
             name={`price`}
             register={register}
+            value={`${Math.ceil(watch("price"))}`}
           />
           <p className={styles.note}>Transaction charges may apply</p>
 

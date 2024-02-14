@@ -15,7 +15,7 @@ interface Props extends ModalProps {
 }
 
 const SellShares: React.FC<Props> = (props) => {
-  const { propertyId } = props;
+  const { propertyId, closeModal } = props;
   const dispatch = useAppDispatch();
 
   const { run: run, data: response, requestStatus, error } = useApiRequest({});
@@ -32,7 +32,7 @@ const SellShares: React.FC<Props> = (props) => {
 
   React.useMemo(() => {
     if (response?.status === 200) {
-      console.log(response);
+      closeModal();
       dispatch(
         updateToast({
           show: true,

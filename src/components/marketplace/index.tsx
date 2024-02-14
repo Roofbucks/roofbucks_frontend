@@ -29,6 +29,7 @@ interface FilterValues {
 
 export interface MarketplacePropertyData extends PropertyCardData {
   resellId: string;
+  percentageAvailable: number;
 }
 
 interface MarketplaceProps {
@@ -345,12 +346,13 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
           <div className={styles.propertyList}>
             {properties.map((item, index) => (
               <PropertyCard
+                {...item}
                 primaryBtn={{
                   text: "Invest",
                   action: () =>
                     handleConnect({
                       id: item.id,
-                      percentage: parseInt(item.discount ?? ""),
+                      percentage: item.percentageAvailable,
                       resellId: item.resellId,
                     }),
                 }}
@@ -376,12 +378,11 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                 moreDetails={(id) =>
                   handleView({
                     id,
-                    percentAvailable: item.discount,
+                    percentAvailable: item.percentageAvailable,
                     resellId: item.resellId,
                   })
                 }
-                {...item}
-                discount={`${item.discount}% left`}
+                discount={`${item.percentageAvailable}% left`}
                 key={index}
                 className={styles.property}
               />
