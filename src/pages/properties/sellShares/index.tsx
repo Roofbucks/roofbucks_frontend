@@ -20,8 +20,14 @@ const SellShares: React.FC<Props> = (props) => {
 
   const { run: run, data: response, requestStatus, error } = useApiRequest({});
 
-  const handleSellShares = (percentage: number) => {
-    run(sellSharesService(propertyId, { property_id: propertyId, percentage }));
+  const handleSellShares = ({
+    percentage,
+    price,
+  }: {
+    percentage: number;
+    price: number;
+  }) => {
+    run(sellSharesService(propertyId, { percentage, price }));
   };
 
   React.useMemo(() => {
@@ -31,15 +37,10 @@ const SellShares: React.FC<Props> = (props) => {
         updateToast({
           show: true,
           heading: "Great!",
-          text: "Your request to buy back been initiated successfully, redirecting you to payment in 3...2...1",
+          text: "Your request to sell shares has been initiated successfully, your shares are now on the marketplace",
           type: true,
         })
       );
-
-      // setTimeout(() => {
-      //   window.location.replace(response.data.url);
-      // closeModal()
-      // }, 2000);
     } else if (error) {
       dispatch(
         updateToast({
@@ -47,7 +48,7 @@ const SellShares: React.FC<Props> = (props) => {
           heading: "Sorry",
           text: getErrorMessage({
             error: error ?? response,
-            message: "Failed to buy back shares, please try again later",
+            message: "Failed to sell shares, please try again later",
           }),
           type: false,
         })
@@ -60,7 +61,7 @@ const SellShares: React.FC<Props> = (props) => {
   return (
     <>
       <Preloader loading={showLoader} />
-      <SellSharesModal {...props} submit={console.log} />
+      <SellSharesModal {...props} submit={handleSellShares} />
     </>
   );
 };

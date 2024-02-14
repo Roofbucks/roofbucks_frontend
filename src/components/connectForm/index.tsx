@@ -70,6 +70,7 @@ interface ConnectFormUIProps {
     email: string;
   };
   property: string;
+  resellId: string;
 }
 
 const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
@@ -78,6 +79,7 @@ const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
   close,
   userData,
   property,
+  resellId,
 }) => {
   const {
     register,
@@ -104,11 +106,12 @@ const ConnectFormUI: React.FC<ConnectFormUIProps> = ({
       investment_focus: data.focus.value,
       expected_ROI: parseInt(data.roi),
       investor_type: data.investingAs.value,
+      resell_id: resellId,
     };
 
     submit(submitData);
   };
-  console.log(errors);
+
   return (
     <>
       <Modal

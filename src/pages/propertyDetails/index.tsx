@@ -274,6 +274,7 @@ const PropertyDetails = () => {
       />
       <ConnectForm
         {...showConnect}
+        resellId={location?.state?.resellId ?? ""}
         close={() => setShowConnect({ show: false, id: "", percentage: 0 })}
       />
       <ApplyForm

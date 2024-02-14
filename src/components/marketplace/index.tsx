@@ -27,11 +27,15 @@ interface FilterValues {
   status: optionType;
 }
 
+export interface MarketplacePropertyData extends PropertyCardData {
+  resellId: string;
+}
+
 interface MarketplaceProps {
-  properties: PropertyCardData[];
+  properties: MarketplacePropertyData[];
   pagination: PaginationProps;
-  handleView: (id) => void;
-  handleConnect: ({ id, percentage }) => void;
+  handleView: ({ id, percentAvailable, resellId }) => void;
+  handleConnect: ({ id, percentage, resellId }) => void;
   search: {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -347,6 +351,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                     handleConnect({
                       id: item.id,
                       percentage: parseInt(item.discount ?? ""),
+                      resellId: item.resellId,
                     }),
                 }}
                 secondaryBtn={{
@@ -368,7 +373,13 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                 }}
                 type="row"
                 size="normal"
-                moreDetails={handleView}
+                moreDetails={(id) =>
+                  handleView({
+                    id,
+                    percentAvailable: item.discount,
+                    resellId: item.resellId,
+                  })
+                }
                 {...item}
                 discount={`${item.discount}% left`}
                 key={index}

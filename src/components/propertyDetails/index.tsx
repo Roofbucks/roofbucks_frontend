@@ -319,15 +319,17 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             <div className={styles.costBreakdown}>
               <div>
                 <span>Total property cost:</span>
-                <span>$ {property?.totalCost}</span>
+                <span>NGN {property?.totalCost}</span>
               </div>
               <div>
-                <span>Ownership percentage: </span>
-                <span>70%</span>
+                <span>Percentage available: </span>
+                <span>{location?.state?.percentAvailable}%</span>
               </div>
               <div>
                 <span>Price:</span>
-                <span>$ {property?.totalCost}</span>
+                <span>
+                  NGN {location?.state?.percentAvailable * property?.totalCost}
+                </span>
               </div>
             </div>
           </div>

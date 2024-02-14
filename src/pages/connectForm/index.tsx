@@ -11,9 +11,15 @@ interface ConnectFormProps {
   close: () => void;
   id: string;
   percentage: number;
+  resellId;
 }
 
-const ConnectForm: React.FC<ConnectFormProps> = ({ show, close, id }) => {
+const ConnectForm: React.FC<ConnectFormProps> = ({
+  show,
+  close,
+  id,
+  resellId,
+}) => {
   const { firstName, lastName, email } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -61,6 +67,7 @@ const ConnectForm: React.FC<ConnectFormProps> = ({ show, close, id }) => {
         show={show}
         close={close}
         property={id}
+        resellId={resellId}
       />
     </>
   );

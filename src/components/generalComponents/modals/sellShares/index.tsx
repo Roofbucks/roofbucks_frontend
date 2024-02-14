@@ -7,6 +7,7 @@ import { Button, CustomSelect, Input } from "components";
 import { CloseIcon2, SellIcon } from "assets";
 import { ModalProps, optionType } from "types";
 import { initialOptionType } from "utils";
+import { sellSharesRequestData } from "api";
 
 interface SellSharesData {
   percent: optionType;
@@ -31,7 +32,7 @@ const schema = yup
   .required();
 
 interface SellSharesProps extends ModalProps {
-  submit: (percent: number) => void;
+  submit: (data: sellSharesRequestData) => void;
   propertyName: string;
   percentageOwned: number;
   marketValue: number;
@@ -66,8 +67,11 @@ const SellSharesModal: React.FC<SellSharesProps> = ({
       });
       return;
     }
-
-    submit(data.percent.value);
+    const submitData: sellSharesRequestData = {
+      percentage: data.percent.value,
+      price: data.price
+    };
+    submit(submitData);
   };
 
   const generateOptions = (multipleOf5): optionType[] => {

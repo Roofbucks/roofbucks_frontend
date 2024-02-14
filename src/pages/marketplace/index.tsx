@@ -2,9 +2,9 @@ import { marketplaceService } from "api";
 import {
   CompleteProfilePrompt,
   LoginPrompt,
+  MarketplacePropertyData,
   MarketplaceUI,
   Preloader,
-  PropertyCardData,
 } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
@@ -32,6 +32,7 @@ const Marketplace = () => {
     show: false,
     id: "",
     percentage: 0,
+    resellId: "",
   });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
@@ -63,7 +64,7 @@ const Marketplace = () => {
     setPages({ ...pages, current: 1 });
   }, [debouncedSearchTerm, country, status, apartment, budget]);
 
-  const properties = React.useMemo<PropertyCardData[]>(() => {
+  const properties = React.useMemo<MarketplacePropertyData[]>(() => {
     if (data) {
       if (data.status === 200) {
         window.scrollTo(-0, -0);
@@ -87,6 +88,7 @@ const Marketplace = () => {
             toilet: item.number_of_toilets,
           },
           calendlyURL: item.agent.calendry_link,
+          resellId: item.resell_id,
         }));
       } else {
         dispatch(
@@ -130,11 +132,13 @@ const Marketplace = () => {
     return { start, end };
   };
 
-  const handleView = (id) => {
+  const handleView = ({ id, percentAvailable,resellId }) => {
     navigate(Routes.propertyID(id), {
       state: {
         from: "marketplace",
         url: Routes.marketplace,
+        percentAvailable: percentAvailable,
+        resellId: resellId,
       },
     });
   };
@@ -147,7 +151,7 @@ const Marketplace = () => {
     setPages({ ...pages, current: 1 });
   };
 
-  const handleInvest = ({ id, percentage }) => {
+  const handleInvest = ({ id, percentage, resellId }) => {
     const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
       localStorage.getItem("roofbucksRefresh") &&
@@ -165,7 +169,7 @@ const Marketplace = () => {
     } else if (incompleteProfile) {
       setCompleteProfile(true);
     } else {
-      setShowConnect({ show: true, id, percentage });
+      setShowConnect({ show: true, id, percentage, resellId });
     }
   };
 
@@ -181,7 +185,9 @@ const Marketplace = () => {
       />
       <ConnectForm
         {...showConnect}
-        close={() => setShowConnect({ show: false, id: "", percentage: 0 })}
+        close={() =>
+          setShowConnect({ show: false, id: "", percentage: 0, resellId: "" })
+        }
       />
       <MarketplaceUI
         properties={properties}

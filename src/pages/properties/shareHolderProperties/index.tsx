@@ -141,7 +141,7 @@ const ShareHolderProperties = () => {
 
         return applicationsResponse.data.results.map((item) => ({
           id: item.transaction_id,
-          propertyID: "123",
+          propertyID: item.property_id,
           percentage: item.percentage,
           property: item.property_name,
           agent: item.property_owner,
