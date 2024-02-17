@@ -1,10 +1,12 @@
 import {
+  fetchGraphService,
   fetchStatService,
   fetchTransactionsService,
   markAsReadService,
 } from "api";
 import {
   ActivityData,
+  EarningTrendsData,
   OverviewUI,
   Preloader,
   StatInfo,
@@ -13,21 +15,46 @@ import {
 import { formatDate, getErrorMessage, timeAgo } from "helpers";
 import { useApiRequest } from "hooks";
 import * as React from "react";
-import { setDatasets } from "react-chartjs-2/dist/utils";
 import { useNavigate } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
 
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 // Create a new Date object for today's date
-let currentDate = new Date();
+let pastThirtyDays = new Date();
 // Subtract 30 days from the current date
-currentDate.setDate(currentDate.getDate() - 30);
+pastThirtyDays.setDate(pastThirtyDays.getDate() - 30);
+
+// Create a new Date object for today's date
+let pastYear = new Date();
+// Subtract 30 days from the current date
+pastYear.setDate(pastYear.getDate() - 365);
 
 const Overview = () => {
   const [statDates, setStatDates] = React.useState({
-    start: formatDate(currentDate),
+    start: formatDate(pastThirtyDays),
     end: formatDate(new Date()),
+  });
+  const [graphFilter, setGraphFilter] = React.useState({
+    startDate: formatDate(pastYear),
+    endDate: formatDate(new Date()),
+    income_type: "income",
+    duration_type: "monthly",
   });
 
   const dispatch = useAppDispatch();
@@ -53,6 +80,12 @@ const Overview = () => {
     requestStatus: readStatus,
     error: readError,
   } = useApiRequest({});
+  const {
+    run: runGraph,
+    data: graphResponse,
+    requestStatus: graphStatus,
+    error: graphError,
+  } = useApiRequest({});
 
   const fetchTransactions = () =>
     runFetchTransactions(fetchTransactionsService({ page: 1, limit: 10 }));
@@ -66,9 +99,30 @@ const Overview = () => {
     );
   };
 
+  const fetchGraph = ({
+    start,
+    end,
+    incomeType,
+    durationType,
+  }: {
+    start?;
+    end?;
+    incomeType?;
+    durationType?;
+  }) =>
+    runGraph(
+      fetchGraphService({
+        start_date: start ?? graphFilter.startDate,
+        end_date: end ?? graphFilter.endDate,
+        income_type: incomeType ?? graphFilter.income_type,
+        duration_type: durationType ?? graphFilter.duration_type,
+      })
+    );
+
   React.useEffect(() => {
     fetchTransactions();
     fetchStats();
+    fetchGraph({});
   }, []);
 
   const transactions = React.useMemo<TransactionTableItem[]>(() => {
@@ -183,16 +237,7 @@ const Overview = () => {
     return [];
   }, [fetchStatsResponse, fetchStatsError]);
 
-  const handleStatFilter = (start, end) => {
-    const formattedStart = formatDate(start);
-    const formattedEnd = formatDate(end);
-    setStatDates({ start: formattedStart, end: formattedEnd });
-    fetchStats(formattedStart, formattedEnd);
-  };
-
-  const handleRemoveActivity = (id) => runRead(markAsReadService(id));
-
-  React.useMemo<ActivityData[]>(() => {
+  React.useMemo(() => {
     if (readResponse?.status === 204) {
       fetchStats();
     } else if (readError) {
@@ -212,12 +257,88 @@ const Overview = () => {
     return [];
   }, [readResponse, readError]);
 
+  const earningTrend = React.useMemo<EarningTrendsData>(() => {
+    if (graphResponse?.status === 200) {
+      return {
+        totalEarning: graphResponse.data.total_earning ?? 0,
+        avgIncome: graphResponse.data.average_earning ?? 0,
+        graph:
+          graphResponse.data.chart.length > 0
+            ? graphResponse.data.chart.map((item) => ({
+                label: `${item.month ? months[item.month - 1] : ""} ${
+                  item.year
+                }`,
+                value: item.total_amount,
+              }))
+            : months.map((item) => ({
+                label: item,
+                value: 0,
+              })),
+      };
+    } else if (graphError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: graphError,
+            message: "Failed to fetch earning trends, please try again later",
+          }),
+          type: false,
+        })
+      );
+    }
+
+    return {
+      totalEarning: 0,
+      avgIncome: 0,
+      graph: [],
+    };
+  }, [graphResponse, graphError]);
+
+  const handleStatFilter = (start, end) => {
+    const formattedStart = formatDate(start);
+    const formattedEnd = formatDate(end);
+    setStatDates({ start: formattedStart, end: formattedEnd });
+    fetchStats(formattedStart, formattedEnd);
+  };
+
+  const handleGraphDatesFilter = (start, end) => {
+    const formattedStart = formatDate(start);
+    const formattedEnd = formatDate(end);
+    setGraphFilter((prev) => ({
+      ...prev,
+      startDate: formattedStart,
+      endDate: formattedEnd,
+    }));
+    fetchGraph({ start: formattedStart, end: formattedEnd });
+  };
+
+  const handleGraphEarningFilter = (earning) => {
+    setGraphFilter((prev) => ({
+      ...prev,
+      income_type: earning,
+    }));
+    fetchGraph({ incomeType: earning });
+  };
+
+  const handleGraphDurationFilter = (duration) => {
+    setGraphFilter((prev) => ({
+      ...prev,
+      duration_type: duration,
+    }));
+    fetchGraph({ durationType: duration });
+  };
+
+  const handleRemoveActivity = (id) => runRead(markAsReadService(id));
+
   const handleViewProperty = (id) => navigate(Routes.propertyID(id));
 
   const showLoader =
     fetchTransactionsStatus.isPending ||
     fetchStatsStatus.isPending ||
-    readStatus.isPending;
+    readStatus.isPending ||
+    graphStatus.isPending;
 
   return (
     <>
@@ -237,6 +358,20 @@ const Overview = () => {
             end: statDates.end,
             onChange: handleStatFilter,
           }}
+          graphDateFilter={{
+            start: graphFilter.startDate,
+            end: graphFilter.endDate,
+            onChange: handleGraphDatesFilter,
+          }}
+          graphEarningFilter={{
+            value: graphFilter.income_type,
+            onChange: handleGraphEarningFilter,
+          }}
+          graphDurationFilter={{
+            value: graphFilter.duration_type,
+            onChange: handleGraphDurationFilter,
+          }}
+          earningTrend={earningTrend}
         />
       ) : (
         ""

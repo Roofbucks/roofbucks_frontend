@@ -33,77 +33,11 @@ import {
   Filler,
 } from "chart.js";
 import "chart.js/auto";
-import { Calendar } from "react-date-range";
 
 ChartJS.unregister();
 ChartJS.register(ArcElement, Tooltip, Legend, Filler);
 ChartJS.defaults.font.family = "inherit";
 ChartJS.defaults.font.size = 18;
-
-const labels = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "$",
-      data: [45, 30, 20, 42, 60, 16, 72, 34, 58, 102, 41, 30],
-      backgroundColor: "rgba(221, 227, 221, 1)",
-      hoverBackgroundColor: "rgb(15, 201, 75)",
-      borderRadius: 7,
-      barPercentage: 0.7,
-    },
-  ],
-};
-
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-      display: false,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      grid: {
-        display: false,
-      },
-      ticks: {
-        // Include a dollar sign in the ticks
-        callback: function (value, index, ticks) {
-          return "$" + value;
-        },
-      },
-      display: false,
-    },
-    x: {
-      grid: {
-        display: false,
-      },
-    },
-  },
-};
-
-const config = {
-  type: "bar",
-  data: data,
-  options: options,
-};
 
 export interface StatInfo {
   title: string;
@@ -135,6 +69,12 @@ const StatCard: React.FC<StatInfo> = ({
   );
 };
 
+export interface EarningTrendsData {
+  totalEarning: number;
+  avgIncome: number;
+  graph: { label: string; value: number }[];
+}
+
 interface OverviewUIProps {
   transactions: TransactionTableItem[];
   handleViewProperty: (id) => void;
@@ -154,6 +94,20 @@ interface OverviewUIProps {
     end: string;
     onChange: (start, end) => void;
   };
+  graphDateFilter: {
+    start: string;
+    end: string;
+    onChange: (start, end) => void;
+  };
+  graphEarningFilter: {
+    value: string;
+    onChange: (value) => void;
+  };
+  graphDurationFilter: {
+    value: string;
+    onChange: (value) => void;
+  };
+  earningTrend: EarningTrendsData;
 }
 
 const OverviewUI: React.FC<OverviewUIProps> = ({
@@ -166,20 +120,19 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   activity,
   handleRemoveActivity,
   statDateFilter,
+  graphDateFilter,
+  graphDurationFilter,
+  graphEarningFilter,
+  earningTrend,
 }) => {
-  const [showMobileCalendar, setShowMobileCalendar] = React.useState(false);
-  const [earningsFilter, setEarningsFilter] = React.useState({
-    period: "Monthly",
-    type: "income",
-  });
   const EarningsFilter: DropdownItemType[] = [
     {
-      value: "Monthly",
-      label: "monthly",
+      label: "Monthly",
+      value: "monthly",
     },
     {
-      value: "Yearly",
-      label: "yearly",
+      label: "Yearly",
+      value: "yearly",
     },
   ];
 
@@ -233,17 +186,12 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                     <label>
                       <input
                         className={
-                          earningsFilter.type === "income"
+                          graphEarningFilter.value === "income"
                             ? styles.selectedRadio
                             : ""
                         }
-                        onClick={() =>
-                          setEarningsFilter({
-                            ...earningsFilter,
-                            type: "income",
-                          })
-                        }
-                        checked={earningsFilter.type === "income"}
+                        onClick={() => graphEarningFilter.onChange("income")}
+                        checked={graphEarningFilter.value === "income"}
                         type="radio"
                       />{" "}
                       <span>Income</span>
@@ -251,22 +199,20 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                     <label>
                       <input
                         className={
-                          earningsFilter.type === "rent"
+                          graphEarningFilter.value === "rent"
                             ? styles.selectedRadio
                             : ""
                         }
-                        onClick={() =>
-                          setEarningsFilter({ ...earningsFilter, type: "rent" })
-                        }
-                        checked={earningsFilter.type === "rent"}
+                        onClick={() => graphEarningFilter.onChange("rent")}
+                        checked={graphEarningFilter.value === "rent"}
                         type="radio"
-                      />{" "}
+                      />
                       <span>Rent</span>
                     </label>
-                  </fieldset>{" "}
+                  </fieldset>
                   <Dropdown
                     dropdownListClassName={styles.statusDropdownList}
-                    active={earningsFilter.period}
+                    active={graphDurationFilter.value}
                     type="select"
                     caretColor="black"
                     className={styles.dropdown}
@@ -274,7 +220,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                     {EarningsFilter.map((item2, index) => (
                       <DropdownListItem
                         onDropdownChange={(x) =>
-                          setEarningsFilter({ ...earningsFilter, period: x })
+                          graphDurationFilter.onChange(x)
                         }
                         value={item2.value}
                         key={index}
@@ -287,11 +233,9 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
               </div>
               <div className={styles.trendsFilterSec}>
                 <MyDateRangePicker
-                  startDate={""}
-                  endDate={""}
-                  handleChange={function (start: any, end: any): void {
-                    throw new Error("Function not implemented.");
-                  }}
+                  startDate={graphDateFilter.start}
+                  endDate={graphDateFilter.end}
+                  handleChange={graphDateFilter.onChange}
                 />
                 <div className={styles.summarySec}>
                   <div className={styles.summary}>
@@ -299,8 +243,12 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                       <MoneyBagIcon2 className={styles.summaryIcon} />
                     </div>
                     <div>
-                      <p className={styles.summaryValue}>$25,000.00</p>
-                      <p className={styles.summaryLabel}>Avg. monthly income</p>
+                      <p className={styles.summaryValue}>
+                        NGN {earningTrend.avgIncome.toLocaleString()}
+                      </p>
+                      <p className={styles.summaryLabel}>
+                        Avg. {graphDurationFilter.value} income
+                      </p>
                     </div>
                   </div>
                   <div className={styles.summary}>
@@ -308,14 +256,19 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                       <MoneyIcon2 className={styles.summaryIcon} />
                     </div>
                     <div>
-                      <p className={styles.summaryValue}>$125,000.00</p>
+                      <p className={styles.summaryValue}>
+                        NGN {earningTrend.totalEarning.toLocaleString()}
+                      </p>
                       <p className={styles.summaryLabel}>Total Earnings</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className={styles.trendsChart}>
-                <Bar {...config} />
+                <Graph
+                  labels={earningTrend.graph.map((item) => item.label)}
+                  values={earningTrend.graph.map((item) => item.value)}
+                />
               </div>
             </div>
           </div>
@@ -346,6 +299,68 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
           />
         </aside>
       </div>
+    </>
+  );
+};
+
+interface GraphProps {
+  labels: string[];
+  values: number[];
+}
+const Graph: React.FC<GraphProps> = ({ labels, values }) => {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "NGN",
+        data: values,
+        backgroundColor: "rgba(221, 227, 221, 1)",
+        hoverBackgroundColor: "rgb(15, 201, 75)",
+        borderRadius: 7,
+        barPercentage: 0.7,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          display: false,
+        },
+        ticks: {
+          // Include a dollar sign in the ticks
+          callback: function (value, index, ticks) {
+            return "NGN" + value;
+          },
+        },
+        display: false,
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const config = {
+    type: "bar",
+    data: data,
+    options: options,
+  };
+
+  return (
+    <>
+      <Bar {...config} />
     </>
   );
 };

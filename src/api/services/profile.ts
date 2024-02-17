@@ -207,8 +207,8 @@ export const fetchStatService = (params: fetchStatParams) => {
 interface fetchGraphParams {
   start_date: string;
   end_date: string;
-  page: number;
-  limit: number;
+  // page: number;
+  // limit: number;
   income_type: "rent" | "income";
   duration_type: "monthly" | "yearly";
 }

@@ -10,6 +10,7 @@
   transition: unset;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 }
 .active svg {
   width: 10px;

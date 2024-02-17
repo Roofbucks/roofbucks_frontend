@@ -58,6 +58,7 @@ const MyDateRangePicker: React.FC<DateRangeProps> = ({
 
   const handleApply = () => {
     handleChange(statRange.startDate, statRange.endDate);
+    setShowRangePicker(false);
   };
 
   return (
@@ -68,7 +69,7 @@ const MyDateRangePicker: React.FC<DateRangeProps> = ({
         className={styles.showDateRangeIcon}
       />
       {showRangePicker ? (
-        <div className={styles.wrapper} >
+        <div className={styles.wrapper}>
           <DateRangePicker
             className={styles.dateRange}
             editableDateInputs={true}
