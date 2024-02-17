@@ -9,13 +9,15 @@ import {
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { Routes } from "router";
 
 const initAgent: AgentProfileData = {
   logo: "",
   companyName: "",
+  name: "",
   address: "",
   rating: 0,
   website: "",
@@ -27,7 +29,6 @@ const initAgent: AgentProfileData = {
     forRent: 0,
   },
   about: "",
-  id: "",
   agentAvatar: "",
 };
 
@@ -35,6 +36,7 @@ const Profile = () => {
   const { id: agentID } = useParams();
   const dispatch = useAppDispatch();
   const { id: myID, role } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const {
     run: runAgent,
@@ -82,18 +84,18 @@ const Profile = () => {
         return {
           logo: "",
           companyName: "",
+          name: `${agent.firstname} ${agent.lastname}`,
           address: `${agent.address}, ${agent.city}, ${agent.country}`,
           rating: 0,
           website: "",
-          email: "",
+          email: agent.email,
           properties: {
-            leased: 0,
-            sold: 0,
-            forSale: 0,
+            leased: agent.listing,
+            sold: agent.sold,
+            forSale: agent.marketplace,
             forRent: 0,
           },
           about: "",
-          id: "",
           agentAvatar: agent.display_photo,
         };
       } else {
@@ -166,12 +168,15 @@ const Profile = () => {
     return initAgent;
   }, [addReviewResponse, addReviewError]);
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    navigate(Routes.settings);
+  };
 
   const showLoader =
     agentStatus.isPending ||
     reviewsStatus.isPending ||
     addReviewStatus.isPending;
+
   return (
     <>
       <Preloader loading={showLoader} />

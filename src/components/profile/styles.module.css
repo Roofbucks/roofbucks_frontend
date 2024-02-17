@@ -65,6 +65,10 @@
   margin-right: auto;
 }
 .name {
+  font-size: 16px;
+  font-weight: 600;
+}
+.companyName {
   font-size: var(--h5);
   font-weight: 600;
   margin-bottom: 6px;

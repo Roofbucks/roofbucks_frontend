@@ -18,6 +18,7 @@ import {
   Dropdown,
   DropdownItemType,
   DropdownListItem,
+  Pagination,
   PropertyCard,
   PropertyCardData,
   PropertyCardProps,
@@ -62,6 +63,7 @@ const StatusList: DropdownItemType[] = [
 export interface AgentProfileData {
   logo: string;
   companyName: string;
+  name: string;
   address: string;
   rating: number;
   website: string;
@@ -73,13 +75,12 @@ export interface AgentProfileData {
     forRent: number;
   };
   about: string;
-  id: string;
   agentAvatar: string;
 }
 
 interface AgentProfileProps {
   agent: AgentProfileData;
-  handleEdit: (id) => void;
+  handleEdit: () => void;
   properties: PropertyCardData[];
   isSelf: boolean;
   handleAddReview: (data: CommentData) => void;
@@ -105,8 +106,6 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     resolver: yupResolver(commentSchema),
     defaultValues: initialComment,
   });
-
-  const [filterProp, setFilterProp] = React.useState("Date Listed");
 
   const propertyImages: string[] = [
     property3,
@@ -140,30 +139,20 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     <>
       <section className={styles.header}>
         <img className={styles.coverImg} src={coverImg} alt="cover photo" />
-        {isSelf && (
-          <button
-            onClick={() => handleEdit(agent.id)}
-            className={styles.editCover}
-          >
-            <EditIcon />
-          </button>
-        )}
       </section>
       <section className={styles.aboutSec}>
         <div className={styles.aboutSec1}>
           <div className={styles.avatarSec}>
-            <img src={coverImg} alt="" />
+            <img src={agent.logo} alt="" />
             {isSelf && (
-              <button
-                onClick={() => handleEdit(agent.id)}
-                className={styles.editImg}
-              >
+              <button onClick={() => handleEdit()} className={styles.editImg}>
                 <EditIcon />
               </button>
             )}
           </div>
           <div className={styles.info}>
-            <p className={styles.name}>{agent.companyName}</p>
+            <p className={styles.name}>{agent.name}</p>
+            <p className={styles.companyName}>{agent.companyName}</p>
             <p className={styles.address}>{agent.address}</p>
             <div className={styles.ratingLinkGroup}>
               <p className={styles.rating}>
@@ -214,27 +203,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
       <section className={styles.propertiesSec}>
         <div className={styles.propHeading}>
           <h2>Properties</h2>
-          {/* <Dropdown
-            dropdownListClassName={styles.statusDropdownList}
-            active={filterProp}
-            type="select"
-          >
-            {StatusList.map((item2, index) => (
-              <DropdownListItem
-                onDropdownChange={(x) => setFilterProp(x)}
-                value={item2.value}
-                key={index}
-              >
-                {item2.label}
-              </DropdownListItem>
-            ))}
-          </Dropdown> */}
         </div>
-        {/* <div className={styles.notif}>
-          <BellIcon />
-          <p>6 new properties since your last visit</p>
-          <CloseIcon />
-        </div> */}
         <div className={styles.propertyList}>
           {properties.map((item, index) => (
             <PropertyCard
@@ -250,6 +219,17 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
               className={styles.property}
             />
           ))}
+          <Pagination
+            current={0}
+            total={0}
+            handleChange={console.log}
+            count={{
+              start: 0,
+              end: 0,
+              total: 0,
+            }}
+            name={"Properties"}
+          />
         </div>
       </section>
       {!role && role !== "agent" ? (

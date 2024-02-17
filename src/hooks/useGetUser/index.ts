@@ -1,4 +1,4 @@
-import { fetchAgentService, fetchProfileService } from "api";
+import { fetchProfileService } from "api";
 import { useApiRequest } from "hooks";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
