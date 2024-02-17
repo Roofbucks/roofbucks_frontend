@@ -251,6 +251,7 @@ const ShareHolderProperties = () => {
             percentageOwned: 0,
           })
         }
+        callback={fetchProperties}
       />
       <BuyBack
         show={buyBack.show}

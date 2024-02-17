@@ -77,7 +77,9 @@ const Marketplace = () => {
         return data?.data.results.map((item) => ({
           name: item.name,
           percentageAvailable: item.percentage_available,
-          amount: (item.total_property_cost * item.percentage_available) / 100,
+          amount:
+            item.resell_price ??
+            (item.total_property_cost * item.percentage_available) / 100,
           owner: item.company_name,
           images: item.images,
           id: item.id,
@@ -105,7 +107,7 @@ const Marketplace = () => {
     }
     return [];
   }, [data, error]);
-console.log(properties)
+
   const handlePageChange = (x: number) => {
     fetchProperties(x);
     setPages({ ...pages, current: x });
