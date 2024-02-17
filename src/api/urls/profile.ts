@@ -96,9 +96,25 @@ export const updateProfileURL = () => `/user/profile/`;
 export const updateBusinessURL = () => `/user/add_business/`;
 
 /**
- * Fetch overview data url
+ * Fetch overview stat url
  *
  * @returns url string
  *
  */
-export const fetchOverviewURL = () => `/user/overview/`;
+export const fetchStatURL = (params) => `/user/stat/?${appendParams(params)}`;
+
+/**
+ * Fetch overview graph url
+ *
+ * @returns url string
+ *
+ */
+export const fetchGraphURL = (params) => `/user/graph/?${appendParams(params)}`;
+
+/**
+ * Mark activity as read url
+ *
+ * @returns url string
+ *
+ */
+export const markAsReadURL = (id) => `/user/mark_as_read/${id}/`;

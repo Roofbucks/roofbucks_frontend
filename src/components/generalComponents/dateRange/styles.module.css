@@ -15,10 +15,7 @@
   padding-left: 4px;
 }
 .dateRange {
-  position: absolute;
-  z-index: 2;
-  top: 1.5rem;
-  border-radius: 6px;
+  position: relative;
 }
 .dateRange [class*="rdrDefinedRangesWrapper"] {
   display: none;
@@ -26,4 +23,20 @@
 .showDateRangeIcon {
   width: 18px;
   margin-right: 10px;
+}
+.wrapper {
+  background: #fff;
+  position: absolute;
+  z-index: 2;
+  top: 1.5rem;
+  border-radius: 6px;
+}
+
+.wrapper > button {
+  display: block;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 1rem;
+  background: rgb(61, 145, 255);
+  border-color: rgb(61, 145, 255);
 }

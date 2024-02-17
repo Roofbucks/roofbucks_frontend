@@ -37,9 +37,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* .activity:hover .activityTxt2 {
-    white-space: normal;
-  } */
+.activity:hover .activityTxt2 {
+  white-space: normal;
+}
 .activityClose {
   position: absolute;
   width: 22px;
@@ -70,7 +70,6 @@
   background: rgba(18, 49, 217, 0.1);
   box-shadow: 0 0 0 4px rgb(18 49 217 /10%);
 }
-
 
 @media screen and (max-width: 800px) {
   .activityTtl {

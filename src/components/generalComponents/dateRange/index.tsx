@@ -2,6 +2,7 @@ import { CalendarIconOutline } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 import { DateRangePicker, Range } from "react-date-range";
+import { Button } from "..";
 
 const useOutsideAlerter = (ref: any, closeFunction: () => any) => {
   React.useEffect(() => {
@@ -25,20 +26,39 @@ const useOutsideAlerter = (ref: any, closeFunction: () => any) => {
 
 interface DateRangeProps {
   className?: string;
+  startDate: string;
+  endDate: string;
+  handleChange: (start, end) => void;
 }
 
-const MyDateRangePicker: React.FC<DateRangeProps> = ({ className }) => {
+const MyDateRangePicker: React.FC<DateRangeProps> = ({
+  className,
+  startDate,
+  endDate,
+  handleChange,
+}) => {
   const [showRangePicker, setShowRangePicker] = React.useState(false);
-  const [statRange, setStatRange] = React.useState<Range[]>([
-    {
-      startDate: new Date(new Date().setDate(new Date().getDate() - 7)),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const [statRange, setStatRange] = React.useState<{
+    startDate: Date;
+    endDate: Date;
+  }>({
+    startDate: new Date(startDate),
+    endDate: new Date(endDate),
+  });
+
+  React.useEffect(() => {
+    setStatRange({
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+    });
+  }, [startDate, endDate]);
 
   const rangeBody = React.useRef(null);
   useOutsideAlerter(rangeBody, () => setShowRangePicker(false));
+
+  const handleApply = () => {
+    handleChange(statRange.startDate, statRange.endDate);
+  };
 
   return (
     <div ref={rangeBody} className={`${styles.showDate} ${className}`}>
@@ -48,21 +68,40 @@ const MyDateRangePicker: React.FC<DateRangeProps> = ({ className }) => {
         className={styles.showDateRangeIcon}
       />
       {showRangePicker ? (
-        <DateRangePicker
-          className={styles.dateRange}
-          editableDateInputs={true}
-          onChange={(item) => setStatRange([item.selection])}
-          moveRangeOnFirstSelection={false}
-          ranges={statRange}
-          showPreview={false}
-          showDateDisplay={true}
-          showMonthAndYearPickers={true}
-        />
+        <div className={styles.wrapper} >
+          <DateRangePicker
+            className={styles.dateRange}
+            editableDateInputs={true}
+            onChange={(item) => {
+              setStatRange({
+                startDate: item.selection.startDate
+                  ? new Date(item.selection.startDate)
+                  : new Date(),
+                endDate: item.selection.endDate
+                  ? new Date(item.selection.endDate)
+                  : new Date(),
+              });
+            }}
+            moveRangeOnFirstSelection={false}
+            ranges={[
+              {
+                ...statRange,
+                key: "selection",
+              },
+            ]}
+            showDateDisplay
+            showMonthAndYearPickers
+          />
+
+          <Button onClick={handleApply} type="primary">
+            Apply
+          </Button>
+        </div>
       ) : (
         ""
       )}
-      <p>{statRange[0].startDate?.toLocaleDateString()}</p>-
-      <p>{statRange[0].endDate?.toLocaleDateString()}</p>
+      <p>{new Date(startDate)?.toLocaleDateString()}</p>-
+      <p>{new Date(endDate)?.toLocaleDateString()}</p>
     </div>
   );
 };

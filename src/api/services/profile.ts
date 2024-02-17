@@ -18,7 +18,9 @@ import {
   fetchBanksURL,
   updateProfileURL,
   updateBusinessURL,
-  fetchOverviewURL,
+  fetchGraphURL,
+  fetchStatURL,
+  markAsReadURL,
 } from "api";
 
 /**
@@ -185,14 +187,52 @@ export const updateBusinessService = (data: FormData) => {
   return patchRequest(requestData);
 };
 
+interface fetchStatParams {
+  start_date: string;
+  end_date: string;
+}
 /**
- * Fetch overview data service
+ * Fetch overview stat service
  * @returns axios promise
  */
 
-export const fetchOverviewService = () => {
+export const fetchStatService = (params: fetchStatParams) => {
   const requestData = {
-    url: fetchOverviewURL(),
+    url: fetchStatURL(params),
+  };
+
+  return getRequest(requestData);
+};
+
+interface fetchGraphParams {
+  start_date: string;
+  end_date: string;
+  page: number;
+  limit: number;
+  income_type: "rent" | "income";
+  duration_type: "monthly" | "yearly";
+}
+/**
+ * Fetch overview graph service
+ * @returns axios promise
+ */
+
+export const fetchGraphService = (params: fetchGraphParams) => {
+  const requestData = {
+    url: fetchGraphURL(params),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Mark activity as read service
+ * @returns axios promise
+ */
+
+export const markAsReadService = (id: string) => {
+  const requestData = {
+    url: markAsReadURL(id),
   };
 
   return getRequest(requestData);

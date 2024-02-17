@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "./styles.module.css";
 import {
+  ActivityData,
   ActivityList,
   AmenityProp,
   Dropdown,
@@ -54,6 +55,8 @@ interface ShareHolderPropertiesProps {
   };
   applications: PropertyApplicationTableItem[];
   handlePay: (id) => void;
+  activity: ActivityData[];
+  handleRemoveActivity: (id) => void;
 }
 
 const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
@@ -67,6 +70,8 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
   pagination,
   applications,
   handlePay,
+  activity,
+  handleRemoveActivity,
 }) => {
   return (
     <>
@@ -143,7 +148,11 @@ const ShareHolderPropertiesUI: React.FC<ShareHolderPropertiesProps> = ({
             )}
             <Pagination {...pagination} name={"Properties"} />
           </div>
-          <ActivityList className={styles.activity} />
+          <ActivityList
+            className={styles.activity}
+            activities={activity}
+            handleRemove={handleRemoveActivity}
+          />
         </section>
       ) : (
         <section>

@@ -13,6 +13,7 @@ import {
 import * as React from "react";
 import styles from "./styles.module.css";
 import {
+  ActivityData,
   ActivityList,
   Dropdown,
   DropdownItemType,
@@ -104,7 +105,7 @@ const config = {
   options: options,
 };
 
-interface StatInfo {
+export interface StatInfo {
   title: string;
   total: number;
   percentage: number;
@@ -140,6 +141,19 @@ interface OverviewUIProps {
   isAgent: boolean;
   name: string;
   avatar: string;
+  stats: {
+    listings: StatInfo;
+    closing: StatInfo;
+    active: StatInfo;
+    inactive: StatInfo;
+  };
+  activity: ActivityData[];
+  handleRemoveActivity: (id) => void;
+  statDateFilter: {
+    start: string;
+    end: string;
+    onChange: (start, end) => void;
+  };
 }
 
 const OverviewUI: React.FC<OverviewUIProps> = ({
@@ -148,6 +162,10 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   isAgent,
   name,
   avatar,
+  stats,
+  activity,
+  handleRemoveActivity,
+  statDateFilter,
 }) => {
   const [showMobileCalendar, setShowMobileCalendar] = React.useState(false);
   const [earningsFilter, setEarningsFilter] = React.useState({
@@ -157,11 +175,11 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   const EarningsFilter: DropdownItemType[] = [
     {
       value: "Monthly",
-      label: "Monthly",
+      label: "monthly",
     },
     {
       value: "Yearly",
-      label: "Yearly",
+      label: "yearly",
     },
   ];
 
@@ -175,34 +193,10 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   ];
 
   const statList: StatInfo[] = [
-    {
-      title: "Total Listing",
-      total: 140,
-      percentage: 0.5,
-      increase: true,
-      difference: 12,
-    },
-    {
-      title: "Total Closing",
-      total: 140,
-      percentage: 0.5,
-      increase: false,
-      difference: 12,
-    },
-    {
-      title: "Total Active",
-      total: 140,
-      percentage: 0.5,
-      increase: true,
-      difference: 12,
-    },
-    {
-      title: "Total Inactive",
-      total: 140,
-      percentage: 0.5,
-      increase: true,
-      difference: 12,
-    },
+    { ...stats.listings, title: "Total Listing" },
+    { ...stats.closing, title: "Total Closing" },
+    { ...stats.active, title: "Total Active" },
+    { ...stats.inactive, title: "Total Inactive" },
   ];
 
   return (
@@ -215,8 +209,12 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
           </div>
           {isAgent ? (
             <div>
-              <MyDateRangePicker className={styles.statRange} />
-
+              <MyDateRangePicker
+                className={styles.statRange}
+                startDate={statDateFilter.start}
+                endDate={statDateFilter.end}
+                handleChange={statDateFilter.onChange}
+              />
               <div className={`${styles.statList} ${styles.secWrap}`}>
                 {statList.map((item, index) => (
                   <StatCard {...item} key={index} />
@@ -288,7 +286,13 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                 </div>
               </div>
               <div className={styles.trendsFilterSec}>
-                <MyDateRangePicker />
+                <MyDateRangePicker
+                  startDate={""}
+                  endDate={""}
+                  handleChange={function (start: any, end: any): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
                 <div className={styles.summarySec}>
                   <div className={styles.summary}>
                     <div className={styles.summaryIconSec}>
@@ -336,7 +340,10 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
           </div>
         </div>
         <aside className={styles.extra}>
-          <ActivityList />
+          <ActivityList
+            activities={activity}
+            handleRemove={handleRemoveActivity}
+          />
         </aside>
       </div>
     </>

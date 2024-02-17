@@ -1,4 +1,5 @@
 import {
+  ActivityData,
   Preloader,
   PropertyApplicationTableItem,
   PropertyCardData,
@@ -15,9 +16,11 @@ import {
   buyBackService,
   fetchApplicationsService,
   fetchShareholderPropertiesService,
+  fetchStatService,
+  markAsReadService,
   propertyPaymentService,
 } from "api";
-import { getErrorMessage } from "helpers";
+import { formatDate, getErrorMessage, timeAgo } from "helpers";
 import { useApiRequest } from "hooks";
 import { updateToast } from "redux/actions";
 import { useAppDispatch } from "redux/hooks";
@@ -72,6 +75,18 @@ const ShareHolderProperties = () => {
     requestStatus: paymentStatus,
     error: paymentError,
   } = useApiRequest({});
+  const {
+    run: runFetchStats,
+    data: fetchStatsResponse,
+    requestStatus: fetchStatsStatus,
+    error: fetchStatsError,
+  } = useApiRequest({});
+  const {
+    run: runRead,
+    data: readResponse,
+    requestStatus: readStatus,
+    error: readError,
+  } = useApiRequest({});
 
   const fetchProperties = (page?) => {
     runProperties(
@@ -86,8 +101,20 @@ const ShareHolderProperties = () => {
     runPayment(propertyPaymentService(id));
   };
 
+  const fetchStats = () => {
+    runFetchStats(
+      fetchStatService({
+        start_date: formatDate(new Date()),
+        end_date: formatDate(new Date()),
+      })
+    );
+  };
+
   React.useEffect(() => {
-    tab === "properties" ? fetchProperties(1) : fetchApplications(1);
+    if (tab === "properties") {
+      fetchProperties(1);
+      fetchStats();
+    } else fetchApplications(1);
   }, [tab]);
 
   const properties = React.useMemo<ShareholderPropertyData[]>(() => {
@@ -200,6 +227,32 @@ const ShareHolderProperties = () => {
     return [];
   }, [paymentResponse, paymentError]);
 
+  const activity = React.useMemo<ActivityData[]>(() => {
+    if (fetchStatsResponse?.status === 200) {
+      const activities = fetchStatsResponse.data.activities;
+
+      return activities.map((item) => ({
+        date: timeAgo(new Date(item.date)),
+        message: item.message,
+        id: item.id,
+      }));
+    } else if (fetchStatsError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: fetchStatsError,
+            message: "Failed to fetch activity, please try again later",
+          }),
+          type: false,
+        })
+      );
+    }
+
+    return [];
+  }, [fetchStatsResponse, fetchStatsError]);
+
   const handlePageChange = (x: number) => {
     tab === "properties" ? fetchProperties(x) : fetchApplications(x);
     setPages({ ...pages, current: x });
@@ -228,10 +281,34 @@ const ShareHolderProperties = () => {
     });
   };
 
+  const handleRemoveActivity = (id) => runRead(markAsReadService(id));
+
+  React.useMemo<ActivityData[]>(() => {
+    if (readResponse?.status === 204) {
+      fetchStats();
+    } else if (readError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: readError,
+            message: "Failed to clear activity, please try again later",
+          }),
+          type: false,
+        })
+      );
+    }
+
+    return [];
+  }, [readResponse, readError]);
+
   const showLoader =
     propertiesStatus.isPending ||
     applicationsStatus.isPending ||
-    paymentStatus.isPending;
+    paymentStatus.isPending ||
+    fetchStatsStatus.isPending ||
+    readStatus.isPending;
 
   return (
     <>
@@ -321,6 +398,8 @@ const ShareHolderProperties = () => {
         }}
         applications={applications}
         handlePay={handlePayment}
+        activity={activity}
+        handleRemoveActivity={handleRemoveActivity}
       />
     </>
   );
