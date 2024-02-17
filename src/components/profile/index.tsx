@@ -19,6 +19,7 @@ import {
   DropdownItemType,
   DropdownListItem,
   Pagination,
+  PaginationProps,
   PropertyCard,
   PropertyCardData,
   PropertyCardProps,
@@ -69,10 +70,10 @@ export interface AgentProfileData {
   website: string;
   email: string;
   properties: {
-    leased: number;
+    all: number;
     sold: number;
     forSale: number;
-    forRent: number;
+    marketplace: number;
   };
   about: string;
   agentAvatar: string;
@@ -86,6 +87,7 @@ interface AgentProfileProps {
   handleAddReview: (data: CommentData) => void;
   reviews: ReviewData[];
   role: string;
+  pagination: PaginationProps;
 }
 
 const ProfileUI: React.FC<AgentProfileProps> = ({
@@ -95,6 +97,8 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
   handleAddReview,
   reviews,
   role,
+  pagination,
+  properties,
 }) => {
   const {
     register,
@@ -107,34 +111,10 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
     defaultValues: initialComment,
   });
 
-  const propertyImages: string[] = [
-    property3,
-    property2,
-    property3,
-    property1,
-    property3,
-    property3,
-  ];
-
-  const property: PropertyCardData = {
-    address: "256, Bayajida Close. LA. Nigeria",
-    name: "Two Bedroom Apartmentpartmentttt",
-    discount: "20% off",
-    amount: 10000,
-    owner: "By Bear Properties",
-    images: propertyImages,
-    id: "123",
-    amenities: { bedroom: 5, toilet: 5 },
-    calendlyURL: "",
-  };
-
-  const properties: PropertyCardData[] = new Array(6).fill(property);
-
   const onSubmit: SubmitHandler<CommentData> = (data) => {
     handleAddReview(data);
   };
 
-  console.log(errors);
   return (
     <>
       <section className={styles.header}>
@@ -163,7 +143,9 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
                   size={18}
                   fillColor="rgba(233, 223, 0, 1)"
                 />
-                <span className={styles.ratingNum}>{agent.rating}</span>/5
+                <p>
+                  <span className={styles.ratingNum}>{agent.rating}</span>/5
+                </p>
               </p>
               <a className={styles.link} target={"_blank"} href={agent.website}>
                 <LinkIcon /> {agent.website}
@@ -176,8 +158,8 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
         </div>
         <div className={styles.aboutSec2}>
           <div>
-            <p>{agent.properties.leased}</p>
-            <p>Properties leased</p>
+            <p>{agent.properties.all}</p>
+            <p>All Properties</p>
           </div>
           <div>
             <p>{agent.properties.forSale}</p>
@@ -188,8 +170,8 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
             <p>Properties sold</p>
           </div>
           <div>
-            <p>{agent.properties.forRent}</p>
-            <p>Properties for rent</p>
+            <p>{agent.properties.marketplace}</p>
+            <p>Properties on the marketplace</p>
           </div>
         </div>
         <div className={styles.aboutSec3}>
@@ -219,17 +201,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
               className={styles.property}
             />
           ))}
-          <Pagination
-            current={0}
-            total={0}
-            handleChange={console.log}
-            count={{
-              start: 0,
-              end: 0,
-              total: 0,
-            }}
-            name={"Properties"}
-          />
+          <Pagination {...pagination} />
         </div>
       </section>
       {!role && role !== "agent" ? (

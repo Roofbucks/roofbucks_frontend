@@ -76,8 +76,10 @@ import { ReactComponent as CheckIcon } from "./checkIcon.svg";
 import { ReactComponent as LogoutOutlineIcon } from "./logoutIcon.svg";
 import { ReactComponent as SellIcon } from "./sellIcon.svg";
 import { ReactComponent as UserIcon2 } from "./userIcon2.svg";
+import { ReactComponent as CopyIcon } from "./copyIcon.svg";
 
 export {
+  CopyIcon,
   UserIcon2,
   SellIcon,
   LogoutOutlineIcon,

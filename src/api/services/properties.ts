@@ -16,6 +16,7 @@ import {
   buyBackURL,
   deleteStayURL,
   fetchAgentPropertiesURL,
+  fetchAgentPropertiesUnauthURL,
   fetchApplicationsURL,
   fetchPropertiesURL,
   fetchPropertyURL,
@@ -357,6 +358,29 @@ export const fetchApplicationsService = (page: number) => {
 export const propertyPaymentService = (id: string) => {
   const requestData = {
     url: propertyPaymentURL(id),
+  };
+
+  return getRequest(requestData);
+};
+
+interface fetchAgentPropertiesUnauthParams {
+  page: number;
+  limit: number;
+}
+/**
+ * Fetch agent's properties unauthenticated service
+ * @returns axios promise
+ */
+
+export const fetchAgentPropertiesUnauthService = ({
+  id,
+  params,
+}: {
+  id: string;
+  params: fetchAgentPropertiesUnauthParams;
+}) => {
+  const requestData = {
+    url: fetchAgentPropertiesUnauthURL({ id, params }),
   };
 
   return getRequest(requestData);

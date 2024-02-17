@@ -184,13 +184,15 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
     options: options,
   };
 
+  const state = location.state;
+
   return (
     <>
       <HeroSection title="Property Details" />
       <section className={`appContainer ${styles.propertyWrap}`}>
-        {location.state ? (
-          <Link to={location.state.url ?? ""} className={styles.backBtn}>
-            <ArrowRight /> Back to {location?.state?.from ?? ""}
+        {state?.from ? (
+          <Link to={state.url ?? ""} className={styles.backBtn}>
+            <ArrowRight /> Back to {state?.from ?? ""}
           </Link>
         ) : (
           ""
@@ -237,7 +239,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             <p>
               NGN {property?.totalCost ?? property.inProgress?.completionCost}
             </p>
-            {property.agent.id !== userID && role && role !== "agent" ? (
+            {property.agent.id !== userID && role !== "agent" ? (
               <Button
                 type="primary"
                 onClick={() =>
@@ -308,12 +310,28 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           <p>{property.description}</p>
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
-          <p>${property?.totalCost ?? property.inProgress?.completionCost}</p>
-          <Button type="primary" onClick={() => {}} className={styles.buyBtn}>
-            {location.state.from === "marketplace" ? "Connect" : "Apply"}
-          </Button>
+          <p>
+            NGN {property?.totalCost ?? property.inProgress?.completionCost}
+          </p>
+          {property.agent.id !== userID && role !== "agent" ? (
+            <Button
+              type="primary"
+              onClick={() =>
+                handleBuyShares({
+                  id: property.id,
+                  totalCost: property.totalCost,
+                  percentage: 0,
+                })
+              }
+              className={styles.buyBtn}
+            >
+              {location?.state?.from === "marketplace" ? "Invest" : "Buy"}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
-        {location.state.from === "marketplace" ? (
+        {state?.from === "marketplace" ? (
           <div className={styles.additionalSec}>
             <h4 className={styles.subTtl}>Cost Breakdown</h4>
             <div className={styles.costBreakdown}>
@@ -484,7 +502,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             </div>
           </>
         )}
-        {location.state ? (
+        {state && state.from ? (
           <Link to={location.state.url ?? ""} className={styles.backBtn2}>
             <ArrowRight /> Back to {location?.state?.from ?? ""}
           </Link>

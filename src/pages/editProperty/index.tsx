@@ -58,6 +58,8 @@ const initialValues: EditData = {
   deedOfAssignment: "",
   certificateOfOccupancy: "",
   otherDocs: [],
+  otherDocs__prev: [],
+  media_prev: [],
 };
 
 const EditProperty = () => {
@@ -151,9 +153,10 @@ const EditProperty = () => {
             address1: data.landmarks[0] ?? "",
             address2: data.landmarks[1] ?? "",
           },
-          media: data.images.map((item) => ({
-            file: undefined,
-            url: item.image,
+          media: [],
+          media_prev: data.images.map((item) => ({
+            link: item.image,
+            id: item.id,
           })),
           surveyPlan: data.approved_survey_plan,
           purchaseReceipt: data.purchase_receipt,
@@ -162,6 +165,11 @@ const EditProperty = () => {
           deedOfAssignment: data.registered_deed_of_assignment,
           certificateOfOccupancy: data.certificate_of_occupancy,
           otherDocs: [],
+          otherDocs__prev: data.others.map((item) => ({
+            link: item.url,
+            name: item.name,
+            id: item.id,
+          })),
         };
 
         return property;

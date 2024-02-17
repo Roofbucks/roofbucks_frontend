@@ -79,7 +79,7 @@
 }
 .ratingLinkGroup {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .rating {
   margin-right: 1rem;
@@ -88,6 +88,11 @@
   align-items: center;
   letter-spacing: 2px;
   color: #808080;
+}
+.rating > span span {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
 }
 .ratingNum {
   font-weight: 600;
@@ -208,7 +213,8 @@
   margin-bottom: 6rem;
 }
 .propertyList [class*="imgSec"] img {
-  max-height: 360px;
+  max-height: 330px;
+  height: 330px;
 }
 .propertyList > div {
   margin-bottom: 2rem;
@@ -345,5 +351,9 @@
     position: absolute;
     right: 0;
     top: -1rem;
+  }
+  .propertyList [class*="imgSec"] img {
+    max-height: 180px;
+    height: 180px;
   }
 }

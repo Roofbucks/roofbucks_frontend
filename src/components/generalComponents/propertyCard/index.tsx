@@ -2,12 +2,15 @@ import {
   ArrowRight,
   BathRoomIcon,
   BedRoomIcon,
+  CheckIcon,
+  CopyIcon,
   MailIcon,
   ShareIcon,
 } from "assets";
 import * as React from "react";
 import { Button } from "../button";
 import styles from "./styles.module.css";
+import { Routes } from "router";
 
 export interface AmenityProp {
   Icon: React.FunctionComponent<
@@ -44,6 +47,7 @@ export interface PropertyCardData {
   amount: number;
   id: string;
   calendlyURL: string;
+  email?: string;
 }
 
 export interface PropertyCardProps extends PropertyCardData {
@@ -82,8 +86,25 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   secondaryBtn,
   id,
   secondaryAction,
+  email,
 }) => {
   const [activeImg, setActiveImg] = React.useState(0);
+  const [copied, setCopied] = React.useState(false);
+
+  const copyToClipBoard = async (link) => {
+    await navigator.clipboard
+      .writeText(link)
+      .then((res) => {
+        setCopied(true);
+
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      })
+      .catch(() => {
+        setCopied(false);
+      });
+  };
 
   return (
     <div
@@ -97,8 +118,19 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <div className={styles.sec1}>
           <p>{owner}</p>
           <div className={styles.iconSec}>
-            <ShareIcon role={"button"} />
-            <MailIcon role={"button"} />
+            {!copied ? (
+              <CopyIcon
+                onClick={() => copyToClipBoard(`${window.location.origin}${Routes.propertyID(id)}`)}
+                role={"button"}
+              />
+            ) : (
+              <CheckIcon />
+            )}
+            {email && (
+              <a target="_blank" href={`mailto:${email}`}>
+                <MailIcon role={"button"} />
+              </a>
+            )}
           </div>
         </div>
         <p className={styles.name}>{name}</p>

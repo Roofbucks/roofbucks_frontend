@@ -89,6 +89,7 @@ const Marketplace = () => {
           },
           calendlyURL: item.agent.calendry_link,
           resellId: item.resell_id,
+          email: item.agent.email,
         }));
       } else {
         dispatch(

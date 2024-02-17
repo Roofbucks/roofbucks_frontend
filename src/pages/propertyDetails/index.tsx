@@ -209,8 +209,6 @@ const PropertyDetails = () => {
 
   const showLoader =
     fetchPropertyStatus.isPending || similarPropertiesStatus.isPending;
-  console.log(id, property.agent.id);
-  // location?.state?.from
 
   const handleBuy = ({ id, totalCost }) => {
     const isLoggedIn =
@@ -257,7 +255,7 @@ const PropertyDetails = () => {
   };
 
   const handleApply = ({ id, totalCost, percentage }) => {
-    if (location?.state?.from === "listing") {
+    if (location?.state?.from === "listing" || !location?.state?.from) {
       handleBuy({ id, totalCost });
     } else if (location?.state?.from === "marketplace") {
       handleInvest({ id, percentage });

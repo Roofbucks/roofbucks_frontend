@@ -59,6 +59,7 @@ export interface EditData {
     address1: string;
     address2: string;
   };
+  media_prev: { link: string; id: string }[];
   media: { file: File; url?: string }[];
   surveyPlan: File | string;
   purchaseReceipt: File | string;
@@ -67,6 +68,7 @@ export interface EditData {
   deedOfAssignment: File | string;
   certificateOfOccupancy: File | string;
   otherDocs: otherDoc[];
+  otherDocs__prev: { link: string; id: string; name: string }[];
 }
 
 interface otherDoc {

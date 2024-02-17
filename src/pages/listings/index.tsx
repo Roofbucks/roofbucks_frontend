@@ -110,7 +110,8 @@ const Listings = () => {
             bedroom: item.number_of_bedrooms,
             toilet: item.number_of_toilets,
           },
-          calendlyURL: item.agent.calendry_link
+          calendlyURL: item.agent.calendry_link,
+          email: item.agent.email,
         }));
       } else {
         dispatch(

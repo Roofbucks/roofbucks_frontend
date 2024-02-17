@@ -1,9 +1,15 @@
-import { addReviewService, fetchAgentService, fetchReviewsService } from "api";
+import {
+  addReviewService,
+  fetchAgentPropertiesUnauthService,
+  fetchAgentService,
+  fetchReviewsService,
+} from "api";
 import {
   AgentData,
   AgentProfileData,
   Preloader,
   ProfileUI,
+  PropertyCardData,
   ReviewData,
 } from "components";
 import { getErrorMessage } from "helpers";
@@ -23,16 +29,22 @@ const initAgent: AgentProfileData = {
   website: "",
   email: "",
   properties: {
-    leased: 0,
+    all: 0,
     sold: 0,
     forSale: 0,
-    forRent: 0,
+    marketplace: 0,
   },
   about: "",
   agentAvatar: "",
 };
 
 const Profile = () => {
+  const [pages, setPages] = React.useState({
+    count: 0,
+    current: 1,
+    totalPages: 1,
+  });
+
   const { id: agentID } = useParams();
   const dispatch = useAppDispatch();
   const { id: myID, role } = useAppSelector((state) => state.user);
@@ -58,6 +70,12 @@ const Profile = () => {
     requestStatus: addReviewStatus,
     error: addReviewError,
   } = useApiRequest({});
+  const {
+    run: runProperties,
+    data: propertiesResponse,
+    requestStatus: propertiesStatus,
+    error: propertiesError,
+  } = useApiRequest({});
 
   const fetchAgent = () => {
     runAgent(fetchAgentService({ id: agentID }));
@@ -71,31 +89,44 @@ const Profile = () => {
     agentID && runAddReview(addReviewService({ id: agentID, data }));
   };
 
+  const fetchProperties = (page?) => {
+    agentID &&
+      runProperties(
+        fetchAgentPropertiesUnauthService({
+          id: agentID,
+          params: {
+            limit: 10,
+            page: page ?? pages.current,
+          },
+        })
+      );
+  };
+
   React.useEffect(() => {
     fetchAgent();
     fetchReviews();
+    fetchProperties(1);
   }, [agentID]);
 
   const agent = React.useMemo<AgentProfileData>(() => {
     if (agentResponse) {
       if (agentResponse.status === 200) {
-        console.log(agentResponse);
         const agent = agentResponse.data;
         return {
-          logo: "",
-          companyName: "",
+          logo: agent.company_logo,
+          companyName: agent.company_name,
           name: `${agent.firstname} ${agent.lastname}`,
           address: `${agent.address}, ${agent.city}, ${agent.country}`,
-          rating: 0,
+          rating: agent.company_rating,
           website: "",
           email: agent.email,
           properties: {
-            leased: agent.listing,
+            all: agent.sold + agent.listing + agent.marketplace,
             sold: agent.sold,
-            forSale: agent.marketplace,
-            forRent: 0,
+            forSale: agent.listing,
+            marketplace: agent.marketplace,
           },
-          about: "",
+          about: agent.company_description,
           agentAvatar: agent.display_photo,
         };
       } else {
@@ -168,6 +199,64 @@ const Profile = () => {
     return initAgent;
   }, [addReviewResponse, addReviewError]);
 
+  const properties = React.useMemo<PropertyCardData[]>(() => {
+    if (propertiesResponse?.status === 200) {
+      setPages({
+        ...pages,
+        totalPages: propertiesResponse.data.pages,
+        count: propertiesResponse.data.total,
+      });
+
+      return propertiesResponse.data.results.map((item) => ({
+        address: `${item.address}, ${item.country}`,
+        name: item.name,
+        amount: item.total_property_cost,
+        owner: item.company_name,
+        images: item.images,
+        id: item.id,
+        amenities: {
+          bedroom: item.number_of_bedrooms,
+          toilet: item.number_of_toilets,
+        },
+        calendlyURL: item.agent.calendry_link,
+        email: item.agent.email,
+      }));
+    } else if (propertiesError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: propertiesError,
+            message: "Failed to fetch agent properties, please try again later",
+          }),
+          type: false,
+        })
+      );
+    }
+
+    return [];
+  }, [propertiesResponse, reviewsError]);
+
+  const handlePageChange = (x: number) => {
+    fetchProperties(x);
+    setPages({ ...pages, current: x });
+  };
+
+  const getCount = (total) => {
+    let start = 0;
+    let end = 0;
+
+    start = pages.current * 10 - 9;
+    end = pages.current * 10;
+
+    if (total < end) {
+      end = total;
+    }
+
+    return { start, end };
+  };
+
   const handleEdit = () => {
     navigate(Routes.settings);
   };
@@ -175,7 +264,8 @@ const Profile = () => {
   const showLoader =
     agentStatus.isPending ||
     reviewsStatus.isPending ||
-    addReviewStatus.isPending;
+    addReviewStatus.isPending ||
+    propertiesStatus.isPending;
 
   return (
     <>
@@ -183,14 +273,28 @@ const Profile = () => {
       <ProfileUI
         agent={agent}
         handleEdit={handleEdit}
-        properties={[]}
+        properties={properties}
         isSelf={myID === agentID}
         handleAddReview={handleAddReview}
         reviews={reviews}
         role={role}
+        pagination={{
+          hide: properties.length === 0 || showLoader,
+          current: pages.current,
+          total: pages.totalPages,
+          handleChange: handlePageChange,
+          count: {
+            ...getCount(pages.count),
+            total: pages.count,
+          },
+          name: "Properties",
+        }}
       />
     </>
   );
 };
 
 export { Profile };
+function runProperties(arg0: any) {
+  throw new Error("Function not implemented.");
+}

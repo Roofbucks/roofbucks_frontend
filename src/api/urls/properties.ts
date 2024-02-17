@@ -157,8 +157,8 @@ export const payRentURL = (property) => `/properties/pay_rent/${property}/`;
  * @returns url string
  *
  */
-export const sellSharesURL = (property) => `/properties/sell_shares/${property}/`;
-
+export const sellSharesURL = (property) =>
+  `/properties/sell_shares/${property}/`;
 
 /**
  * Fetch shareholder applications url
@@ -177,3 +177,12 @@ export const fetchApplicationsURL = (page) =>
  */
 export const propertyPaymentURL = (txnId) =>
   `/properties/complete_payment/${txnId}`;
+
+/**
+ * Fetch agent's properties unauthenticated url
+ *
+ * @returns url string
+ *
+ */
+export const fetchAgentPropertiesUnauthURL = ({ id, params }) =>
+  `/properties/get_agent_properties/${id}?${appendParams(params)}`;
