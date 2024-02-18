@@ -33,6 +33,7 @@ interface FinancesUIProps {
   handleAddBank: () => void;
   handlePrimaryBank: (index: number) => void;
   handleDeleteBank: (index: number) => void;
+  handleReceipt: () => void;
 }
 
 const FinancesUI: React.FC<FinancesUIProps> = ({
@@ -42,6 +43,7 @@ const FinancesUI: React.FC<FinancesUIProps> = ({
   handleAddBank,
   handleDeleteBank,
   handlePrimaryBank,
+  handleReceipt,
 }) => {
   return (
     <>
@@ -90,9 +92,8 @@ const FinancesUI: React.FC<FinancesUIProps> = ({
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <TransactionTable
-            viewInvoice={() => {}}
+            viewReceipt={() => handleReceipt()}
             viewProperty={viewProperty}
-            printInvoice={() => {}}
             tableBodyItems={tableBodyItems}
           />
         }

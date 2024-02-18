@@ -100,8 +100,6 @@ const EditProperty = () => {
   const property = React.useMemo<EditData>(() => {
     if (fetchPropertyResponse || fetchPropertyError) {
       if (fetchPropertyResponse?.status === 200) {
-        console.log(fetchPropertyResponse);
-
         const data = fetchPropertyResponse.data;
 
         const property: EditData = {
@@ -194,8 +192,6 @@ const EditProperty = () => {
   React.useMemo(() => {
     if (response || error) {
       if (response?.status === 200) {
-        console.log(response);
-
         dispatch(
           updateToast({
             show: true,
@@ -207,7 +203,7 @@ const EditProperty = () => {
 
         setTimeout(() => {
           closeForm();
-        }, 1500);
+        }, 2000);
       } else {
         dispatch(
           updateToast({

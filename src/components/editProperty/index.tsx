@@ -330,15 +330,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
       .map((item) => item.trim())
       .filter((item) => item !== "");
 
-    const initIndoorAmenities = property.indoorAmenities.join(",");
-    const initOutdoorAmenities = property.outdoorAmenities.join(",");
-    const initOtherAmenities = property.otherAmenities
-      .split(",")
-      .map((item) => item.trim())
-      .filter((item) => item !== "");
-
     const amenities = `${indoorAmenities},${outdoorAmenities},${otherAmenities}`;
-    const initAmenities = `${initIndoorAmenities},${initOutdoorAmenities},${initOtherAmenities}`;
 
     let formData = new FormData();
 
@@ -370,49 +362,38 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
         );
     }
 
-    property.name !== data.name && formData.append("name", data.name);
-    property.totalCost !== data.totalCost &&
-      formData.append("total_property_cost", String(data.totalCost));
-    property.description !== data.description &&
-      formData.append("description", data.description);
-    property.propertyStatus !== data.propertyStatus &&
-      formData.append("completion_status", data.propertyStatus.toUpperCase());
-    property.propertyType.value !== data.propertyType.value &&
-      formData.append("apartment_type", String(data.propertyType.value));
-    property.address !== data.address &&
-      formData.append("address", data.address);
-    property.city !== data.city && formData.append("city", data.city);
-    property.state !== data.state && formData.append("state", data.state);
-    property.country.value !== data.country.value &&
-      formData.append("country", String(data.country.value));
-    property.zipCode !== data.zipCode &&
-      formData.append("zip_code", data.zipCode);
+    formData.append("name", data.name);
+    formData.append("total_property_cost", String(data.totalCost));
+    formData.append("description", data.description);
+    formData.append("completion_status", data.propertyStatus.toUpperCase());
+    formData.append("apartment_type", String(data.propertyType.value));
+    formData.append("address", data.address);
+    formData.append("city", data.city);
+    formData.append("state", data.state);
+    formData.append("country", String(data.country.value));
+    formData.append("zip_code", data.zipCode);
 
     if (data.crossRoads.address1 !== "" || data.crossRoads.address2 !== "") {
-      (property.crossRoads.address1 !== data.crossRoads.address1 ||
-        property.crossRoads.address2 !== data.crossRoads.address2) &&
-        formData.append(
-          "cross_streets",
-          `${data.crossRoads.address1},${data.crossRoads.address2}`
-        );
+      formData.append(
+        "cross_streets",
+        `${data.crossRoads.address1},${data.crossRoads.address2}`
+      );
     }
 
     if (data.landmarks.address1 !== "" || data.landmarks.address2 !== "") {
-      (property.landmarks.address1 !== data.landmarks.address1 ||
-        property.landmarks.address2 !== data.landmarks.address2) &&
-        formData.append(
-          "landmarks",
-          `${data.landmarks.address1},${data.landmarks.address2}`
-        );
+      formData.append(
+        "landmarks",
+        `${data.landmarks.address1},${data.landmarks.address2}`
+      );
     }
-    initAmenities !== amenities && formData.append("amenities", amenities);
-    property.erfSize !== data.erfSize &&
-      formData.append("ERF_size", String(data.erfSize));
-    property.diningArea !== data.diningArea &&
-      formData.append("dining_area", String(data.diningArea));
-    property.floorSize !== data.floorSize &&
-      formData.append("floor_size", String(data.floorSize));
-    data.media.map((item) => item.file && formData.append("images", item.file));
+    formData.append("amenities", amenities);
+    formData.append("ERF_size", String(data.erfSize));
+    formData.append("dining_area", String(data.diningArea));
+    formData.append("floor_size", String(data.floorSize));
+    data.media.map(
+      (item, index) =>
+        item.file && formData.append(`images[${index}]`, item.file)
+    );
     data.deedOfAssignment &&
       typeof data.deedOfAssignment !== "string" &&
       formData.append("registered_deed_of_assignment", data.deedOfAssignment);
@@ -440,11 +421,11 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     }
 
     data.otherDocs_prev.map((item, index) => {
-      formData.append(`retail_others_${index}`, item.id);
+      formData.append(`retail_others[${index}]`, item.id);
     });
 
     data.media_prev.map((item, index) => {
-      formData.append(`retail_img_${index}`, item.id);
+      formData.append(`retail_img[${index}]`, item.id);
     });
 
     submit(formData);
@@ -633,7 +614,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                 parentClassName={styles.input}
                 required
                 validatorMessage={errors?.description?.message}
-                name="completed.description"
+                name="description"
                 register={register}
               />
             </div>

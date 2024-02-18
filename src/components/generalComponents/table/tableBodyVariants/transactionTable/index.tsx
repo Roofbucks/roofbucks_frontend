@@ -16,15 +16,13 @@ export interface TransactionTableItem {
 interface TableBodyProps {
   tableBodyItems: TransactionTableItem[];
   viewProperty: (id) => void;
-  viewInvoice: () => void;
-  printInvoice: () => void;
+  viewReceipt: () => void;
 }
 
 const TransactionTable: React.FC<TableBodyProps> = ({
   tableBodyItems,
   viewProperty,
-  viewInvoice,
-  printInvoice,
+  viewReceipt,
 }) => {
   return (
     <>
@@ -44,19 +42,10 @@ const TransactionTable: React.FC<TableBodyProps> = ({
               text: (
                 <>
                   <EyeIconOutline className={styles.dropdownIcon} /> View
-                  Invoice
+                  Receipt
                 </>
               ),
-              action: viewInvoice,
-            },
-            {
-              text: (
-                <>
-                  <PrinterIconOutline className={styles.dropdownIcon} /> Print
-                  Invoice
-                </>
-              ),
-              action: printInvoice,
+              action: viewReceipt,
             },
           ];
           return (

@@ -11,6 +11,7 @@ import {
   Pagination,
   Preloader,
   PropertyTableItem,
+  ReceiptModal,
   TransactionTableItem,
 } from "components";
 import { getErrorMessage } from "helpers";
@@ -242,6 +243,8 @@ const Finances = () => {
     setPrimaryStatus.isPending ||
     deleteBankStatus.isPending;
 
+  const [receipt, setReceipt] = React.useState({ show: false });
+
   return (
     <>
       <Preloader loading={showLoader} />
@@ -249,6 +252,10 @@ const Finances = () => {
         show={addBank}
         close={() => setAddBank(false)}
         callback={() => fetchBankAccounts()}
+      />
+      <ReceiptModal
+        show={receipt.show}
+        close={() => setReceipt({ show: false })}
       />
       <ConfirmationModal
         show={deleteBank.show || primaryBank.show}
@@ -275,6 +282,7 @@ const Finances = () => {
         handleAddBank={() => setAddBank(true)}
         handlePrimaryBank={(index) => setPrimaryBank({ show: true, index })}
         handleDeleteBank={(index) => setDeleteBank({ show: true, index })}
+        handleReceipt={() => setReceipt({ show: true })}
       />
       <Pagination
         hide={transactions.length === 0 || showLoader}

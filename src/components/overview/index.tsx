@@ -278,9 +278,8 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
               tableHeaderTitles={tableHeaderTitles}
               tableBody={
                 <TransactionTable
-                  viewInvoice={() => {}}
+                  viewReceipt={() => {}}
                   viewProperty={handleViewProperty}
-                  printInvoice={() => {}}
                   tableBodyItems={transactions}
                 />
               }
