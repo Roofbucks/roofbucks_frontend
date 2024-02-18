@@ -10,13 +10,15 @@ export interface TransactionTableItem {
   invoiceID: string;
   amount: string;
   date: string;
+  description: string;
+  address: string;
 }
 
 // Test Table Body Props
 interface TableBodyProps {
   tableBodyItems: TransactionTableItem[];
   viewProperty: (id) => void;
-  viewReceipt: () => void;
+  viewReceipt: (data: TransactionTableItem) => void;
 }
 
 const TransactionTable: React.FC<TableBodyProps> = ({
@@ -45,12 +47,14 @@ const TransactionTable: React.FC<TableBodyProps> = ({
                   Receipt
                 </>
               ),
-              action: viewReceipt,
+              action: () => viewReceipt(item),
             },
           ];
           return (
             <tr key={`body ${index}`}>
-              <td>{item.propertyID}</td>
+              <td>
+                <span className={styles.id}>{item.propertyID}</span>
+              </td>
               <td>{item.propertyName}</td>
               <td>{item.invoiceID}</td>
               <td>{item.amount}</td>

@@ -2,3 +2,11 @@
   width: 22px;
   margin-right: 12px;
 }
+.id {
+  display: block;
+  max-width: 100px;
+  margin: auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

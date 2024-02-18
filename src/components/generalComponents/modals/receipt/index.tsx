@@ -1,8 +1,25 @@
 import { Modal } from "react-bootstrap";
 import styles from "./styles.module.css";
-import { LogoWithText } from "components";
+import { LogoWithText, TransactionTableItem } from "components";
 
-const ReceiptModal = ({ show, close }) => {
+interface Props extends TransactionTableItem {
+  show: boolean;
+  close: () => void;
+  user: { name: string; address: string; number: string; email: string };
+}
+
+const ReceiptModal: React.FC<Props> = ({
+  show,
+  close,
+  invoiceID,
+  date,
+  propertyID,
+  address,
+  description,
+  amount,
+  user,
+  propertyName,
+}) => {
   return (
     <>
       <Modal
@@ -16,43 +33,47 @@ const ReceiptModal = ({ show, close }) => {
             <div className={styles.side}>
               <LogoWithText className={styles.logo} type={"light"} />
               <div className={styles.invoiceNo}>
-                <p>Invoice #002</p>
-                <p>December 15, 2025</p>
+                <p>REF: {invoiceID}</p>
+                <p>{new Date(date).toDateString()}</p>
               </div>
               <div className={styles.contact}>
-                <p>BILL TO:</p>
-                <p>Jasmine Pedraza</p>
-                <p>jasmine@gmail.com</p>
-                <p>408 Byers Lane, Sacramento, CA</p>
-                <p>08188772277</p>
+                <p>RECEIPT TO:</p>
+                <p>{user.name}</p>
+                <p>{user.email}</p>
+                <p>{user.address}</p>
+                <p>{user.number}</p>
               </div>
-
               <p className={styles.support}>SUPPORT@ROOFBUCKS.COM</p>
             </div>
             <div className={styles.body}>
               <h1 className={styles.ttl}>Receipt</h1>
 
               <div className={styles.property}>
-                <p className={styles.propertyId}>PROPERTY ID: #123455</p>
-                <p className={styles.address}>No 8, Abah Street, Yaba, Lagos</p>
+                <p className={styles.propertyId}>
+                  PROPERTY NAME: {propertyName}
+                </p>
+                <p className={styles.propertyId}>PROPERTY ID: #{propertyID}</p>
+                <p className={styles.address}>{address}</p>
               </div>
               <div className={styles.tableHd}>
                 <p>DESCRIPTION</p>
                 <p>AMOUNT</p>
               </div>
               <div className={styles.tableItem}>
-                <p>RENT REPAYMENT: 1 YEAR</p>
-                <p>NGN 500,000</p>
+                <p>{description}</p>
+                <p>{amount}</p>
               </div>
               <div className={styles.tableTotal}>
                 <p>Total Amount</p>
-                <p>NGN 500,000</p>
+                <p>{amount}</p>
               </div>
               <LogoWithText className={styles.bttomLogo} type={"dark"} />
             </div>
           </section>
         ) : (
-          <div className={styles.noReceipt} >Please view the receipt on a desktop device</div>
+          <div className={styles.noReceipt}>
+            Please view the receipt on a desktop device
+          </div>
         )}
       </Modal>
     </>

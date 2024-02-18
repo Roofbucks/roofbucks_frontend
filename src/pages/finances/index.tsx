@@ -23,6 +23,17 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
 import { AddBankAccount } from "./addBankAccount";
 
+const initReceiptData = {
+  show: false,
+  propertyID: "",
+  propertyName: "",
+  invoiceID: "",
+  amount: "",
+  date: "",
+  description: "",
+  address: "",
+};
+
 const Finances = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -40,6 +51,10 @@ const Finances = () => {
     show: false,
     index: -1,
   });
+  const [receipt, setReceipt] = React.useState(initReceiptData);
+  const { firstName, lastName, number, email, address } = useAppSelector(
+    (state) => state.user
+  );
 
   // API Hooks
   const {
@@ -101,8 +116,10 @@ const Finances = () => {
           propertyID: item.property_id,
           propertyName: item.property_name,
           invoiceID: `#${item.reference}`,
-          amount: item.amount,
+          amount: `NGN ${item.amount.toLocaleString()}`,
           date: new Date(item.created_at).toLocaleDateString(),
+          description: item.description,
+          address: item.address,
         }));
       } else {
         dispatch(
@@ -243,8 +260,6 @@ const Finances = () => {
     setPrimaryStatus.isPending ||
     deleteBankStatus.isPending;
 
-  const [receipt, setReceipt] = React.useState({ show: false });
-
   return (
     <>
       <Preloader loading={showLoader} />
@@ -254,8 +269,14 @@ const Finances = () => {
         callback={() => fetchBankAccounts()}
       />
       <ReceiptModal
-        show={receipt.show}
-        close={() => setReceipt({ show: false })}
+        user={{
+          address,
+          number,
+          name: `${firstName} ${lastName}`,
+          email,
+        }}
+        {...receipt}
+        close={() => setReceipt({ ...initReceiptData })}
       />
       <ConfirmationModal
         show={deleteBank.show || primaryBank.show}
@@ -282,7 +303,9 @@ const Finances = () => {
         handleAddBank={() => setAddBank(true)}
         handlePrimaryBank={(index) => setPrimaryBank({ show: true, index })}
         handleDeleteBank={(index) => setDeleteBank({ show: true, index })}
-        handleReceipt={() => setReceipt({ show: true })}
+        handleReceipt={(data: TransactionTableItem) =>
+          setReceipt({ ...data, show: true })
+        }
       />
       <Pagination
         hide={transactions.length === 0 || showLoader}

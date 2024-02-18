@@ -108,6 +108,7 @@ interface OverviewUIProps {
     onChange: (value) => void;
   };
   earningTrend: EarningTrendsData;
+  handleReceipt: (data: TransactionTableItem) => void;
 }
 
 const OverviewUI: React.FC<OverviewUIProps> = ({
@@ -124,6 +125,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   graphDurationFilter,
   graphEarningFilter,
   earningTrend,
+  handleReceipt,
 }) => {
   const EarningsFilter: DropdownItemType[] = [
     {
@@ -139,7 +141,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
   const tableHeaderTitles: TableHeaderItemProps[] = [
     { title: "Property ID" },
     { title: "Property Name" },
-    { title: "Invoice ID" },
+    { title: "Reference ID" },
     { title: "Amount" },
     { title: "Date" },
     { title: "" },
@@ -278,7 +280,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
               tableHeaderTitles={tableHeaderTitles}
               tableBody={
                 <TransactionTable
-                  viewReceipt={() => {}}
+                  viewReceipt={handleReceipt}
                   viewProperty={handleViewProperty}
                   tableBodyItems={transactions}
                 />

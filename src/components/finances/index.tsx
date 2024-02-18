@@ -13,7 +13,7 @@ import {
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Property ID" },
   { title: "Property Name" },
-  { title: "Invoice ID" },
+  { title: "Reference ID" },
   { title: "Amount" },
   { title: "Date" },
   { title: "" },
@@ -33,7 +33,7 @@ interface FinancesUIProps {
   handleAddBank: () => void;
   handlePrimaryBank: (index: number) => void;
   handleDeleteBank: (index: number) => void;
-  handleReceipt: () => void;
+  handleReceipt: (data: TransactionTableItem) => void;
 }
 
 const FinancesUI: React.FC<FinancesUIProps> = ({
@@ -92,7 +92,7 @@ const FinancesUI: React.FC<FinancesUIProps> = ({
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <TransactionTable
-            viewReceipt={() => handleReceipt()}
+            viewReceipt={handleReceipt}
             viewProperty={viewProperty}
             tableBodyItems={tableBodyItems}
           />

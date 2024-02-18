@@ -9,6 +9,7 @@ import {
   EarningTrendsData,
   OverviewUI,
   Preloader,
+  ReceiptModal,
   StatInfo,
   TransactionTableItem,
 } from "components";
@@ -45,6 +46,17 @@ let pastYear = new Date();
 // Subtract 30 days from the current date
 pastYear.setDate(pastYear.getDate() - 365);
 
+const initReceiptData = {
+  show: false,
+  propertyID: "",
+  propertyName: "",
+  invoiceID: "",
+  amount: "",
+  date: "",
+  description: "",
+  address: "",
+};
+
 const Overview = () => {
   const [statDates, setStatDates] = React.useState({
     start: formatDate(pastThirtyDays),
@@ -59,7 +71,9 @@ const Overview = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { role, firstName, avatar } = useAppSelector((state) => state.user);
+  const [receipt, setReceipt] = React.useState(initReceiptData);
+  const { role, avatar, firstName, lastName, number, email, address } =
+    useAppSelector((state) => state.user);
 
   // API Hooks
   const {
@@ -132,8 +146,10 @@ const Overview = () => {
           propertyID: item.property_id,
           propertyName: item.property_name,
           invoiceID: `#${item.reference}`,
-          amount: item.amount,
+          amount: `NGN ${item.amount.toLocaleString()}`,
           date: new Date(item.created_at).toLocaleDateString(),
+          description: item.description,
+          address: item.address,
         }));
       } else {
         dispatch(
@@ -343,6 +359,16 @@ const Overview = () => {
   return (
     <>
       <Preloader loading={showLoader} />
+      <ReceiptModal
+        user={{
+          address,
+          number,
+          name: `${firstName} ${lastName}`,
+          email,
+        }}
+        {...receipt}
+        close={() => setReceipt({ ...initReceiptData })}
+      />
       {stats ? (
         <OverviewUI
           transactions={transactions}
@@ -372,6 +398,9 @@ const Overview = () => {
             onChange: handleGraphDurationFilter,
           }}
           earningTrend={earningTrend}
+          handleReceipt={(data: TransactionTableItem) =>
+            setReceipt({ ...data, show: true })
+          }
         />
       ) : (
         ""

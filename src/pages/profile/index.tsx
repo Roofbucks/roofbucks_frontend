@@ -118,7 +118,7 @@ const Profile = () => {
           name: `${agent.firstname} ${agent.lastname}`,
           address: `${agent.address}, ${agent.city}, ${agent.country}`,
           rating: agent.company_rating,
-          website: "",
+          website: agent.company_website,
           email: agent.email,
           properties: {
             all: agent.sold + agent.listing + agent.marketplace,

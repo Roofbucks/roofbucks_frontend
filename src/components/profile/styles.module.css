@@ -89,10 +89,8 @@
   letter-spacing: 2px;
   color: #808080;
 }
-.rating > span span {
-  display: inline-flex;
-  align-items: center;
-  height: 22px;
+.rating > span {
+  margin-top: -4px;
 }
 .ratingNum {
   font-weight: 600;
@@ -101,9 +99,11 @@
 }
 .link {
   color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .link svg {
-  margin-right: 4px;
 }
 .emailBtn {
   padding: 6px 12px;
