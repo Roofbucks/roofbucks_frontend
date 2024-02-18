@@ -354,7 +354,11 @@ p.docNote {
   right: 0;
   z-index: 1;
 }
-
+.mediaTtl {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: -1rem;
+}
 @media screen and (max-width: 1000px) {
   .inputSec {
     grid-template-columns: 1fr 3fr;

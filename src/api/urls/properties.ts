@@ -27,13 +27,13 @@ export const fetchPropertiesURL = ({ search, page }) =>
 export const fetchPropertyURL = (id) => `/properties/single/${id}/`;
 
 /**
- * Add property url
+ * Update property url
  *
  * @returns url string
  *
  */
 
-export const updatePropertyURL = (id) => `/properties/update/${id}/`;
+export const updatePropertyURL = (id) => `/properties/edit_property/${id}/`;
 
 /**
  * Fetch similar properties url

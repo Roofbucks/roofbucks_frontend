@@ -68,7 +68,7 @@ export interface EditData {
   deedOfAssignment: File | string;
   certificateOfOccupancy: File | string;
   otherDocs: otherDoc[];
-  otherDocs__prev: { link: string; id: string; name: string }[];
+  otherDocs_prev: { link: string; id: string; name: string }[];
 }
 
 interface otherDoc {
@@ -128,10 +128,7 @@ const Schema = yup
       address1: yup.string(),
       address2: yup.string(),
     }),
-    media: yup
-      .array()
-      .min(1, "Please add at least one media")
-      .required("Required"),
+    media: yup.array(),
     surveyPlan: yup.mixed(),
     purchaseReceipt: yup.mixed(),
     excision: yup.mixed(),
@@ -147,6 +144,8 @@ const Schema = yup
         })
       )
       .min(0),
+    media_prev: yup.array(),
+    otherDocs_prev: yup.array(),
   })
   .required();
 
@@ -256,6 +255,12 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     setValue("media", [...prevList]);
   };
 
+  const handleRemovePrevMedia = (index) => {
+    const prevList = [...watch("media_prev")];
+    prevList.splice(index, 1);
+    setValue("media_prev", [...prevList]);
+  };
+
   const handleChangeDoc = ({ id, e }) => {
     const file: File = e.target.files[0];
 
@@ -316,9 +321,6 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
       error: errors.certificateOfOccupancy?.message,
     },
   ];
-
-  console.log(property);
-  console.log(watch());
 
   const onSubmit: SubmitHandler<EditData> = (data) => {
     const indoorAmenities = data.indoorAmenities.join(",");
@@ -430,14 +432,20 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
       typeof data.surveyPlan !== "string" &&
       formData.append("approved_survey_plan", data.surveyPlan);
 
-    // data.media[0].file && formData.append("default_image", data.media[0].file);
-
     if (data.otherDocs.length > 0) {
       data.otherDocs.map((item, index) => {
         formData.append(`others_${index}_name`, item.name);
         item.file && formData.append(`others_${index}_image`, item.file);
       });
     }
+
+    data.otherDocs_prev.map((item, index) => {
+      formData.append(`retail_others_${index}`, item.id);
+    });
+
+    data.media_prev.map((item, index) => {
+      formData.append(`retail_img_${index}`, item.id);
+    });
 
     submit(formData);
   };
@@ -859,7 +867,11 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                   <WarningIcon /> {errors.media?.message}
                 </p>
               )}
-
+              {watch("media").length > 0 ? (
+                <p className={styles.mediaTtl}>New images</p>
+              ) : (
+                ""
+              )}
               <div className={styles.uploadedSec}>
                 {watch("media").map((file, index) => (
                   <div key={index} className={styles.uploadedDoc}>
@@ -875,6 +887,27 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                     </div>
                     <TrashIcon
                       onClick={() => handleRemoveMedia(index)}
+                      role="button"
+                      className={styles.docDelete}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {watch("media_prev").length > 0 ? (
+                <p className={styles.mediaTtl}>Uploaded images</p>
+              ) : (
+                ""
+              )}
+              <div className={styles.uploadedSec}>
+                {watch("media_prev").map((item, index) => (
+                  <div key={item.id} className={styles.uploadedDoc}>
+                    <ImageIcon className={styles.docIcon} />
+                    <div className={styles.docInfo}>
+                      <p>{item.link}</p>
+                    </div>
+                    <TrashIcon
+                      onClick={() => handleRemovePrevMedia(index)}
                       role="button"
                       className={styles.docDelete}
                     />
@@ -954,6 +987,31 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                   </div>
                 );
               })}
+            </div>
+
+            {watch("otherDocs_prev").length > 0 ? (
+              <p className={styles.mediaTtl}>Other uploaded documents</p>
+            ) : (
+              ""
+            )}
+            <div className={styles.uploadedSec}>
+              {watch("otherDocs_prev").map((item, index) => (
+                <div key={item.id} className={styles.uploadedDoc}>
+                  <ImageIcon className={styles.docIcon} />
+                  <div className={styles.docInfo}>
+                    <p>{item.name}</p>
+                  </div>
+                  <TrashIcon
+                    onClick={() => {
+                      const prevList = [...watch("otherDocs_prev")];
+                      prevList.splice(index, 1);
+                      setValue("otherDocs_prev", [...prevList]);
+                    }}
+                    role="button"
+                    className={styles.docDelete}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

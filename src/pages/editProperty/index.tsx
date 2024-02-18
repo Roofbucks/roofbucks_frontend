@@ -58,7 +58,7 @@ const initialValues: EditData = {
   deedOfAssignment: "",
   certificateOfOccupancy: "",
   otherDocs: [],
-  otherDocs__prev: [],
+  otherDocs_prev: [],
   media_prev: [],
 };
 
@@ -165,7 +165,7 @@ const EditProperty = () => {
           deedOfAssignment: data.registered_deed_of_assignment,
           certificateOfOccupancy: data.certificate_of_occupancy,
           otherDocs: [],
-          otherDocs__prev: data.others.map((item) => ({
+          otherDocs_prev: data.others.map((item) => ({
             link: item.url,
             name: item.name,
             id: item.id,

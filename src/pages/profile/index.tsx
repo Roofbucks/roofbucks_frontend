@@ -261,6 +261,15 @@ const Profile = () => {
     navigate(Routes.settings);
   };
 
+  const handleView = (id) => {
+    navigate(Routes.propertyID(id), {
+      state: {
+        from: "listings",
+        url: Routes.listing,
+      },
+    });
+  };
+
   const showLoader =
     agentStatus.isPending ||
     reviewsStatus.isPending ||
@@ -289,6 +298,7 @@ const Profile = () => {
           },
           name: "Properties",
         }}
+        handleView={handleView}
       />
     </>
   );

@@ -88,6 +88,7 @@ interface AgentProfileProps {
   reviews: ReviewData[];
   role: string;
   pagination: PaginationProps;
+  handleView: (id) => void;
 }
 
 const ProfileUI: React.FC<AgentProfileProps> = ({
@@ -99,6 +100,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
   role,
   pagination,
   properties,
+  handleView,
 }) => {
   const {
     register,
@@ -195,7 +197,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
               }}
               type="row"
               size="normal"
-              moreDetails={() => console.log()}
+              moreDetails={handleView}
               {...item}
               key={index}
               className={styles.property}
