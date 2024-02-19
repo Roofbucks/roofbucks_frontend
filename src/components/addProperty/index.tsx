@@ -341,9 +341,12 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
     const otherAmenities = data.otherAmenities
       .split(",")
       .map((item) => item.trim())
-      .filter((item) => item !== "");
+      .filter((item) => item !== "")
+      .join(",");
 
-    const amenities = `${indoorAmenities},${outdoorAmenities},${otherAmenities}`;
+    const amenities = [indoorAmenities, outdoorAmenities, otherAmenities]
+      .filter((item) => item !== "")
+      .join(",");
 
     let formData = new FormData();
     if (data.propertyStatus === "completed" && data.completed) {

@@ -102,6 +102,13 @@ const EditProperty = () => {
       if (fetchPropertyResponse?.status === 200) {
         const data = fetchPropertyResponse.data;
 
+        const otherAmenities = data.amenities
+          .filter((item) => item !== "")
+          .filter(
+            (value) =>
+              ![outdoorAmenities, indoorAmenities].flat().includes(value)
+          );
+
         const property: EditData = {
           propertyStatus: data.completion_status.toLowerCase(),
           propertyType:
@@ -134,12 +141,7 @@ const EditProperty = () => {
           outdoorAmenities: data.amenities.filter((value) =>
             outdoorAmenities.includes(value)
           ),
-          otherAmenities: data.amenities
-            .filter(
-              (value) =>
-                ![outdoorAmenities, indoorAmenities].flat().includes(value)
-            )
-            .join(","),
+          otherAmenities: otherAmenities.join(","),
           erfSize: data.ERF_size,
           diningArea: data.dining_area,
           floorSize: data.floor_size,

@@ -224,6 +224,7 @@ p.docNote {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 200px;
 }
 .docInfo p:nth-of-type(2) {
   font-size: 12px;

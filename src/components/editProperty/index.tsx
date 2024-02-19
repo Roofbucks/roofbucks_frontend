@@ -328,38 +328,31 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
     const otherAmenities = data.otherAmenities
       .split(",")
       .map((item) => item.trim())
-      .filter((item) => item !== "");
+      .filter((item) => item !== "")
+      .join(",");
 
-    const amenities = `${indoorAmenities},${outdoorAmenities},${otherAmenities}`;
+    const amenities = [indoorAmenities, outdoorAmenities, otherAmenities]
+      .filter((item) => item !== "")
+      .join(",");
 
     let formData = new FormData();
 
     if (data.propertyStatus === "completed" && data.completed) {
-      property.completed?.noOfBedrooms !== data.completed?.noOfBedrooms &&
-        formData.append(
-          "number_of_bedrooms",
-          String(data.completed?.noOfBedrooms)
-        );
-      property.completed?.noOfToilets !== data.completed?.noOfToilets &&
-        formData.append(
-          "number_of_toilets",
-          String(data.completed?.noOfToilets)
-        );
-      property.completed?.yearBuilt !== data.completed.yearBuilt &&
-        formData.append("date_built", data.completed.yearBuilt);
+      formData.append(
+        "number_of_bedrooms",
+        String(data.completed?.noOfBedrooms)
+      );
+      formData.append("number_of_toilets", String(data.completed?.noOfToilets));
+      formData.append("date_built", data.completed.yearBuilt);
     }
 
     if (data.propertyStatus === "in-progress" && data.inProgress) {
-      property.inProgress?.completionCost !== data.inProgress?.completionCost &&
-        formData.append("completion_cost", data.inProgress?.completionCost);
-      property.inProgress?.completionDate !== data.inProgress?.completionDate &&
-        formData.append("completion_date", data.inProgress?.completionDate);
-      property.inProgress?.completionPercent !==
-        data.inProgress?.completionPercent &&
-        formData.append(
-          "percentage_completed",
-          data.inProgress?.completionPercent
-        );
+      formData.append("completion_cost", data.inProgress?.completionCost);
+      formData.append("completion_date", data.inProgress?.completionDate);
+      formData.append(
+        "percentage_completed",
+        data.inProgress?.completionPercent
+      );
     }
 
     formData.append("name", data.name);
@@ -885,7 +878,13 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                   <div key={item.id} className={styles.uploadedDoc}>
                     <ImageIcon className={styles.docIcon} />
                     <div className={styles.docInfo}>
-                      <p>{item.link}</p>
+                      <p>
+                        {
+                          item.link.split("?")[0].split("/")[
+                            item.link.split("?")[0].split("/").length - 1
+                          ]
+                        }
+                      </p>
                     </div>
                     <TrashIcon
                       onClick={() => handleRemovePrevMedia(index)}
