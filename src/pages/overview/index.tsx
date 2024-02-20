@@ -180,6 +180,8 @@ const Overview = () => {
     if (fetchStatsResponse?.status === 200) {
       const stat = fetchStatsResponse.data.props;
 
+      if (!stat) return undefined;
+
       return {
         listings: {
           title: "",
