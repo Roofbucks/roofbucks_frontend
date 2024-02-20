@@ -66,6 +66,8 @@ const AgentProperties = () => {
           status: item.moderation_status.toLowerCase(),
           amount: item.amount,
           date: new Date(item.created_at).toLocaleDateString(),
+          marketValue: item.market_value,
+          isSold: item.stage.toLowerCase() === "sold",
         }));
       } else {
         dispatch(

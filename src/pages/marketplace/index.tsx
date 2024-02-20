@@ -74,23 +74,25 @@ const Marketplace = () => {
           count: data.data.total,
         });
 
-        return data?.data.results.map((item) => ({
-          name: item.name,
-          percentageAvailable: item.percentage_available,
-          amount:
-            item.resell_price ??
-            (item.total_property_cost * item.percentage_available) / 100,
-          owner: item.company_name,
-          images: item.images,
-          id: item.id,
-          amenities: {
-            bedroom: item.number_of_bedrooms,
-            toilet: item.number_of_toilets,
-          },
-          calendlyURL: item.agent.calendry_link,
-          resellId: item.resell_id,
-          email: item.agent.email,
-        }));
+        return data?.data.results.map((item) => {
+          const amount = item.market_value ?? item.total_property_cost ?? 0;
+          return {
+            name: item.name,
+            percentageAvailable: item.percentage_available,
+            amount:
+              item.resell_price ?? (amount * item.percentage_available) / 100,
+            owner: item.company_name,
+            images: item.images,
+            id: item.id,
+            amenities: {
+              bedroom: item.number_of_bedrooms,
+              toilet: item.number_of_toilets,
+            },
+            calendlyURL: item.agent.calendry_link,
+            resellId: item.resell_id,
+            email: item.agent.email,
+          };
+        });
       } else {
         dispatch(
           updateToast({

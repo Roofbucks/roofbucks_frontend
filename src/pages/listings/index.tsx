@@ -102,7 +102,7 @@ const Listings = () => {
         return data?.data.results.map((item) => ({
           name: item.name,
           discount: item.percentage_discount,
-          amount: item.total_property_cost,
+          amount: item.market_value ?? item.total_property_cost,
           owner: `${item.agent.firstname} ${item.agent.lastname}`,
           images: item.images,
           id: item.id,

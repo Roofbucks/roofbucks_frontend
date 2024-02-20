@@ -192,7 +192,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           {properties.map((item, index) => (
             <PropertyCard
               primaryBtn={{
-                text: "Apply",
+                text: "Buy",
                 action: console.log,
               }}
               type="row"

@@ -95,6 +95,7 @@
   text-decoration: underline;
   display: flex;
   align-items: center;
+  color: var(--green);
 }
 .location svg {
   width: 16px;

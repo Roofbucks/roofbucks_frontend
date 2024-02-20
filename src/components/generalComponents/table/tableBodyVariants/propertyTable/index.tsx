@@ -10,6 +10,8 @@ export interface PropertyTableItem {
   status: string;
   amount: string;
   date: string;
+  marketValue: string;
+  isSold: boolean;
 }
 
 // Test Table Body Props
@@ -53,10 +55,17 @@ const PropertyTable: React.FC<TableBodyProps> = ({
               <p className={styles.propertyID}>{item.propertyID}</p>
             </td>
             <td className={tableBodyItemClassName}>
-              <p className={styles.name}>{item.propertyName}</p>
+              <p className={styles.name}></p>
+              {item.propertyName}{" "}
+              {item.isSold ? <span className={styles.sold}>Sold</span> : ""}
             </td>
             <td className={tableBodyItemClassName}>{item.date}</td>
-            <td className={tableBodyItemClassName}>NGN {item.amount}</td>
+            <td className={tableBodyItemClassName}>
+              NGN {item.amount.toLocaleString()}
+            </td>
+            <td className={tableBodyItemClassName}>
+              NGN {item.marketValue?.toLocaleString() ?? "---"}
+            </td>
             <td className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>
                 {item.status}

@@ -51,22 +51,6 @@ const ContactUI: React.FC<ContactUIProps> = ({ submit, clear }) => {
       question: `How is the profit-sharing structured for investors?`,
       answer: `Profit-sharing is based on the agreed-upon terms, typically reflecting the proportional investment made by the involved parties. Roofbucks ensures a fair and transparent distribution of profits.`,
     },
-    {
-      question: ``,
-      answer: ``,
-    },
-    {
-      question: ``,
-      answer: ``,
-    },
-    {
-      question: ``,
-      answer: ``,
-    },
-    {
-      question: ``,
-      answer: ``,
-    },
   ];
   return (
     <>

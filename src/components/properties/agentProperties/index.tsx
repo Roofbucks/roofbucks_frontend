@@ -34,6 +34,7 @@ const AgentPropertiesUI: React.FC<AgentPropertiesUIProps> = ({
     { title: "Property Name" },
     { title: "Date" },
     { title: "Amount" },
+    { title: "Market Value" },
     { title: "Status" },
     { title: "" },
   ];

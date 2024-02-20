@@ -1,4 +1,4 @@
-import { DateIcon, HeadphoneIcon, KeyIcon } from "assets";
+import { FillFormIcon, KeyIcon, MoneyBagIcon, SignupIcon } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 
@@ -25,17 +25,17 @@ const Card: React.FC<CardProps> = ({ Icon, text, title }) => {
 const SellAndOwn = () => {
   const cardItems: CardProps[] = [
     {
-      Icon: DateIcon,
+      Icon: SignupIcon,
       title: "Sign up",
       text: `Create an account to get unrestricted access to the Roofbucks platform and enjoy the benefits.`,
     },
     {
-      Icon: HeadphoneIcon,
+      Icon: FillFormIcon,
       title: "Apply and deposit",
       text: `Find a property of your interest and fill out the application form accurately and make a deposit payment on the percentage ownership you intend to buy at the moment.`,
     },
     {
-      Icon: KeyIcon,
+      Icon: MoneyBagIcon,
       title: "Get Funded and Ownership",
       text: `Roofbucks takes your application through the process of raising funds to buy your home and then you can move in as a home owner.`,
     },

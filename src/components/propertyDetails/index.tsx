@@ -186,6 +186,13 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
 
   const state = location.state;
 
+  const mapRedirectURL = (address) => {
+    // Create the Google Maps URL
+    let googleMapsUrl = `https://www.google.com/maps?q=${address}`;
+
+    return googleMapsUrl;
+  };
+
   return (
     <>
       <HeroSection title="Property Details" />
@@ -217,10 +224,14 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
         </div>
         <div className={styles.ttlWrap}>
           <h2 className={styles.ttl}>{property.name}</h2>
-          <p className={styles.location}>
+          <a
+            target="_blank"
+            href={mapRedirectURL(property.address)}
+            className={styles.location}
+          >
             <LocationIcon />
             Located in {property.state}, {property.country}.
-          </p>
+          </a>
         </div>
         <div className={styles.amenityWrap}>
           <div className={styles.amenityList}>

@@ -51,6 +51,20 @@
     #3cc13b;
   color: #3cc13b;
 }
+.sold {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.9)
+    ),
+    #3cc13b;
+  color: #3cc13b;
+  border-radius: 12px;
+  border: 1px solid #3cc13b;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: 4px;
+}
 .tableBody td {
   vertical-align: middle;
   padding-top: 8px;
