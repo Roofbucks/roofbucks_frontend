@@ -81,12 +81,7 @@ interface OverviewUIProps {
   isAgent: boolean;
   name: string;
   avatar: string;
-  stats: {
-    listings: StatInfo;
-    closing: StatInfo;
-    active: StatInfo;
-    inactive: StatInfo;
-  };
+  stats: StatInfo[];
   activity: ActivityData[];
   handleRemoveActivity: (id) => void;
   statDateFilter: {
@@ -147,13 +142,6 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
     { title: "" },
   ];
 
-  const statList: StatInfo[] = [
-    { ...stats.listings, title: "Total Listing" },
-    { ...stats.closing, title: "Total Closing" },
-    { ...stats.active, title: "Total Active" },
-    { ...stats.inactive, title: "Total Inactive" },
-  ];
-
   return (
     <>
       <div className={styles.container}>
@@ -162,7 +150,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
             <img src={avatar} alt="" />
             <p>Welcome Back {name}!</p>
           </div>
-          {isAgent ? (
+          {isAgent && stats.length > 0 ? (
             <div>
               <MyDateRangePicker
                 className={styles.statRange}
@@ -171,7 +159,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
                 handleChange={statDateFilter.onChange}
               />
               <div className={`${styles.statList} ${styles.secWrap}`}>
-                {statList.map((item, index) => (
+                {stats.map((item, index) => (
                   <StatCard {...item} key={index} />
                 ))}
               </div>

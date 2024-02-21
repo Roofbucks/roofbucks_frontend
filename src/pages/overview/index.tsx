@@ -168,50 +168,42 @@ const Overview = () => {
     return [];
   }, [fetchTransactionsResponse, fetchTransactionsError]);
 
-  const stats = React.useMemo<
-    | {
-        listings: StatInfo;
-        closing: StatInfo;
-        active: StatInfo;
-        inactive: StatInfo;
-      }
-    | undefined
-  >(() => {
+  const stats = React.useMemo<StatInfo[]>(() => {
     if (fetchStatsResponse?.status === 200) {
       const stat = fetchStatsResponse.data.props;
 
-      if (!stat) return undefined;
+      if (!stat) return [];
 
-      return {
-        listings: {
-          title: "",
+      return [
+        {
+          title: "Total Listing",
           total: stat.total_listing,
           percentage: Math.abs(stat.percentage_change_listing),
           increase: stat.percentage_change_listing > 0,
           difference: Math.abs(stat.change_listing),
         },
-        closing: {
-          title: "",
+        {
+          title: "Total Closing",
           total: stat.total_closing,
           percentage: Math.abs(stat.percentage_change_closing),
           increase: stat.percentage_change_closing > 0,
           difference: Math.abs(stat.change_closing),
         },
-        active: {
-          title: "",
+        {
+          title: "Total Active",
           total: stat.total_active,
           percentage: Math.abs(stat.percentage_change_active),
           increase: stat.percentage_change_active > 0,
           difference: Math.abs(stat.change_active),
         },
-        inactive: {
-          title: "",
+        {
+          title: "Total Inactive",
           total: stat.total_inactive,
           percentage: Math.abs(stat.percentage_change_inactive),
           increase: stat.percentage_change_inactive > 0,
           difference: Math.abs(stat.change_inactive),
         },
-      };
+      ];
     } else if (fetchStatsError) {
       dispatch(
         updateToast({
@@ -226,7 +218,7 @@ const Overview = () => {
       );
     }
 
-    return undefined;
+    return [];
   }, [fetchStatsResponse, fetchStatsError]);
 
   const activity = React.useMemo<ActivityData[]>(() => {
@@ -371,42 +363,39 @@ const Overview = () => {
         {...receipt}
         close={() => setReceipt({ ...initReceiptData })}
       />
-      {stats ? (
-        <OverviewUI
-          transactions={transactions}
-          handleViewProperty={handleViewProperty}
-          isAgent={role === "agent"}
-          name={firstName}
-          avatar={avatar}
-          stats={stats}
-          activity={activity}
-          handleRemoveActivity={handleRemoveActivity}
-          statDateFilter={{
-            start: statDates.start,
-            end: statDates.end,
-            onChange: handleStatFilter,
-          }}
-          graphDateFilter={{
-            start: graphFilter.startDate,
-            end: graphFilter.endDate,
-            onChange: handleGraphDatesFilter,
-          }}
-          graphEarningFilter={{
-            value: graphFilter.income_type,
-            onChange: handleGraphEarningFilter,
-          }}
-          graphDurationFilter={{
-            value: graphFilter.duration_type,
-            onChange: handleGraphDurationFilter,
-          }}
-          earningTrend={earningTrend}
-          handleReceipt={(data: TransactionTableItem) =>
-            setReceipt({ ...data, show: true })
-          }
-        />
-      ) : (
-        ""
-      )}
+
+      <OverviewUI
+        transactions={transactions}
+        handleViewProperty={handleViewProperty}
+        isAgent={role === "agent"}
+        name={firstName}
+        avatar={avatar}
+        stats={stats}
+        activity={activity}
+        handleRemoveActivity={handleRemoveActivity}
+        statDateFilter={{
+          start: statDates.start,
+          end: statDates.end,
+          onChange: handleStatFilter,
+        }}
+        graphDateFilter={{
+          start: graphFilter.startDate,
+          end: graphFilter.endDate,
+          onChange: handleGraphDatesFilter,
+        }}
+        graphEarningFilter={{
+          value: graphFilter.income_type,
+          onChange: handleGraphEarningFilter,
+        }}
+        graphDurationFilter={{
+          value: graphFilter.duration_type,
+          onChange: handleGraphDurationFilter,
+        }}
+        earningTrend={earningTrend}
+        handleReceipt={(data: TransactionTableItem) =>
+          setReceipt({ ...data, show: true })
+        }
+      />
     </>
   );
 };
