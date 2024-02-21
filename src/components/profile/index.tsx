@@ -206,7 +206,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           <Pagination {...pagination} />
         </div>
       </section>
-      {!role && role !== "agent" ? (
+      {role && role !== "agent" ? (
         <section className={styles.commentSec}>
           <p className={styles.ttl}>Leave us a comment and give a rating!</p>
           <Rating
