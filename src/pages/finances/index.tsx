@@ -140,12 +140,14 @@ const Finances = () => {
 
   const banks = React.useMemo<BankAccountData[]>(() => {
     if (fetchBanksResponse?.status === 200) {
-      return fetchBanksResponse.data.bank.map((item, index) => ({
-        name: item.account_name,
-        bank: item.bank_name,
-        number: item.account_number,
-        active: index === 0,
-      }));
+      return (
+        fetchBanksResponse.data.bank?.map((item, index) => ({
+          name: item.account_name,
+          bank: item.bank_name,
+          number: item.account_number,
+          active: index === 0,
+        })) ?? []
+      );
     } else if (fetchBanksError) {
       dispatch(
         updateToast({
