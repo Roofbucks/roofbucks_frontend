@@ -206,47 +206,49 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           <Pagination {...pagination} />
         </div>
       </section>
-      {role && role !== "agent" ? (
-        <section className={styles.commentSec}>
-          <p className={styles.ttl}>Leave us a comment and give a rating!</p>
-          <Rating
-            ratingValue={watch("rating")}
-            iconsCount={5}
-            size={30}
-            fillColor="rgba(233, 223, 0, 1)"
-            allowHalfIcon
-            onClick={(val) => setValue("rating", val)}
-          />
-          {watch("rating") === 0 && (
-            <p className={styles.errorMsg}>{errors.rating?.message}</p>
-          )}
-          <form>
-            <Textarea
-              label="Enter a comment"
-              placeholder=""
-              parentClassName={styles.txtArea}
-              required
-              validatorMessage={errors.review?.message}
-              name="review"
-              register={register}
+      <section className={styles.commentSec}>
+        {role && role !== "agent" ? (
+          <>
+            <p className={styles.ttl}>Leave us a comment and give a rating!</p>
+            <Rating
+              ratingValue={watch("rating")}
+              iconsCount={5}
+              size={30}
+              fillColor="rgba(233, 223, 0, 1)"
+              allowHalfIcon
+              onClick={(val) => setValue("rating", val)}
             />
-            <Button
-              className={styles.submitBtn}
-              type={"primary"}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Submit
-            </Button>
-          </form>
-          <div className={styles.commentList}>
-            {reviews.map((item, index) => (
-              <CommentCard {...item} key={index} />
-            ))}
-          </div>
-        </section>
-      ) : (
-        ""
-      )}
+            {watch("rating") === 0 && (
+              <p className={styles.errorMsg}>{errors.rating?.message}</p>
+            )}
+            <form>
+              <Textarea
+                label="Enter a comment"
+                placeholder=""
+                parentClassName={styles.txtArea}
+                required
+                validatorMessage={errors.review?.message}
+                name="review"
+                register={register}
+              />
+              <Button
+                className={styles.submitBtn}
+                type={"primary"}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Submit
+              </Button>
+            </form>
+          </>
+        ) : (
+          ""
+        )}
+        <div className={styles.commentList}>
+          {reviews.map((item, index) => (
+            <CommentCard {...item} key={index} />
+          ))}
+        </div>
+      </section>
     </>
   );
 };
