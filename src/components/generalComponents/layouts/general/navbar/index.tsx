@@ -155,7 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 </div>
               ) : (
                 <div className={styles.authMenu}>
-                  <div
+                  {/* <div
                     className={`${styles.notifWrap} ${styles.notifRed} ${
                       showNotifDropdown ? styles.disableCaret : ""
                     }`}
@@ -170,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       closeMenu={(x) => setShowNotifDropdown(x)}
                       className={styles.notifDropdownWrap}
                     />
-                  </div>
+                  </div> */}
                   <img src={avatar} alt="" />
                   <p>Hi {firstName}</p>
                   <div
