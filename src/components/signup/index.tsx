@@ -63,7 +63,7 @@ const signupSchema = yup
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
       .matches(
-        /@|#|&|\$]/,
+        /@|\$|#|&]/,
         "Password should contain at least special character (e.g. @, #, &, $)"
       ),
     email: yup.string().email("Enter valid email").required("Required"),
@@ -95,6 +95,12 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
   });
 
   const onSubmit: SubmitHandler<SignupData> = (data) => signup(data);
+
+  const uppercaseCheck = /[A-Z]/.test(watch("password"));
+  const lowercaseCheck = /[a-z]/.test(watch("password"));
+  const numberCheck = /[0-9]/.test(watch("password"));
+  const specialCharCheck = /@|\$|#|&]/.test(watch("password"));
+  const lengthCheck = watch("password").length >= 8;
 
   return (
     <Modal className={styles.login} show={show} onHide={closeModal} centered>
@@ -152,6 +158,21 @@ const SignupModalUI: React.FC<SignupModalProps> = ({
             name="password"
             register={register}
           />
+          <div className={styles.passwordGuide}>
+            <p className={uppercaseCheck ? styles.check : ""}>
+              One uppercase character
+            </p>
+            <p className={lowercaseCheck ? styles.check : ""}>
+              One lowercase character
+            </p>
+            <p className={lengthCheck ? styles.check : ""}>
+              8 characters minimum
+            </p>
+            <p className={numberCheck ? styles.check : ""}>One number</p>
+            <p className={specialCharCheck ? styles.check : ""}>
+              One special character (@, #, &, $)
+            </p>
+          </div>
           <div className={styles.check}>
             <label>
               <input

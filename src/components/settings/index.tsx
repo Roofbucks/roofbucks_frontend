@@ -65,6 +65,7 @@ const SettingsUI: React.FC<SettingsProps> = ({
     handleSubmit: handleSubmitSecurity,
     formState: { errors: errorsSecurity },
     reset: resetSecurity,
+    watch,
   } = useForm<SecurityData>({
     resolver: yupResolver(securitySchema),
     defaultValues: initialSecurityValues,
@@ -80,6 +81,13 @@ const SettingsUI: React.FC<SettingsProps> = ({
       new_password: data.newPassword,
     });
   };
+
+  const uppercaseCheck = /[A-Z]/.test(watch("newPassword"));
+  const lowercaseCheck = /[a-z]/.test(watch("newPassword"));
+  const numberCheck = /[0-9]/.test(watch("newPassword"));
+  const specialCharCheck = /@|\$|#|&]/.test(watch("newPassword"));
+  const lengthCheck = watch("newPassword").length >= 8;
+
   return (
     <>
       <h1 className={styles.ttl}>Settings</h1>
@@ -127,6 +135,21 @@ const SettingsUI: React.FC<SettingsProps> = ({
               name="newPassword"
               register={registerSecurity}
             />
+            <div className={styles.passwordGuide}>
+              <p className={uppercaseCheck ? styles.check : ""}>
+                One uppercase character
+              </p>
+              <p className={lowercaseCheck ? styles.check : ""}>
+                One lowercase character
+              </p>
+              <p className={lengthCheck ? styles.check : ""}>
+                8 characters minimum
+              </p>
+              <p className={numberCheck ? styles.check : ""}>One number</p>
+              <p className={specialCharCheck ? styles.check : ""}>
+                One special character (@, #, &, $)
+              </p>
+            </div>
             <Input
               label="CONFIRM PASSWORD *"
               placeholder="********"

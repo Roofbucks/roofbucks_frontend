@@ -79,8 +79,10 @@ import { ReactComponent as UserIcon2 } from "./userIcon2.svg";
 import { ReactComponent as CopyIcon } from "./copyIcon.svg";
 import { ReactComponent as SignupIcon } from "./signupIcon.svg";
 import { ReactComponent as FillFormIcon } from "./fillFormIcon.svg";
+import { ReactComponent as EyeIconSlashOutline } from "./eyeIconSlashOutline.svg";
 
 export {
+  EyeIconSlashOutline,
   FillFormIcon,
   SignupIcon,
   CopyIcon,

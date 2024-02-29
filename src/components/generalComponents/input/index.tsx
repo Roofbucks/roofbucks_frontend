@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./styles.module.css";
 import { UseFormRegister } from "react-hook-form";
-import { WarningIcon } from "assets";
+import { EyeIconOutline, EyeIconSlashOutline, WarningIcon } from "assets";
 
 interface InputProps {
   type?: string;
@@ -52,6 +52,12 @@ const Input: React.FC<InputProps> = ({
   showRequired,
   disabled,
 }) => {
+  const [show, setShow] = React.useState(false);
+
+  if (type === "password") {
+    Icon = show ? EyeIconSlashOutline : EyeIconOutline;
+    iconFunction = () => setShow((prev) => !prev);
+  }
   return (
     <div
       className={`${styles.inputWrapper} ${parentClassName} ${
@@ -77,7 +83,7 @@ const Input: React.FC<InputProps> = ({
       <input
         data-testid={dataTestID}
         className={`${styles.input} ${className}`}
-        type={type}
+        type={show ? "text" : type}
         placeholder={placeholder}
         id={id}
         {...register(name, {

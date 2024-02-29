@@ -151,6 +151,29 @@
   grid-column-start: 1;
   grid-column-end: 3;
 }
+.passwordGuide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 12px;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.passwordGuide p {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.passwordGuide p::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d3d3d3;
+}
+.passwordGuide p.check::before {
+  background: var(--green);
+}
 
 @media screen and (max-width: 800px) {
   .ttl {

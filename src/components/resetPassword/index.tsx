@@ -62,6 +62,12 @@ const ResetPasswordModalUI: React.FC<ResetModalProps> = ({
   });
 
   const onSubmit: SubmitHandler<ResetData> = (data) => reset(data);
+  
+  const uppercaseCheck = /[A-Z]/.test(watch("password"));
+  const lowercaseCheck = /[a-z]/.test(watch("password"));
+  const numberCheck = /[0-9]/.test(watch("password"));
+  const specialCharCheck = /@|\$|#|&]/.test(watch("password"));
+  const lengthCheck = watch("password").length >= 8;
 
   return (
     <Modal className={styles.login} show={show} onHide={closeModal} centered>
@@ -88,6 +94,21 @@ const ResetPasswordModalUI: React.FC<ResetModalProps> = ({
             name="password"
             register={register}
           />
+          <div className={styles.passwordGuide}>
+            <p className={uppercaseCheck ? styles.check : ""}>
+              One uppercase character
+            </p>
+            <p className={lowercaseCheck ? styles.check : ""}>
+              One lowercase character
+            </p>
+            <p className={lengthCheck ? styles.check : ""}>
+              8 characters minimum
+            </p>
+            <p className={numberCheck ? styles.check : ""}>One number</p>
+            <p className={specialCharCheck ? styles.check : ""}>
+              One special character (@, #, &, $)
+            </p>
+          </div>
           <Input
             label="Confirm Password"
             placeholder="---------"
