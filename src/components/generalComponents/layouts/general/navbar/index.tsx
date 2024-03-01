@@ -265,7 +265,16 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
 }) => {
   const navigate = useNavigate();
   const { id } = useAppSelector((state) => state.user);
+
   const isAgent = role === "agent";
+  const profileCompletion = JSON.parse(
+    localStorage.getItem("profileCompletion") ?? "{}"
+  );
+  const profileIncomplete =
+    !profileCompletion.billing ||
+    !profileCompletion.business ||
+    !profileCompletion.profile;
+
   const menuItems = [
     {
       label: "Home",
@@ -284,14 +293,37 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     });
   }
 
-  const profileCompletion = JSON.parse(
-    localStorage.getItem("profileCompletion") ?? "{}"
-  );
-  const profileIncomplete =
-    !profileCompletion.billing ||
-    !profileCompletion.business ||
-    !profileCompletion.profile;
   const items: any = profileIncomplete && isAgent ? [] : menuItems;
+
+  if (isAgent && profileIncomplete) {
+    const completeProfile = () => {
+      if (!profileCompletion.profile) {
+        return navigate(Routes.profileSetup("?profile=true"));
+      } else if (!profileCompletion.business) {
+        return navigate(Routes.profileSetup("?business=true"));
+      } else if (!profileCompletion.billing) {
+        return navigate(Routes.profileSetup("?billing=true"));
+      }
+    };
+
+    items.push({
+      label: "Complete profile",
+      onClick: completeProfile,
+    });
+  } else if (!isAgent && profileIncomplete) {
+    const completeProfile = () => {
+      if (!profileCompletion.profile) {
+        return navigate(Routes.profileSetup("?profile=true"));
+      } else if (!profileCompletion.business) {
+        return navigate(Routes.profileSetup("?business=true"));
+      }
+    };
+
+    items.push({
+      label: "Complete profile",
+      onClick: completeProfile,
+    });
+  }
 
   return (
     <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
