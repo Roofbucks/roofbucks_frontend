@@ -35,7 +35,7 @@ const profileSchema = yup
   .object({
     displayPhoto: yup.object({
       nameUrl: yup.string().required("Required"),
-      file: yup.mixed().required("Required"),
+      file: yup.mixed().required("Profile photo is required"),
     }),
     firstName: yup.string().required("Required"),
     lastName: yup.string().required("Required"),

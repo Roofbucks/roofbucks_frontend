@@ -1,4 +1,4 @@
-import { EditIcon } from "assets";
+import { EditIcon, WarningIcon } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -41,7 +41,7 @@ const businessSchema = yup
   .object({
     logo: yup.object({
       nameUrl: yup.string().required("Required"),
-      file: yup.mixed().required("Required"),
+      file: yup.mixed().required("Logo is required"),
     }),
     regNo: yup.string().required("Required"),
     companyName: yup.string().required("Required"),
@@ -60,9 +60,7 @@ interface BusinessFormProps {
   submit: (data: FormData) => void;
 }
 
-const BusinessFormUI: React.FC<BusinessFormProps> = ({
-  submit,
-}) => {
+const BusinessFormUI: React.FC<BusinessFormProps> = ({ submit }) => {
   const {
     register: register,
     handleSubmit,
@@ -141,6 +139,11 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({
                 <p className={styles.logoTxt}>
                   Finanssmälta. Instegsjobb mide i mobilmobbning.{" "}
                 </p>
+                {errors.logo?.file?.message && !watch("logo.file") && (
+                  <p className={styles.errorMsg}>
+                    <WarningIcon /> {errors.logo?.file?.message}
+                  </p>
+                )}
               </span>
             </div>
           </section>

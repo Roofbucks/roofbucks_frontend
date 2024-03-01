@@ -216,7 +216,16 @@ div.filterCheck {
 .noMargin.input {
   margin-right: 0;
 }
-
+p.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: 8px;
+}
+.errorMsg svg {
+  width: 16px;
+  margin-right: 4px;
+}
 @media screen and (max-width: 600px) {
   .logoTtl {
     font-size: 18px;

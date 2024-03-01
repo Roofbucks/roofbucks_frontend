@@ -265,8 +265,8 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
 }) => {
   const navigate = useNavigate();
   const { id } = useAppSelector((state) => state.user);
-
-  const items = [
+  const isAgent = role === "agent";
+  const menuItems = [
     {
       label: "Home",
       onClick: () => navigate(Routes.home),
@@ -277,12 +277,21 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     },
   ];
 
-  if (role === "agent") {
-    items.push({
+  if (isAgent) {
+    menuItems.push({
       label: "Profile",
       onClick: () => navigate(Routes.profileID(id)),
     });
   }
+
+  const profileCompletion = JSON.parse(
+    localStorage.getItem("profileCompletion") ?? "{}"
+  );
+  const profileIncomplete =
+    !profileCompletion.billing ||
+    !profileCompletion.business ||
+    !profileCompletion.profile;
+  const items: any = profileIncomplete && isAgent ? [] : menuItems;
 
   return (
     <MenuDropdown show={show} className={className} closeMenu={closeMenu}>
