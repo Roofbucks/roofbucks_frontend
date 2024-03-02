@@ -189,7 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         setShowMenuDropdown(false);
                         setShowLogout(true);
                       }}
-                      links={["My Dashboard", "Profile"]}
+                      links={["My Dashboard", "Profile", "Complete Profile"]}
                       role={role}
                     />
                   </div>
@@ -293,7 +293,7 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     });
   }
 
-  const items: any = profileIncomplete && isAgent ? [] : menuItems;
+  let items: any = profileIncomplete && isAgent ? [] : menuItems;
 
   if (isAgent && profileIncomplete) {
     const completeProfile = () => {
@@ -305,9 +305,8 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
         return navigate(Routes.profileSetup("?billing=true"));
       }
     };
-
     items.push({
-      label: "Complete profile",
+      label: "Complete Profile",
       onClick: completeProfile,
     });
   } else if (!isAgent && profileIncomplete) {
@@ -320,7 +319,7 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     };
 
     items.push({
-      label: "Complete profile",
+      label: "Complete Profile",
       onClick: completeProfile,
     });
   }
