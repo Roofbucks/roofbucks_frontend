@@ -7,28 +7,44 @@ import { CloseIcon2 } from "assets";
 interface Props {
   show: boolean;
   close: () => void;
+  type: "incomplete" | "unverified";
 }
 
-const CompleteProfilePrompt: React.FC<Props> = ({ show, close }) => {
+const CompleteProfilePrompt: React.FC<Props> = ({ show, close, type }) => {
   const account = JSON.parse(localStorage.getItem("profileCompletion") ?? "{}");
 
   return (
-    <Modal contentClassName={styles.content} show={show} onHide={close}>
+    <Modal
+      contentClassName={styles.content}
+      show={show}
+      centered
+      onHide={close}
+    >
       <div className={styles.header}>
-        <h1>Profile Incomplete</h1>
+        <h1>
+          {type === "incomplete"
+            ? "Profile Incomplete"
+            : "Account Awaiting Verification"}
+        </h1>
         <CloseIcon2 role="button" onClick={close} />
       </div>
       <p>
-        Your account information is currently incomplete, you have to setup your
-        business profile to proceed with this purchase.
+        {type === "incomplete"
+          ? `Your account information is currently incomplete, you have to setup your
+        business profile to proceed with this purchase.`
+          : `Your account is still awaiting verification, an account approval is required to proceed with this purchase.`}
       </p>
       <Link
         className={styles.link}
-        to={Routes.profileSetup(
-          !account.profile ? "?profile=true" : "?billing=true"
-        )}
+        to={
+          type === "incomplete"
+            ? Routes.profileSetup(
+                !account.profile ? "?profile=true" : "?billing=true"
+              )
+            : Routes.contact
+        }
       >
-        Setup profile
+        {type === "incomplete" ? "Setup profile" : "Contact support"}
       </Link>
     </Modal>
   );

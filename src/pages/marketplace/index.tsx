@@ -41,7 +41,7 @@ const Marketplace = () => {
   const [country, setCountry] = React.useState<optionType>(initialOptionType);
   const [status, setStatus] = React.useState<optionType>(initialOptionType);
 
-  const { role } = useAppSelector((state) => state.user);
+  const { role ,verifiedProfile} = useAppSelector((state) => state.user);
   const { run, data, requestStatus, error } = useApiRequest({});
 
   const fetchProperties = (page?) => {
@@ -153,7 +153,11 @@ const Marketplace = () => {
     setBudget(budget);
     setPages({ ...pages, current: 1 });
   };
+  const stages = JSON.parse(
+    localStorage.getItem("profileCompletion") ?? "{}"
+  );
 
+  const incompleteProfile = !(stages.profile && stages.billing);
   const handleInvest = ({ id, percentage, resellId }) => {
     const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
@@ -169,7 +173,7 @@ const Marketplace = () => {
 
     if (!isLoggedIn) {
       setLogin(true);
-    } else if (incompleteProfile) {
+    } else if (incompleteProfile || !verifiedProfile) {
       setCompleteProfile(true);
     } else {
       setShowConnect({ show: true, id, percentage, resellId });
@@ -185,6 +189,7 @@ const Marketplace = () => {
       <CompleteProfilePrompt
         show={completeProfile}
         close={() => setCompleteProfile(false)}
+        type={incompleteProfile ? "incomplete" : "unverified"}
       />
       <ConnectForm
         {...showConnect}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { CloseIcon2 } from "assets";
+import { CloseIcon2, EmptyStreet } from "assets";
 
 export interface ActivityData {
   date: string;
@@ -46,9 +46,16 @@ const ActivityList: React.FC<ActivityListProps> = ({
     <div className={className}>
       <p className={styles.activityTtl}>Activity</p>
       <div className={styles.activityList}>
-        {activities.map((item) => (
-          <ActivityCard {...item} handleRemove={handleRemove} />
-        ))}
+        {activities.length > 0 ? (
+          activities.map((item) => (
+            <ActivityCard {...item} handleRemove={handleRemove} />
+          ))
+        ) : (
+          <div className={styles.empty}>
+            <EmptyStreet />
+            <p>You do not have any activity</p>
+          </div>
+        )}
       </div>
     </div>
   );

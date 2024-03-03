@@ -35,6 +35,7 @@ export const useGetUser = () => {
             country: data.country,
             address: data.address,
             number: data.phone,
+            verifiedProfile: data.profile_status === "VERIFIED",
             business: data.business_details
               ? {
                   city: business.city,

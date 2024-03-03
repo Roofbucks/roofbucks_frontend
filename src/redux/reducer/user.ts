@@ -12,6 +12,7 @@ const initalState: UserData = {
   number: "",
   address: "",
   business: undefined,
+  verifiedProfile: false,
 };
 
 const userReducer = (state = initalState, action: reduxUserAction) => {

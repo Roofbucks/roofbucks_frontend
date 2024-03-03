@@ -57,7 +57,7 @@ const Listings = () => {
   });
   const [login, setLogin] = React.useState(false);
   const [completeProfile, setCompleteProfile] = React.useState(false);
-  const { role } = useAppSelector((state) => state.user);
+  const { role, verifiedProfile } = useAppSelector((state) => state.user);
 
   // API Request Hooks
   const { run, data, requestStatus, error } = useApiRequest({});
@@ -163,6 +163,10 @@ const Listings = () => {
     });
   };
 
+  const stages = JSON.parse(localStorage.getItem("profileCompletion") ?? "{}");
+
+  const incompleteProfile = !(stages.profile && stages.billing);
+
   const handleBuy = ({ id, totalCost }) => {
     const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
@@ -170,15 +174,9 @@ const Listings = () => {
       localStorage.getItem("profileCompletion") &&
       role;
 
-    const stages = JSON.parse(
-      localStorage.getItem("profileCompletion") ?? "{}"
-    );
-
-    const incompleteProfile = !(stages.profile && stages.billing);
-
     if (!isLoggedIn) {
       setLogin(true);
-    } else if (incompleteProfile) {
+    } else if (incompleteProfile || !verifiedProfile) {
       setCompleteProfile(true);
     } else {
       setShowApply({ show: true, id, totalCost });
@@ -201,6 +199,7 @@ const Listings = () => {
       <CompleteProfilePrompt
         show={completeProfile}
         close={() => setCompleteProfile(false)}
+        type={incompleteProfile ? "incomplete" : "unverified"}
       />
       <ApartmentTypeFilterModal
         show={apartment.show}

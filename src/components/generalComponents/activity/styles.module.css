@@ -70,7 +70,14 @@
   background: rgba(18, 49, 217, 0.1);
   box-shadow: 0 0 0 4px rgb(18 49 217 /10%);
 }
-
+.empty {
+  text-align: center;
+}
+.empty svg {
+  width: 70%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
 @media screen and (max-width: 800px) {
   .activityTtl {
     margin-bottom: 1rem;

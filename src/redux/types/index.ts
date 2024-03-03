@@ -28,6 +28,7 @@ export interface UserData {
   country: string;
   address: string;
   number: string;
+  verifiedProfile: boolean;
   business:
     | {
         email: string;

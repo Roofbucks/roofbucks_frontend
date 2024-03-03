@@ -68,7 +68,7 @@ const PropertyDetails = () => {
   const { id: propertyID } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id, role } = useAppSelector((state) => state.user);
+  const { id, role, verifiedProfile } = useAppSelector((state) => state.user);
   const location: any = useLocation();
   const [completeProfile, setCompleteProfile] = React.useState(false);
   const [login, setLogin] = React.useState(false);
@@ -128,7 +128,11 @@ const PropertyDetails = () => {
             noOfBedrooms: data.number_of_bedrooms ?? 0,
             noOfToilets: data.number_of_toilets ?? 0,
           },
-          totalCost: (data.market_value ?? data.total_property_cost ?? 0).toLocaleString(),
+          totalCost: (
+            data.market_value ??
+            data.total_property_cost ??
+            0
+          ).toLocaleString(),
           description: data.description,
           address: data.address,
           city: data.city,
@@ -232,6 +236,10 @@ const PropertyDetails = () => {
     }
   };
 
+  const stages = JSON.parse(localStorage.getItem("profileCompletion") ?? "{}");
+
+  const incompleteProfile = !(stages.profile && stages.billing);
+
   const handleInvest = ({ id, percentage }) => {
     const isLoggedIn =
       localStorage.getItem("roofbucksAccess") &&
@@ -247,7 +255,7 @@ const PropertyDetails = () => {
 
     if (!isLoggedIn) {
       setLogin(true);
-    } else if (incompleteProfile) {
+    } else if (incompleteProfile || !verifiedProfile) {
       setCompleteProfile(true);
     } else {
       setShowConnect({ show: true, id, percentage });
@@ -269,6 +277,7 @@ const PropertyDetails = () => {
       <CompleteProfilePrompt
         show={completeProfile}
         close={() => setCompleteProfile(false)}
+        type={incompleteProfile ? "incomplete" : "unverified"}
       />
       <ConnectForm
         {...showConnect}
