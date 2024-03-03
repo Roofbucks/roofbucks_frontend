@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FieldError } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input, Document } from "components";
+import { Button, Input, Document, CheckBox } from "components";
 
 type IDTypes = "NATIONAL_ID" | "DRIVERS_LICENSE" | "PASSPORT" | "";
 
@@ -27,6 +27,7 @@ export interface ProfileFormData {
     expiration: string;
     docFront: File | undefined;
     docBack: File | undefined;
+    noExpiration: boolean;
   };
   proofOfAddress: File | undefined;
 }
@@ -45,9 +46,10 @@ const profileSchema = yup
     country: yup.string().required("Required"),
     email: yup.string().email("Enter a valid email").required("Required"),
     phoneNumber: yup
-      .number()
+      .string()
+      .required("Required")
       .min(10, "Enter a valid phone number")
-      .required("Required"),
+      .matches(/^\+?\d{1,}$/, "Enter a valid phone number"),
     identification: yup
       .object()
       .shape({
@@ -337,9 +339,20 @@ const PersonalFormUI: React.FC<PersonalFormProps> = ({
 
             {watch("identification").type !== "" ? (
               <>
+                <CheckBox
+                  className={styles.noExpirationCheck}
+                  label={"No expiration"}
+                  check={watch("identification.noExpiration")}
+                  onChange={() =>
+                    setValue(
+                      "identification.noExpiration",
+                      !watch("identification.noExpiration")
+                    )
+                  }
+                />
                 <div>
                   <Input
-                    label="National ID Number"
+                    label="ID Card Number"
                     showRequired={true}
                     placeholder="E.g. 0000 0000  0000 0000"
                     type="text"
@@ -351,7 +364,7 @@ const PersonalFormUI: React.FC<PersonalFormProps> = ({
                   />
                   <Input
                     label="Expiration Date"
-                    showRequired={true}
+                    showRequired={!watch("identification.noExpiration")}
                     placeholder="dd/mm/yyyy"
                     type="date"
                     parentClassName={styles.input}

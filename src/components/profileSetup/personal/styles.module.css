@@ -234,6 +234,9 @@ p.errorMsg {
 .emptyDoc {
   border-color: var(--red);
 }
+.noExpirationCheck {
+  margin-bottom: 1.5rem;
+}
 @media screen and (max-width: 600px) {
   div.input {
     width: 100%;

@@ -25,6 +25,7 @@ const initialProfileValues: ProfileFormData = {
     expiration: "",
     docFront: undefined,
     docBack: undefined,
+    noExpiration: false
   },
   proofOfAddress: undefined,
 };

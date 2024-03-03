@@ -1,9 +1,5 @@
 import {
-  CalendarIconOutline,
-  CaretRight,
   ChevronUpIcon,
-  ClockIconOutline,
-  CloseIcon2,
   EmptyStreet,
   HouseIcon,
   MoneyBagIcon2,
