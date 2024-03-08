@@ -114,6 +114,11 @@
   align-items: center;
   color: black;
 }
+a.scheduleCallBtn {
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: 600;
+}
 .scheduleCallBtn svg {
   margin-right: 4px;
   width: 16px;

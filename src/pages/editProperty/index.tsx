@@ -198,14 +198,14 @@ const EditProperty = () => {
           updateToast({
             show: true,
             heading: "Great!",
-            text: "Updated property successfully",
+            text: `Your changes to ${property.name} have been submitted for approval`,
             type: true,
           })
         );
 
         setTimeout(() => {
           closeForm();
-        }, 2000);
+        }, 4000);
       } else {
         dispatch(
           updateToast({

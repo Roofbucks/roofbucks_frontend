@@ -122,12 +122,8 @@ const ListingsUI: React.FC<ListingsProps> = ({
                         handleApply({ id: item.id, totalCost: item.amount }),
                       disabled: isAgent,
                     }}
-                    secondaryBtn={{
-                      text: isAgent ? (
-                        <span className={styles.scheduleCallBtn}>
-                          <CalendarIconOutline /> Schedule Call
-                        </span>
-                      ) : (
+                    secondaryAction={
+                      isAgent ? undefined : (
                         <a
                           target="_blank"
                           href={item.calendlyURL}
@@ -135,10 +131,21 @@ const ListingsUI: React.FC<ListingsProps> = ({
                         >
                           <CalendarIconOutline /> Schedule Call
                         </a>
-                      ),
-                      action: console.log,
-                      disabled: isAgent,
-                    }}
+                      )
+                    }
+                    secondaryBtn={
+                      isAgent
+                        ? {
+                            text: (
+                              <span className={styles.scheduleCallBtn}>
+                                <CalendarIconOutline /> Schedule Call
+                              </span>
+                            ),
+                            action: console.log,
+                            disabled: true,
+                          }
+                        : undefined
+                    }
                     type="column"
                     size="normal"
                     moreDetails={handleView}

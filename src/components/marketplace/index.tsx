@@ -356,12 +356,8 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                       resellId: item.resellId,
                     }),
                 }}
-                secondaryBtn={{
-                  text: isAgent ? (
-                    <span className={styles.scheduleCallBtn}>
-                      <CalendarIconOutline /> Schedule Call
-                    </span>
-                  ) : (
+                secondaryAction={
+                  isAgent ? undefined : (
                     <a
                       target="_blank"
                       href={item.calendlyURL}
@@ -369,10 +365,21 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                     >
                       <CalendarIconOutline /> Schedule Call
                     </a>
-                  ),
-                  action: console.log,
-                  disabled: isAgent,
-                }}
+                  )
+                }
+                secondaryBtn={
+                  isAgent
+                    ? {
+                        text: (
+                          <span className={styles.scheduleCallBtn}>
+                            <CalendarIconOutline /> Schedule Call
+                          </span>
+                        ),
+                        action: console.log,
+                        disabled: true,
+                      }
+                    : undefined
+                }
                 type="row"
                 size="normal"
                 moreDetails={(id) =>
