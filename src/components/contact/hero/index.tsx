@@ -159,9 +159,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
               </p>
               <a
                 className={styles.contactTxt2}
-                href="mailto:hello@roofbucks.com"
+                href="mailto:support@roofbucks.com"
               >
-                hello@roofbucks.com
+                support@roofbucks.com
               </a>
             </div>
           </div>
@@ -172,7 +172,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
               <p className={styles.contactTxt}>
                 Come say hello at our office HQ
               </p>
-              <p className={styles.contactTxt2}>Lorem ipsum, Ghana.</p>
+              <p className={styles.contactTxt2}>
+                Hub One, 10 Hughes Ave, Alagomeji-Yaba, Lagos 101011, Lagos.
+              </p>
             </div>
           </div>
           <div className={styles.contactItem}>
@@ -180,8 +182,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
             <div className={styles.contactTxtSec}>
               <p className={styles.contactTtl}>Phone</p>
               <p className={styles.contactTxt}>Mon- Fri from 8am to 5pm</p>
-              <a className={styles.contactTxt2} href="tel:2340000000000">
-                +(234) 000 000 0000
+              <a className={styles.contactTxt2} href="tel:233544515156">
+                (+233) 54 451 5156
               </a>
             </div>
           </div>
