@@ -173,7 +173,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
                 Come say hello at our office HQ
               </p>
               <p className={styles.contactTxt2}>
-                Hub One, 10 Hughes Ave, Alagomeji-Yaba, Lagos 101011, Lagos.
+                10 Hughes Ave, Alagomeji-Yaba, Lagos 101011, Lagos.
               </p>
             </div>
           </div>

@@ -210,7 +210,7 @@ const Profile = () => {
       return propertiesResponse.data.results.map((item) => ({
         address: `${item.address}, ${item.country}`,
         name: item.name,
-        amount: item.total_property_cost,
+        amount:  item.market_value ?? item.total_property_cost,
         owner: item.company_name,
         images: item.images,
         id: item.id,
