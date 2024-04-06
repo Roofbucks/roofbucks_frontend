@@ -5,8 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, Textarea } from "components";
-import { optionType } from "types";
-import { error } from "console";
 
 // Security
 interface SecurityData {

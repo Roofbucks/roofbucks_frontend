@@ -74,7 +74,7 @@ const AddBankAccount: React.FC<Props> = ({ show, close, callback }) => {
       if (banksResponse?.status === 200) {
         return banksResponse.data.map((item) => ({
           label: item.name,
-          value: item.name,
+          value: item.code,
         }));
       } else {
         dispatch(

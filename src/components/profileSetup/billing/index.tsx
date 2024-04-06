@@ -6,16 +6,17 @@ import * as yup from "yup";
 import { Button, CustomSelect, Input } from "components";
 import { addBillingServiceRequestData } from "api";
 import { optionType } from "types";
+import { initialOptionType } from "utils";
 
 interface BillingData {
-  bank: string;
+  bank: optionType;
   country: string;
   accountName: string;
   accountNumber: string;
 }
 
 const initialBillingValues: BillingData = {
-  bank: "",
+  bank: initialOptionType,
   country: "",
   accountName: "",
   accountNumber: "",
@@ -23,7 +24,10 @@ const initialBillingValues: BillingData = {
 
 const billingSchema = yup
   .object({
-    bank: yup.string().required("Required"),
+    bank: yup.object({
+      label: yup.string().required("Required"),
+      value: yup.string().required("Required"),
+    }),
     country: yup.string().required("Required"),
     accountName: yup.string().required("Required"),
     accountNumber: yup.string().required("Required"),
@@ -52,7 +56,8 @@ const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit, banks }) => {
       bank_information: {
         account_name: data.accountName,
         account_number: data.accountNumber,
-        bank_name: data.bank,
+        bank_name: data.bank.label,
+        bank_code: data.bank.value,
         country: data.country,
       },
     };
@@ -83,9 +88,13 @@ const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit, banks }) => {
             <CustomSelect
               label="Bank"
               placeholder="Bank Name"
-              validatorMessage={errors.bank?.message ?? ""}
-              value={{ label: watch("bank"), value: watch("bank") }}
-              onChange={(val) => setValue("bank", val.value)}
+              validatorMessage={
+                errors.bank?.message ??
+                errors.bank?.value?.message?.toString() ??
+                ""
+              }
+              value={watch("bank")}
+              onChange={(val) => setValue("bank", val)}
               options={banks}
               name={"bank"}
               parentClassName={`${styles.input} ${styles.select} ${styles.sideMargin}`}
