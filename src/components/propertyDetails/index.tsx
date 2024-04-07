@@ -248,7 +248,9 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           </div>
           <div className={styles.priceWrap}>
             <p>
-              NGN {property?.totalCost ?? property.inProgress?.completionCost}
+              NGN{" "}
+              {property?.totalCost.toLocaleString() ??
+                property.inProgress?.completionCost.toLocaleString()}
             </p>
             {property.agent.id !== userID && role !== "agent" ? (
               <Button
@@ -322,7 +324,9 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
         </div>
         <div className={`${styles.priceWrap} ${styles.priceWrapMobile}`}>
           <p>
-            NGN {property?.totalCost ?? property.inProgress?.completionCost}
+            NGN{" "}
+            {property?.totalCost.toLocaleString() ??
+              property.inProgress?.completionCost.toLocaleString()}
           </p>
           {property.agent.id !== userID && role !== "agent" ? (
             <Button
@@ -348,7 +352,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             <div className={styles.costBreakdown}>
               <div>
                 <span>Total property cost:</span>
-                <span>NGN {property?.totalCost}</span>
+                <span>NGN {property?.totalCost.toLocaleString()}</span>
               </div>
               <div>
                 <span>Percentage available: </span>
@@ -357,7 +361,11 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               <div>
                 <span>Price:</span>
                 <span>
-                  NGN {location?.state?.percentAvailable * property?.totalCost}
+                  NGN{" "}
+                  {(
+                    (location?.state?.percentAvailable * property?.totalCost) /
+                    100
+                  ).toLocaleString()}
                 </span>
               </div>
             </div>

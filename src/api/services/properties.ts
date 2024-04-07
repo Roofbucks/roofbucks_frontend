@@ -5,6 +5,7 @@ PROPERTIES SERVICES
 */
 
 import {
+  axiosInstanceUnauth,
   deleteRequest,
   getRequest,
   patchRequest,
@@ -71,11 +72,7 @@ export const fetchPropertiesService = ({ search, page }) => {
  */
 
 export const fetchPropertyService = (id: string) => {
-  const requestData = {
-    url: fetchPropertyURL(id),
-  };
-
-  return getRequest(requestData);
+  return axiosInstanceUnauth.get(fetchPropertyURL(id));
 };
 
 export const updatePropertyService = ({
@@ -104,11 +101,7 @@ export const updatePropertyService = ({
  */
 
 export const fetchSimilarPropertiesService = (id: string) => {
-  const requestData = {
-    url: fetchSimilarPropertiesURL(id),
-  };
-
-  return getRequest(requestData);
+  return axiosInstanceUnauth.get(fetchSimilarPropertiesURL(id));
 };
 
 /**

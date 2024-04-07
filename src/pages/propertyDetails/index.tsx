@@ -128,11 +128,7 @@ const PropertyDetails = () => {
             noOfBedrooms: data.number_of_bedrooms ?? 0,
             noOfToilets: data.number_of_toilets ?? 0,
           },
-          totalCost: (
-            data.market_value ??
-            data.total_property_cost ??
-            0
-          ).toLocaleString(),
+          totalCost: data.market_value ?? data.total_property_cost ?? 0,
           description: data.description,
           address: data.address,
           city: data.city,
