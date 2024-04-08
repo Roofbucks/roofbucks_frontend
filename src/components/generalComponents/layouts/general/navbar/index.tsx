@@ -270,10 +270,13 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
   const profileCompletion = JSON.parse(
     localStorage.getItem("profileCompletion") ?? "{}"
   );
+
   const profileIncomplete =
-    !profileCompletion.billing ||
-    !profileCompletion.business ||
-    !profileCompletion.profile;
+    (isAgent &&
+      (!profileCompletion.billing ||
+        !profileCompletion.business ||
+        !profileCompletion.profile)) ||
+    (!isAgent && (!profileCompletion.billing || !profileCompletion.profile));
 
   const menuItems = [
     {
@@ -313,8 +316,8 @@ export const AuthMenuDropdown: React.FC<AuthMenuDropdownProps> = ({
     const completeProfile = () => {
       if (!profileCompletion.profile) {
         return navigate(Routes.profileSetup("?profile=true"));
-      } else if (!profileCompletion.business) {
-        return navigate(Routes.profileSetup("?business=true"));
+      } else if (!profileCompletion.billing) {
+        return navigate(Routes.profileSetup("?billing=true"));
       }
     };
 
