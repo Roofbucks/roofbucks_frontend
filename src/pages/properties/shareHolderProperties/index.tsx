@@ -140,7 +140,7 @@ const ShareHolderProperties = () => {
           rent: item.rent_amount,
           marketValue: item.market_value,
           percentageOwned: item.percentage_ownership,
-          email: item.agent.email,
+          email: item.agent_email,
         }));
       } else {
         dispatch(
