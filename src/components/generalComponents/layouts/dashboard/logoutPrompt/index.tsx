@@ -25,6 +25,7 @@ const Logout: React.FC<PromptProps> = ({ show, closeModal }) => {
     setTimeout(() => {
       localStorage.clear();
       setLoading(false);
+      closeModal();
       dispatch(resetStore());
       navigate(Routes.home);
     }, 1000);

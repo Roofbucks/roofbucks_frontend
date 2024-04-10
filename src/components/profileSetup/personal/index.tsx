@@ -362,19 +362,21 @@ const PersonalFormUI: React.FC<PersonalFormProps> = ({
                     name="identification.cardNo"
                     register={register}
                   />
-                  <Input
-                    label="Expiration Date"
-                    showRequired={!watch("identification.noExpiration")}
-                    placeholder="dd/mm/yyyy"
-                    type="date"
-                    parentClassName={styles.input}
-                    required
-                    validatorMessage={
-                      errors?.identification?.expiration?.message
-                    }
-                    name="identification.expiration"
-                    register={register}
-                  />
+                  {watch("identification.noExpiration") && (
+                    <Input
+                      label="Expiration Date"
+                      showRequired={!watch("identification.noExpiration")}
+                      placeholder="dd/mm/yyyy"
+                      type="date"
+                      parentClassName={styles.input}
+                      required
+                      validatorMessage={
+                        errors?.identification?.expiration?.message
+                      }
+                      name="identification.expiration"
+                      register={register}
+                    />
+                  )}
                 </div>
                 <div className={styles.docSec}>
                   <p className={styles.docTtl}>Required documents</p>
