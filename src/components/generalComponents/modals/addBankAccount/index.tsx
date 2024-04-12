@@ -97,6 +97,9 @@ const AddBankAccountUI: React.FC<AddBankAccountUIProps> = ({
             className={styles.closeBtn}
           />
         </ModalHeader>
+        <p className={styles.txt}>
+          Please add a business bank account that matches your business name
+        </p>
         <form className={styles.form}>
           <Input
             label="Country"
@@ -109,20 +112,20 @@ const AddBankAccountUI: React.FC<AddBankAccountUIProps> = ({
             name="country"
             register={register}
           />
-            <CustomSelect
-              label="Bank"
-              placeholder="Bank Name"
-              validatorMessage={
-                errors.bank?.message ??
-                errors.bank?.value?.message?.toString() ??
-                ""
-              }
-              value={watch("bank")}
-              onChange={(val) => setValue("bank", val)}
-              options={banks}
-              name={"bank"}
-              parentClassName={`${styles.input} ${styles.select} ${styles.sideMargin}`}
-            />
+          <CustomSelect
+            label="Bank"
+            placeholder="Bank Name"
+            validatorMessage={
+              errors.bank?.message ??
+              errors.bank?.value?.message?.toString() ??
+              ""
+            }
+            value={watch("bank")}
+            onChange={(val) => setValue("bank", val)}
+            options={banks}
+            name={"bank"}
+            parentClassName={`${styles.input} ${styles.select} ${styles.sideMargin}`}
+          />
           <Input
             label="Account Number"
             showRequired={true}

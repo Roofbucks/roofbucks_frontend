@@ -25,6 +25,7 @@ export const Routes = {
   contact: `/contact`,
   terms: `/terms-of-service`,
   privacy: `/privacy-policy`,
+  refund: `/refund-policy`,
 
   // Profile
   profileSetup: (view = "") => `/profile/setup${view}`,

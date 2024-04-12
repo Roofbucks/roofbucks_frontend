@@ -12,6 +12,7 @@ export interface TransactionTableItem {
   date: string;
   description: string;
   address: string;
+  status: string;
 }
 
 // Test Table Body Props
@@ -58,6 +59,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
               <td>{item.propertyName}</td>
               <td>{item.invoiceID}</td>
               <td>{item.amount}</td>
+              <td className={styles[item.status]} >{item.status}</td>
               <td>{item.date}</td>
               <td>
                 <TableAction actions={actions} />

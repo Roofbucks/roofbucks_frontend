@@ -19,6 +19,7 @@ const ReceiptModal: React.FC<Props> = ({
   amount,
   user,
   propertyName,
+  status,
 }) => {
   return (
     <>
@@ -46,7 +47,18 @@ const ReceiptModal: React.FC<Props> = ({
               <p className={styles.support}>SUPPORT@ROOFBUCKS.COM</p>
             </div>
             <div className={styles.body}>
-              <h1 className={styles.ttl}>Receipt</h1>
+              <div className={styles.header}>
+                <h1 className={styles.ttl}>Receipt</h1>
+                <span
+                  className={`${styles.status} ${
+                    styles[
+                      `status--${status === "success" ? "paid" : "pending"}`
+                    ]
+                  }`}
+                >
+                  {status === "success" ? "paid" : status}
+                </span>
+              </div>
 
               <div className={styles.property}>
                 <p className={styles.propertyId}>

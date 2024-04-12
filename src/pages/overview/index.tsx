@@ -55,6 +55,7 @@ const initReceiptData = {
   date: "",
   description: "",
   address: "",
+  status: "",
 };
 
 const Overview = () => {
@@ -150,6 +151,7 @@ const Overview = () => {
           date: new Date(item.created_at).toLocaleDateString(),
           description: item.description,
           address: item.address,
+          status: item.status.toLowerCase(),
         }));
       } else {
         dispatch(

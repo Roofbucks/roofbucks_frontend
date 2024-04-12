@@ -174,7 +174,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       <main className={styles.main}>
         <nav className={`${styles.sideBar} ${showMenu ? styles.overLay : ""}`}>
           <div className={styles.mobileNav}>
-            <LogoWithText className={styles.logo} type={"light"} />
+            <Link to={Routes.home}>
+              <LogoWithText className={styles.logo} type={"light"} />
+            </Link>
             <MenuOpen
               role="button"
               onClick={() => setShowMenu(!showMenu)}

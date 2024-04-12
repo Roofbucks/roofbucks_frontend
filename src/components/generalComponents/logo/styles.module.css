@@ -11,6 +11,7 @@
   font-family: "Cronos";
   font-size: 16px;
   margin-left: 6px;
+  text-decoration: none;
 }
 .light {
   color: var(--white);

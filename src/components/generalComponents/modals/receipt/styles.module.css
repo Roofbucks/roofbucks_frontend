@@ -51,11 +51,28 @@
   margin-top: auto;
   font-size: 13px;
 }
-
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
 .ttl {
   font-size: 44px;
   font-weight: 600;
-  margin-bottom: 1.8rem;
+}
+.status {
+  padding: 2px 18px;
+  border-radius: 16px;
+  text-transform: capitalize;
+}
+.status--paid {
+  color: var(--green);
+  background: var(--green-bg);
+}
+.status--pending {
+  color: var(--bs-warning);
+  background: #ffc1071a;
 }
 .property {
   margin-bottom: 3rem;
@@ -100,7 +117,6 @@
   margin-left: auto;
   font-weight: 800;
 }
-
 
 .noReceipt {
   padding: 6rem 2rem;

@@ -72,7 +72,7 @@ const BillingFormUI: React.FC<BillingFormUIProps> = ({ submit, banks }) => {
           <section className={styles.subSec}>
             <h2 className={styles.secTtl}>Payment Method</h2>
             <p className={styles.secTxt}>
-              Please ensure that your account name tallies with your ID Card.
+              Please add a business bank account that matches your business name
             </p>
             <Input
               label="Country"

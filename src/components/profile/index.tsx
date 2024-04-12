@@ -1,15 +1,4 @@
-import {
-  avatar,
-  BellIcon,
-  CloseIcon,
-  coverImg,
-  EditIcon,
-  LinkIcon,
-  MailIcon,
-  property1,
-  property2,
-  property3,
-} from "assets";
+import { coverImg, EditIcon, LinkIcon, MailIcon } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 import { Rating } from "react-simple-star-rating";
@@ -114,7 +103,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
   });
 
   const onSubmit: SubmitHandler<CommentData> = (data) => {
-    handleAddReview(data);
+    handleAddReview({ ...data, rating: data.rating / 20 });
   };
 
   return (

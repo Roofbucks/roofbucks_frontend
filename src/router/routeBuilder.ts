@@ -17,6 +17,7 @@ import {
   ProfileSetup,
   Properties,
   PropertyDetails,
+  Refund,
   Settings,
   TermsOfService,
 } from "pages";
@@ -117,6 +118,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.privacy,
     Element: Privacy,
+    Layout: Layout,
+    caseSensitive: true,
+    props: {
+      active: "",
+    },
+  },
+  {
+    path: Routes.refund,
+    Element: Refund,
     Layout: Layout,
     caseSensitive: true,
     props: {

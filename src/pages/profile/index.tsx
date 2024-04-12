@@ -149,7 +149,7 @@ const Profile = () => {
   const reviews = React.useMemo<ReviewData[]>(() => {
     if (reviewsResponse?.status === 200) {
       return reviewsResponse.data.map((item) => ({
-        name: `${item?.reviewer?.firstname} ${item?.reviewer?.firstname}`,
+        name: `${item?.reviewer?.firstname} ${item?.reviewer?.lastname}`,
         avatar: item?.reviewer?.display_photo ?? "",
         review: item?.review,
       }));
@@ -177,7 +177,7 @@ const Profile = () => {
           show: true,
           heading: "Succcess",
           text: "Your review has been added",
-          type: false,
+          type: true,
         })
       );
 

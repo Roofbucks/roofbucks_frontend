@@ -10,3 +10,12 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.success {
+  color: var(--green);
+}
+.pending {
+  color: var(--bs-warning);
+}
+.failed {
+  color: var(--bs-red);
+}

@@ -44,6 +44,9 @@ const Footer = () => {
               <li>
                 <Link to={Routes.terms}>Terms of service</Link>
               </li>
+              <li>
+                <Link to={Routes.refund}>Refund Policy</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -54,13 +57,31 @@ const Footer = () => {
           <div className={styles.socialsNews}>
             <ul className={styles.socials}>
               <li>
-                <a href="https://www.instagram.com/roofbucks/" target="_blank"  rel="noreferrer" >Instagram</a>
+                <a
+                  href="https://www.instagram.com/roofbucks/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Instagram
+                </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/roofbucks/" target="_blank"  rel="noreferrer" >Facebook</a>
+                <a
+                  href="https://www.facebook.com/roofbucks/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Facebook
+                </a>
               </li>
               <li>
-                <a href="https://twitter.com/theRoofbucks?s=20&t=CFRHBS11KRw8KZg5ToSIgA" target="_blank"  rel="noreferrer" >Twitter</a>
+                <a
+                  href="https://twitter.com/theRoofbucks?s=20&t=CFRHBS11KRw8KZg5ToSIgA"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Twitter
+                </a>
               </li>
               <li>
                 <a>Youtube</a>

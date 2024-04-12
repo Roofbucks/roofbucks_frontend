@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: none;
-  padding: 1.5rem;
-  padding-bottom: 0;
+  border: none !important;
+  padding: 1.5rem !important;
+  padding-bottom: 0 !important;
 }
 .header h1 {
   font-size: 26px;
@@ -12,8 +12,8 @@
 }
 .txt {
   color: #8d8d8d;
-  max-width: 350px;
   line-height: 1.4;
+  padding: 1rem 1.5rem;
 }
 .closeBtn {
   background: #000;

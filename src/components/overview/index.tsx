@@ -134,6 +134,7 @@ const OverviewUI: React.FC<OverviewUIProps> = ({
     { title: "Property Name" },
     { title: "Reference ID" },
     { title: "Amount" },
+    { title: "Status" },
     { title: "Date" },
     { title: "" },
   ];
