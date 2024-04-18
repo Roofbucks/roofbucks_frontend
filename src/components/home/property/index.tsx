@@ -17,7 +17,7 @@ const Property: React.FC<PropertyProps> = ({ handleSignup }) => {
     <>
       <section className={styles.propertyBg}>
         <div className={`appContainer ${styles.property}`}>
-          <div className={styles.txtSec}>
+          <div data-aos="slide-right" className={styles.txtSec}>
             <h3 className={styles.ttl}>
               Helping Africans find their perfect home on the spot
             </h3>
@@ -46,7 +46,7 @@ const Property: React.FC<PropertyProps> = ({ handleSignup }) => {
             </div>
             <GetStartedBtn handleClick={handleSignup} className={styles.btn} />
           </div>
-          <div className={styles.imgSec}>
+          <div data-aos="slide-left" className={styles.imgSec}>
             <img className={styles.property1} src={property1} alt="" />
             <img className={styles.property2} src={property2} alt="" />
             <div className={styles.watchTour}>

@@ -27,7 +27,7 @@ const HeroSection: React.FC<HomeProps> = ({ handleSignup }) => {
   return (
     <>
       <section className={styles.heroBg}>
-        <div className={`appContainer ${styles.hero}`}>
+        <div data-aos="slide-up" className={`appContainer ${styles.hero}`}>
           <p className={styles.label}>Own your Home</p>
           <h1 className={styles.ttl}>
             Split and Share the cost of buying your home with an investor.

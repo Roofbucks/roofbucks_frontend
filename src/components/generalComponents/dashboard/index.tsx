@@ -29,7 +29,7 @@ const Dashboard: React.FC<DashboardProps> = ({ handleSignup }) => {
             </p>
             <GetStartedBtn handleClick={handleSignup} className={styles.btn} />
           </div>
-          <img
+          <img data-aos="zoom-in"
             className={styles.img}
             src={dashboardImg}
             alt="dashbord preview on mac book"

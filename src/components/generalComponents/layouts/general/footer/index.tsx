@@ -80,7 +80,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  X
+                  Twitter (X)
                 </a>
               </li>
               <li>

@@ -13,6 +13,8 @@ import { Navbar, NavbarProps } from "./navbar";
 import styles from "./styles.module.css";
 import { Routes } from "router";
 import { useAppSelector } from "redux/hooks";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export interface LayoutProps {
   children: any;
@@ -39,6 +41,16 @@ const Layout: React.FC<LayoutProps> = ({ children, active }) => {
     setShowRecovery(params.recovery === "true" ? true : false);
     setShowVerification(params.verification === "true" ? true : false);
   }, [params]);
+
+  React.useEffect((): any => {
+    window.scrollTo(-0, -0);
+    AOS.init({
+      duration: 1000,
+      offset: 100,
+      easing: "ease-in-out",
+    });
+    AOS.refresh();
+  }, []);
 
   const openNav = () => setMobileNav(true);
   const closeNav = () => setMobileNav(false);

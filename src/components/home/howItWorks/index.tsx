@@ -14,7 +14,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ Icon, text, title }) => {
   return (
-    <div className={styles.card}>
+    <div data-aos="slide-up" className={styles.card}>
       <Icon className={styles.icon} />
       <p className={styles.cardTtl}>{title}</p>
       <p className={styles.cardTxt}>{text}</p>

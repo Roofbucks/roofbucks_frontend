@@ -14,7 +14,7 @@ interface ServiceProps {
 const Service: React.FC<ServiceProps> = ({ text, title, action, image }) => {
   return (
     <div className={styles.service}>
-      <div className={styles.imgSec}>
+      <div data-aos="slide-right" className={styles.imgSec}>
         <img src={image} alt="" />
       </div>
       <div className={styles.txtSec}>

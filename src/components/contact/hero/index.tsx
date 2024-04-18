@@ -78,7 +78,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
 
   return (
     <section className={`appContainer ${styles.contact}`}>
-      <div className={styles.hero}>
+      <div data-aos="slide-up" className={styles.hero}>
         <h1 className={styles.ttl}>
           Reach out to <span>our team</span>
         </h1>
@@ -90,7 +90,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
         </p>
       </div>
       <div className={styles.contactWrap}>
-        <form className={styles.form}>
+        <form data-aos="slide-up" className={styles.form}>
           <Input
             label="Name *"
             placeholder="Your name"
@@ -149,7 +149,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
             Submit
           </Button>
         </form>
-        <div className={styles.contactInfo}>
+        <div data-aos="slide-up" className={styles.contactInfo}>
           <div className={styles.contactItem}>
             <MailIcon />
             <div className={styles.contactTxtSec}>

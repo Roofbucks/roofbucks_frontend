@@ -2,7 +2,6 @@ import { PlusIcon, MinusIcon } from "assets";
 import * as React from "react";
 import styles from "./styles.module.css";
 
-
 export interface FAQITemProps {
   question: string;
   answer: string | any;
@@ -45,9 +44,10 @@ interface FAQProp {
 const Faq: React.FC<FAQProp> = ({ faqs }) => {
   return (
     <section className={`appContainer ${styles.faq}`}>
-      <h2 className={styles.ttl}>Frequently asked questions</h2>
-
-      <div className={styles.faqList}>
+      <h2 data-aos="slide-up" className={styles.ttl}>
+        Frequently asked questions
+      </h2>
+      <div data-aos="slide-up" className={styles.faqList}>
         {faqs.map((item, index) => (
           <FAQItem key={index} {...item} />
         ))}

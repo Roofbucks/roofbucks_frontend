@@ -18,7 +18,10 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
   return (
     <>
       <HeroSection title="About Roofbucks" />
-      <section className={`appContainer ${styles.welcome}`}>
+      <section
+        data-aos="slide-left"
+        className={`appContainer ${styles.welcome}`}
+      >
         <h2 className={styles.ttl}>Welcome to Roofbucks</h2>
         <div className={styles.about}>
           <p className={`${styles.sec1} ${styles.subTtl}`}>
@@ -50,7 +53,7 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
           </p>
         </div>
         <div className={`${styles.sec2} ${styles.valueWrap}`}>
-          <div className={styles.value}>
+          <div data-aos="slide-up" className={styles.value}>
             <div className={styles.icon}>
               <TrustIcon />
             </div>
@@ -61,7 +64,7 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
               the bedrock upon which Roofbucks is built.
             </p>
           </div>
-          <div className={styles.value}>
+          <div data-aos="slide-up" className={styles.value}>
             <div className={styles.icon}>
               <TransparencyIcon />
             </div>
@@ -73,7 +76,7 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
               clarity.
             </p>
           </div>
-          <div className={styles.value}>
+          <div data-aos="slide-up" className={styles.value}>
             <div className={styles.icon}>
               <LoyaltyIcon />
             </div>
@@ -85,7 +88,7 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
               security.
             </p>
           </div>
-          <div className={styles.value}>
+          <div data-aos="slide-up" className={styles.value}>
             <div className={styles.icon}>
               <PartnershipIcon />
             </div>
@@ -118,6 +121,7 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
         </div>
         <div className={`${styles.sec2}`}>
           <img
+            data-aos="zoom-in"
             src={inspiration}
             alt="family"
             className={styles.inspirationImg}
@@ -127,10 +131,10 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
       <section
         className={`appContainer ${styles.inspirationSec} ${styles.statSec}`}
       >
-        <div className={`${styles.sec1}`}>
+        <div data-aos="slide-right" className={`${styles.sec1}`}>
           <img src={aboutStat} alt="" className={styles.inspirationImg} />
         </div>
-        <div className={`${styles.sec2}`}>
+        <div data-aos="slide-left" className={`${styles.sec2}`}>
           <div className={`${styles.bar1} ${styles.bar}`}>
             <div className={styles.barTxt}>
               <span>70%</span>
