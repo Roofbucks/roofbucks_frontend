@@ -18,24 +18,23 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
   return (
     <>
       <HeroSection title="About Roofbucks" />
-      <section
-        data-aos="slide-left"
-        className={`appContainer ${styles.welcome}`}
-      >
-        <h2 className={styles.ttl}>Welcome to Roofbucks</h2>
+      <section className={`appContainer ${styles.welcome}`}>
+        <h2 data-aos="slide-up" className={styles.ttl}>
+          Welcome to Roofbucks
+        </h2>
         <div className={styles.about}>
           <p className={`${styles.sec1} ${styles.subTtl}`}>
             Roofbucks is an online platform that allows you to split and share
             the cost of buying your home with an investor.
           </p>
           <div className={`${styles.sec2} ${styles.moreTxt}`}>
-            <p className={styles.txt}>
+            <p data-aos="slide-up" className={styles.txt}>
               Our aim is to provide home-buyers with access to enough funds to
               buy their homes as soon as possible when spotted in the market and
               we do so by introducing investors to these properties to co-own as
               an investment opportunity.
             </p>
-            <p className={styles.txt}>
+            <p data-aos="slide-up" className={styles.txt}>
               At Roofbucks, we embody a commitment to reshaping the narrative of
               home ownership. Our values revolve around trust, transparency, and
               a shared vision for a brighter future. Partnering with us means
