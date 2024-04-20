@@ -131,10 +131,10 @@ const AboutUI: React.FC<AboutProps> = ({ handleSignup }) => {
       <section
         className={`appContainer ${styles.inspirationSec} ${styles.statSec}`}
       >
-        <div data-aos="slide-right" className={`${styles.sec1}`}>
+        <div data-aos="fade-in" className={`${styles.sec1}`}>
           <img src={aboutStat} alt="" className={styles.inspirationImg} />
         </div>
-        <div data-aos="slide-left" className={`${styles.sec2}`}>
+        <div data-aos="fade-in" className={`${styles.sec2}`}>
           <div className={`${styles.bar1} ${styles.bar}`}>
             <div className={styles.barTxt}>
               <span>70%</span>
