@@ -174,7 +174,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       <main className={styles.main}>
         <nav className={`${styles.sideBar} ${showMenu ? styles.overLay : ""}`}>
           <div className={styles.mobileNav}>
-            <Link to={Routes.home}>
+            <Link style={{ textDecoration: "none" }} to={Routes.home}>
               <LogoWithText className={styles.logo} type={"light"} />
             </Link>
             <MenuOpen
