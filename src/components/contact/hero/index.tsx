@@ -181,7 +181,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ clear, submit }) => {
             <PhoneIconOutline />
             <div className={styles.contactTxtSec}>
               <p className={styles.contactTtl}>Phone</p>
-              <p className={styles.contactTxt}>Mon- Fri from 8am to 5pm</p>
+              {/* <p className={styles.contactTxt}>Mon- Fri from 8am to 5pm</p> */}
               <a
                 className={styles.contactTxt2}
                 href="https://calendly.com/roofbucks-support/30min"
