@@ -48,6 +48,7 @@ export interface PropertyCardData {
   id: string;
   calendlyURL: string;
   email?: string;
+  isSold?: boolean;
 }
 
 export interface PropertyCardProps extends PropertyCardData {
@@ -87,6 +88,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   id,
   secondaryAction,
   email,
+  isSold,
 }) => {
   const [activeImg, setActiveImg] = React.useState(0);
   const [copied, setCopied] = React.useState(false);
@@ -120,7 +122,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           <div className={styles.iconSec}>
             {!copied ? (
               <CopyIcon
-                onClick={() => copyToClipBoard(`${window.location.origin}${Routes.propertyID(id)}`)}
+                onClick={() =>
+                  copyToClipBoard(
+                    `${window.location.origin}${Routes.propertyID(id)}`
+                  )
+                }
                 role={"button"}
               />
             ) : (
@@ -133,7 +139,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             )}
           </div>
         </div>
-        <p className={styles.name}>{name}</p>
+        <p className={styles.name}>
+          {name} {isSold ? <span className={styles.sold}>Sold</span> : ""}
+        </p>
         <p className={styles.address}>{address}</p>
         <div className={styles.amenityWrap}>
           {amenities.bedroom && (
@@ -175,27 +183,31 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         )}
         <div className={styles.amtSec}>
           <p>NGN {amount}</p>
-          <div>
-            {secondaryAction}
-            {secondaryBtn && (
+          {isSold ? (
+            ""
+          ) : (
+            <div>
+              {secondaryAction}
+              {secondaryBtn && (
+                <Button
+                  disabled={secondaryBtn.disabled}
+                  className={`${secondaryBtn.className} ${styles.secBtn}`}
+                  type="tertiary"
+                  onClick={() => secondaryBtn.action()}
+                >
+                  {secondaryBtn.text}
+                </Button>
+              )}
               <Button
-                disabled={secondaryBtn.disabled}
-                className={`${secondaryBtn.className} ${styles.secBtn}`}
-                type="tertiary"
-                onClick={() => secondaryBtn.action()}
+                disabled={primaryBtn.disabled}
+                className={primaryBtn.className}
+                type="primary"
+                onClick={() => primaryBtn.action()}
               >
-                {secondaryBtn.text}
+                {primaryBtn.text}
               </Button>
-            )}
-            <Button
-              disabled={primaryBtn.disabled}
-              className={primaryBtn.className}
-              type="primary"
-              onClick={() => primaryBtn.action()}
-            >
-              {primaryBtn.text}
-            </Button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -34,7 +34,8 @@ export const Document: React.FC<DocumentProps> = ({
           >
             <DownloadIcon />
             <p>
-              Drop your file to upload or <span>Browse</span>
+              {/* Drop your file to upload or */}
+               <span>Browse</span>
             </p>
             <p className={styles.docNote}>
               Maximum size of image 8MB, PDF, JPG, PNG

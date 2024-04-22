@@ -220,6 +220,7 @@ const Profile = () => {
         },
         calendlyURL: item.agent.calendry_link,
         email: item.agent.email,
+        isSold: item.stage.toLowerCase() === "sold",
       }));
     } else if (propertiesError) {
       dispatch(

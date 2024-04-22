@@ -62,6 +62,7 @@ const initProperty: PropertyData = {
   state: "",
   zipCode: "",
   country: "",
+  isSold: false,
 };
 
 const PropertyDetails = () => {
@@ -159,6 +160,7 @@ const PropertyDetails = () => {
             listings: data.agent.listed_properties,
             phone: data.agent.phone,
           },
+          isSold: data.stage.toLowerCase() === "sold",
         };
 
         return property;

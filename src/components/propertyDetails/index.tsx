@@ -117,6 +117,7 @@ export interface PropertyData {
   state: string;
   zipCode: string;
   country: string;
+  isSold: boolean;
 }
 
 interface PropertyDetailsProps {
@@ -223,7 +224,10 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           {/* <ShareIcon className={styles.shareIcon} role="button" /> */}
         </div>
         <div className={styles.ttlWrap}>
-          <h2 className={styles.ttl}>{property.name}</h2>
+          <h2 className={styles.ttl}>
+            {property.name}{" "}
+            {property.isSold ? <span className={styles.sold}>Sold</span> : ""}
+          </h2>
           <a
             target="_blank"
             href={mapRedirectURL(property.address)}
@@ -252,7 +256,9 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
               {property?.totalCost.toLocaleString() ??
                 property.inProgress?.completionCost.toLocaleString()}
             </p>
-            {property.agent.id !== userID && role !== "agent" ? (
+            {property.agent.id !== userID &&
+            role !== "agent" &&
+            !property.isSold ? (
               <Button
                 type="primary"
                 onClick={() =>
@@ -328,7 +334,9 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
             {property?.totalCost.toLocaleString() ??
               property.inProgress?.completionCost.toLocaleString()}
           </p>
-          {property.agent.id !== userID && role !== "agent" ? (
+          {property.agent.id !== userID &&
+          role !== "agent" &&
+          !property.isSold ? (
             <Button
               type="primary"
               onClick={() =>
