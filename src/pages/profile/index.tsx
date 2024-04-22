@@ -121,7 +121,8 @@ const Profile = () => {
           website: agent.company_website,
           email: agent.email,
           properties: {
-            all: agent.sold + agent.listing + agent.marketplace,
+            all:
+              agent.sold + agent.listing + agent.marketplace + agent.processing,
             sold: agent.sold,
             forSale: agent.listing,
             marketplace: agent.marketplace,
@@ -210,7 +211,7 @@ const Profile = () => {
       return propertiesResponse.data.results.map((item) => ({
         address: `${item.address}, ${item.country}`,
         name: item.name,
-        amount:  item.market_value ?? item.total_property_cost,
+        amount: item.market_value ?? item.total_property_cost,
         owner: item.company_name,
         images: item.images,
         id: item.id,
