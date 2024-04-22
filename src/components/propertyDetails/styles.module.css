@@ -223,6 +223,8 @@
   font-weight: 600;
   font-size: var(--h5);
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
 }
 .avatar {
   width: 140px;
