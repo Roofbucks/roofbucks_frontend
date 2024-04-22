@@ -78,6 +78,7 @@ interface AgentProfileProps {
   role: string;
   pagination: PaginationProps;
   handleView: (id) => void;
+  handleBuyShares: ({ id, totalCost, percentage, stage,resellId }) => void;
 }
 
 const ProfileUI: React.FC<AgentProfileProps> = ({
@@ -90,6 +91,7 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
   pagination,
   properties,
   handleView,
+  handleBuyShares,
 }) => {
   const {
     register,
@@ -181,8 +183,20 @@ const ProfileUI: React.FC<AgentProfileProps> = ({
           {properties.map((item, index) => (
             <PropertyCard
               primaryBtn={{
-                text: "Buy",
-                action: console.log,
+                text:
+                  item.stage === "listing"
+                    ? "Buy"
+                    : item.stage === "marketplace"
+                    ? "Invest"
+                    : "",
+                action: () =>
+                  handleBuyShares({
+                    id: item.id,
+                    totalCost: item.amount,
+                    percentage: 0,
+                    stage: item.stage,
+                    resellId: item.resellId
+                  }),
               }}
               type="row"
               size="normal"

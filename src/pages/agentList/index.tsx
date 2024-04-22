@@ -38,7 +38,7 @@ const AgentList = () => {
     if (agentsResponse) {
       if (agentsResponse.status === 200) {
         window.scrollTo(-0, -0)
-        console.log(agentsResponse);
+        // console.log(agentsResponse);
         setPages({
           ...pages,
           total: agentsResponse.data.pages,

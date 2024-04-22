@@ -118,6 +118,7 @@ export interface PropertyData {
   zipCode: string;
   country: string;
   isSold: boolean;
+  stage: string;
 }
 
 interface PropertyDetailsProps {
@@ -125,7 +126,7 @@ interface PropertyDetailsProps {
   similarProperties: PropertyCardData[];
   handleViewAgent: (id) => void;
   handleViewProperty: (id) => void;
-  handleBuyShares: ({ id, totalCost, percentage }) => void;
+  handleBuyShares: ({ id, totalCost, percentage, stage }) => void;
   userID: string;
   role: string;
 }
@@ -266,11 +267,12 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                     id: property.id,
                     totalCost: property.totalCost,
                     percentage: 0,
+                    stage: property.stage,
                   })
                 }
                 className={styles.buyBtn}
               >
-                {location?.state?.from === "marketplace" ? "Invest" : "Buy"}
+                {property.stage === "marketplace" ? "Invest" : "Buy"}
               </Button>
             ) : (
               ""
@@ -344,11 +346,16 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                   id: property.id,
                   totalCost: property.totalCost,
                   percentage: 0,
+                  stage: property.stage,
                 })
               }
               className={styles.buyBtn}
             >
-              {location?.state?.from === "marketplace" ? "Invest" : "Buy"}
+              {property.stage === "listing"
+                ? "Buy"
+                : property.stage === "marketplace"
+                ? "Invest"
+                : ""}
             </Button>
           ) : (
             ""
@@ -451,7 +458,7 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
           </div>
           {/* <p className={styles.note}>
             Note: The{" "}
-            {location?.state?.from === "marketplace"
+            {property.stage === "marketplace"
               ? "Rent income"
               : "Rent to pay"}{" "}
             range is 0.8% - 1.1% of Total property cost (monthly)
@@ -516,12 +523,13 @@ const PropertyDetailsUI: React.FC<PropertyDetailsProps> = ({
                   type="column"
                   size="normal"
                   primaryBtn={{
-                    text: "Buy shares",
+                    text: item.stage === "listing" ? "Buy" : "Invest",
                     action: () =>
                       handleBuyShares({
                         id: item.id,
                         totalCost: item.amount,
                         percentage: 0,
+                        stage: item.stage,
                       }),
                   }}
                 />

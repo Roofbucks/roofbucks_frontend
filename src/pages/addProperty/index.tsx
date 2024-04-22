@@ -35,7 +35,7 @@ const AddProperty = () => {
   React.useMemo(() => {
     if (response || error) {
       if (response?.status === 200) {
-        console.log(response);
+        // console.log(response);
 
         dispatch(
           updateToast({

@@ -276,7 +276,6 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
 
   const handleChangeDoc = ({ id, e }) => {
     const file: File = e.target.files[0];
-    console.log(id, e);
     setValue(id, file);
   };
 
@@ -815,7 +814,8 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
               <label className={styles.docLabel} htmlFor="media-input">
                 <DownloadIcon />
                 <p>
-                  Drop your file to upload or <span>Browse</span>
+                  {/* Drop your file to upload or  */}
+                  <span>Browse</span>
                 </p>
                 <p className={styles.docNote}>
                   Maximum size of image 8MB, JPEG, JPG, PNG
@@ -825,7 +825,7 @@ const AddPropertyUI: React.FC<AddPropertyProps> = ({
                   id="media-input"
                   type={"file"}
                   accept=".png, .jpg, .jpeg"
-                  onDrop={(e) => console.log(e, "drop")}
+                  // onDrop={(e) => console.log(e, "drop")}
                   onChange={handleChangeMedia}
                 />
               </label>

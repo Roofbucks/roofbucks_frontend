@@ -375,7 +375,7 @@ const MarketplaceUI: React.FC<MarketplaceProps> = ({
                             <CalendarIconOutline /> Schedule Call
                           </span>
                         ),
-                        action: console.log,
+                        action: () =>{},
                         disabled: true,
                       }
                     : undefined

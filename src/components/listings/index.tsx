@@ -141,7 +141,7 @@ const ListingsUI: React.FC<ListingsProps> = ({
                                 <CalendarIconOutline /> Schedule Call
                               </span>
                             ),
-                            action: console.log,
+                            action: () => {},
                             disabled: true,
                           }
                         : undefined

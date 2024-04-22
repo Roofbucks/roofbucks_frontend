@@ -49,6 +49,8 @@ export interface PropertyCardData {
   calendlyURL: string;
   email?: string;
   isSold?: boolean;
+  stage?: string;
+  resellId?:string
 }
 
 export interface PropertyCardProps extends PropertyCardData {

@@ -207,7 +207,7 @@ const ShareHolderProperties = () => {
             type: true,
           })
         );
-        console.log(paymentResponse);
+        // console.log(paymentResponse);
         setTimeout(() => {
           window.location.replace(paymentResponse.data.url);
         }, 2000);

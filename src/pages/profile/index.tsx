@@ -7,6 +7,8 @@ import {
 import {
   AgentData,
   AgentProfileData,
+  CompleteProfilePrompt,
+  LoginPrompt,
   Preloader,
   ProfileUI,
   PropertyCardData,
@@ -14,8 +16,10 @@ import {
 } from "components";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
+import { ApplyForm } from "pages/applyForm";
+import { ConnectForm } from "pages/connectForm";
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { updateToast } from "redux/actions";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Routes } from "router";
@@ -39,15 +43,34 @@ const initAgent: AgentProfileData = {
 };
 
 const Profile = () => {
+  const location: any = useLocation();
+
   const [pages, setPages] = React.useState({
     count: 0,
     current: 1,
     totalPages: 1,
   });
+  const [completeProfile, setCompleteProfile] = React.useState(false);
+  const [login, setLogin] = React.useState(false);
+  const [showApply, setShowApply] = React.useState({
+    show: false,
+    id: "",
+    totalCost: 0,
+  });
+  const [showConnect, setShowConnect] = React.useState({
+    show: false,
+    id: "",
+    percentage: 0,
+    resellId: "",
+  });
 
   const { id: agentID } = useParams();
   const dispatch = useAppDispatch();
-  const { id: myID, role } = useAppSelector((state) => state.user);
+  const {
+    id: myID,
+    role,
+    verifiedProfile,
+  } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   const {
@@ -222,6 +245,8 @@ const Profile = () => {
         calendlyURL: item.agent.calendry_link,
         email: item.agent.email,
         isSold: item.stage.toLowerCase() === "sold",
+        stage: item.stage.toLowerCase(),
+        resellId: item.resell_id,
       }));
     } else if (propertiesError) {
       dispatch(
@@ -272,6 +297,62 @@ const Profile = () => {
     });
   };
 
+  const handleBuy = ({ id, totalCost }) => {
+    const isLoggedIn =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion") &&
+      role;
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!isLoggedIn) {
+      setLogin(true);
+    } else if (incompleteProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowApply({ show: true, id, totalCost });
+    }
+  };
+
+  const stages = JSON.parse(localStorage.getItem("profileCompletion") ?? "{}");
+
+  const incompleteProfile = !(stages.profile && stages.billing);
+
+  const handleInvest = ({ id, percentage, resellId }) => {
+    const isLoggedIn =
+      localStorage.getItem("roofbucksAccess") &&
+      localStorage.getItem("roofbucksRefresh") &&
+      localStorage.getItem("profileCompletion") &&
+      role;
+
+    const stages = JSON.parse(
+      localStorage.getItem("profileCompletion") ?? "{}"
+    );
+
+    const incompleteProfile = !(stages.profile && stages.billing);
+
+    if (!isLoggedIn) {
+      setLogin(true);
+    } else if (incompleteProfile || !verifiedProfile) {
+      setCompleteProfile(true);
+    } else {
+      setShowConnect({ show: true, id, percentage, resellId });
+    }
+  };
+
+  const handleApply = ({ id, totalCost, percentage, stage, resellId }) => {
+    if (stage === "listing") {
+      handleBuy({ id, totalCost });
+    } else if (stage === "marketplace") {
+      handleInvest({ id, percentage, resellId });
+    }
+  };
+
   const showLoader =
     agentStatus.isPending ||
     reviewsStatus.isPending ||
@@ -281,6 +362,23 @@ const Profile = () => {
   return (
     <>
       <Preloader loading={showLoader} />
+      <LoginPrompt show={login} close={() => setLogin(false)} />
+      <CompleteProfilePrompt
+        show={completeProfile}
+        close={() => setCompleteProfile(false)}
+        type={incompleteProfile ? "incomplete" : "unverified"}
+      />
+      <ConnectForm
+        {...showConnect}
+        close={() =>
+          setShowConnect({ show: false, id: "", percentage: 0, resellId: "" })
+        }
+      />
+      <ApplyForm
+        {...showApply}
+        close={() => setShowApply({ show: false, id: "", totalCost: 0 })}
+      />
+
       <ProfileUI
         agent={agent}
         handleEdit={handleEdit}
@@ -301,12 +399,10 @@ const Profile = () => {
           name: "Properties",
         }}
         handleView={handleView}
+        handleBuyShares={handleApply}
       />
     </>
   );
 };
 
 export { Profile };
-function runProperties(arg0: any) {
-  throw new Error("Function not implemented.");
-}

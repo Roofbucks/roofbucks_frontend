@@ -63,6 +63,7 @@ const initProperty: PropertyData = {
   zipCode: "",
   country: "",
   isSold: false,
+  stage: "",
 };
 
 const PropertyDetails = () => {
@@ -161,6 +162,7 @@ const PropertyDetails = () => {
             phone: data.agent.phone,
           },
           isSold: data.stage.toLowerCase() === "sold",
+          stage: data.stage.toLowerCase(),
         };
 
         return property;
@@ -184,7 +186,7 @@ const PropertyDetails = () => {
 
   const similarProperties = React.useMemo<PropertyCardData[]>(() => {
     if (similarPropertiesResponse?.status === 200) {
-      console.log(similarPropertiesResponse.data);
+      // console.log(similarPropertiesResponse.data);
 
       const data = similarPropertiesResponse.data;
 
@@ -260,10 +262,10 @@ const PropertyDetails = () => {
     }
   };
 
-  const handleApply = ({ id, totalCost, percentage }) => {
-    if (location?.state?.from === "listing" || !location?.state?.from) {
+  const handleApply = ({ id, totalCost, percentage, stage }) => {
+    if (stage === "listing") {
       handleBuy({ id, totalCost });
-    } else if (location?.state?.from === "marketplace") {
+    } else if (stage === "marketplace") {
       handleInvest({ id, percentage });
     }
   };

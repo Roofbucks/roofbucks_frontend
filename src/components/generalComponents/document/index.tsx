@@ -45,7 +45,7 @@ export const Document: React.FC<DocumentProps> = ({
               id={id}
               type={"file"}
               accept=".pdf, .png, .jpg, .jpeg"
-              onDrop={(e) => console.log(e, "drop")}
+              // onDrop={(e) => console.log(e, "drop")}
               onChange={(e) => handleChangeDoc({ id, e })}
             />
           </label>

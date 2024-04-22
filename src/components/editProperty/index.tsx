@@ -822,7 +822,8 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
               <label className={styles.docLabel} htmlFor="media-input">
                 <DownloadIcon />
                 <p>
-                  Drop your file to upload or <span>Browse</span>
+                  {/* Drop your file to upload or */}
+                   <span>Browse</span>
                 </p>
                 <p className={styles.docNote}>
                   Maximum size of image 8MB, JPEG, JPG, PNG
@@ -832,7 +833,7 @@ const EditPropertyUI: React.FC<EditPropertyProps> = ({
                   id="media-input"
                   type={"file"}
                   accept=".png, .jpg, .jpeg"
-                  onDrop={(e) => console.log(e, "drop")}
+                  // onDrop={(e) => console.log(e, "drop")}
                   onChange={handleChangeMedia}
                 />
               </label>
