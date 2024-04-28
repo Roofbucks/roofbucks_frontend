@@ -32,7 +32,7 @@ const ResetPasswordModal: React.FC<ResetProps> = ({
   } = useApiRequest({});
 
   React.useMemo(() => {
-    if (resetResponse) {
+    if (resetResponse || error) {
       if (resetResponse.status === 200) {
         dispatch(
           updateToast({

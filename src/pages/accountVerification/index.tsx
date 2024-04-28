@@ -57,51 +57,49 @@ const VerificationModal: React.FC<VerificationProps> = ({
   };
 
   React.useMemo(() => {
-    if (verificationResponse) {
-      if (verificationResponse.status === 200) {
+    if (verificationResponse?.status === 200) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Great",
+          text: "You have successfully verified your email. Redirecting to login in 3..2..1",
+          type: true,
+        })
+      );
+
+      setTimeout(() => {
         dispatch(
           updateToast({
-            show: true,
-            heading: "Great",
-            text: "You have successfully verified your email. Redirecting to login in 3..2..1",
+            show: false,
+            heading: "",
+            text: "",
             type: true,
           })
         );
-
-        setTimeout(() => {
-          dispatch(
-            updateToast({
-              show: false,
-              heading: "",
-              text: "",
-              type: true,
-            })
-          );
-          closeModal();
-          searchParams.delete("email");
-          searchParams.delete("verification");
-          setSearchParams(searchParams);
-          login();
-        }, 2000);
-      } else {
-        dispatch(
-          updateToast({
-            show: true,
-            heading: "Sorry",
-            text: getErrorMessage({
-              error: verificationError ?? verificationResponse,
-              message: "Email verification failed, please try again later",
-            }),
-            type: false,
-          })
-        );
-      }
+        closeModal();
+        searchParams.delete("email");
+        searchParams.delete("verification");
+        setSearchParams(searchParams);
+        login();
+      }, 2000);
+    } else if (verificationError) {
+      dispatch(
+        updateToast({
+          show: true,
+          heading: "Sorry",
+          text: getErrorMessage({
+            error: verificationError,
+            message: "Email verification failed, please try again later",
+          }),
+          type: false,
+        })
+      );
     }
   }, [verificationResponse, verificationError]);
 
   React.useMemo(() => {
-    if (resendResponse) {
-      if (resendResponse.status === 200) {
+    {
+      if (resendResponse?.status === 200) {
         dispatch(
           updateToast({
             show: true,
@@ -110,13 +108,13 @@ const VerificationModal: React.FC<VerificationProps> = ({
             type: true,
           })
         );
-      } else {
+      } else if (resendError) {
         dispatch(
           updateToast({
             show: true,
             heading: "Sorry",
             text: getErrorMessage({
-              error: resendError ?? resendResponse,
+              error: resendError,
               message: "Failed to re-send verification mail",
             }),
             type: false,

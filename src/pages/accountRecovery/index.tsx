@@ -29,7 +29,7 @@ const RecoveryModal: React.FC<RecoveryProps> = ({
   } = useApiRequest({});
 
   React.useMemo(() => {
-    if (resetResponse) {
+    if (resetResponse || error) {
       if (resetResponse.status === 200) {
         dispatch(
           updateToast({
