@@ -362,7 +362,7 @@ const PersonalFormUI: React.FC<PersonalFormProps> = ({
                     name="identification.cardNo"
                     register={register}
                   />
-                  {watch("identification.noExpiration") && (
+                  {!watch("identification.noExpiration") && (
                     <Input
                       label="Expiration Date"
                       showRequired={!watch("identification.noExpiration")}
