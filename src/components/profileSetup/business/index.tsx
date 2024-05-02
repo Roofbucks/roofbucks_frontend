@@ -18,7 +18,7 @@ export interface BusinessFormData {
   phone: string;
   city: string;
   country: string;
-  certOfInc: File | undefined;
+  // certOfInc: File | undefined;
   description: string;
   calendlyLink: string;
 }
@@ -32,7 +32,7 @@ const initialBusinessValues: BusinessFormData = {
   phone: "",
   city: "",
   country: "",
-  certOfInc: undefined,
+  // certOfInc: undefined,
   description: "",
   calendlyLink: "https://",
 };
@@ -50,7 +50,7 @@ const businessSchema = yup
     phone: yup.string().required("Required"),
     city: yup.string().required("Required"),
     country: yup.string().required("Required"),
-    certOfInc: yup.mixed().required("Required"),
+    // certOfInc: yup.mixed().required("Required"),
     description: yup.string().required("Required"),
     calendlyLink: yup.string().url("Enter a valid url").required("Required"),
   })
@@ -103,12 +103,12 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({ submit }) => {
     formData.append("description", data.description);
     data.logo.file &&
       formData.append("company_logo", data.logo.file, data.logo.file.name);
-    data.certOfInc &&
-      formData.append(
-        "certificate_of_incorporation",
-        data.certOfInc,
-        data.certOfInc.name
-      );
+    // data.certOfInc &&
+    //   formData.append(
+    //     "certificate_of_incorporation",
+    //     data.certOfInc,
+    //     data.certOfInc.name
+    //   );
 
     submit(formData);
   };
@@ -248,7 +248,7 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({ submit }) => {
               register={register}
             />
           </section>
-          <section className={styles.subSec}>
+          {/* <section className={styles.subSec}>
             <h2 className={`${styles.secTtl} ${styles.margBotttom}`}>
               Certificate of Incorporation
             </h2>
@@ -267,7 +267,7 @@ const BusinessFormUI: React.FC<BusinessFormProps> = ({ submit }) => {
                 error={errors?.certOfInc?.message}
               />
             </div>
-          </section>
+          </section> */}
           <section className={styles.subSec}>
             <h2 className={`${styles.secTtl} ${styles.margBotttom}`}>
               About your business
